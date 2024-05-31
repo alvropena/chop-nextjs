@@ -1,6 +1,6 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
+
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { ExitIcon } from "@radix-ui/react-icons";
@@ -29,7 +29,7 @@ export const NavbarRoutes = () => {
                     </Button>
                 </Link>
             )}
-            <UserButton afterSignOutUrl="/hero" />
+
         </div>
     )
 }
