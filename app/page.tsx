@@ -1,113 +1,141 @@
 import Link from "next/link"
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink, NavigationMenuTrigger, NavigationMenuContent } from "@/components/ui/navigation-menu"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { Logo } from "./(dashboard)/_components/logo"
+import Image from "next/image"
+import Component from "./(dashboard)/_components/tinder_replica"
+import MenuBar from "./(dashboard)/_components/menu_bar"
 
 export default function Page() {
     return (
-        <div className="flex flex-col min-h-[100dvh]">
-            <header className="px-4 lg:px-6 h-14 flex items-center">
-                <Link href="#" className="flex items-center justify-center" prefetch={false}>
-                    <Logo />
-                    <span className="sr-only">Acme Inc</span>
-                </Link>
-                <div className="ml-auto flex items-center gap-4">
-                    <Button>Sign In</Button>
+        <div className="grid md:grid-cols-[260px_1fr] min-h-screen w-full">
+            <div className="bg-neutral-950 hidden md:flex flex-col gap-2 text-white">
+                <div className="sticky top-0 p-2">
+                    <Button
+                        variant="ghost"
+                        className="w-full text-left px-2 justify-start p hover:bg-neutral-900 hover:text-neutral-50 gap-2"
+                    >
+                        <div className="rounded-full bg-white text-black flex items-center justify-center w-7 h-7">
+                            {/** <BotIcon className="h-4 w-4" /> **/}
+                        </div>
+                        <div className="grow text-ellipsis overflow-hidden whitespace-nowrap text-sm">Chop</div>
+                        {/** <PenIcon className="h-4 w-4" /> **/}
+                    </Button>
                 </div>
-            </header>
-            <main className="flex-1 flex flex-col justify-center items-center text-center py-12 md:py-24 lg:py-32 border-b">
-                <div className="space-y-4 max-w-3xl">
-                    <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">Unlock the power of the web</h1>
-                    <p className="text-gray-500 text-xl md:text-2xl dark:text-gray-400">
-                        Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open
-                        Source.
-                    </p>
-                    <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
+                <div className="overflow-auto flex-1">
+                    <div className="grid gap-1 p-2">
+                        <div className="text-stone-500 text-xs font-medium px-2">Today</div>
                         <Link
                             href="#"
-                            className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block bg-neutral-900 hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
                         >
-                            Get Started
+                            Airplane Turbulence: Sky&apos;s Rollercoaster
+                        </Link>
+                        <Link
+                            href="#"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
+                        >
+                            How to make a chat app with React
+                        </Link>
+                        <Link
+                            href="#"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
+                        >
+                            Cooking recipe for disaster
+                        </Link>
+                    </div>
+                    <div className="grid gap-1 p-2">
+                        <div className="text-stone-500 text-xs font-medium px-2">Yesterday</div>
+                        <Link
+                            href="#"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
+                        >
+                            Python functon for Fibonacci sequence
+                        </Link>
+                        <Link
+                            href="#"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
+                        >
+                            Five largest lakes in the world
+                        </Link>
+                        <Link
+                            href="#"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
+                        >
+                            Weather forecast in Seattle
+                        </Link>
+                        <Link
+                            href="#"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
+                        >
+                            Chicken or the egg?
+                        </Link>
+                        <Link
+                            href="#"
+                            className="truncate overflow-hidden flex-1 text-sm transition-colors rounded-md whitespace-nowrap p-2 block hover:bg-neutral-900 hover:text-neutral-50"
+                            prefetch={false}
+                        >
+                            Neural networks for dummies
                         </Link>
                     </div>
                 </div>
-            </main>
-            <footer className="bg-gray-100 p-6 md:py-12 w-full dark:bg-gray-800">
-                <div className="container max-w-7xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 text-sm">
-                    <div className="grid gap-1">
-                        <h3 className="font-semibold">Company</h3>
-                        <Link href="#" prefetch={false}>
-                            About Us
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Our Team
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Careers
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            News
-                        </Link>
-                    </div>
-                    <div className="grid gap-1">
-                        <h3 className="font-semibold">Products</h3>
-                        <Link href="#" prefetch={false}>
-                            Men
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Women
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Kids
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Accessories
-                        </Link>
-                    </div>
-                    <div className="grid gap-1">
-                        <h3 className="font-semibold">Resources</h3>
-                        <Link href="#" prefetch={false}>
-                            Blog
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Community
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Support
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            FAQs
-                        </Link>
-                    </div>
-                    <div className="grid gap-1">
-                        <h3 className="font-semibold">Legal</h3>
-                        <Link href="#" prefetch={false}>
-                            Privacy Policy
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Terms of Service
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Cookie Policy
-                        </Link>
-                    </div>
-                    <div className="grid gap-1">
-                        <h3 className="font-semibold">Contact</h3>
-                        <Link href="#" prefetch={false}>
-                            Support
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Sales
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Press
-                        </Link>
-                        <Link href="#" prefetch={false}>
-                            Partnerships
-                        </Link>
-                    </div>
+            </div>
+            <div className="flex flex-col">
+                <div className="sticky top-0 p-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="gap-1 rounded-xl px-3 h-10 data-[state=open]:bg-neutral-100 text-lg">
+                                <MenuBar />
+                                {/** <ChevronDownIcon className="w-4 h-4 text-neutral-400" /> **/}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" className="max-w-[300px]">
+                            <DropdownMenuItem className="items-start gap-2">
+                                {/** <SparklesIcon className="w-4 h-4 mr-2 shrink-0 translate-y-1" /> **/}
+                                <div>
+                                    <div className="font-medium">GPT-4</div>
+                                    <div className="text-stone-600">With DALL-E, browing and analysis. Limit 40 messages / 3 hours</div>
+                                </div>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="items-start gap-2">
+                                {/** <ZapIcon className="w-4 h-4 mr-2 shrink-0 translate-y-1" /> **/}
+                                <div>
+                                    <div className="font-medium">GPT-3</div>
+                                    <div className="text-stone-600">Great for everyday tasks</div>
+                                </div>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-            </footer>
+                <Component />
+                <div className="max-w-2xl w-full sticky bottom-0 mx-auto py-2 flex flex-col gap-1.5 px-4 bg-white dark:bg-gray-950">
+                    <div className="relative">
+                        <Textarea
+                            placeholder="Type here..."
+                            name="message"
+                            id="message"
+                            rows={1}
+                            className="min-h-[48px] rounded-2xl resize-none p-4 border border-gray-200 border-neutral-400 shadow-sm pr-16 dark:border-gray-800"
+                        />
+                        <Button type="submit" size="icon" className="absolute top-3 right-3 w-8 h-8" disabled>
+                            {/** <ArrowUpIcon className="w-4 h-4" /> **/}
+                            <span className="sr-only">Send</span>
+                        </Button>
+                    </div>
+                    <p className="text-xs text-center text-neutral-700 font-medium">
+                        Chop can make mistakes. Consider checking important information.
+                    </p>
+                </div>
+            </div>
         </div>
     )
 }
