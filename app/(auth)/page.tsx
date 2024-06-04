@@ -12,7 +12,7 @@ export default function Component() {
           <span className="">Chop</span>
         </Link>
         <div className="ml-auto flex items-center gap-4">
-          <Link href={"/api/auth/signup"}>
+          <Link href={"/api/auth/login"}>
             <Button >Sign In</Button>
           </Link>
         </div>
@@ -21,11 +21,11 @@ export default function Component() {
         <div className="space-y-4 max-w-3xl">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">Learn quicker.</h1>
           <p className="text-gray-500 text-xl md:text-2xl dark:text-gray-400">
-            Try the first generative learning platform.
+            The first generative learning platform.
           </p>
           <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
             <Link
-              href="#"
+              href="/api/auth/login"
               className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
               prefetch={false}
             >

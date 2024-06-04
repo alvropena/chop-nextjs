@@ -6,7 +6,7 @@ export default function Footer() {
     return (
         <footer className="  py-6">
             <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between">
-                <p className="text-sm">&copy; 2024 Acme Inc. All rights reserved.</p>
+                <p className="text-sm">&copy; 2024 Chop Inc. All rights reserved.</p>
                 <div className="flex items-center space-x-4 mt-4 sm:mt-0">
                     <Link href="#" className="" prefetch={false}>
                         <TwitterIcon className="w-5 h-5" />
