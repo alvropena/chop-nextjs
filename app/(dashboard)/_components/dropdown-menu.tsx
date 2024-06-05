@@ -35,95 +35,65 @@ import {
 
 export function AvatarDropdownMenu() {
     return (
-        <Link href="/">
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Avatar>
-                        <AvatarImage src="https://github.com/alvropena.png" alt="@alvropena" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem>
-                            <User className="mr-2 h-4 w-4" />
-                            <Link href="/profile">Profile</Link>
-                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <CreditCard className="mr-2 h-4 w-4" />
-                            <span>Billing</span>
-                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
-                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Keyboard className="mr-2 h-4 w-4" />
-                            <span>Keyboard shortcuts</span>
-                            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem>
-                            <Users className="mr-2 h-4 w-4" />
-                            <span>Team</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuSub>
-                            <DropdownMenuSubTrigger>
-                                <UserPlus className="mr-2 h-4 w-4" />
-                                <span>Invite users</span>
-                            </DropdownMenuSubTrigger>
-                            <DropdownMenuPortal>
-                                <DropdownMenuSubContent>
-                                    <DropdownMenuItem>
-                                        <Mail className="mr-2 h-4 w-4" />
-                                        <span>Email</span>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <MessageSquare className="mr-2 h-4 w-4" />
-                                        <span>Message</span>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <PlusCircle className="mr-2 h-4 w-4" />
-                                        <span>More...</span>
-                                    </DropdownMenuItem>
-                                </DropdownMenuSubContent>
-                            </DropdownMenuPortal>
-                        </DropdownMenuSub>
-                        <DropdownMenuItem>
-                            <Plus className="mr-2 h-4 w-4" />
-                            <span>New Team</span>
-                            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
+
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Avatar>
+                    <AvatarImage src="https://github.com/alvropena.png" alt="@alvropena" />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        <Github className="mr-2 h-4 w-4" />
-                        <span>GitHub</span>
+                        <a className="flex justify-between items-center w-full" href="/profile">
+                            <div className="flex items-center">
+                                <User className="mr-2 h-4 w-4" />
+                                Profile
+                            </div>
+                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </a>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        <LifeBuoy className="mr-2 h-4 w-4" />
-                        <span>Support</span>
+                        <a className="flex justify-between items-center w-full" href="/billing">
+                            <div className="flex items-center">
+                                <CreditCard className="mr-2 h-4 w-4" />
+                                Billing
+                            </div>
+                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                        </a>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <a className="flex justify-between items-center w-full" href="/settings">
+                            <div className="flex items-center">
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Settings</span>
+                            </div>
+                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                        </a>
                     </DropdownMenuItem>
                     <DropdownMenuItem disabled>
-                        <Cloud className="mr-2 h-4 w-4" />
-                        <span>API</span>
+                        <Keyboard className="mr-2 h-4 w-4" />
+                        <span>Keyboard shortcuts</span>
+                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <a href="/api/auth/logout">Log out</a>
-                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </Link>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    <LifeBuoy className="mr-2 h-4 w-4" />
+                    <span>Support</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <a href="/api/auth/logout">Log out</a>
+                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+
     )
 }

@@ -4,10 +4,4 @@ export const GET = handleAuth({
   login: handleLogin({
     returnTo: "/learn",
   }),
-  signup: handleLogin({
-    authorizationParams: {
-      screen_hint: "signup",
-    },
-    returnTo: "/learn",
-  }),
 });
