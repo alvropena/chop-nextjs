@@ -1,9 +1,7 @@
 import React from 'react'
 
-export default function ProfilePage() {
+export default function Page() {
     return (
-        <div>
-            <a>Profile Page</a>
-        </div>
+        <div>Page</div>
     )
 }
