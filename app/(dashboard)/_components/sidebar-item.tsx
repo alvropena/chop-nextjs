@@ -32,7 +32,6 @@ export const SidebarItem = ({
             )}
         >
             <div className="flex items-center gap-x-2 py-4">
-
                 {label}
             </div>
             <div
