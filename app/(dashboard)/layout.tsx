@@ -1,7 +1,16 @@
-import React from 'react'
+import Navbar from "./_components/navbar";
 
-export default function Page() {
-    return (
-        <div>Page</div>
-    )
+export default function DashboadLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html>
+      <body>
+        <Navbar />
+        {children}
+      </body>
+    </html>
+  );
 }
