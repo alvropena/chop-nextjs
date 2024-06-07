@@ -41,7 +41,7 @@ export const SidebarRoutes = () => {
             {routes.map((route) => (
                 <SidebarItem
                     key={route.href}
-                    icon={route.icon}
+
                     label={route.label}
                     href={route.href}
                 />

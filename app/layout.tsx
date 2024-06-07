@@ -6,7 +6,7 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CHOP",
+  title: "Chop",
   description: "Learn quicker.",
 };
 
@@ -20,6 +20,6 @@ export default function RootLayout({
       <UserProvider>
         <body>{children}</body>
       </UserProvider>
-    </html>
+    </html >
   );
 }

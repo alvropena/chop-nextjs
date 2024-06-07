@@ -11,7 +11,7 @@ interface SidebarItemProps {
 }
 
 export const SidebarItem = ({
-    icon: Icon, label, href,
+    label, href,
 }: SidebarItemProps) => {
     const pathname = usePathname();
     const router = useRouter();
@@ -32,10 +32,6 @@ export const SidebarItem = ({
             )}
         >
             <div className="flex items-center gap-x-2 py-4">
-                <Icon
-                    size={22}
-                    className={cn("text-slate-50", isActive && "text-sky-700")}
-                />
                 {label}
             </div>
             <div
