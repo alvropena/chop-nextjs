@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea"
 export default function Component() {
     return (
         <div className="w-full max-w-3xl">
-
             <div className="items-center gap-4">
                 <div className="space-y-1">
                     <Avatar className="items-center justify-center w-20 h-20">
@@ -18,8 +17,6 @@ export default function Component() {
                     <CardDescription>Your personal information.</CardDescription>
                 </div>
             </div>
-
-
             <div className="gap-6">
                 <div className="space-y-6">
                     <div className="space-y-2">

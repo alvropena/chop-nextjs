@@ -2,6 +2,7 @@ import {
     Cloud,
     CreditCard,
     Github,
+    HistoryIcon,
     Keyboard,
     LifeBuoy,
     LogOut,
@@ -10,6 +11,7 @@ import {
     Plus,
     PlusCircle,
     Settings,
+    TimerIcon,
     User,
     UserPlus,
     Users,
@@ -54,6 +56,15 @@ export function AvatarDropdownMenu() {
                                 Profile
                             </div>
                             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </a>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <a className="flex justify-between items-center w-full" href="/history">
+                            <div className="flex items-center">
+                                <HistoryIcon className="mr-2 h-4 w-4" />
+                                History
+                            </div>
+                            <DropdownMenuShortcut>⇧⌘J</DropdownMenuShortcut>
                         </a>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
