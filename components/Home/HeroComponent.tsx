@@ -26,30 +26,13 @@ import Footer from "@/app/(dashboard)/_components/footer";
 // Componente Hero
 const Hero = () => {
   const loginUser = async () => {
-    const url = "http://localhost:8000/api/v1/auth/login";
-    const data = {
-      email: "correo9@gmail.com", // Reemplaza con el correo deseado
-      password: "Pandita98+", // Reemplaza con la contraseña deseada
-    };
+    const url = "http://localhost:8000/api/v1/login";
 
     try {
       const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(data),
+        method: "GET",
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log("Login successful:", result);
-
-      // Guardar el token en localStorage
-      localStorage.setItem("accessToken", result.access_token);
       // Redirigir o actualizar el estado global según sea necesario
     } catch (error) {
       console.error("Login failed:", error);
@@ -67,7 +50,9 @@ const Hero = () => {
           <span className="">Chop</span>
         </Link>
         <div className="ml-auto flex items-center gap-4">
-          <Button onClick={loginUser}>Sign In</Button>
+          <Link href={"http://localhost:8000/api/v1/login"}>
+            <Button>Sign In</Button>
+          </Link>
         </div>
       </header>
       <main className="flex-1 flex flex-col justify-center items-center text-center py-12 md:py-24 lg:py-32 border-b">

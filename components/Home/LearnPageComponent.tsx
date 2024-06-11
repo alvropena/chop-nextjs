@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, PenIcon } from "lucide-react";
+import { ArrowUpIcon, PenIcon, LogOutIcon } from "lucide-react";
 import Image from "next/image";
 
 import { Prompt } from "@/types/types";
