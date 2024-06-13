@@ -23,17 +23,17 @@ import Image from "next/image";
 
 import { Prompt } from "@/types/types";
 import Footer from "@/app/(dashboard)/_components/footer";
-// Componente Hero
+
 const Hero = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+
   const loginUser = async () => {
-    const url = `http://${process.env.API_BASE_URL}/api/v1/login`;
+    const url = `http://${baseUrl}/api/v1/login`;
 
     try {
       const response = await fetch(url, {
         method: "GET",
       });
-
-      // Redirigir o actualizar el estado global según sea necesario
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -50,7 +50,7 @@ const Hero = () => {
           <span className="">Chop</span>
         </Link>
         <div className="ml-auto flex items-center gap-4">
-          <Link href={`http://${process.env.API_BASE_URL}/api/v1/login`}>
+          <Link href={`http://${baseUrl}/api/v1/login`}>
             <Button>Sign In</Button>
           </Link>
         </div>

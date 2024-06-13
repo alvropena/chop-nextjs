@@ -24,6 +24,7 @@ import MenuBar from "@/app/(dashboard)/_components/menu_bar";
 
 // Componente LearnPage
 const LearnPage = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
   const [sessionToken, setSessionToken] = useState<string>("");
 
   useEffect(() => {
@@ -43,25 +44,25 @@ const LearnPage = () => {
   const handleSend = () => {
     if (prompt.trim()) {
       const newPrompt: Prompt = {
-        id: Date.now().toString(), // Generar un ID único basado en la marca de tiempo
-        created_at: new Date().toISOString(), // Marca de tiempo actual en formato ISO
+        id: Date.now().toString(),
+        created_at: new Date().toISOString(),
         text: prompt,
-        user_id: "user123", // Ejemplo de ID de usuario, reemplazar con la lógica real
+        user_id: "user123",
       };
-      sendPrompt(newPrompt, sessionToken); // Usar el sessionToken del estado
+      sendPrompt(newPrompt, sessionToken);
       setPrompt("");
     }
   };
 
   const sendPrompt = async (promptData: Prompt, sessionToken: string) => {
     try {
-      const url = `http://${process.env.API_BASE_URL}/api/v1/flow/`;
+      const url = `http://${baseUrl}/api/v1/flow/`;
       const response = await fetch(url, {
-        method: "POST", // Cambiado a POST ya que generalmente se usa para enviar datos
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionToken}`, // Incluir el token en el encabezado Authorization
+          Authorization: `Bearer ${sessionToken}`,
         },
         body: JSON.stringify({ text: promptData.text }),
       });

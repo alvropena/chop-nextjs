@@ -15,8 +15,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 
 const getProfile = async (sessionToken: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+
   try {
-    const url = `http://${process.env.API_BASE_URL}/api/v1/user/profile-user/me`;
+    const url = `http://${baseUrl}/api/v1/user/profile-user/me`;
     const response = await fetch(url, {
       method: "GET", // Cambiado a POST ya que generalmente se usa para enviar datos
       headers: {
