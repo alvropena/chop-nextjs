@@ -7,7 +7,7 @@ import LearnPage from "../components/Home/LearnPageComponent"; // Asegúrate de 
 // Función para verificar la autenticación
 const checkAuthentication = async () => {
   try {
-    const response = await fetch("http://localhost:8000/api/v1/auth/verify", {
+    const response = await fetch(`http://${process.env.API_BASE_URL}/api/v1/auth/verify`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -42,7 +42,7 @@ const HomePage = () => {
 
   const logOutUser = async () => {
     try {
-      const url = "http://localhost:8000/api/v1/logout/";
+      const url = `http://${process.env.API_BASE_URL}/api/v1/logout/`
       const response = await fetch(url, {
         method: "GET",
         credentials: "include", // Enviar cookies relevantes si es necesario

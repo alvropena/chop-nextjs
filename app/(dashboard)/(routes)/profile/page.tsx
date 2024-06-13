@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 
 const getProfile = async (sessionToken: string) => {
   try {
-    const url = "http://localhost:8000/api/v1/user/profile-user/me";
+    const url = `http://${process.env.API_BASE_URL}/api/v1/user/profile-user/me`;
     const response = await fetch(url, {
       method: "GET", // Cambiado a POST ya que generalmente se usa para enviar datos
       headers: {

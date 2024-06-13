@@ -26,7 +26,7 @@ import Footer from "@/app/(dashboard)/_components/footer";
 // Componente Hero
 const Hero = () => {
   const loginUser = async () => {
-    const url = "http://localhost:8000/api/v1/login";
+    const url = `http://${process.env.API_BASE_URL}/api/v1/login`;
 
     try {
       const response = await fetch(url, {
@@ -50,7 +50,7 @@ const Hero = () => {
           <span className="">Chop</span>
         </Link>
         <div className="ml-auto flex items-center gap-4">
-          <Link href={"http://localhost:8000/api/v1/login"}>
+          <Link href={`http://${process.env.API_BASE_URL}/api/v1/login`}>
             <Button>Sign In</Button>
           </Link>
         </div>

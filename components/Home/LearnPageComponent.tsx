@@ -55,7 +55,7 @@ const LearnPage = () => {
 
   const sendPrompt = async (promptData: Prompt, sessionToken: string) => {
     try {
-      const url = "http://localhost:8000/api/v1/flow/";
+      const url = `http://${process.env.API_BASE_URL}/api/v1/flow/`;
       const response = await fetch(url, {
         method: "POST", // Cambiado a POST ya que generalmente se usa para enviar datos
         headers: {
