@@ -72,35 +72,7 @@ export default function RootLayout({
 //       return { isAuthenticated: false };
 //     }
 //   };
-
-//   const logOutUser = async () => {
-//     try {
-//       const url = `http://${baseUrl}/api/v1/logout/`
-//       const response = await fetch(url, {
-//         method: "GET",
-//         credentials: "include", // Enviar cookies relevantes si es necesario
-//       });
-
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//       }
-
-//       const result = await response.json();
-//       console.log("Response from server:", result);
-
-//       // Eliminar el sessionToken y accessToken del localStorage
-//       localStorage.removeItem("sessionToken");
-//       localStorage.removeItem("accessToken");
-
-//       // Recargar la página para actualizar el estado de autenticación
-//       window.location.reload(); // Recargar la página actual
-
-//       return result;
-//     } catch (error) {
-//       console.error("Failed to log out:", error);
-//     }
-//   };
-
+//
 //   // Renderizar el componente basado en el estado de autenticación
 //   return (
 //     <div>

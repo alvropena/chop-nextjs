@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "@/components/mode-toggle";
+import { AvatarDropdownMenu } from "./_components/dropdown-menu";
 
 interface NavLinkProps {
     href: string;
@@ -78,30 +79,7 @@ export default function DashboardLayout({
                                 <span className="sr-only">Toggle notifications</span>
                             </Button>
                             <ModeToggle />
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="rounded-full border w-8 h-8"
-                                    >
-                                        <div className="flex items-center">
-                                            <Avatar className="items-center justify-center">
-                                                <div>AP</div>
-                                            </Avatar>
-                                        </div>
-                                        <span className="sr-only">Toggle user menu</span>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                                    <DropdownMenuItem>Support</DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>Logout</DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                            <AvatarDropdownMenu />
                         </header>
                         {children}
                     </div>
