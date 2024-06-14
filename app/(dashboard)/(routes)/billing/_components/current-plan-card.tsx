@@ -31,10 +31,10 @@ export default function CurrentPlanCard() {
                     <div>Unlimited</div>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline">
                         Downgrade
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline">
                         Cancel
                     </Button>
                 </div>

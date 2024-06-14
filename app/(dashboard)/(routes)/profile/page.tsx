@@ -1,30 +1,26 @@
 "use client";
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Avatar } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
+import { DatePicker } from "../../_components/date-picker";
+import { User } from "@/types/user";
+import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group"
 
-const getProfile = async (sessionToken: string) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+const getUser = async (sessionToken: string): Promise<User | undefined> => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   try {
     const url = `http://${baseUrl}/api/v1/user/profile-user/me`;
     const response = await fetch(url, {
-      method: "GET", // Cambiado a POST ya que generalmente se usa para enviar datos
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionToken}`, // Incluir el token en el encabezado Authorization
+        Authorization: `Bearer ${sessionToken}`,
       },
     });
 
@@ -32,7 +28,7 @@ const getProfile = async (sessionToken: string) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const result = await response.json();
+    const result: User = await response.json();
     console.log("Response from server:", result);
     return result;
   } catch (error) {
@@ -40,124 +36,72 @@ const getProfile = async (sessionToken: string) => {
   }
 };
 
-export default function Component() {
+interface FormFieldProps {
+  label: string;
+  id: string;
+  children: ReactNode;
+}
+
+const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
+  <div className="space-y-2">
+    <Label className="" htmlFor={id}>{label}</Label>
+    {children}
+  </div>
+);
+
+export default function Profile() {
   const [sessionToken, setSessionToken] = useState<string>("");
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // Obtener el sessionToken del localStorage y guardarlo en el estado
     const storedToken = localStorage.getItem("sessionToken");
     if (storedToken) {
       setSessionToken(storedToken);
     }
   }, []);
+
   useEffect(() => {
-    // Llamar a la función asincrónica y actualizar el estado basado en su resultado
     const fetchAuth = async () => {
-      const authState = await getProfile(sessionToken);
+      if (sessionToken) {
+        const authState = await getUser(sessionToken);
+        setUser(authState || null);
+      }
     };
     fetchAuth();
   }, [sessionToken]);
 
   return (
-    <div className="w-full max-w-3xl">
-      <div className="items-center gap-4">
-        <div className="space-y-1">
-          <Avatar className="items-center justify-center w-20 h-20">
-            <div>AP</div>
-          </Avatar>
-          <CardTitle>Profile</CardTitle>
-          <CardDescription>Your personal information.</CardDescription>
-        </div>
+    <div className="w-full p-4 space-y-4 md:space-y-4 md:p-6">
+      <h1 className="text-2xl">Profile</h1>
+      <div className="flex items-center">
+        <Avatar className="w-20 h-20 items-center justify-center">
+          <div>AP</div>
+        </Avatar>
       </div>
-      <div className="gap-6">
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" value="Alex Doe" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="username">Username</Label>
-            <Input id="username" value="alexdoe99" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="birthday">Birthday</Label>
-            <Input id="birthday" type="date" value="1990-01-01" />
-          </div>
-          <div className="space-y-2">
-            <Label>Gender</Label>
-            <div className="space-x-4">
-              <Label htmlFor="gender-male" className="cursor-pointer">
-                <Input
-                  id="gender-male"
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  className="form-radio"
-                />
-                Male
-              </Label>
-              <Label htmlFor="gender-female" className="cursor-pointer">
-                <Input
-                  id="gender-female"
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  className="form-radio"
-                />
-                Female
-              </Label>
-              <Label htmlFor="gender-other" className="cursor-pointer">
-                <Input
-                  id="gender-other"
-                  type="radio"
-                  name="gender"
-                  value="other"
-                  className="form-radio"
-                />
-                Other
-              </Label>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="bio">Bio</Label>
-            <Textarea
-              id="bio"
-              placeholder="Enter your bio"
-              className="min-h-[100px]"
-            />
-          </div>
-        </div>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="location">Location</Label>
-            <Input id="location" placeholder="Enter your location" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              placeholder="Enter your email"
-              type="email"
-              readOnly
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="social">Social</Label>
-            <Input id="social" placeholder="Enter your social media handles" />
-            <div>Enter your social media handles separated by a comma.</div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone</Label>
-            <Input
-              id="phone"
-              placeholder="Enter your phone number"
-              type="tel"
-            />
-          </div>
-        </div>
+      <FormField label="Name" id="name">
+        <Input id="name" placeholder="John Doe" readOnly />
+      </FormField>
+      <FormField label="Username" id="username">
+        <Input id="username" placeholder="johndoe123" readOnly />
+      </FormField>
+      <FormField label="Bio" id="bio">
+        <Textarea id="bio" placeholder="Enter your bio" className="min-h-[100px]" defaultValue="" />
+      </FormField>
+      <FormField label="Location" id="location">
+        <Input id="location" placeholder="San Francisco, CA" defaultValue="" />
+      </FormField>
+      <FormField label="Birthday" id="birthday">
+        <DatePicker />
+      </FormField>
+      <FormField label="Phone" id="phone">
+        <Input id="phone" placeholder="(123) 456-7890" type="tel" defaultValue="" />
+      </FormField>
+      <FormField label="Gender" id="gender">
+        <GenderRadioGroup />
+      </FormField>
+      <div className="flex justify-end">
+        <Button>Save</Button>
       </div>
-
-      <Button size="sm">Save</Button>
     </div>
   );
 }

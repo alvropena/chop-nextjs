@@ -1,30 +1,11 @@
-"use client";
+"use client"
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, PenIcon } from "lucide-react";
-import Image from "next/image";
-
-import { Prompt } from "@/types/types";
 import Footer from "@/app/(dashboard)/_components/footer";
 
-const Hero = () => {
+export default function AuthPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
   const loginUser = async () => {
@@ -77,5 +58,3 @@ const Hero = () => {
     </div>
   );
 };
-
-export default Hero;

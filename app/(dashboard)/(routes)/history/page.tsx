@@ -1,6 +1,7 @@
 import React from 'react'
-import Link from "next/link"
-import { Prompt } from '@/types/types'
+import { Button } from '@/components/ui/button'
+import { Prompt } from '@/types/prompt'
+import { Table } from '@/components/ui/table'
 
 const searchHistory: Prompt[] = [
     {
@@ -68,10 +69,10 @@ const searchHistory: Prompt[] = [
 export default function HistoryPage() {
 
     return (
-        <div className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6 max-w-3xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">Search History</h1>
-            <div className="overflow-auto max-h-[500px]">
-                <table className="w-full">
+        <div className="p-6">
+            <h1 className="text-2xl font-bold mb-6">History</h1>
+            <div className="">
+                <Table className="w-full">
                     <thead>
                         <tr className="border-b border-gray-200 dark:border-gray-800">
                             <th className="text-left py-3 px-4 text-sm font-medium text-gray-500 dark:text-gray-400">Search Query</th>
@@ -88,15 +89,15 @@ export default function HistoryPage() {
                                 <td className="py-4 px-4 text-sm font-medium text-gray-900 dark:text-gray-100">{search.text}</td>
                                 <td className="py-4 px-4 text-sm text-gray-500 dark:text-gray-400">{new Date(search.created_at).toLocaleString()}</td>
                                 <td className="py-4 px-4 text-sm">
-                                    <Link href={search.id} className="text-primary hover:underline" prefetch={false}>
+                                    <Button href={search.id}>
                                         View Results
-                                    </Link>
+                                    </Button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </Table>
             </div>
-        </div>
+        </div >
     )
 }

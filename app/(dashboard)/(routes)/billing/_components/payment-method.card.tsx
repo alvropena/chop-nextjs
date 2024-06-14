@@ -16,7 +16,7 @@ export default function PaymentMethodCard() {
                         <CreditCardIcon className="h-6 w-6" />
                         <div>Visa ending in 1234</div>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline">
                         Update
                     </Button>
                 </div>
