@@ -8,7 +8,8 @@ import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "@/components/mode-toggle";
-import { AvatarDropdownMenu } from "./_components/dropdown-menu";
+import { AvatarDropdownMenu } from "./_components/avatar-dropdown-menu";
+import { NotificationsDropdownMenu } from "./_components/notifications-dropdown-menu";
 
 interface NavLinkProps {
     href: string;
@@ -70,14 +71,17 @@ export default function DashboardLayout({
                                     ))}
                                 </nav>
                             </div>
+                            <div className="px-4 py-6">
+                                <Button className="w-full">
+                                    Invite people
+                                </Button>
+                            </div>
                         </div>
                     </div>
+
                     <div className="flex flex-col">
                         <header className="flex h-14 lg:h-[60px] items-center justify-end gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
-                            <Button variant="outline" size="icon" className="h-8 w-8">
-                                <BellIcon className="h-4 w-4" />
-                                <span className="sr-only">Toggle notifications</span>
-                            </Button>
+                            <NotificationsDropdownMenu />
                             <ModeToggle />
                             <AvatarDropdownMenu />
                         </header>
