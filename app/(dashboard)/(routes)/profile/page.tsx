@@ -14,7 +14,7 @@ const getUser = async (sessionToken: string): Promise<User | undefined> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   try {
-    const url = `http://${baseUrl}/api/v1/user/profile-user/me`;
+    const url = `http://${baseUrl}/Prod/api/v1/user/profile-user/me`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -29,11 +29,8 @@ const getUser = async (sessionToken: string): Promise<User | undefined> => {
     }
 
     const result: User = await response.json();
-    console.log("Response from server:", result);
     return result;
-  } catch (error) {
-    console.error("Failed to send prompt:", error);
-  }
+  } catch (error) {}
 };
 
 interface FormFieldProps {
