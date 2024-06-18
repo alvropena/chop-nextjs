@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from '@auth0/nextjs-auth0/client'
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { ThemeProvider } from "@/components/theme-provider";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,18 +18,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <UserProvider>
-          <body>{children}</body>
-        </UserProvider>
-      </ThemeProvider>
-    </html >
+    <html lang="en" className={inter.className}>
+      <Head>
+        <title>{"Chop"}</title>
+        <meta name="description" content={"Learn quicker."} />
+      </Head>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <UserProvider>{children}</UserProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
 
