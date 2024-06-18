@@ -1,6 +1,6 @@
 "use client";
 
-import { AvatarDropdownMenu } from "@/app/(dashboard)/_components/dropdown-menu";
+import { AvatarDropdownMenu } from "@/app/(dashboard)/_components/avatar-dropdown-menu";
 import { usePathname, useRouter } from "next/navigation";
 
 
