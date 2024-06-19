@@ -35,7 +35,7 @@ export const checkAuthentication = async () => {
 export const logoutAndClearLocalStorage = async () => {
   try {
     // URL del endpoint de logout
-    const logoutUrl = `${baseUrl}Prod/api/v1/logout`;
+    const logoutUrl = `http://${baseUrl}/Prod/api/v1/logout`;
 
     // Realizar la solicitud al endpoint de logout
     const response = await fetch(logoutUrl, {
