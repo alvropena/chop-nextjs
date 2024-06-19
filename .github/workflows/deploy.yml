@@ -29,6 +29,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      # Añadir variables de entorno antes de la construcción
+      - name: Set environment variables
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          # Añadir más variables según sea necesario
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
       - name: Build
         run: yarn build
 
