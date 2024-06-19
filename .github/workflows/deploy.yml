@@ -32,9 +32,9 @@ jobs:
       # Añadir variables de entorno antes de la construcción
       - name: Set environment variables
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ env.NEXT_PUBLIC_API_BASE_URL }}" >> .env.production
+          echo "NEXT_PUBLIC_API_BASE_URL=${{ env.NEXT_PUBLIC_API_BASE_URL }}" >> .env
         env:
-          NEXT_PUBLIC_API_URL: ${{ env.NEXT_PUBLIC_API_BASE_URL }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ env.NEXT_PUBLIC_API_BASE_URL }}
 
       - name: Build
         run: yarn build
