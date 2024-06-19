@@ -14,7 +14,7 @@ const getUser = async (sessionToken: string): Promise<User | undefined> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   try {
-    const url = `http://${baseUrl}/Prod/api/v1/user/profile-user/me`;
+    const url = `${baseUrl}/Prod/api/v1/user/profile-user/me`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
