@@ -5,7 +5,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const checkAuthentication = async (token: string) => {
   try {
-    const response = await fetch(`http://${baseUrl}/Prod/api/v1/auth/verify`, {
+    const response = await fetch(`${baseUrl}/Prod/api/v1/auth/verify`, {
       method: "GET",
       headers: {
         Accept: "application/json",

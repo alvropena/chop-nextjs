@@ -40,7 +40,7 @@ export default function HomePage() {
 
     const sendPrompt = async (promptData: Prompt, sessionToken: string) => {
         try {
-            const url = `http://${baseUrl}/api/v1/flow/`;
+            const url = `${baseUrl}/api/v1/flow/`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
