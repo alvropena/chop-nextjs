@@ -56,7 +56,7 @@ export default function RootLayout({
 //   // Función para verificar la autenticación
 //   const checkAuthentication = async () => {
 //     try {
-//       const response = await fetch(`http://${baseUrl}/api/v1/auth/verify`, {
+//       const response = await fetch(`${baseUrl}/api/v1/auth/verify`, {
 //         method: "GET",
 //         headers: {
 //           Accept: "application/json",
