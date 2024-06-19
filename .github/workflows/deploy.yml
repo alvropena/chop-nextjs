@@ -1,35 +1,46 @@
-# .github/workflows/deploy.yml
-name: Desplegar a AWS
+name: Build and Deploy NextJS App to S3 and CloudFront
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
-  deploy:
+  build-and-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install Yarn
+        run: npm install -g yarn
 
-    - name: Build Next.js project
-      run: npm run build && npm run export
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-    - name: Sync files to S3
-      run: aws s3 sync out/ s3://chop-nextjs --delete
+      - name: Build
+        run: yarn build
 
-    - name: Create CloudFront invalidation
-      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy to S3
+        run: aws s3 sync ./out s3://chop-nextjs
+
+      - name: Invalidate CloudFront Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
