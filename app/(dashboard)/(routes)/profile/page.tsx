@@ -30,7 +30,7 @@ const getUser = async (sessionToken: string): Promise<User | undefined> => {
 
     const result: User = await response.json();
     return result;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 interface FormFieldProps {

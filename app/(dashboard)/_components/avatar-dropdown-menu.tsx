@@ -42,10 +42,12 @@ export function AvatarDropdownMenu() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Avatar>
-                    <AvatarImage src="https://github.com/alvropena.png" alt="@alvropena" />
+
+                <Avatar className="items-center justify-center cursor-pointer border">
+                    <AvatarImage src="" alt="" />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
+
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
