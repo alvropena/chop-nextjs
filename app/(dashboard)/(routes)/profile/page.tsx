@@ -1,4 +1,6 @@
 "use client";
+
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -8,33 +10,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState, ReactNode } from "react";
 import { DatePicker } from "../../_components/date-picker";
 import { User } from "@/types/user";
-import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group"
-import { useToast } from "@/components/ui/use-toast"
-
-const getUser = async (sessionToken: string): Promise<User | undefined> => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-
-  try {
-    const url = `${baseUrl}/Prod/api/v1/user/profile-user/me`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionToken}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result: User = await response.json();
-    return result;
-  } catch (error) { }
-};
-
+import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group";
+import { toast, useToast } from "@/components/ui/use-toast";
+import { getAccessToken } from "@auth0/nextjs-auth0";
 interface FormFieldProps {
   label: string;
   id: string;
@@ -43,96 +21,105 @@ interface FormFieldProps {
 
 const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
   <div className="space-y-2">
-    <Label className="" htmlFor={id}>{label}</Label>
+    <Label className="" htmlFor={id}>
+      {label}
+    </Label>
     {children}
   </div>
 );
-
-export default function Profile() {
-  const [sessionToken, setSessionToken] = useState<string>("");
-  const [user, setUser] = useState<User | null>(null);
-  const { toast } = useToast()
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleAvatarClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Handle the file upload process here
-      console.log("File selected:", file.name);
-      // You might want to upload the file or update the avatar preview
-    }
-  };
+export default function ProfileClient() {
+  const { user, error, isLoading, checkSession } = useUser();
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
   useEffect(() => {
-    const storedToken = localStorage.getItem("sessionToken");
-    if (storedToken) {
-      setSessionToken(storedToken);
-    }
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/ruta", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-  useEffect(() => {
-    const fetchAuth = async () => {
-      if (sessionToken) {
-        const authState = await getUser(sessionToken);
-        setUser(authState || null);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        } else {
+          console.error("Error fetching data from API:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data from API:", error);
       }
     };
-    fetchAuth();
-  }, [sessionToken]);
+
+    fetchData();
+  }, []);
 
   return (
-    <div className="w-full p-4 space-y-4 md:space-y-4 md:p-6">
-      <h1 className="text-2xl">Profile</h1>
-      <div className="flex items-center">
-        <Avatar className="w-20 h-20 items-center justify-center cursor-pointer" onClick={handleAvatarClick}>
-          <AvatarImage src="" alt="" />
-          <AvatarFallback>AP</AvatarFallback>
-        </Avatar>
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-          accept="image/*"
-        />
+    user && (
+      <div>
+        <h2>{user.name}</h2>
+        <p>{user.email}</p>
+        <div className="w-full p-4 space-y-4 md:space-y-4 md:p-6">
+          <h1 className="text-2xl">Profile</h1>
+
+          <div className="flex items-center">
+            <Avatar className="w-20 h-20 items-center justify-center cursor-pointer">
+              <AvatarImage src="" alt="" />
+              <AvatarFallback>AP</AvatarFallback>
+            </Avatar>
+            <input type="file" style={{ display: "none" }} accept="image/*" />
+          </div>
+          <FormField label="Name" id="name">
+            <Input id="name" placeholder="John Doe" readOnly />
+          </FormField>
+          <FormField label="Username" id="username">
+            <Input id="username" placeholder="johndoe123" readOnly />
+          </FormField>
+          <FormField label="Bio" id="bio">
+            <Textarea
+              id="bio"
+              placeholder="Enter your bio"
+              className="min-h-[100px]"
+              defaultValue=""
+            />
+          </FormField>
+          <FormField label="Location" id="location">
+            <Input
+              id="location"
+              placeholder="San Francisco, CA"
+              defaultValue=""
+            />
+          </FormField>
+          <FormField label="Birthday" id="birthday">
+            <DatePicker />
+          </FormField>
+          <FormField label="Phone" id="phone">
+            <Input
+              id="phone"
+              placeholder="(123) 456-7890"
+              type="tel"
+              defaultValue=""
+            />
+          </FormField>
+          <FormField label="Gender" id="gender">
+            <GenderRadioGroup />
+          </FormField>
+          <div className="flex justify-end">
+            <Button
+              onClick={() => {
+                toast({
+                  title: "Profile updated",
+                  description: "Your changes have been saved.",
+                });
+              }}
+              size={"lg"}
+            >
+              Save Changes
+            </Button>
+          </div>
+        </div>
       </div>
-      <FormField label="Name" id="name">
-        <Input id="name" placeholder="John Doe" readOnly />
-      </FormField>
-      <FormField label="Username" id="username">
-        <Input id="username" placeholder="johndoe123" readOnly />
-      </FormField>
-      <FormField label="Bio" id="bio">
-        <Textarea id="bio" placeholder="Enter your bio" className="min-h-[100px]" defaultValue="" />
-      </FormField>
-      <FormField label="Location" id="location">
-        <Input id="location" placeholder="San Francisco, CA" defaultValue="" />
-      </FormField>
-      <FormField label="Birthday" id="birthday">
-        <DatePicker />
-      </FormField>
-      <FormField label="Phone" id="phone">
-        <Input id="phone" placeholder="(123) 456-7890" type="tel" defaultValue="" />
-      </FormField>
-      <FormField label="Gender" id="gender">
-        <GenderRadioGroup />
-      </FormField>
-      <div className="flex justify-end">
-        <Button
-          onClick={() => {
-            toast({
-              title: "Profile updated",
-              description: "Your changes have been saved."
-            })
-          }}
-          size={"lg"}
-        >
-          Save Changes
-        </Button>
-      </div>
-    </div>
+    )
   );
 }
