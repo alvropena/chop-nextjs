@@ -85,10 +85,9 @@ export default function DashboardLayout({
                     </div>
                     <div className="flex flex-col">
                         <header className="flex h-14 lg:h-[60px] items-center justify-end gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
-
-                            <Button size={"sm"}>
+                            {/* <Button size={"sm"}>
                                 Upgrade
-                            </Button>
+                            </Button> */}
                             <NotificationsDropdownMenu />
                             <ModeToggle />
                             <AvatarDropdownMenu />

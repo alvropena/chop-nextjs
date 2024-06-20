@@ -2,15 +2,16 @@
 
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, PenIcon } from "lucide-react";
+import { ArrowUpIcon, Pencil, PencilIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Prompt } from "@/types/prompt";
-import MenuBar from "@/app/(dashboard)/_components/menu_bar";
-
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function HomePage() {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const [sessionToken, setSessionToken] = useState<string>("");
+    const [prompt, setPrompt] = useState<string>("");
+    const [conversation, setConversation] = useState<{ prompt: string, response: string }[]>([]);
 
     useEffect(() => {
         const storedToken = localStorage.getItem("sessionToken");
@@ -19,13 +20,11 @@ export default function HomePage() {
         }
     }, []);
 
-    const [prompt, setPrompt] = useState<string>("");
-
     const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setPrompt(event.target.value);
     };
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (prompt.trim()) {
             const newPrompt: Prompt = {
                 id: Date.now().toString(),
@@ -33,7 +32,12 @@ export default function HomePage() {
                 text: prompt,
                 user_id: "user123",
             };
-            sendPrompt(newPrompt, sessionToken);
+
+            // const response = await sendPrompt(newPrompt, sessionToken);
+            // if (response) {
+
+            // }
+            setConversation([...conversation, { prompt: prompt, response: "Lorem Ipsum" }]);
             setPrompt("");
         }
     };
@@ -64,21 +68,39 @@ export default function HomePage() {
     };
 
     return (
-
-        <div className="flex flex-col">
-            <div className="sticky top-0 p-2 flex flex-row justify-between">
-                <MenuBar />
+        <div className="flex flex-col h-screen">
+            <div className="sticky top-0 p-2 flex flex-row justify-end">
                 <Button
                     variant="outline"
-                    className="text-left px-2 justify-start p hover:bg-neutral-900 hover:text-neutral-50 gap-2"
+                    className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
                 >
-                    <PenIcon className="h-4 w-4" />
                     New Chat
                 </Button>
             </div>
-            <div className="max-w-2xl flex-1 mx-auto flex flex-col items-start gap-8 px-4"></div>
-            <div className="max-w-2xl w-full sticky bottom-0 mx-auto py-2 flex flex-col gap-1.5 px-4 pb-4">
-                <div className="relative">
+            <div className="flex-1 overflow-auto px-4">
+                <div className="max-w-2xl mx-auto flex flex-col items-start gap-8">
+                    {conversation.map((entry, index) => (
+                        <div key={index} className="w-full">
+                            <div className="flex flex-row justify-end p-2 items-center">
+                                <p className="mr-2">{entry.prompt}</p>
+                                <Avatar>
+                                    <AvatarImage src="" alt="@alvaro" />
+                                    <AvatarFallback>AL</AvatarFallback>
+                                </Avatar>
+                            </div>
+                            <div className="flex flex-row p-2 items-center">
+                                <Avatar>
+                                    <AvatarImage src="" alt="@shadcn" />
+                                    <AvatarFallback>CH</AvatarFallback>
+                                </Avatar>
+                                <p className="ml-2">{entry.response}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="sticky bottom-0 w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
+                <div className="relative max-w-2xl mx-auto w-full">
                     <Textarea
                         placeholder="Type here..."
                         name="prompt"
@@ -101,6 +123,5 @@ export default function HomePage() {
                 </div>
             </div>
         </div>
-
     );
-};
+}
