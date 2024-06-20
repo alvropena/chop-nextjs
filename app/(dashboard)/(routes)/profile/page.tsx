@@ -9,9 +9,11 @@ import { useEffect, useState, ReactNode } from "react";
 import { DatePicker } from "../../_components/date-picker";
 import { User } from "@/types/user";
 import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group"
+import { useToast } from "@/components/ui/use-toast"
 
 const getUser = async (sessionToken: string): Promise<User | undefined> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
   try {
     const url = `${baseUrl}/Prod/api/v1/user/profile-user/me`;
@@ -49,6 +51,7 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
 export default function Profile() {
   const [sessionToken, setSessionToken] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
+  const { toast } = useToast()
 
   useEffect(() => {
     const storedToken = localStorage.getItem("sessionToken");
@@ -97,7 +100,17 @@ export default function Profile() {
         <GenderRadioGroup />
       </FormField>
       <div className="flex justify-end">
-        <Button>Save</Button>
+        <Button
+          onClick={() => {
+            toast({
+              title: "Profile updated",
+              description: "Your changes have been saved."
+            })
+          }}
+          size={"lg"}
+        >
+          Save Changes
+        </Button>
       </div>
     </div>
   );
