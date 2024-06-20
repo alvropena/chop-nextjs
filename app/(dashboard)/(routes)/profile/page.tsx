@@ -31,29 +31,6 @@ export default function ProfileClient() {
   const { user, error, isLoading, checkSession } = useUser();
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/ruta", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-        } else {
-          console.error("Error fetching data from API:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching data from API:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     user && (
