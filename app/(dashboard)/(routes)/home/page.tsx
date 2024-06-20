@@ -79,6 +79,13 @@ export default function HomePage() {
             </div>
             <div className="flex-1 overflow-auto px-4">
                 <div className="max-w-2xl mx-auto flex flex-col items-start gap-8">
+                    <div className="flex flex-row justify-end p-2 items-center">
+                        <Avatar>
+                            <AvatarImage src="" alt="@chop" />
+                            <AvatarFallback>CH</AvatarFallback>
+                        </Avatar>
+                        <p className="ml-2">Hey, what do you want to learn today?</p>
+                    </div>
                     {conversation.map((entry, index) => (
                         <div key={index} className="w-full">
                             <div className="flex flex-row justify-end p-2 items-center">
