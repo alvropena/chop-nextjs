@@ -26,11 +26,10 @@ export function NotificationsDropdownMenu() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="h-8 w-8">
+                <Button variant="outline" size="icon" >
                     <BellIcon className="h-4 w-4" />
                     <span className="sr-only">Toggle notifications</span>
                 </Button>
-
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-72">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
@@ -44,7 +43,7 @@ export function NotificationsDropdownMenu() {
                     ))}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem className="items-center justify-center">
                     <a href="/notifications">View all notifications</a>
                 </DropdownMenuItem>
             </DropdownMenuContent>

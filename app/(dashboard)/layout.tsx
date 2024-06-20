@@ -34,6 +34,7 @@ const NavLink: React.FC<NavLinkProps> = ({ href, icon: Icon, children, isActive,
 const navLinks = [
     { href: "/home", icon: HomeIcon, label: "Home" },
     { href: "/profile", icon: UserIcon, label: "Profile" },
+    { href: "/notifications", icon: BellIcon, label: "Notifications" },
     { href: "/history", icon: HistoryIcon, label: "History" },
     { href: "/billing", icon: CreditCardIcon, label: "Billing" },
     { href: "/settings", icon: SettingsIcon, label: "Settings" },
@@ -85,10 +86,9 @@ export default function DashboardLayout({
                     </div>
                     <div className="flex flex-col">
                         <header className="flex h-14 lg:h-[60px] items-center justify-end gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
-
-                            <Button size={"sm"}>
+                            {/* <Button size={"sm"}>
                                 Upgrade
-                            </Button>
+                            </Button> */}
                             <NotificationsDropdownMenu />
                             <ModeToggle />
                             <AvatarDropdownMenu />

@@ -1,17 +1,19 @@
 "use client";
-
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState, ReactNode } from "react";
 import { DatePicker } from "../../_components/date-picker";
 import { User } from "@/types/user";
 import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group"
+import { useToast } from "@/components/ui/use-toast"
 
 const getUser = async (sessionToken: string): Promise<User | undefined> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
   try {
     const url = `${baseUrl}/Prod/api/v1/user/profile-user/me`;
@@ -30,7 +32,7 @@ const getUser = async (sessionToken: string): Promise<User | undefined> => {
 
     const result: User = await response.json();
     return result;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 interface FormFieldProps {
@@ -49,7 +51,21 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
 export default function Profile() {
   const [sessionToken, setSessionToken] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
+  const { toast } = useToast()
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Handle the file upload process here
+      console.log("File selected:", file.name);
+      // You might want to upload the file or update the avatar preview
+    }
+  };
   useEffect(() => {
     const storedToken = localStorage.getItem("sessionToken");
     if (storedToken) {
@@ -71,9 +87,17 @@ export default function Profile() {
     <div className="w-full p-4 space-y-4 md:space-y-4 md:p-6">
       <h1 className="text-2xl">Profile</h1>
       <div className="flex items-center">
-        <Avatar className="w-20 h-20 items-center justify-center">
-          <div>AP</div>
+        <Avatar className="w-20 h-20 items-center justify-center cursor-pointer" onClick={handleAvatarClick}>
+          <AvatarImage src="" alt="" />
+          <AvatarFallback>AP</AvatarFallback>
         </Avatar>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+          accept="image/*"
+        />
       </div>
       <FormField label="Name" id="name">
         <Input id="name" placeholder="John Doe" readOnly />
@@ -97,7 +121,17 @@ export default function Profile() {
         <GenderRadioGroup />
       </FormField>
       <div className="flex justify-end">
-        <Button>Save</Button>
+        <Button
+          onClick={() => {
+            toast({
+              title: "Profile updated",
+              description: "Your changes have been saved."
+            })
+          }}
+          size={"lg"}
+        >
+          Save Changes
+        </Button>
       </div>
     </div>
   );
