@@ -32,7 +32,7 @@ export default function AuthPage() {
         </Link>
         <div className="ml-auto flex items-center gap-4">
           {!auth ? (
-            <Link href={`${baseUrl}/Prod/api/v1/login`}>
+            <Link href={"/api/auth/login"}>
               <Button>Sign In</Button>
             </Link>
           ) : (
