@@ -1,8 +1,8 @@
 "use client";
-
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState, ReactNode } from "react";
@@ -52,7 +52,20 @@ export default function Profile() {
   const [sessionToken, setSessionToken] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast()
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Handle the file upload process here
+      console.log("File selected:", file.name);
+      // You might want to upload the file or update the avatar preview
+    }
+  };
   useEffect(() => {
     const storedToken = localStorage.getItem("sessionToken");
     if (storedToken) {
@@ -74,9 +87,17 @@ export default function Profile() {
     <div className="w-full p-4 space-y-4 md:space-y-4 md:p-6">
       <h1 className="text-2xl">Profile</h1>
       <div className="flex items-center">
-        <Avatar className="w-20 h-20 items-center justify-center">
-          <div>AP</div>
+        <Avatar className="w-20 h-20 items-center justify-center cursor-pointer" onClick={handleAvatarClick}>
+          <AvatarImage src="" alt="" />
+          <AvatarFallback>AP</AvatarFallback>
         </Avatar>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+          accept="image/*"
+        />
       </div>
       <FormField label="Name" id="name">
         <Input id="name" placeholder="John Doe" readOnly />
