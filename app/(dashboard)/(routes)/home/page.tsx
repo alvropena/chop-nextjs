@@ -8,6 +8,34 @@ import { Prompt } from "@/types/prompt";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getData } from "@/lib/utils";
 
+
+const performPreflightCheck = async () => {
+  try {
+    const response = await fetch(
+      "https://161uv9w7i7.execute-api.us-east-1.amazonaws.com/Prod/api/v1/flow/",
+      {
+        method: "OPTIONS",
+        headers: {
+          "Access-Control-Request-Method": "POST", // Método HTTP que se planea usar
+          "Access-Control-Request-Headers": "Authorization, Content-Type", // Encabezados que se planean usar
+          Origin: "https://www.chop.so", // Origen de la solicitud
+        },
+      }
+    );
+
+    if (response.ok) {
+      console.log("Preflight check passed:", response.headers);
+    } else {
+      console.error(
+        "Preflight check failed:",
+        response.status,
+        response.statusText
+      );
+    }
+  } catch (error) {
+    console.error("Error during preflight check:", error);
+  }
+};
 export default function HomePage() {
   const [apiData, setApiData] = useState(null); // Estado para almacenar los datos de la API
   const [loading, setLoading] = useState(true); // Estado de carga
@@ -61,6 +89,7 @@ export default function HomePage() {
 
   const sendPrompt = async (promptData: Prompt, sessionToken: string) => {
     try {
+      await performPreflightCheck();
       const url = `${baseUrl}/api/v1/flow/`;
       console.log(sessionToken);
       const response = await fetch(url, {
