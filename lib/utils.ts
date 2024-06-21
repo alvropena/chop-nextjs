@@ -61,3 +61,11 @@ export const logoutAndClearLocalStorage = async () => {
     console.error("An error occurred during logout:", error);
   }
 };
+
+export async function getData() {
+  const res = await fetch("/api/ruta");
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}

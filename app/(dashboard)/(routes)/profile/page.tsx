@@ -19,6 +19,13 @@ interface FormFieldProps {
   children: ReactNode;
 }
 
+async function getData() {
+  const res = await fetch("/api/ruta");
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
 const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
   <div className="space-y-2">
     <Label className="" htmlFor={id}>
@@ -29,6 +36,26 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
 );
 export default function ProfileClient() {
   const { user, error, isLoading, checkSession } = useUser();
+
+  const [loading, setLoading] = useState(true); // Estado de carga
+  const [apiError, setApiError] = useState(null); // Estado para manejar errores de la API
+  const [apiData, setApiData] = useState(null); // Estado para almacenar los datos de la API
+
+  useEffect(() => {
+    // Define la función para obtener los datos
+    const fetchApiData = async () => {
+      try {
+        const data = await getData(); // Llama a la función `getData`
+        setApiData(data); // Almacena los datos en el estado
+      } catch (error) {
+      } finally {
+        setLoading(false); // Cambia el estado de carga
+      }
+    };
+
+    // Llama a la función al montar el componente
+    fetchApiData();
+  }, []);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
@@ -89,6 +116,8 @@ export default function ProfileClient() {
                   title: "Profile updated",
                   description: "Your changes have been saved.",
                 });
+
+                console.log(apiData);
               }}
               size={"lg"}
             >
