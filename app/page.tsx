@@ -7,7 +7,7 @@ import Footer from "@/app/(dashboard)/_components/footer";
 import { checkAuthentication, logoutAndClearLocalStorage } from "@/lib/utils";
 import { getSession } from "@auth0/nextjs-auth0";
 import { useUser } from "@auth0/nextjs-auth0/client";
-export const LogoutButton = () => {
+const LogoutButton = () => {
   return (
     <Link href={"/api/auth/logout"}>
       <Button>Sign Out</Button>
