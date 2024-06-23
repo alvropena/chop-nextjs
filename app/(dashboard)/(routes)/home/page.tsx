@@ -8,7 +8,6 @@ import { Prompt } from "@/types/prompt";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getData } from "@/lib/utils";
 
-
 export default function HomePage() {
   const [apiData, setApiData] = useState(null); // Estado para almacenar los datos de la API
   const [loading, setLoading] = useState(true); // Estado de carga
@@ -51,6 +50,7 @@ export default function HomePage() {
       };
 
       const response = await sendPrompt(newPrompt, dataLo.accessToken);
+
       // if (response) {
 
       // }
@@ -65,6 +65,7 @@ export default function HomePage() {
   const sendPrompt = async (promptData: Prompt, sessionToken: string) => {
     try {
       const url = `${baseUrl}/api/v1/flow?token=${sessionToken}`;
+
       console.log(sessionToken);
       const response = await fetch(url, {
         method: "POST",
