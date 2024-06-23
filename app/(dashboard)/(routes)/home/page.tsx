@@ -9,33 +9,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getData } from "@/lib/utils";
 
 
-const performPreflightCheck = async () => {
-  try {
-    const response = await fetch(
-      "https://161uv9w7i7.execute-api.us-east-1.amazonaws.com/Prod/api/v1/flow/",
-      {
-        method: "OPTIONS",
-        headers: {
-          "Access-Control-Request-Method": "POST", // Método HTTP que se planea usar
-          "Access-Control-Request-Headers": "Authorization, Content-Type", // Encabezados que se planean usar
-          Origin: "https://www.chop.so", // Origen de la solicitud
-        },
-      }
-    );
-
-    if (response.ok) {
-      console.log("Preflight check passed:", response.headers);
-    } else {
-      console.error(
-        "Preflight check failed:",
-        response.status,
-        response.statusText
-      );
-    }
-  } catch (error) {
-    console.error("Error during preflight check:", error);
-  }
-};
 export default function HomePage() {
   const [apiData, setApiData] = useState(null); // Estado para almacenar los datos de la API
   const [loading, setLoading] = useState(true); // Estado de carga
@@ -67,6 +40,8 @@ export default function HomePage() {
   };
 
   const handleSend = async () => {
+    const dataLo = await getData();
+    console.log(dataLo.accessToken);
     if (prompt.trim()) {
       const newPrompt: Prompt = {
         id: Date.now().toString(),
@@ -75,10 +50,7 @@ export default function HomePage() {
         user_id: "user123",
       };
 
-      const response = await sendPrompt(
-        newPrompt,
-        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZEWERRTXByck5kTEktVUtZUGVIRSJ9.eyJpc3MiOiJodHRwczovL2Nob3AtYXV0aC1hcGkudXMuYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTA5OTUwNjg1MTk3MTYwNDA2NzIzIiwiYXVkIjpbImh0dHBzOi8vYXBpLXByb2QtY2hvcC8iLCJodHRwczovL2Nob3AtYXV0aC1hcGkudXMuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTcxODk0NDM4NSwiZXhwIjoxNzE5MDMwNzg1LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiYXpwIjoiaVkyWk12SWpTQ2Raa3JuWjd4cmN6Zzh0aXRNVGMyU0giLCJwZXJtaXNzaW9ucyI6W119.nv4-hpEF_FXnvaXX4niO2NGftblfznrB4Hda73OjzUOnHlWVi8iW3UI3FE5TiXzG2q8W8YiQSf3-QSKPd1I2Jp_lm5rPck1SGp0CRRMatwHmmTDCfAxD-mvxoB2xpQKQp_6r9WCBaitTYuuUh137XJ9jAaU0MspdQaOQeAI153XcKuIWYBL_vFUmjbKdtPD_R38PmvF9CfC0K88YFUikki6pBEbnsaHYeV8VrswMDH3i9FwcZAyLSi-l16XeWjTdnY1RPjLS0WcsZrWOKunaINekzpZge-TiOtqCVpmZ8m8zDNd4HEaiIGQQgYBPQ5pAgPdkiXprJh7u5JUYeV1Bpw"
-      );
+      const response = await sendPrompt(newPrompt, dataLo.accessToken);
       // if (response) {
 
       // }
@@ -92,7 +64,6 @@ export default function HomePage() {
 
   const sendPrompt = async (promptData: Prompt, sessionToken: string) => {
     try {
-      await performPreflightCheck();
       const url = `${baseUrl}/api/v1/flow?token=${sessionToken}`;
       console.log(sessionToken);
       const response = await fetch(url, {
