@@ -9,52 +9,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getData } from "@/lib/utils";
 import { Logger } from "@/lib/logger";
 
-const performPreflightCheck = async () => {
-  try {
-    const response = await fetch(
-      "https://161uv9w7i7.execute-api.us-east-1.amazonaws.com/Prod/api/v1/flow/",
-      {
-        method: "OPTIONS",
-        headers: {
-          "Access-Control-Request-Method": "POST", // Método HTTP que se planea usar
-          "Access-Control-Request-Headers": "Authorization, Content-Type", // Encabezados que se planean usar
-          Origin: "https://www.chop.so", // Origen de la solicitud
-        },
-      }
-    );
 
-    if (response.ok) {
-      Logger.info("Preflight check passed:", response.headers);
-    } else {
-      Logger.error(
-        "Preflight check failed:",
-        response.status,
-        response.statusText
-      );
-    }
-  } catch (error) {
-    Logger.error("Error during preflight check:", error);
-  }
-};
 export default function HomePage() {
-  const [apiData, setApiData] = useState(null); // Estado para almacenar los datos de la API
-  const [loading, setLoading] = useState(true); // Estado de carga
-
-  useEffect(() => {
-    // Define la función para obtener los datos
-    const fetchApiData = async () => {
-      try {
-        const data = await getData(); // Llama a la función `getData`
-        setApiData(data); // Almacena los datos en el estado
-      } catch (error) {
-      } finally {
-        setLoading(false); // Cambia el estado de carga
-      }
-    };
-
-    // Llama a la función al montar el componente
-    fetchApiData();
-  }, []);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [sessionToken, setSessionToken] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");

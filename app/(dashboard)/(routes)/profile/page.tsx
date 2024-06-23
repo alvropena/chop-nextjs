@@ -37,26 +37,6 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
 export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
 
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [apiError, setApiError] = useState<null | Error>(null); // Estado para manejar errores de la API
-  const [apiData, setApiData] = useState<null | any>(null); // Estado para almacenar los datos de la API
-
-  useEffect(() => {
-    // Define la función para obtener los datos
-    const fetchApiData = async () => {
-      try {
-        const data = await getData(); // Llama a la función `getData`
-        setApiData(data); // Almacena los datos en el estado
-      } catch (error) {
-        setApiError(error);
-      } finally {
-        setLoading(false); // Cambia el estado de carga
-      }
-    };
-
-    // Llama a la función al montar el componente
-    fetchApiData();
-  }, []);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -69,8 +49,13 @@ export default function ProfileClient() {
 
           <div className="flex items-center">
             <Avatar className="w-20 h-20 items-center justify-center cursor-pointer">
-              <AvatarImage src={user.picture ?? "/default-avatar.png"} alt={user.nickname ?? "User"} />
-              <AvatarFallback>{user.name ? user.name.substring(0, 2).toUpperCase() : "NA"}</AvatarFallback>
+              <AvatarImage
+                src={user.picture ?? "/default-avatar.png"}
+                alt={user.nickname ?? "User"}
+              />
+              <AvatarFallback>
+                {user.name ? user.name.substring(0, 2).toUpperCase() : "NA"}
+              </AvatarFallback>
             </Avatar>
             <input type="file" style={{ display: "none" }} accept="image/*" />
           </div>
@@ -78,19 +63,37 @@ export default function ProfileClient() {
             <Input id="name" placeholder={user.name ?? "No name"} />
           </FormField>
           <FormField label="Username" id="username">
-            <Input id="username" placeholder={user.nickname ?? "No nickname"} readOnly />
+            <Input
+              id="username"
+              placeholder={user.nickname ?? "No nickname"}
+              readOnly
+            />
           </FormField>
           <FormField label="Bio" id="bio">
-            <Textarea id="bio" placeholder="Enter your bio" className="min-h-[100px]" defaultValue="" />
+            <Textarea
+              id="bio"
+              placeholder="Enter your bio"
+              className="min-h-[100px]"
+              defaultValue=""
+            />
           </FormField>
           <FormField label="Location" id="location">
-            <Input id="location" placeholder="San Francisco, CA" defaultValue="" />
+            <Input
+              id="location"
+              placeholder="San Francisco, CA"
+              defaultValue=""
+            />
           </FormField>
           <FormField label="Birthday" id="birthday">
             <DatePicker />
           </FormField>
           <FormField label="Phone" id="phone">
-            <Input id="phone" placeholder="(123) 456-7890" type="tel" defaultValue="" />
+            <Input
+              id="phone"
+              placeholder="(123) 456-7890"
+              type="tel"
+              defaultValue=""
+            />
           </FormField>
           <FormField label="Gender" id="gender">
             <GenderRadioGroup />
@@ -102,8 +105,6 @@ export default function ProfileClient() {
                   title: "Profile updated",
                   description: "Your changes have been saved.",
                 });
-
-                Logger.info(apiData);
               }}
               size={"lg"}
             >
