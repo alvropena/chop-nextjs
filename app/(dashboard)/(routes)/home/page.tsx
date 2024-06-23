@@ -2,31 +2,15 @@
 
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, Pencil, PencilIcon } from "lucide-react";
+import { ArrowUpIcon, Pencil, PencilIcon, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Prompt } from "@/types/prompt";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getData } from "@/lib/utils";
+import { Logger } from "@/lib/logger";
+
 
 export default function HomePage() {
-  const [apiData, setApiData] = useState(null); // Estado para almacenar los datos de la API
-  const [loading, setLoading] = useState(true); // Estado de carga
-
-  useEffect(() => {
-    // Define la función para obtener los datos
-    const fetchApiData = async () => {
-      try {
-        const data = await getData(); // Llama a la función `getData`
-        setApiData(data); // Almacena los datos en el estado
-      } catch (error) {
-      } finally {
-        setLoading(false); // Cambia el estado de carga
-      }
-    };
-
-    // Llama a la función al montar el componente
-    fetchApiData();
-  }, []);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [sessionToken, setSessionToken] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
@@ -66,7 +50,7 @@ export default function HomePage() {
     try {
       const url = `${baseUrl}/api/v1/flow?token=${sessionToken}`;
 
-      console.log(sessionToken);
+      Logger.info(sessionToken);
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -81,10 +65,10 @@ export default function HomePage() {
       }
 
       const result = await response.json();
-      console.log("Response from server:", result);
+      Logger.info("Response from server:", result);
       return result;
     } catch (error) {
-      console.error("Failed to send prompt:", error);
+      Logger.error("Failed to send prompt:", error);
     }
   };
 
@@ -92,10 +76,11 @@ export default function HomePage() {
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 p-2 flex flex-row justify-end">
         <Button
-          variant="outline"
+          //variant="outline"
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
-          New Chat
+          <Plus size={"16"} />
+          New Thread
         </Button>
       </div>
       <div className="flex-1 overflow-auto px-4">

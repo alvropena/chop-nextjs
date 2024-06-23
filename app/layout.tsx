@@ -20,10 +20,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className}>
-      <Head>
-        <title>{"Chop"}</title>
-        <meta name="description" content={"Learn quicker."} />
-      </Head>
       <body>
         <ThemeProvider
           attribute="class"
