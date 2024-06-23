@@ -2,12 +2,40 @@
 
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, Pencil, PencilIcon } from "lucide-react";
+import { ArrowUpIcon, Pencil, PencilIcon, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Prompt } from "@/types/prompt";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getData } from "@/lib/utils";
+import { Logger } from "@/lib/logger";
 
+const performPreflightCheck = async () => {
+  try {
+    const response = await fetch(
+      "https://161uv9w7i7.execute-api.us-east-1.amazonaws.com/Prod/api/v1/flow/",
+      {
+        method: "OPTIONS",
+        headers: {
+          "Access-Control-Request-Method": "POST", // Método HTTP que se planea usar
+          "Access-Control-Request-Headers": "Authorization, Content-Type", // Encabezados que se planean usar
+          Origin: "https://www.chop.so", // Origen de la solicitud
+        },
+      }
+    );
+
+    if (response.ok) {
+      Logger.info("Preflight check passed:", response.headers);
+    } else {
+      Logger.error(
+        "Preflight check failed:",
+        response.status,
+        response.statusText
+      );
+    }
+  } catch (error) {
+    Logger.error("Error during preflight check:", error);
+  }
+};
 export default function HomePage() {
   const [apiData, setApiData] = useState(null); // Estado para almacenar los datos de la API
   const [loading, setLoading] = useState(true); // Estado de carga
@@ -66,7 +94,7 @@ export default function HomePage() {
     try {
       const url = `${baseUrl}/api/v1/flow?token=${sessionToken}`;
 
-      console.log(sessionToken);
+      Logger.info(sessionToken);
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -81,10 +109,10 @@ export default function HomePage() {
       }
 
       const result = await response.json();
-      console.log("Response from server:", result);
+      Logger.info("Response from server:", result);
       return result;
     } catch (error) {
-      console.error("Failed to send prompt:", error);
+      Logger.error("Failed to send prompt:", error);
     }
   };
 
@@ -92,10 +120,11 @@ export default function HomePage() {
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 p-2 flex flex-row justify-end">
         <Button
-          variant="outline"
+          //variant="outline"
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
-          New Chat
+          <Plus size={"16"} />
+          New Thread
         </Button>
       </div>
       <div className="flex-1 overflow-auto px-4">

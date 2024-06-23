@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { BellIcon } from "lucide-react";
+import Link from "next/link";
 
 export function NotificationsDropdownMenu() {
     const notifications = [
@@ -44,7 +45,7 @@ export function NotificationsDropdownMenu() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="items-center justify-center">
-                    <a href="/notifications">View all notifications</a>
+                    <Link href="/notifications">View all notifications</Link>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
