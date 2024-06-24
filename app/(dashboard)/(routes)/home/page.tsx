@@ -28,7 +28,6 @@ export default function HomePage() {
 
   const handleSend = async (data: PromptFormData) => {
     const dataLo = await getData();
-    console.log(dataLo.accessToken);
     if (data.prompt.trim()) {
       const newPrompt = {
         id: Date.now().toString(),
@@ -40,7 +39,7 @@ export default function HomePage() {
       const response = await sendPrompt(newPrompt, dataLo.accessToken);
 
       if (response) {
-        console.log(response);
+        Logger.info(response);
         setConversation([
           ...conversation,
           { prompt: data.prompt, response: "Lorem Ipsum" },
