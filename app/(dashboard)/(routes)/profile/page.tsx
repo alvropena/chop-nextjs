@@ -12,6 +12,7 @@ import { DatePicker } from "../../_components/date-picker";
 import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group";
 import { toast } from "@/components/ui/use-toast";
 import { Logger } from "@/lib/logger";
+import { useUserStore } from "@/providers/user-store-provider";
 
 interface FormFieldProps {
   label: string;
@@ -36,8 +37,8 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
 
 export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
-
-
+  const { user: userStore } = useUserStore((state) => state);
+  console.log(userStore);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
