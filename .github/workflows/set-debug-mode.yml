@@ -1,4 +1,4 @@
-name: Set Debug Mode
+name: Set Debug Mode and Implement Logger
 
 on:
   push:
@@ -26,3 +26,10 @@ jobs:
 
       - name: Build the project
         run: npm run build
+
+      - name: Archive Logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: ./*.log
