@@ -35,14 +35,14 @@ export default function HomePage() {
 
       const response = await sendPrompt(newPrompt, dataLo.accessToken);
 
-      // if (response) {
-
-      // }
-      setConversation([
-        ...conversation,
-        { prompt: prompt, response: "Lorem Ipsum" },
-      ]);
-      setPrompt("");
+      if (response) {
+        console.log(response);
+        setConversation([
+          ...conversation,
+          { prompt: prompt, response: "Lorem Ipsum" },
+        ]);
+        setPrompt("");
+      }
     }
   };
 
@@ -65,6 +65,7 @@ export default function HomePage() {
       }
 
       const result = await response.json();
+      console.log(result);
       Logger.info("Response from server:", result);
       return result;
     } catch (error) {
