@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { UserStoreProvider } from "../providers/user-store-provider";
+import { ZustandProvider } from "@/providers/zustand-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +29,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <UserProvider>{children}</UserProvider>
+          <ZustandProvider>
+            <UserProvider>{children}</UserProvider>
+          </ZustandProvider>
           <Toaster />
         </ThemeProvider>
       </body>
