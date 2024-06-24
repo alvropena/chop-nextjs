@@ -13,6 +13,7 @@ import { useUserStore } from "@/providers/user-store-provider";
 import { type ProfileFormData, profileSchema } from "@/zod/validation-schema";
 import { DatePicker } from "../../_components/date-picker";
 import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group";
+import { Logger } from "@/lib/logger";
 
 interface FormFieldProps {
   label: string;
@@ -44,7 +45,7 @@ export default function ProfileClient() {
   if (error) return <div>{error.message}</div>;
 
   const onSubmit = (data: ProfileFormData) => {
-    console.log(data);
+    Logger.info(data);
     toast({
       title: "Profile updated",
       description: "Your changes have been saved.",
