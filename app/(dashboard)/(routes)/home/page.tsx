@@ -27,7 +27,7 @@ export default function HomePage() {
   });
 
   const handleSend = async (data: PromptFormData) => {
-    const dataLo = await getData();
+    const token = await getData();
     if (data.prompt.trim()) {
       const newPrompt = {
         id: Date.now().toString(),
@@ -36,7 +36,7 @@ export default function HomePage() {
         user_id: "user123",
       };
 
-      const response = await sendPrompt(newPrompt, dataLo.accessToken);
+      const response = await sendPrompt(newPrompt, token.accessToken);
 
       if (response) {
         Logger.info(response);
