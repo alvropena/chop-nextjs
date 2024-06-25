@@ -14,7 +14,9 @@ import { type ProfileFormData, profileSchema } from "@/zod/validation-schema";
 import { DatePicker } from "../../_components/date-picker";
 import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group";
 import { Logger } from "@/lib/logger";
-
+import { useEffect } from "react";
+import { getData } from "@/lib/utils";
+import axios from "axios";
 interface FormFieldProps {
   label: string;
   id: string;
@@ -30,7 +32,8 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
 
 export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
-  const { user: userStore } = useUserStore((state) => state);
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const methods = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
   });
@@ -39,10 +42,8 @@ export default function ProfileClient() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = methods;
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
 
   const onSubmit = (data: ProfileFormData) => {
     Logger.info(data);
@@ -51,6 +52,42 @@ export default function ProfileClient() {
       description: "Your changes have been saved.",
     });
   };
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const tokenData = await getData(); // Assuming getData returns an object with an accessToken.
+        const response = await axios.get(
+          `${baseUrl}/api/v1/user/profile-user/me?token=${tokenData.accessToken}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const profileData = response.data;
+        reset({
+          name: profileData.name ?? "",
+          bio: profileData.bio ?? "",
+          location: profileData.location ?? "",
+          birthday: profileData.birthday
+            ? new Date(profileData.birthday)
+            : undefined,
+          gender: profileData.gender ?? "",
+          phone: profileData.phone_number ?? "",
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (user) {
+      fetchProfile();
+    }
+  }, [user]);
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     user && (
