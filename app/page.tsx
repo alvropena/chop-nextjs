@@ -7,6 +7,7 @@ import Footer from "@/app/(dashboard)/_components/footer";
 import { checkAuthentication, logoutAndClearLocalStorage } from "@/lib/utils";
 import { getSession } from "@auth0/nextjs-auth0";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/navigation";
 const LogoutButton = () => {
   return (
     <Link href={"/api/auth/logout"}>
@@ -16,7 +17,17 @@ const LogoutButton = () => {
 };
 
 export default function AuthPage() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.push("/home");
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
