@@ -131,7 +131,7 @@ export default function HistoryPage() {
                   {new Date(search.created_at).toLocaleString()}
                 </td>
                 <td className="py-4 px-4 text-sm">
-                  <Link href={`/results/${search.id}`}>
+                  <Link href={`/history/${search.id}`}>
                     <Button>View Results</Button>
                   </Link>
                 </td>
