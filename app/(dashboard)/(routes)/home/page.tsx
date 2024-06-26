@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getData } from "@/lib/utils";
 import { Logger } from "@/lib/logger";
 import { PromptFormData, promptSchema } from "@/zod/validation-schema";
+import TypingEffect from "@/lib/typing-effect";
 
 export default function HomePage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -93,7 +94,7 @@ export default function HomePage() {
               <AvatarImage src="" alt="@chop" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
-            <p className="ml-2">Hey, what do you want to learn today?</p>
+            <TypingEffect text="Hey, what do you want to learn today?" />
           </div>
           {conversation.map((entry, index) => (
             <div key={index} className="w-full">
