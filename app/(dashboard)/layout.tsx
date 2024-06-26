@@ -13,6 +13,7 @@ import { NotificationsDropdownMenu } from "./_components/notifications-dropdown-
 import { Badge } from "@/components/ui/badge";
 import Navbar from "./_components/sidebar/navbar";
 import { MobileSidebar } from "./_components/sidebar/mobile-sidebar";
+import { GiveFeedbackDialog } from "./_components/give-feedback-dialog";
 
 
 
@@ -42,6 +43,7 @@ export default function DashboardLayout({
                                     Upgrade
                                 </Button> 
                                 */}
+                                <GiveFeedbackDialog />
                                 <NotificationsDropdownMenu />
                                 <ModeToggle />
                                 <AvatarDropdownMenu />
