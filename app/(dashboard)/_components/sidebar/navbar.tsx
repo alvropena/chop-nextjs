@@ -9,6 +9,7 @@ import { navLinks } from "@/data/nav-links";
 import { usePathname } from "next/navigation";
 import { NavLinkProps } from "@/types/navlink";
 import { GlassesIcon } from "lucide-react";
+import { InviteFriendsDialog } from "../invite-friends-dialog";
 
 const NavLink: React.FC<NavLinkProps> = ({ href, icon: Icon, children, isActive, ...props }) => {
     return (
@@ -53,9 +54,7 @@ const Navbar = () => {
                 </nav>
             </div>
             <div className="px-4 py-6">
-                <Button className="w-full">
-                    Invite people
-                </Button>
+                <InviteFriendsDialog />
             </div>
 
         </>
