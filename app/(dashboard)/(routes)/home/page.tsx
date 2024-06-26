@@ -41,9 +41,10 @@ export default function HomePage() {
 
       if (response) {
         Logger.info(response);
+        console.group(response);
         setConversation([
           ...conversation,
-          { prompt: data.prompt, response: "Lorem Ipsum" },
+          { prompt: data.prompt, response: JSON.stringify(response) },
         ]);
         reset();
       }
