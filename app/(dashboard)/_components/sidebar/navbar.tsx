@@ -1,10 +1,5 @@
-import { NavbarRoutes } from "@/components/navbar-routes";
-import { MobileSidebar } from "./mobile-sidebar";
-import { Logo } from "../logo";
 import Link from "next/link";
-import { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { navLinks } from "@/data/nav-links";
 import { usePathname } from "next/navigation";
 import { NavLinkProps } from "@/types/navlink";
@@ -22,8 +17,6 @@ const NavLink: React.FC<NavLinkProps> = ({ href, icon: Icon, children, isActive,
         </Link>
     );
 };
-
-
 
 const Navbar = () => {
     const pathname = usePathname();

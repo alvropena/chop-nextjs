@@ -1,29 +1,17 @@
 "use client";
 
-import { ReactNode } from "react";
-
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import Link from "next/link";
-import { Avatar } from "@/components/ui/avatar";
-import { usePathname } from "next/navigation";
 import { ModeToggle } from "@/components/mode-toggle";
 import { AvatarDropdownMenu } from "./_components/avatar-dropdown-menu";
 import { NotificationsDropdownMenu } from "./_components/notifications-dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import Navbar from "./_components/sidebar/navbar";
 import { MobileSidebar } from "./_components/sidebar/mobile-sidebar";
 import { GiveFeedbackDialog } from "./_components/give-feedback-dialog";
-
-
 
 export default function DashboardLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-
-
     return (
         <html>
             <body>
@@ -39,21 +27,16 @@ export default function DashboardLayout({
                                 <MobileSidebar />
                             </div>
                             <div className="flex flex-row gap-4 items-center">
-                                {/* <Button>
-                                    Upgrade
-                                </Button> 
-                                */}
+                                {/* <Button>Upgrade</Button> 
                                 <GiveFeedbackDialog />
-                                <NotificationsDropdownMenu />
+                                <NotificationsDropdownMenu /> */}
                                 <ModeToggle />
                                 <AvatarDropdownMenu />
                             </div>
                         </header>
                         {children}
                     </div>
-
                 </div>
-
             </body>
         </html>
     );

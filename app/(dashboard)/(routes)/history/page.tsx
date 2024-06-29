@@ -91,7 +91,7 @@ export default function HistoryPage() {
           </thead>
           <tbody>
             {promptsHistory &&
-              promptsHistory.map((search) => (
+              promptsHistory.reverse().map((search) => (
                 <tr
                   key={search.id}
                   className="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors"

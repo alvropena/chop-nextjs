@@ -1,22 +1,25 @@
 "use client";
 
+import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { useUserStore } from "@/providers/user-store-provider";
-import { type ProfileFormData, profileSchema } from "@/zod/validation-schema";
 import { DatePicker } from "../../_components/date-picker";
 import { GenderRadioGroup } from "@/app/(dashboard)/_components/gender-radio-group";
-import { Logger } from "@/lib/logger";
-import { useEffect } from "react";
-import { getData } from "@/lib/utils";
+
 import axios from "axios";
+import { type ProfileFormData, profileSchema } from "@/zod/validation-schema";
+import { Logger } from "@/lib/logger";
+import { getData } from "@/lib/utils";
+
+
 interface FormFieldProps {
   label: string;
   id: string;
@@ -56,7 +59,8 @@ export default function ProfileClient() {
   useEffect(() => {
     async function fetchProfile() {
       try {
-        const tokenData = await getData(); // Assuming getData returns an object with an accessToken.
+        // Assuming getData returns an object with an accessToken.
+        const tokenData = await getData();
         const response = await axios.get(
           `${baseUrl}/api/v1/user/profile-user/me?token=${tokenData.accessToken}`,
           {
@@ -95,7 +99,6 @@ export default function ProfileClient() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full p-4 space-y-4 md:space-y-4 md:p-6">
             <h1 className="text-2xl">Profile</h1>
-
             <div className="flex items-center">
               <Avatar className="w-20 h-20 items-center justify-center cursor-pointer">
                 <AvatarImage
@@ -124,7 +127,6 @@ export default function ProfileClient() {
               <Input
                 id="username"
                 placeholder={user.nickname ?? "No nickname"}
-                readOnly
               />
             </FormField>
             <FormField label="Bio" id="bio">

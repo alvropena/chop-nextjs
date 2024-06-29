@@ -1,5 +1,3 @@
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarPage from "./sidebar";
 import { Button } from "@/components/ui/button";
