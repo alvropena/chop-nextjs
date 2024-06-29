@@ -28,7 +28,7 @@ export default function HistoryPage() {
             },
           }
         );
-
+        console.log(tokenData.accessToken);
         const historyData = response.data;
         setpromptsHistory(historyData);
       } catch (error) {
