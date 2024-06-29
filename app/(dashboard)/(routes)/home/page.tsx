@@ -99,7 +99,7 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col h-full">
-      <header className="p-2 flex flex-row justify-end">
+      <header className="sticky top-0 p-2 flex flex-row justify-end">
         <Button className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2">
           <Plus size={"16"} />
           New Thread
@@ -137,7 +137,8 @@ export default function HomePage() {
       <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
         <form
           onSubmit={handleSubmit(handleSend)}
-          className="relative max-w-2xl max-auto w-full"
+          className="relative max-w-2xl mx-auto w-full"
+          autoFocus={false}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
@@ -149,14 +150,12 @@ export default function HomePage() {
             placeholder="Type here..."
             id="prompt"
             rows={1}
-            className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16 "
+            className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
             {...register("prompt")}
           />
-          {
-            errors.prompt && (
-              <p className="text-red-500 text-sm mt-1">{errors.prompt.message}</p>
-            )
-          }
+          {errors.prompt && (
+            <p className="text-red-500 text-sm mt-1">{errors.prompt.message}</p>
+          )}
           <Button
             type="submit"
             size="icon"
@@ -167,7 +166,7 @@ export default function HomePage() {
             <span className="sr-only">Send</span>
           </Button>
         </form>
-      </div >
+      </div>
     </div >
   );
 }
