@@ -11,19 +11,16 @@ const TypingEffect: React.FC<TypingEffectProps> = ({ text }) => {
   const [index, setIndex] = useState<number>(0);
 
   useEffect(() => {
-    // This check prevents the effect from running if the text is empty.
     if (text && index < text.length) {
       const timer = setTimeout(() => {
         setDisplayedText(prev => prev + text.charAt(index));
         setIndex(prev => prev + 1);
-      }, 50); // Typing speed can be adjusted here.
-
-      // Clean up function to clear the timer.
+      }, 50);
       return () => clearTimeout(timer);
     }
-  }, [index, text]); // Dependencies ensure the effect only reruns when index or text changes.
+  }, [index, text]);
 
-  return <p>{displayedText}</p>;
+  return <p className='m-2'>{displayedText}</p>;
 };
 
 export default TypingEffect;
