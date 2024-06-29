@@ -138,7 +138,7 @@ export default function HomePage() {
         <form
           onSubmit={handleSubmit(handleSend)}
           className="relative max-w-2xl mx-auto w-full"
-          autoComplete="off"
+          autoFocus={false}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
