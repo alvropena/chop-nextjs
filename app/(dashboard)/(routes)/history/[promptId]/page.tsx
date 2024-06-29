@@ -112,7 +112,7 @@ export default function HistoryPage() {
                   {entry.question.options
                     .filter((item) => item.is_selected)
                     .map((a) => (
-                      <p>{a.option_text}</p>
+                      <p key={a.id}>{a.option_text}</p>
                     ))}
                 </p>
                 <Avatar>
@@ -131,9 +131,9 @@ export default function HistoryPage() {
                     .filter((itemFiltered) => itemFiltered.is_selected)
                     .map((itemMapped) =>
                       itemMapped.is_correct_answer ? (
-                        <p>It's correct!</p>
+                        <p key={itemMapped.id}>Its correct!</p>
                       ) : (
-                        <p>This is incorrect</p>
+                        <p key={itemMapped.id}>This is incorrect</p>
                       )
                     )}
                 </p>
@@ -143,7 +143,7 @@ export default function HistoryPage() {
                   <AvatarImage src="" alt="@shadcn" />
                   <AvatarFallback>CH</AvatarFallback>
                 </Avatar>
-                <p className="ml-2">Let's try another question</p>
+                <p className="ml-2">Lets try another question</p>
               </div>
             </div>
           ))}
