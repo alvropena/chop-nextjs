@@ -1,24 +1,16 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Footer from "@/app/(dashboard)/_components/footer";
-import { checkAuthentication, logoutAndClearLocalStorage } from "@/lib/utils";
-import { getSession } from "@auth0/nextjs-auth0";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/navigation";
-const LogoutButton = () => {
-  return (
-    <Link href={"/api/auth/logout"}>
-      <Button>Sign Out</Button>
-    </Link>
-  );
-};
 
 export default function AuthPage() {
   const { user, isLoading } = useUser();
   const router = useRouter();
+
   useEffect(() => {
     if (!isLoading && user) {
       router.push("/home");
@@ -40,13 +32,9 @@ export default function AuthPage() {
           <span className="">Chop</span>
         </Link>
         <div className="ml-auto flex items-center gap-4">
-          {!user ? (
-            <Link href={"/api/auth/login"}>
-              <Button>Sign In</Button>
-            </Link>
-          ) : (
-            <LogoutButton />
-          )}
+          <Link href={"/api/auth/login"}>
+            <Button>Sign In</Button>
+          </Link>
         </div>
       </header>
       <main className="flex-1 flex flex-col justify-center items-center text-center py-12 md:py-24 lg:py-32 border-b">

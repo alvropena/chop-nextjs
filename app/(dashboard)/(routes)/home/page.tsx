@@ -11,9 +11,11 @@ import { getData } from "@/lib/utils";
 import { Logger } from "@/lib/logger";
 import { PromptFormData, promptSchema } from "@/zod/validation-schema";
 import TypingEffect from "@/lib/typing-effect";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function HomePage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const { user } = useUser();
   const [conversation, setConversation] = useState<
     { prompt: string; response: string }[]
   >([]);
@@ -28,7 +30,6 @@ export default function HomePage() {
   });
 
   const handleSend = async (data: PromptFormData) => {
-    const token = await getData();
     if (data.prompt.trim()) {
       const newPrompt = {
         id: Date.now().toString(),
@@ -37,16 +38,34 @@ export default function HomePage() {
         user_id: "user123",
       };
 
+      // Immediately show the user's prompt
+      setConversation((prev) => [
+        ...prev,
+        { prompt: data.prompt, response: "Loading..." },
+      ]);
+
+      reset();
+
+      const token = await getData();
       const response = await sendPrompt(newPrompt, token.accessToken);
 
       if (response) {
         Logger.info(response);
-        console.group(response);
-        setConversation([
-          ...conversation,
-          { prompt: data.prompt, response: JSON.stringify(response) },
-        ]);
-        reset();
+        setConversation((prev) =>
+          prev.map((entry, index) =>
+            index === prev.length - 1
+              ? { prompt: entry.prompt, response: JSON.stringify(response) }
+              : entry
+          )
+        );
+      } else {
+        setConversation((prev) =>
+          prev.map((entry, index) =>
+            index === prev.length - 1
+              ? { prompt: entry.prompt, response: "Error: Failed to load response." }
+              : entry
+          )
+        );
       }
     }
   };
@@ -58,7 +77,6 @@ export default function HomePage() {
     try {
       const url = `${baseUrl}/api/v1/flow?token=${sessionToken}`;
 
-      Logger.info(sessionToken);
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -72,23 +90,22 @@ export default function HomePage() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const result = await response.json();
-      Logger.info("Response from server:", result);
-      return result;
+      return await response.json();
     } catch (error) {
       Logger.error("Failed to send prompt:", error);
+      return null;
     }
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="sticky top-0 p-2 flex flex-row justify-end">
+    <div className="flex flex-col h-full">
+      <header className="sticky top-0 p-2 flex flex-row justify-end">
         <Button className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2">
           <Plus size={"16"} />
           New Thread
         </Button>
-      </div>
-      <div className="flex-1 overflow-auto px-4">
+      </header>
+      <main className="flex-1 overflow-auto px-4">
         <div className="max-w-2xl mx-auto flex flex-col items-start gap-8">
           <div className="flex flex-row justify-end p-2 items-center">
             <Avatar>
@@ -102,25 +119,32 @@ export default function HomePage() {
               <div className="flex flex-row justify-end p-2 items-center">
                 <p className="mr-2">{entry.prompt}</p>
                 <Avatar>
-                  <AvatarImage src="" alt="@alvaro" />
-                  <AvatarFallback>AL</AvatarFallback>
+                  <AvatarImage src="" alt="" />
+                  <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
                 </Avatar>
               </div>
               <div className="flex flex-row p-2 items-center">
                 <Avatar>
-                  <AvatarImage src="" alt="@shadcn" />
+                  <AvatarImage src="" alt="@chop" />
                   <AvatarFallback>CH</AvatarFallback>
                 </Avatar>
-                <p className="ml-2">{entry.response}</p>
+                <TypingEffect text={entry.response} />
               </div>
             </div>
           ))}
         </div>
-      </div>
-      <div className="sticky bottom-0 w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
+      </main>
+      <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
         <form
           onSubmit={handleSubmit(handleSend)}
           className="relative max-w-2xl mx-auto w-full"
+          autoFocus={false}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit(handleSend)();
+            }
+          }}
         >
           <Textarea
             placeholder="Type here..."
@@ -143,6 +167,6 @@ export default function HomePage() {
           </Button>
         </form>
       </div>
-    </div>
+    </div >
   );
 }

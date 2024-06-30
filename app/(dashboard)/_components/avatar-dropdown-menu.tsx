@@ -34,23 +34,24 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export function AvatarDropdownMenu() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-
+    const { user, isLoading } = useUser();
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar className="items-center justify-center cursor-pointer border">
                     <AvatarImage src="" alt="" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>{user?.name?.substring(0, 1)}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
+                {/*     <DropdownMenuGroup>
                     <DropdownMenuItem>
                         <LifeBuoy className="mr-2 h-4 w-4" />
                         <span>Support</span>
@@ -62,10 +63,11 @@ export function AvatarDropdownMenu() {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
+                */}
                 <DropdownMenuItem>
                     <LogOut className="mr-2 h-4 w-4" />
                     <a href="/api/auth/logout">Log out</a>
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                    {/*<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>*/}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
