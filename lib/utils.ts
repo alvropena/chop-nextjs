@@ -70,3 +70,65 @@ export async function getData() {
   }
   return res.json();
 }
+
+
+// utils/api.js
+
+export const createThread = async (sessionToken: string, promptData:{ text: string }) => {
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/threads/create?token=${sessionToken}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(promptData),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+};
+
+export const sendPromptToThread = async (promptData:{ text: string }, sessionToken: string, threadId: number) => {
+  const url = `${baseUrl}/api/v1/threads/${threadId}/prompts?token=${sessionToken}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(promptData),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+};
+
+
+export const updateOption = async (
+  optionId: number,
+  sessionToken: string,
+  isSelected: boolean
+) => {
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/options/option/${optionId}/is-selected?token=${sessionToken}`;
+  const response = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ is_selected: isSelected }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+};
