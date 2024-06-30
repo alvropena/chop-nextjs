@@ -24,7 +24,7 @@ export default function HomePage() {
   const [conversation, setConversation] = useState<
     { prompt: string; response: string }[]
   >([]);
-  const [disabledOptions, setDisabledOptions] = useState<number[]>([]);
+  const [optionsDisabled, setOptionsDisabled] = useState(false);
   const {
     threads,
     currentPrompt,
@@ -95,7 +95,7 @@ export default function HomePage() {
       Logger.info(response);
 
       // Disable all options once one is selected
-      setDisabledOptions((prev) => [...prev, optionId]);
+      setOptionsDisabled(true);
 
       // Update Zustand state with the updated option
       const updatedThread = threads.find((thread) =>
@@ -155,24 +155,17 @@ export default function HomePage() {
             </Avatar>
             <TypingEffect text="Hey, what do you want to learn today?" />
           </div>
-          {conversation.map((entry, index) => (
-            <div key={index} className="w-full">
+          {currentPrompt && (
+            <div key={currentPrompt?.id} className="w-full">
               <div className="flex flex-row justify-end p-2 items-center">
-                <p className="mr-2">{entry.prompt}</p>
+                <p className="mr-2">{currentPrompt?.text}</p>
                 <Avatar>
                   <AvatarImage src="" alt="" />
                   <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
                 </Avatar>
               </div>
-              <div className="flex flex-row p-2 items-center">
-                <Avatar>
-                  <AvatarImage src="" alt="@chop" />
-                  <AvatarFallback>CH</AvatarFallback>
-                </Avatar>
-                <TypingEffect text={entry.response} />
-              </div>
             </div>
-          ))}
+          )}
           {threads.map((entry, index) => (
             <div key={index} className="w-full">
               <div className="flex flex-row p-2 items-center">
@@ -197,7 +190,7 @@ export default function HomePage() {
                       handleOptionClick(option.id, !option.is_selected)
                     }
                     className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                    disabled={disabledOptions.includes(option.id)}
+                    disabled={optionsDisabled}
                   >
                     {option.option_text}
                   </Button>

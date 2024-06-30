@@ -111,7 +111,11 @@ export const sendPromptToThread = async (promptData:{ text: string }, sessionTok
 };
 
 
-export const updateOption = async (optionId: number, sessionToken: string, isSelected: boolean) => {
+export const updateOption = async (
+  optionId: number,
+  sessionToken: string,
+  isSelected: boolean
+) => {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/options/option/${optionId}/is-selected?token=${sessionToken}`;
   const response = await fetch(url, {
     method: "PATCH",
