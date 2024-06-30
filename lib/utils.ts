@@ -92,15 +92,18 @@ export const createThread = async (sessionToken: string, promptData:{ text: stri
   return await response.json();
 };
 
-export const sendPromptToThread = async (promptData:{ text: string }, sessionToken: string, threadId: number) => {
-  const url = `${baseUrl}/api/v1/threads/${threadId}/prompts?token=${sessionToken}`;
+export const sendPromptToThread = async (
+  sessionToken: string,
+  prompt_id: number
+) => {
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/threads/continue?prompt_id=${prompt_id}&token=${sessionToken}`;
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(promptData),
   });
 
   if (!response.ok) {

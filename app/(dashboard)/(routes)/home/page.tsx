@@ -25,6 +25,7 @@ export default function HomePage() {
     { prompt: string; response: string }[]
   >([]);
   const [optionsDisabled, setOptionsDisabled] = useState(false);
+  const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
     threads,
     currentPrompt,
@@ -69,9 +70,8 @@ export default function HomePage() {
       } else {
         try {
           const response = await sendPromptToThread(
-            newPrompt,
             token.accessToken,
-            currentThreadId
+            currentPrompt?.id ?? 0
           );
           setThread(response.thread);
           Logger.info(response);
@@ -109,6 +109,7 @@ export default function HomePage() {
               : option
         );
         setThread(updatedThread);
+        setShowNewQuestionButton(true);
       }
     } catch (error) {
       Logger.error("Failed to update option:", error);
@@ -133,6 +134,22 @@ export default function HomePage() {
           : entry
       )
     );
+  };
+
+  const handleNewQuestion = async () => {
+    const token = await getData();
+    console.log(currentPrompt);
+    try {
+      const response = await sendPromptToThread(
+        token.accessToken,
+        currentPrompt?.id ?? 0
+      );
+      addThread(response.thread);
+      setShowNewQuestionButton(false); // Hide the button after generating a new question
+    } catch (error) {
+      Logger.error("Failed to create new question:", error);
+      updateConversationWithError("Error: Failed to create new question.");
+    }
   };
 
   return (
@@ -190,7 +207,10 @@ export default function HomePage() {
                       handleOptionClick(option.id, !option.is_selected)
                     }
                     className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                    disabled={optionsDisabled}
+                    disabled={
+                      entry.question.options.filter((item) => item.is_selected)
+                        .length > 0
+                    }
                   >
                     {option.option_text}
                   </Button>
@@ -198,57 +218,88 @@ export default function HomePage() {
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
-                <div className="flex flex-row justify-end p-2 items-center">
-                  <div className="mr-2">
-                    {entry.question.options
-                      .filter((item) => item.is_selected)
-                      .map((a) => (
-                        <p key={a.id}>{a.option_text}</p>
-                      ))}
+                <>
+                  <div className="flex flex-row justify-end p-2 items-center">
+                    <div className="mr-2">
+                      {entry.question.options
+                        .filter((item) => item.is_selected)
+                        .map((a) => (
+                          <p key={a.id}>{a.option_text}</p>
+                        ))}
+                    </div>
+                    <Avatar>
+                      <AvatarImage src="" alt="@alvaro" />
+                      <AvatarFallback>AL</AvatarFallback>
+                    </Avatar>
                   </div>
-                  <Avatar>
-                    <AvatarImage src="" alt="@alvaro" />
-                    <AvatarFallback>AL</AvatarFallback>
-                  </Avatar>
-                </div>
+                  <div className="flex flex-row p-2 items-center">
+                    <Avatar>
+                      <AvatarImage src="" alt="@shadcn" />
+                      <AvatarFallback>CH</AvatarFallback>
+                    </Avatar>
+                    <p className="ml-2">
+                      {entry.question.options
+                        .filter((itemFiltered) => itemFiltered.is_selected)
+                        .map((itemMapped) =>
+                          itemMapped.is_correct_answer ? (
+                            <p key={itemMapped.id}>Its correct!</p>
+                          ) : (
+                            <p key={itemMapped.id}>This is incorrect</p>
+                          )
+                        )}
+                    </p>
+                  </div>
+                </>
               )}
             </div>
           ))}
+          {showNewQuestionButton && (
+            <Button
+              onClick={handleNewQuestion}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              New Question
+            </Button>
+          )}
         </div>
       </main>
-      <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
-        <form
-          onSubmit={handleSubmit(handleSend)}
-          className="relative max-w-2xl mx-auto w-full"
-          autoFocus={false}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSubmit(handleSend)();
-            }
-          }}
-        >
-          <Textarea
-            placeholder="Type here..."
-            id="prompt"
-            rows={1}
-            className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
-            {...register("prompt")}
-          />
-          {errors.prompt && (
-            <p className="text-red-500 text-sm mt-1">{errors.prompt.message}</p>
-          )}
-          <Button
-            type="submit"
-            size="icon"
-            className="absolute top-3 right-3 w-8 h-8"
-            disabled={!isValid}
+      {!currentPrompt && (
+        <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
+          <form
+            onSubmit={handleSubmit(handleSend)}
+            className="relative max-w-2xl mx-auto w-full"
+            autoFocus={false}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(handleSend)();
+              }
+            }}
           >
-            <ArrowUpIcon className="w-4 h-4" />
-            <span className="sr-only">Send</span>
-          </Button>
-        </form>
-      </div>
+            <Textarea
+              placeholder="Type here..."
+              id="prompt"
+              rows={1}
+              className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
+              {...register("prompt")}
+            />
+            {errors.prompt && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.prompt.message}
+              </p>
+            )}
+            <Button
+              type="submit"
+              size="icon"
+              className="absolute top-3 right-3 w-8 h-8"
+              disabled={!isValid}
+            >
+              <ArrowUpIcon className="w-4 h-4" />
+              <span className="sr-only">Send</span>
+            </Button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
