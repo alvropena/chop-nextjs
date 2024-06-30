@@ -7,18 +7,32 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowUpIcon, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { getData } from "@/lib/utils";
+import {
+  createThread,
+  getData,
+  sendPromptToThread,
+  updateOption,
+} from "@/lib/utils";
 import { Logger } from "@/lib/logger";
 import { PromptFormData, promptSchema } from "@/zod/validation-schema";
 import TypingEffect from "@/lib/typing-effect";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useThreadStore } from "@/providers/thread-store-provider";
 
 export default function HomePage() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const { user } = useUser();
   const [conversation, setConversation] = useState<
     { prompt: string; response: string }[]
   >([]);
+  const [disabledOptions, setDisabledOptions] = useState<number[]>([]);
+  const {
+    threads,
+    currentPrompt,
+    addThread,
+    setThread,
+    clearThreads,
+    setCurrentPrompt,
+  } = useThreadStore((state) => state);
 
   const {
     register,
@@ -32,75 +46,102 @@ export default function HomePage() {
   const handleSend = async (data: PromptFormData) => {
     if (data.prompt.trim()) {
       const newPrompt = {
-        id: Date.now().toString(),
-        created_at: new Date().toISOString(),
         text: data.prompt,
-        user_id: "user123",
+        user_id: user?.sub || "unknown",
       };
-
-      // Immediately show the user's prompt
-      setConversation((prev) => [
-        ...prev,
-        { prompt: data.prompt, response: "Loading..." },
-      ]);
 
       reset();
 
       const token = await getData();
-      const response = await sendPrompt(newPrompt, token.accessToken);
+      let currentThreadId = threads.length ? threads[0].id : null;
 
-      if (response) {
-        Logger.info(response);
-        setConversation((prev) =>
-          prev.map((entry, index) =>
-            index === prev.length - 1
-              ? { prompt: entry.prompt, response: JSON.stringify(response) }
-              : entry
-          )
-        );
+      if (!currentThreadId) {
+        try {
+          const response = await createThread(token.accessToken, newPrompt);
+          currentThreadId = response.thread.id;
+          addThread(response.thread);
+          setCurrentPrompt(response.prompt);
+        } catch (error) {
+          Logger.error("Failed to create new thread:", error);
+          updateConversationWithError("Error: Failed to create new thread.");
+          return;
+        }
       } else {
-        setConversation((prev) =>
-          prev.map((entry, index) =>
-            index === prev.length - 1
-              ? { prompt: entry.prompt, response: "Error: Failed to load response." }
-              : entry
-          )
-        );
+        try {
+          const response = await sendPromptToThread(
+            newPrompt,
+            token.accessToken,
+            currentThreadId
+          );
+          setThread(response.thread);
+          Logger.info(response);
+          updateConversationWithResponse(response);
+        } catch (error) {
+          Logger.error("Failed to send prompt:", error);
+          updateConversationWithError("Error: Failed to load response.");
+        }
       }
     }
   };
 
-  const sendPrompt = async (
-    promptData: { text: string },
-    sessionToken: string
-  ) => {
+  const handleOptionClick = async (optionId: number, isSelected: boolean) => {
+    const token = await getData();
     try {
-      const url = `${baseUrl}/api/v1/flow?token=${sessionToken}`;
+      const response = await updateOption(
+        optionId,
+        token.accessToken,
+        isSelected
+      );
+      Logger.info(response);
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: promptData.text }),
-      });
+      // Disable all options once one is selected
+      setDisabledOptions((prev) => [...prev, optionId]);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Update Zustand state with the updated option
+      const updatedThread = threads.find((thread) =>
+        thread.question.options.some((option) => option.id === optionId)
+      );
+      if (updatedThread) {
+        updatedThread.question.options = updatedThread.question.options.map(
+          (option) =>
+            option.id === optionId
+              ? { ...option, is_selected: isSelected }
+              : option
+        );
+        setThread(updatedThread);
       }
-
-      return await response.json();
     } catch (error) {
-      Logger.error("Failed to send prompt:", error);
-      return null;
+      Logger.error("Failed to update option:", error);
     }
+  };
+
+  const updateConversationWithResponse = (response: any) => {
+    setConversation((prev) =>
+      prev.map((entry, index) =>
+        index === prev.length - 1
+          ? { prompt: entry.prompt, response: JSON.stringify(response) }
+          : entry
+      )
+    );
+  };
+
+  const updateConversationWithError = (errorMessage: any) => {
+    setConversation((prev) =>
+      prev.map((entry, index) =>
+        index === prev.length - 1
+          ? { prompt: entry.prompt, response: errorMessage }
+          : entry
+      )
+    );
   };
 
   return (
     <div className="flex flex-col h-full">
       <header className="sticky top-0 p-2 flex flex-row justify-end">
-        <Button className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2">
+        <Button
+          onClick={clearThreads}
+          className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
+        >
           <Plus size={"16"} />
           New Thread
         </Button>
@@ -130,6 +171,54 @@ export default function HomePage() {
                 </Avatar>
                 <TypingEffect text={entry.response} />
               </div>
+            </div>
+          ))}
+          {threads.map((entry, index) => (
+            <div key={index} className="w-full">
+              <div className="flex flex-row p-2 items-center">
+                <Avatar>
+                  <AvatarImage src="" alt="@shadcn" />
+                  <AvatarFallback>CH</AvatarFallback>
+                </Avatar>
+                <p className="ml-2">{entry.question.question_text}</p>
+              </div>
+              <div className="flex flex-row p-2 items-center">
+                <Avatar>
+                  <AvatarImage src="" alt="@shadcn" />
+                  <AvatarFallback>CH</AvatarFallback>
+                </Avatar>
+                <p className="ml-2">These are the options for the answer:</p>
+              </div>
+              <div className="flex flex-col p-2 items-center">
+                {entry.question.options.map((option, index) => (
+                  <Button
+                    key={index}
+                    onClick={() =>
+                      handleOptionClick(option.id, !option.is_selected)
+                    }
+                    className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
+                    disabled={disabledOptions.includes(option.id)}
+                  >
+                    {option.option_text}
+                  </Button>
+                ))}
+              </div>
+              {entry.question.options.filter((item) => item.is_selected)
+                .length > 0 && (
+                <div className="flex flex-row justify-end p-2 items-center">
+                  <div className="mr-2">
+                    {entry.question.options
+                      .filter((item) => item.is_selected)
+                      .map((a) => (
+                        <p key={a.id}>{a.option_text}</p>
+                      ))}
+                  </div>
+                  <Avatar>
+                    <AvatarImage src="" alt="@alvaro" />
+                    <AvatarFallback>AL</AvatarFallback>
+                  </Avatar>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -167,6 +256,6 @@ export default function HomePage() {
           </Button>
         </form>
       </div>
-    </div >
+    </div>
   );
 }
