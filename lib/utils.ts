@@ -118,7 +118,7 @@ export const updateOption = async (
 ) => {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/options/option/${optionId}/is-selected?token=${sessionToken}`;
   const response = await fetch(url, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
