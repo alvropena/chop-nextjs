@@ -1,5 +1,5 @@
 export interface Prompt {
-  id: string;
+  id: number;
   created_at: string;
   text: string;
   user_id: string;
