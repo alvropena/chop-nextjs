@@ -9,6 +9,7 @@ export type ThreadState = {
 export type ThreadActions = {
   addThread: (newThread: Prompts) => void;
   setThread: (updatedThread: Prompts) => void;
+  setThreads: (newThreads: Prompts[]) => void;
   clearThreads: () => void;
   setCurrentPrompt: (newPrompt: Prompt) => void;
   clearCurrentPrompt: () => void;
@@ -37,6 +38,7 @@ export const createThreadStore = (
           thread.id === updatedThread.id ? updatedThread : thread
         ),
       })),
+    setThreads: (newThreads) => set({ threads: newThreads }),
     clearThreads: () => set({ threads: [] }),
     setCurrentPrompt: (newPrompt) => set({ currentPrompt: newPrompt }),
     clearCurrentPrompt: () => set({ currentPrompt: undefined }),
