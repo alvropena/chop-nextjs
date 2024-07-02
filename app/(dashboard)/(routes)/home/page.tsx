@@ -163,10 +163,7 @@ export default function HomePage() {
     <div className="flex flex-col h-full">
       <header className="sticky top-0 p-2 flex flex-row justify-end">
         <Button
-          onClick={() => {
-            resetStore();
-            setShowNewQuestionButton(false);
-          }}
+          onClick={clearThreads}
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
           <Plus size={"16"} />
