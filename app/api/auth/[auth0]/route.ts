@@ -1,10 +1,12 @@
 import { handleAuth, handleLogin, handleCallback } from "@auth0/nextjs-auth0";
 import axios from "axios";
 const afterCallback = async (req: any, session: any, state: any) => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   try {
     // Enviar una solicitud POST al endpoint especificado con el contenido de session.user
     const response = await axios.post(
-      `http://localhost:8000/Prod/api/v1/user/?secret_key=${process.env.AUTH0_SECRET}`,
+      `${baseUrl}/api/v1/user/?secret_key=${process.env.AUTH0_SECRET}`,
       session.user,
       {
         headers: {
