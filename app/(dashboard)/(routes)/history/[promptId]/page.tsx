@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
@@ -50,7 +50,7 @@ export default function HistoryPage() {
   } = useForm<PromptFormData>({
     resolver: zodResolver(promptSchema),
   });
-
+  const router = useRouter();
   useEffect(() => {
     async function fetchProfile() {
       try {
@@ -133,7 +133,9 @@ export default function HistoryPage() {
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 p-2 flex flex-row justify-end">
         <Button
-          onClick={clearThreads}
+          onClick={() => {
+            router.push("/home");
+          }}
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
           <Plus size={"16"} />
