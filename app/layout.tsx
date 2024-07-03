@@ -7,7 +7,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { UserStoreProvider } from "../providers/user-store-provider";
 import { ZustandProvider } from "@/providers/zustand-provider";
-
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -30,7 +31,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ZustandProvider>
-            <UserProvider>{children}</UserProvider>
+            <UserProvider>
+              {children}
+              <Analytics mode={"production"} />
+              <SpeedInsights />
+            </UserProvider>
           </ZustandProvider>
           <Toaster />
         </ThemeProvider>
