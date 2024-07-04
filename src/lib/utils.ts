@@ -92,8 +92,13 @@ export async function getToken() {
 
 // utils/api.js
 
-export const createThread = async (sessionToken: string, promptData:{ text: string }) => {
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/threads/create?token=${sessionToken}`;
+export const createThread = async (
+  sessionToken: string,
+  promptData: { text: string },
+  user_input_generation: string,
+  lang: string
+) => {
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/threads/create?prompt_settings=${user_input_generation}&lang=${lang}&token=${sessionToken}`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -112,9 +117,11 @@ export const createThread = async (sessionToken: string, promptData:{ text: stri
 
 export const sendPromptToThread = async (
   sessionToken: string,
-  prompt_id: number
+  prompt_id: number,
+  user_input_generation: string,
+  lang: string
 ) => {
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/threads/continue?prompt_id=${prompt_id}&token=${sessionToken}`;
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/threads/continue?prompt_id=${prompt_id}&prompt_settings=${user_input_generation}&lang=${lang}&token=${sessionToken}`;
 
   const response = await fetch(url, {
     method: "POST",

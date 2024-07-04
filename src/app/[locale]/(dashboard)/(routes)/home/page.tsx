@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, Plus } from "lucide-react";
+import { ArrowUpIcon, Currency, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { usePathname, useSelectedLayoutSegments } from "next/navigation";
+
 import {
   createThread,
   getData,
@@ -18,12 +20,17 @@ import { PromptFormData, promptSchema } from "@/zod/validation-schema";
 import TypingEffect from "@/lib/typing-effect";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useThreadStore } from "@/providers/thread-store-provider";
+import { useSchemaStore } from "@/providers/schema-store-provider";
+import { useTranslations } from "next-intl";
 
 export default function HomePage() {
+  const pathname = usePathname();
+  const lang = pathname.split("/").slice(1)[0];
   const { user } = useUser();
   const [conversation, setConversation] = useState<
     { prompt: string; response: string }[]
   >([]);
+  const t = useTranslations("");
   const [optionsDisabled, setOptionsDisabled] = useState(false);
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
@@ -36,6 +43,7 @@ export default function HomePage() {
     resetStore,
   } = useThreadStore((state) => state);
 
+  const { user_input_generation } = useSchemaStore((state) => state);
 
   useEffect(() => {
     return () => {
@@ -43,6 +51,7 @@ export default function HomePage() {
     };
   }, [user]);
   const {
+    setValue,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -50,6 +59,17 @@ export default function HomePage() {
   } = useForm<PromptFormData>({
     resolver: zodResolver(promptSchema),
   });
+
+  useEffect(() => {
+    setValue("prompt", user_input_generation);
+
+    if (!currentPrompt) {
+      reset();
+    }
+    return () => {
+      reset();
+    };
+  }, [currentPrompt]);
 
   const handleSend = async (data: PromptFormData) => {
     if (data.prompt.trim()) {
@@ -65,7 +85,12 @@ export default function HomePage() {
 
       if (!currentThreadId) {
         try {
-          const response = await createThread(token.accessToken, newPrompt);
+          const response = await createThread(
+            token.accessToken,
+            newPrompt,
+            user_input_generation,
+            lang
+          );
           currentThreadId = response.thread.id;
           addThread(response.thread);
           setCurrentPrompt(response.prompt);
@@ -78,7 +103,9 @@ export default function HomePage() {
         try {
           const response = await sendPromptToThread(
             token.accessToken,
-            currentPrompt?.id ?? 0
+            currentPrompt?.id ?? 0,
+            user_input_generation,
+            lang
           );
           setThread(response.thread);
           Logger.info(response);
@@ -149,7 +176,9 @@ export default function HomePage() {
     try {
       const response = await sendPromptToThread(
         token.accessToken,
-        currentPrompt?.id ?? 0
+        currentPrompt?.id ?? 0,
+        user_input_generation,
+        lang
       );
       addThread(response.thread);
       setShowNewQuestionButton(false); // Hide the button after generating a new question
@@ -180,7 +209,7 @@ export default function HomePage() {
               <AvatarImage src="" alt="@chop" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
-            <TypingEffect text="Hey, what do you want to learn today?" />
+            <TypingEffect text={t("Hey_what_do_you_want_to_learn_today?")} />
           </div>
           {currentPrompt && (
             <div key={currentPrompt?.id} className="w-full">
@@ -273,43 +302,40 @@ export default function HomePage() {
           )}
         </div>
       </main>
-      {!currentPrompt && (
-        <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
-          <form
-            onSubmit={handleSubmit(handleSend)}
-            className="relative max-w-2xl mx-auto w-full"
-            autoFocus={false}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit(handleSend)();
-              }
-            }}
+      <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
+        <form
+          onSubmit={handleSubmit(handleSend)}
+          className="relative max-w-2xl mx-auto w-full"
+          autoFocus={false}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit(handleSend)();
+            }
+          }}
+        >
+          <Textarea
+            placeholder="Type here..."
+            id="prompt"
+            rows={1}
+            className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
+            disabled={!!currentPrompt}
+            {...register("prompt")}
+          />
+          {errors.prompt && (
+            <p className="text-red-500 text-sm mt-1">{errors.prompt.message}</p>
+          )}
+          <Button
+            type="submit"
+            size="icon"
+            className="absolute top-3 right-3 w-8 h-8"
+            disabled={!isValid}
           >
-            <Textarea
-              placeholder="Type here..."
-              id="prompt"
-              rows={1}
-              className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
-              {...register("prompt")}
-            />
-            {errors.prompt && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.prompt.message}
-              </p>
-            )}
-            <Button
-              type="submit"
-              size="icon"
-              className="absolute top-3 right-3 w-8 h-8"
-              disabled={!isValid}
-            >
-              <ArrowUpIcon className="w-4 h-4" />
-              <span className="sr-only">Send</span>
-            </Button>
-          </form>
-        </div>
-      )}
+            <ArrowUpIcon className="w-4 h-4" />
+            <span className="sr-only">Send</span>
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

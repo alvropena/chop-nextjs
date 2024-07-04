@@ -21,11 +21,14 @@ import { PromptFormData, promptSchema } from "@/zod/validation-schema";
 import TypingEffect from "@/lib/typing-effect";
 import { Thread } from "@/types/prompt";
 import { useThreadStore } from "@/providers/thread-store-provider";
+import { useTranslations } from "next-intl";
+import { useSchemaStore } from "@/providers/schema-store-provider";
 
 export default function HistoryPage() {
   const { user } = useUser();
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const pathname = usePathname();
+  const lang = pathname.split("/").slice(1)[0];
   const array = pathname.split("/").splice(2);
   const promptId = array[0];
   const router = useRouter();
@@ -41,6 +44,8 @@ export default function HistoryPage() {
     setThreads,
     resetStore,
   } = useThreadStore((state) => state);
+  const t = useTranslations("");
+  const { user_input_generation } = useSchemaStore((state) => state);
 
   const {
     register,
@@ -120,7 +125,10 @@ export default function HistoryPage() {
     try {
       const response = await sendPromptToThread(
         token.accessToken,
-        currentPrompt?.id ?? 0
+        currentPrompt?.id ?? 0,
+        user_input_generation,
+
+        lang
       );
       addThread(response.thread);
       setShowNewQuestionButton(false); // Hide the button after generating a new question
@@ -150,7 +158,7 @@ export default function HistoryPage() {
               <AvatarImage src="" alt="@chop" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
-            <TypingEffect text="Hey, what do you want to learn today?" />
+            <TypingEffect text={t("Hey_what_do_you_want_to_learn_today?")} />
           </div>
           {currentPrompt && (
             <div key={currentPrompt?.id} className="w-full">
