@@ -329,7 +329,7 @@ export default function HomePage() {
             type="submit"
             size="icon"
             className="absolute top-3 right-3 w-8 h-8"
-            disabled={!isValid}
+            disabled={!isValid || !!currentPrompt}
           >
             <ArrowUpIcon className="w-4 h-4" />
             <span className="sr-only">Send</span>
