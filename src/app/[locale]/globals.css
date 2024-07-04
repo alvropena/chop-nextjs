@@ -211,6 +211,19 @@
 
       --primary: #333366;
       --secondary: #097fa5;
+
+      --background: #ededed;
+      --background-secondary: #c8dde3;
+      --button: #097fa5;
+      --button-text: #fff;
+      --text-secondary: #3c3c3c;
+      --dropdown: #e0f4ff;
+      --dropdown-hover: #b3e5ff;
+      --button-secondary: #e7e7e7;
+      --selected: #9ec6ff;
+      --logo-shadow: #053949;
+      --logo-body: #00d8fe;
+      --span-bg: linear-gradient(to right, #4e4e9e, #097fa5, #3e87ed);
     }
 
     .dark {
