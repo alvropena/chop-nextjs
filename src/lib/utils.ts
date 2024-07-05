@@ -160,3 +160,20 @@ export const updateOption = async (
 
   return await response.json();
 };
+
+
+export const getThreadsHistory = async (accessToken: string) => {
+  const url = `${baseUrl}/api/v1/prompts/history?token=${accessToken}`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+};

@@ -38,14 +38,12 @@ export default function HistoryPage({
       setLoading(true);
       try {
         const tokenData = await getData(); // Assuming getData returns an object with an accessToken.
-        const response = await axios.get(
-          `${baseUrl}/api/v1/prompts/history?token=${tokenData.accessToken}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const url = `${baseUrl}/api/v1/prompts/history?token=${tokenData.accessToken}`;
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         console.log(tokenData.accessToken);
         const historyData = response.data;
         setpromptsHistory(historyData);
