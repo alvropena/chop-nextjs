@@ -30,7 +30,7 @@ export default function HistoryPage() {
   const pathname = usePathname();
   const lang = pathname.split("/").slice(1)[0];
   const array = pathname.split("/").splice(2);
-  const promptId = array[0];
+  const promptId = array[1];
   const router = useRouter();
   const [optionsDisabled, setOptionsDisabled] = useState(false);
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
