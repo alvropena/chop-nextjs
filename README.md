@@ -1,4 +1,4 @@
-Chop - Next.js
+# Chop - Next.js
 
 How to run the project locally?
 
