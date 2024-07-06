@@ -169,6 +169,7 @@ export const getThreadsHistory = async (accessToken: string) => {
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "force-cache",
   });
 
   if (!response.ok) {
