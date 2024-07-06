@@ -58,7 +58,7 @@ export default function InputForm() {
             <FormItem>
               <FormLabel>Prompt Base</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="shadcn" {...field} disabled />
               </FormControl>
               <FormDescription>
                 This is the prompt that is going to be used
