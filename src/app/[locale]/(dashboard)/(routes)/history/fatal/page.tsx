@@ -1,5 +1,6 @@
 import { getThreadsHistory } from "@/lib/utils";
 import { getAccessToken } from "@auth0/nextjs-auth0";
+import Chat from "../../../_components/chat-clone/Chat";
 
 async function getData() {
   const res = await fetch("https://dogapi.dog/api/v2/breeds");
@@ -21,7 +22,9 @@ export default async function Page() {
     return <h1>Error: Access token is undefined</h1>;
   }
 
-  const threads = await getThreadsHistory(accessToken);
-
-  return <h1>{JSON.stringify(threads)}</h1>;
+  return (
+    <div className="flex flex-1">
+      <Chat />
+    </div>
+  );
 }

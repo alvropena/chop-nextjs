@@ -6,7 +6,7 @@ import { MenuIcon } from "lucide-react";
 export const MobileSidebar = () => {
     return (
       <Sheet>
-        <SheetTrigger className="lg:hidden pr-4 hover:opacity-75 transition">
+        <SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
           <Button size={"icon"} variant={"outline"}>
             <MenuIcon size={"16"} />
           </Button>

@@ -96,94 +96,94 @@ export default function ProfileClient() {
     user && (
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='w-full space-y-4 p-4 md:space-y-4 md:p-6'>
-            <h1 className='text-2xl'>Profile</h1>
-            <div className='flex items-center'>
-              <Avatar className='h-20 w-20 cursor-pointer items-center justify-center'>
+          <div className="flex flex-col flex-1 w-full space-y-4 p-4 md:space-y-4 md:p-6">
+            <h1 className="text-2xl">Profile</h1>
+            <div className="flex items-center">
+              <Avatar className="h-20 w-20 cursor-pointer items-center justify-center">
                 <AvatarImage
-                  src={user.picture ?? '/default-avatar.png'}
-                  alt={user.nickname ?? 'User'}
+                  src={user.picture ?? "/default-avatar.png"}
+                  alt={user.nickname ?? "User"}
                 />
                 <AvatarFallback>
-                  {user.name ? user.name.substring(0, 2).toUpperCase() : 'NA'}
+                  {user.name ? user.name.substring(0, 2).toUpperCase() : "NA"}
                 </AvatarFallback>
               </Avatar>
-              <input type='file' style={{ display: 'none' }} accept='image/*' />
+              <input type="file" style={{ display: "none" }} accept="image/*" />
             </div>
-            <FormField label='Name' id='name'>
+            <FormField label="Name" id="name">
               <Input
-                id='name'
-                placeholder={user.name ?? 'No name'}
-                {...register('name')}
+                id="name"
+                placeholder={user.name ?? "No name"}
+                {...register("name")}
               />
               {errors.name && (
-                <p className='mt-1 text-sm text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.name.message}
                 </p>
               )}
             </FormField>
-            <FormField label='Username' id='username'>
+            <FormField label="Username" id="username">
               <Input
-                id='username'
-                placeholder={user.nickname ?? 'No nickname'}
+                id="username"
+                placeholder={user.nickname ?? "No nickname"}
               />
             </FormField>
-            <FormField label='Bio' id='bio'>
+            <FormField label="Bio" id="bio">
               <Textarea
-                id='bio'
-                placeholder='Enter your bio'
-                className='min-h-[100px]'
-                {...register('bio')}
+                id="bio"
+                placeholder="Enter your bio"
+                className="min-h-[100px]"
+                {...register("bio")}
               />
               {errors.bio && (
-                <p className='mt-1 text-sm text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.bio.message}
                 </p>
               )}
             </FormField>
-            <FormField label='Location' id='location'>
+            <FormField label="Location" id="location">
               <Input
-                id='location'
-                placeholder='San Francisco, CA'
-                {...register('location')}
+                id="location"
+                placeholder="San Francisco, CA"
+                {...register("location")}
               />
               {errors.location && (
-                <p className='mt-1 text-sm text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.location.message}
                 </p>
               )}
             </FormField>
-            <FormField label='Birthday' id='birthday'>
-              <DatePicker name='birthday' />
+            <FormField label="Birthday" id="birthday">
+              <DatePicker name="birthday" />
               {errors.birthday && (
-                <p className='mt-1 text-sm text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.birthday.message}
                 </p>
               )}
             </FormField>
-            <FormField label='Phone' id='phone'>
+            <FormField label="Phone" id="phone">
               <Input
-                id='phone'
-                placeholder='(123) 456-7890'
-                type='tel'
-                {...register('phone')}
+                id="phone"
+                placeholder="(123) 456-7890"
+                type="tel"
+                {...register("phone")}
               />
               {errors.phone && (
-                <p className='mt-1 text-sm text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.phone.message}
                 </p>
               )}
             </FormField>
-            <FormField label='Gender' id='gender'>
-              <GenderRadioGroup name='gender' />
+            <FormField label="Gender" id="gender">
+              <GenderRadioGroup name="gender" />
               {errors.gender && (
-                <p className='mt-1 text-sm text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.gender.message}
                 </p>
               )}
             </FormField>
-            <div className='flex justify-end'>
-              <Button type='submit' size='lg'>
+            <div className="flex justify-end">
+              <Button type="submit" size="lg">
                 Save Changes
               </Button>
             </div>
@@ -191,5 +191,5 @@ export default function ProfileClient() {
         </form>
       </FormProvider>
     )
-  )
+  );
 }
