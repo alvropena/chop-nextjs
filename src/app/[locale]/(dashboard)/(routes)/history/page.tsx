@@ -102,7 +102,7 @@ export default function HistoryPage({
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 flex max-w-full flex-1 flex-col">
       <h1 className="text-2xl font-bold mb-6">History</h1>
       <div className="">
         <Table className="w-full">
