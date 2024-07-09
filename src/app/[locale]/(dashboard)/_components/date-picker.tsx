@@ -26,7 +26,9 @@ export function DatePicker({ name }: DatePickerProps) {
     control,
   });
 
-  const [date, setDate] = React.useState<Date | undefined>(value);
+  const [date, setDate] = React.useState<Date | undefined>(
+    value ? new Date(value) : undefined
+  );
 
   const handleDateChange = (selectedDate: Date) => {
     setDate(selectedDate);
@@ -44,7 +46,11 @@ export function DatePicker({ name }: DatePickerProps) {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date && !isNaN(date.getTime()) ? (
+            format(date, "PPP")
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

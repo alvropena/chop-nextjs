@@ -17,41 +17,41 @@ import { GenderRadioGroup } from '@/app/[locale]/(dashboard)/_components/gender-
 import axios from 'axios'
 import { type ProfileFormData, profileSchema } from '@/zod/validation-schema'
 import { Logger } from '@/lib/logger'
-import { getData } from '@/lib/utils'
+import { getData, UploadButton } from "@/lib/utils";
 
 interface FormFieldProps {
-  label: string
-  id: string
-  children: React.ReactNode
+  label: string;
+  id: string;
+  children: React.ReactNode;
 }
 
 const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
-  <div className='space-y-2'>
+  <div className="space-y-2">
     <Label htmlFor={id}>{label}</Label>
     {children}
   </div>
-)
+);
 
 export default function ProfileClient() {
-  const { user, error, isLoading } = useUser()
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-
+  const { user, error, isLoading } = useUser();
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const methods = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema)
-  })
+    resolver: zodResolver(profileSchema),
+  });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
-  } = methods
+    reset,
+    setValue,
+    getValues,
+  } = methods;
 
   const onSubmit = async (data: ProfileFormData) => {
-    console.log(data);
     Logger.info(data);
     const token = await getData();
-    console.log(token);
+    console.log(typeof data.birthday);
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/user/me?token=${token.accessToken}`;
     const response = await fetch(url, {
       method: "PUT",
@@ -91,6 +91,7 @@ export default function ProfileClient() {
             : undefined,
           gender: profileData.gender ?? "",
           phone: profileData.phone_number ?? "5555555555",
+          profile_picture: profileData.profile_picture ?? "",
         });
       } catch (error) {
         console.error(error);
@@ -102,7 +103,7 @@ export default function ProfileClient() {
     }
   }, [user]);
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     user && (
@@ -113,7 +114,7 @@ export default function ProfileClient() {
             <div className="flex items-center">
               <Avatar className="h-20 w-20 cursor-pointer items-center justify-center">
                 <AvatarImage
-                  src={user.picture ?? "/default-avatar.png"}
+                  src={getValues("profile_picture") ?? "/default/avatar.png"}
                   alt={user.nickname ?? "User"}
                 />
                 <AvatarFallback>
@@ -121,6 +122,20 @@ export default function ProfileClient() {
                 </AvatarFallback>
               </Avatar>
               <input type="file" style={{ display: "none" }} accept="image/*" />
+
+              <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  console.log("Files: ", res);
+                  setValue("profile_picture", res[0].url);
+                  //alert("Upload Completed");
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
             </div>
             <FormField label="Name" id="name">
               <Input

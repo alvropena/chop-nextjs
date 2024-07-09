@@ -13,7 +13,10 @@ import { ZustandProvider } from '@/providers/zustand-provider'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
 
+import { ourFileRouter } from "@/app/api/uploadthing/core";
 
 const rubik = Rubik({
   subsets: ['arabic'],
@@ -42,16 +45,17 @@ export default function RootLayout({
   return (
     <html
       lang={locale}
-      dir={locale === 'ar' || locale == 'fa' ? 'rtl' : 'ltr'}
+      dir={locale === "ar" || locale == "fa" ? "rtl" : "ltr"}
       className={`${space_grotesk.variable} ${rubik.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <body>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <ThemeProvider
           enableSystem
-          attribute='class'
-          defaultTheme='system'
-          themes={['light', 'dark']}
+          attribute="class"
+          defaultTheme="system"
+          themes={["light", "dark"]}
         >
           <NextIntlClientProvider
             locale={locale}
@@ -63,16 +67,16 @@ export default function RootLayout({
                 crawlSpeed={200}
                 height={3}
                 crawl={true}
-                easing='ease'
+                easing="ease"
                 speed={200}
-                shadow='0 0 10px #2299DD,0 0 5px #2299DD'
-                color='var(--primary)'
+                shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+                color="var(--primary)"
                 showSpinner={false}
               />
 
               <UserProvider>
                 {children}
-                <Analytics mode={'production'} />
+                <Analytics mode={"production"} />
                 <SpeedInsights />
               </UserProvider>
             </ZustandProvider>
@@ -80,5 +84,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

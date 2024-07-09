@@ -46,6 +46,8 @@ export const profileSchema = z.object({
   gender: z
     .enum(genderValues, { message: "Gender must be male, female, or other" })
     .optional(),
+
+  profile_picture: z.string().optional(),
 });
 
 export type ProfileFormData = z.infer<typeof profileSchema>;
