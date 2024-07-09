@@ -38,13 +38,11 @@ export const profileSchema = z.object({
       .optional()
   ),
   phone: z
-    .preprocess(
-      normalizePhone,
-      z.string().regex(/^\d{10}$/, {
-        message: "Invalid phone number format",
-      })
-    )
-    .optional(),
+    .string()
+    .optional()
+    .refine((val) => val === undefined || /^\d+$/.test(val), {
+      message: "Phone number must contain only numbers",
+    }),
   gender: z
     .enum(genderValues, { message: "Gender must be male, female, or other" })
     .optional(),

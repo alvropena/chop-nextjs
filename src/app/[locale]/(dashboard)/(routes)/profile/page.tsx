@@ -47,48 +47,60 @@ export default function ProfileClient() {
     reset
   } = methods
 
-  const onSubmit = (data: ProfileFormData) => {
-    Logger.info(data)
+  const onSubmit = async (data: ProfileFormData) => {
+    console.log(data);
+    Logger.info(data);
+    const token = await getData();
+    console.log(token);
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/user/me?token=${token.accessToken}`;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     toast({
-      title: 'Profile updated',
-      description: 'Your changes have been saved.'
-    })
-  }
+      title: "Profile updated",
+      description: "Your changes have been saved.",
+    });
+  };
 
   useEffect(() => {
     async function fetchProfile() {
       try {
         // Assuming getData returns an object with an accessToken.
-        const tokenData = await getData()
+        const tokenData = await getData();
         const response = await axios.get(
           `${baseUrl}/api/v1/user/profile-user/me?token=${tokenData.accessToken}`,
           {
             headers: {
-              'Content-Type': 'application/json'
-            }
+              "Content-Type": "application/json",
+            },
           }
-        )
+        );
 
-        const profileData = response.data
+        const profileData = response.data;
         reset({
-          name: profileData.name ?? '',
-          bio: profileData.bio ?? '',
-          location: profileData.location ?? '',
+          name: profileData.name ?? "",
+          bio: profileData.bio ?? "",
+          location: profileData.location ?? "",
           birthday: profileData.birthday
             ? new Date(profileData.birthday)
             : undefined,
-          gender: profileData.gender ?? '',
-          phone: profileData.phone_number ?? ''
-        })
+          gender: profileData.gender ?? "",
+          phone: profileData.phone_number ?? "5555555555",
+        });
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
 
     if (user) {
-      fetchProfile()
+      fetchProfile();
     }
-  }, [user])
+  }, [user]);
 
   if (isLoading) return <div>Loading...</div>
 
