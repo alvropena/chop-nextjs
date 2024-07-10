@@ -14,6 +14,7 @@ import {
   getData,
   sendPromptToThread,
   updateOption,
+  sendOptionTyped,
 } from "@/lib/utils";
 import { Logger } from "@/lib/logger";
 import { PromptFormData, promptSchema } from "@/zod/validation-schema";
@@ -22,6 +23,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { useTranslations } from "next-intl";
+import { Option } from "@/types/prompt";
 
 export default function HomePage() {
   const pathname = usePathname();
@@ -32,8 +34,12 @@ export default function HomePage() {
   >([]);
   const t = useTranslations("");
   const [optionsDisabled, setOptionsDisabled] = useState(false);
+  const [stateThread, setstateThread] = useState<
+    "CREATE" | "RESPONSE" | "NEW_QUESTION"
+  >("CREATE");
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
+    question_id,
     threads,
     currentPrompt,
     addThread,
@@ -41,6 +47,8 @@ export default function HomePage() {
     clearThreads,
     setCurrentPrompt,
     resetStore,
+    setQuestionId,
+    addOption,
   } = useThreadStore((state) => state);
 
   const { user_input_generation } = useSchemaStore((state) => state);
@@ -56,20 +64,21 @@ export default function HomePage() {
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    getValues,
   } = useForm<PromptFormData>({
     resolver: zodResolver(promptSchema),
   });
 
-  useEffect(() => {
-    setValue("prompt", user_input_generation);
+  // useEffect(() => {
+  //   setValue("prompt", user_input_generation);
 
-    if (!currentPrompt) {
-      reset();
-    }
-    return () => {
-      reset();
-    };
-  }, [currentPrompt]);
+  //   if (!currentPrompt) {
+  //     reset();
+  //   }
+  //   return () => {
+  //     reset();
+  //   };
+  // }, [currentPrompt]);
 
   const handleSend = async (data: PromptFormData) => {
     if (data.prompt.trim()) {
@@ -78,12 +87,10 @@ export default function HomePage() {
         user_id: user?.sub || "unknown",
       };
 
-      reset();
-
       const token = await getData();
       let currentThreadId = threads.length ? threads[0].id : null;
 
-      if (!currentThreadId) {
+      if (!currentThreadId && stateThread == "CREATE") {
         try {
           const response = await createThread(
             token.accessToken,
@@ -94,22 +101,33 @@ export default function HomePage() {
           currentThreadId = response.thread.id;
           addThread(response.thread);
           setCurrentPrompt(response.prompt);
+          setstateThread("RESPONSE");
+          setQuestionId(response.thread.question.id);
         } catch (error) {
           Logger.error("Failed to create new thread:", error);
           updateConversationWithError("Error: Failed to create new thread.");
           return;
         }
-      } else {
+        reset();
+      }
+
+      if (currentThreadId && stateThread == "RESPONSE") {
         try {
-          const response = await sendPromptToThread(
+          console.log(question_id);
+          const response = await sendOptionTyped(
             token.accessToken,
-            currentPrompt?.id ?? 0,
-            user_input_generation,
+            question_id ?? 0,
+            getValues("prompt"),
             lang
           );
-          setThread(response.thread);
+          reset();
+
+          console.log(response);
+
           Logger.info(response);
           updateConversationWithResponse(response);
+          addOption(response as Option);
+          setstateThread("NEW_QUESTION");
         } catch (error) {
           Logger.error("Failed to send prompt:", error);
           updateConversationWithError("Error: Failed to load response.");
@@ -319,7 +337,6 @@ export default function HomePage() {
             id="prompt"
             rows={1}
             className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
-            disabled={!!currentPrompt}
             {...register("prompt")}
           />
           {errors.prompt && (
@@ -329,7 +346,7 @@ export default function HomePage() {
             type="submit"
             size="icon"
             className="absolute top-3 right-3 w-8 h-8"
-            disabled={!isValid || !!currentPrompt}
+            disabled={!isValid}
           >
             <ArrowUpIcon className="w-4 h-4" />
             <span className="sr-only">Send</span>

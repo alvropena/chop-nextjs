@@ -35,6 +35,7 @@ export default function HistoryPage() {
   const [optionsDisabled, setOptionsDisabled] = useState(false);
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
+    question_id,
     threads,
     currentPrompt,
     addThread,
@@ -43,6 +44,7 @@ export default function HistoryPage() {
     setCurrentPrompt,
     setThreads,
     resetStore,
+    setQuestionId,
   } = useThreadStore((state) => state);
   const t = useTranslations("");
   const { user_input_generation } = useSchemaStore((state) => state);
@@ -68,10 +70,12 @@ export default function HistoryPage() {
             },
           }
         );
+        console.log(response.data);
         const data: Thread = response.data;
         if (response) {
           setThreads(data.thread);
           setCurrentPrompt(response.data.prompt);
+          setQuestionId(data.thread[0].question.id);
         }
       } catch (error) {
         console.error(error);
