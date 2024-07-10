@@ -27,4 +27,5 @@ export interface Option {
   question_id: number;
   is_correct_answer: boolean;
   is_selected: boolean;
+  is_typed: boolean;
 }

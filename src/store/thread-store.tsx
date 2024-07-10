@@ -4,6 +4,7 @@ import { createStore } from "zustand/vanilla";
 export type ThreadState = {
   currentPrompt?: Prompt;
   threads: Prompts[];
+  question_id: number;
 };
 
 export type ThreadActions = {
@@ -14,6 +15,9 @@ export type ThreadActions = {
   setCurrentPrompt: (newPrompt: Prompt) => void;
   clearCurrentPrompt: () => void;
   resetStore: () => void;
+  setQuestionId: (id: number) => void;
+  resetQuestion: () => void;
+  addOption: (question_id: number, option: Option) => void;
 };
 
 export type ThreadStore = ThreadState & ThreadActions;
@@ -21,6 +25,7 @@ export type ThreadStore = ThreadState & ThreadActions;
 export const defaultInitState: ThreadState = {
   currentPrompt: undefined,
   threads: [],
+  question_id: 0,
 };
 
 export const createThreadStore = (
@@ -43,5 +48,20 @@ export const createThreadStore = (
     setCurrentPrompt: (newPrompt) => set({ currentPrompt: newPrompt }),
     clearCurrentPrompt: () => set({ currentPrompt: undefined }),
     resetStore: () => set(defaultInitState),
+    setQuestionId: (id) => set({ question_id: id }),
+    resetQuestion: () => set({ question_id: 0 }),
+    addOption: (question_id, option) =>
+      set((state) => ({
+        threads: state.threads.map((thread) => ({
+          ...thread,
+          question:
+            thread.question.id === question_id
+              ? {
+                  ...thread.question,
+                  options: [...thread.question.options, option],
+                }
+              : thread.question,
+        })),
+      })),
   }));
 };

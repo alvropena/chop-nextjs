@@ -178,3 +178,27 @@ export const getThreadsHistory = async (accessToken: string) => {
 
   return await response.json();
 };
+
+export const sendOptionTyped = async (
+  sessionToken: string,
+  question_id: number,
+  option_text: string,
+  lang: string
+) => {
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/options/question/${question_id}/option-typed?lang=${lang}&token=${sessionToken}`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ option_text: option_text }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+};

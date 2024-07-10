@@ -14,6 +14,7 @@ import {
   getData,
   sendPromptToThread,
   updateOption,
+  sendOptionTyped,
 } from "@/lib/utils";
 import { Logger } from "@/lib/logger";
 import { PromptFormData, promptSchema } from "@/zod/validation-schema";
@@ -22,6 +23,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { useTranslations } from "next-intl";
+import { Option } from "@/types/prompt";
 
 export default function HomePage() {
   const pathname = usePathname();
@@ -32,8 +34,12 @@ export default function HomePage() {
   >([]);
   const t = useTranslations("");
   const [optionsDisabled, setOptionsDisabled] = useState(false);
+  const [stateThread, setstateThread] = useState<
+    "CREATE" | "RESPONSE" | "NEW_QUESTION"
+  >("CREATE");
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
+    question_id,
     threads,
     currentPrompt,
     addThread,
@@ -41,6 +47,8 @@ export default function HomePage() {
     clearThreads,
     setCurrentPrompt,
     resetStore,
+    setQuestionId,
+    addOption,
   } = useThreadStore((state) => state);
 
   const { user_input_generation } = useSchemaStore((state) => state);
@@ -56,65 +64,66 @@ export default function HomePage() {
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    getValues,
   } = useForm<PromptFormData>({
     resolver: zodResolver(promptSchema),
   });
 
-  useEffect(() => {
-    setValue("prompt", user_input_generation);
+  // useEffect(() => {
+  //   setValue("prompt", user_input_generation);
 
-    if (!currentPrompt) {
-      reset();
-    }
-    return () => {
-      reset();
-    };
-  }, [currentPrompt]);
+  //   if (!currentPrompt) {
+  //     reset();
+  //   }
+  //   return () => {
+  //     reset();
+  //   };
+  // }, [currentPrompt]);
 
   const handleSend = async (data: PromptFormData) => {
-    if (data.prompt.trim()) {
-      const newPrompt = {
-        text: data.prompt,
-        user_id: user?.sub || "unknown",
-      };
+    if (!data.prompt.trim()) {
+      return; // Si el prompt está vacío, no hacer nada
+    }
 
-      reset();
+    const newPrompt = {
+      text: data.prompt,
+      user_id: user?.sub || "unknown",
+    };
 
+    try {
       const token = await getData();
       let currentThreadId = threads.length ? threads[0].id : null;
 
-      if (!currentThreadId) {
-        try {
-          const response = await createThread(
-            token.accessToken,
-            newPrompt,
-            user_input_generation,
-            lang
-          );
-          currentThreadId = response.thread.id;
-          addThread(response.thread);
-          setCurrentPrompt(response.prompt);
-        } catch (error) {
-          Logger.error("Failed to create new thread:", error);
-          updateConversationWithError("Error: Failed to create new thread.");
-          return;
-        }
-      } else {
-        try {
-          const response = await sendPromptToThread(
-            token.accessToken,
-            currentPrompt?.id ?? 0,
-            user_input_generation,
-            lang
-          );
-          setThread(response.thread);
-          Logger.info(response);
-          updateConversationWithResponse(response);
-        } catch (error) {
-          Logger.error("Failed to send prompt:", error);
-          updateConversationWithError("Error: Failed to load response.");
-        }
+      if (!currentThreadId && stateThread === "CREATE") {
+        const response = await createThread(
+          token.accessToken,
+          newPrompt,
+          user_input_generation,
+          lang
+        );
+        currentThreadId = response.thread.id;
+        addThread(response.thread);
+        setCurrentPrompt(response.prompt);
+        setstateThread("RESPONSE");
+        setQuestionId(response.thread.question.id);
+      } else if (currentThreadId && stateThread === "RESPONSE") {
+        const response = await sendOptionTyped(
+          token.accessToken,
+          question_id ?? 0,
+          getValues("prompt"),
+          lang
+        );
+
+        Logger.info(response);
+        updateConversationWithResponse(response);
+        addOption(question_id, response as Option);
+        setstateThread("NEW_QUESTION");
+        await handleNewQuestion();
       }
+      reset();
+    } catch (error) {
+      Logger.error("Failed to send prompt:", error);
+      updateConversationWithError("Error: Failed to process the request.");
     }
   };
 
@@ -143,8 +152,9 @@ export default function HomePage() {
               : option
         );
         setThread(updatedThread);
-        setShowNewQuestionButton(true);
       }
+
+      await handleNewQuestion();
     } catch (error) {
       Logger.error("Failed to update option:", error);
     }
@@ -180,8 +190,11 @@ export default function HomePage() {
         user_input_generation,
         lang
       );
+      console.log(response);
+      setQuestionId(response.thread.question.id);
       addThread(response.thread);
       setShowNewQuestionButton(false); // Hide the button after generating a new question
+      setstateThread("RESPONSE");
     } catch (error) {
       Logger.error("Failed to create new question:", error);
       updateConversationWithError("Error: Failed to create new question.");
@@ -239,21 +252,24 @@ export default function HomePage() {
                 <p className="ml-2">These are the options for the answer:</p>
               </div>
               <div className="flex flex-col p-2 items-center">
-                {entry.question.options.map((option, index) => (
-                  <Button
-                    key={index}
-                    onClick={() =>
-                      handleOptionClick(option.id, !option.is_selected)
-                    }
-                    className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                    disabled={
-                      entry.question.options.filter((item) => item.is_selected)
-                        .length > 0
-                    }
-                  >
-                    {option.option_text}
-                  </Button>
-                ))}
+                {entry.question.options
+                  .filter((item) => !item.is_typed)
+                  .map((option, index) => (
+                    <Button
+                      key={index}
+                      onClick={() =>
+                        handleOptionClick(option.id, !option.is_selected)
+                      }
+                      className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
+                      disabled={
+                        entry.question.options.filter(
+                          (item) => item.is_selected
+                        ).length > 0
+                      }
+                    >
+                      {option.option_text}
+                    </Button>
+                  ))}
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
@@ -261,7 +277,7 @@ export default function HomePage() {
                   <div className="flex flex-row justify-end p-2 items-center">
                     <div className="mr-2">
                       {entry.question.options
-                        .filter((item) => item.is_selected)
+                        .filter((item) => item.is_selected || item.is_typed)
                         .map((a) => (
                           <p key={a.id}>{a.option_text}</p>
                         ))}
@@ -319,7 +335,6 @@ export default function HomePage() {
             id="prompt"
             rows={1}
             className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
-            disabled={!!currentPrompt}
             {...register("prompt")}
           />
           {errors.prompt && (
@@ -329,7 +344,7 @@ export default function HomePage() {
             type="submit"
             size="icon"
             className="absolute top-3 right-3 w-8 h-8"
-            disabled={!isValid || !!currentPrompt}
+            disabled={!isValid}
           >
             <ArrowUpIcon className="w-4 h-4" />
             <span className="sr-only">Send</span>

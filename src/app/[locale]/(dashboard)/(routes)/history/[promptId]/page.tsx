@@ -35,6 +35,7 @@ export default function HistoryPage() {
   const [optionsDisabled, setOptionsDisabled] = useState(false);
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
+    question_id,
     threads,
     currentPrompt,
     addThread,
@@ -43,6 +44,7 @@ export default function HistoryPage() {
     setCurrentPrompt,
     setThreads,
     resetStore,
+    setQuestionId,
   } = useThreadStore((state) => state);
   const t = useTranslations("");
   const { user_input_generation } = useSchemaStore((state) => state);
@@ -68,10 +70,12 @@ export default function HistoryPage() {
             },
           }
         );
+        console.log(response.data);
         const data: Thread = response.data;
         if (response) {
           setThreads(data.thread);
           setCurrentPrompt(response.data.prompt);
+          setQuestionId(data.thread[0].question.id);
         }
       } catch (error) {
         console.error(error);
@@ -188,21 +192,24 @@ export default function HistoryPage() {
                 <p className="ml-2">These are the options for the answer:</p>
               </div>
               <div className="flex flex-col p-2 items-center">
-                {entry.question.options.map((option, index) => (
-                  <Button
-                    key={index}
-                    onClick={() =>
-                      handleOptionClick(option.id, !option.is_selected)
-                    }
-                    className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                    disabled={
-                      entry.question.options.filter((item) => item.is_selected)
-                        .length > 0
-                    }
-                  >
-                    {option.option_text}
-                  </Button>
-                ))}
+                {entry.question.options
+                  .filter((item) => !item.is_typed)
+                  .map((option, index) => (
+                    <Button
+                      key={index}
+                      onClick={() =>
+                        handleOptionClick(option.id, !option.is_selected)
+                      }
+                      className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
+                      disabled={
+                        entry.question.options.filter(
+                          (item) => item.is_selected
+                        ).length > 0
+                      }
+                    >
+                      {option.option_text}
+                    </Button>
+                  ))}
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
