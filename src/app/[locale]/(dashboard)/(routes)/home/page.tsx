@@ -120,7 +120,6 @@ export default function HomePage() {
             getValues("prompt"),
             lang
           );
-          reset();
 
           console.log(response);
 
@@ -128,6 +127,8 @@ export default function HomePage() {
           updateConversationWithResponse(response);
           addOption(response as Option);
           setstateThread("NEW_QUESTION");
+          setShowNewQuestionButton(true);
+          reset();
         } catch (error) {
           Logger.error("Failed to send prompt:", error);
           updateConversationWithError("Error: Failed to load response.");
@@ -198,8 +199,11 @@ export default function HomePage() {
         user_input_generation,
         lang
       );
+      console.log(response);
+      setQuestionId(response.thread.question.id);
       addThread(response.thread);
       setShowNewQuestionButton(false); // Hide the button after generating a new question
+      setstateThread("RESPONSE");
     } catch (error) {
       Logger.error("Failed to create new question:", error);
       updateConversationWithError("Error: Failed to create new question.");
@@ -257,21 +261,24 @@ export default function HomePage() {
                 <p className="ml-2">These are the options for the answer:</p>
               </div>
               <div className="flex flex-col p-2 items-center">
-                {entry.question.options.map((option, index) => (
-                  <Button
-                    key={index}
-                    onClick={() =>
-                      handleOptionClick(option.id, !option.is_selected)
-                    }
-                    className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                    disabled={
-                      entry.question.options.filter((item) => item.is_selected)
-                        .length > 0
-                    }
-                  >
-                    {option.option_text}
-                  </Button>
-                ))}
+                {entry.question.options
+                  .filter((item) => !item.is_typed)
+                  .map((option, index) => (
+                    <Button
+                      key={index}
+                      onClick={() =>
+                        handleOptionClick(option.id, !option.is_selected)
+                      }
+                      className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
+                      disabled={
+                        entry.question.options.filter(
+                          (item) => item.is_selected
+                        ).length > 0
+                      }
+                    >
+                      {option.option_text}
+                    </Button>
+                  ))}
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
@@ -279,7 +286,7 @@ export default function HomePage() {
                   <div className="flex flex-row justify-end p-2 items-center">
                     <div className="mr-2">
                       {entry.question.options
-                        .filter((item) => item.is_selected)
+                        .filter((item) => item.is_selected || item.is_typed)
                         .map((a) => (
                           <p key={a.id}>{a.option_text}</p>
                         ))}

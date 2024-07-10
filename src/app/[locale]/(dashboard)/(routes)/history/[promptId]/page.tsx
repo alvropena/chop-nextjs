@@ -192,21 +192,24 @@ export default function HistoryPage() {
                 <p className="ml-2">These are the options for the answer:</p>
               </div>
               <div className="flex flex-col p-2 items-center">
-                {entry.question.options.map((option, index) => (
-                  <Button
-                    key={index}
-                    onClick={() =>
-                      handleOptionClick(option.id, !option.is_selected)
-                    }
-                    className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                    disabled={
-                      entry.question.options.filter((item) => item.is_selected)
-                        .length > 0
-                    }
-                  >
-                    {option.option_text}
-                  </Button>
-                ))}
+                {entry.question.options
+                  .filter((item) => !item.is_typed)
+                  .map((option, index) => (
+                    <Button
+                      key={index}
+                      onClick={() =>
+                        handleOptionClick(option.id, !option.is_selected)
+                      }
+                      className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
+                      disabled={
+                        entry.question.options.filter(
+                          (item) => item.is_selected
+                        ).length > 0
+                      }
+                    >
+                      {option.option_text}
+                    </Button>
+                  ))}
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
