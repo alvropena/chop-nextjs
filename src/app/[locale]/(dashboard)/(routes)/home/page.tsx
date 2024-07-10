@@ -81,61 +81,52 @@ export default function HomePage() {
   // }, [currentPrompt]);
 
   const handleSend = async (data: PromptFormData) => {
-    if (data.prompt.trim()) {
-      const newPrompt = {
-        text: data.prompt,
-        user_id: user?.sub || "unknown",
-      };
+    if (!data.prompt.trim()) {
+      return; // Si el prompt está vacío, no hacer nada
+    }
 
+    const newPrompt = {
+      text: data.prompt,
+      user_id: user?.sub || "unknown",
+    };
+
+    try {
       const token = await getData();
       let currentThreadId = threads.length ? threads[0].id : null;
 
-      if (!currentThreadId && stateThread == "CREATE") {
-        try {
-          const response = await createThread(
-            token.accessToken,
-            newPrompt,
-            user_input_generation,
-            lang
-          );
-          currentThreadId = response.thread.id;
-          addThread(response.thread);
-          setCurrentPrompt(response.prompt);
-          setstateThread("RESPONSE");
-          setQuestionId(response.thread.question.id);
-        } catch (error) {
-          Logger.error("Failed to create new thread:", error);
-          updateConversationWithError("Error: Failed to create new thread.");
-          return;
-        }
-        reset();
+      if (!currentThreadId && stateThread === "CREATE") {
+        const response = await createThread(
+          token.accessToken,
+          newPrompt,
+          user_input_generation,
+          lang
+        );
+        currentThreadId = response.thread.id;
+        addThread(response.thread);
+        setCurrentPrompt(response.prompt);
+        setstateThread("RESPONSE");
+        setQuestionId(response.thread.question.id);
+      } else if (currentThreadId && stateThread === "RESPONSE") {
+        const response = await sendOptionTyped(
+          token.accessToken,
+          question_id ?? 0,
+          getValues("prompt"),
+          lang
+        );
+
+        Logger.info(response);
+        updateConversationWithResponse(response);
+        addOption(question_id, response as Option);
+        setstateThread("NEW_QUESTION");
+        setShowNewQuestionButton(true);
       }
-
-      if (currentThreadId && stateThread == "RESPONSE") {
-        try {
-          console.log(question_id);
-          const response = await sendOptionTyped(
-            token.accessToken,
-            question_id ?? 0,
-            getValues("prompt"),
-            lang
-          );
-
-          console.log(response);
-
-          Logger.info(response);
-          updateConversationWithResponse(response);
-          addOption(response as Option);
-          setstateThread("NEW_QUESTION");
-          setShowNewQuestionButton(true);
-          reset();
-        } catch (error) {
-          Logger.error("Failed to send prompt:", error);
-          updateConversationWithError("Error: Failed to load response.");
-        }
-      }
+      reset();
+    } catch (error) {
+      Logger.error("Failed to send prompt:", error);
+      updateConversationWithError("Error: Failed to process the request.");
     }
   };
+  
 
   const handleOptionClick = async (optionId: number, isSelected: boolean) => {
     const token = await getData();

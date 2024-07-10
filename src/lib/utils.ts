@@ -181,7 +181,7 @@ export const getThreadsHistory = async (accessToken: string) => {
 
 export const sendOptionTyped = async (
   sessionToken: string,
-  question_id: Number,
+  question_id: number,
   option_text: string,
   lang: string
 ) => {
