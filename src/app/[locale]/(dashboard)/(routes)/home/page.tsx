@@ -118,7 +118,7 @@ export default function HomePage() {
         updateConversationWithResponse(response);
         addOption(question_id, response as Option);
         setstateThread("NEW_QUESTION");
-        setShowNewQuestionButton(true);
+        await handleNewQuestion();
       }
       reset();
     } catch (error) {
@@ -126,7 +126,6 @@ export default function HomePage() {
       updateConversationWithError("Error: Failed to process the request.");
     }
   };
-  
 
   const handleOptionClick = async (optionId: number, isSelected: boolean) => {
     const token = await getData();
@@ -153,8 +152,9 @@ export default function HomePage() {
               : option
         );
         setThread(updatedThread);
-        setShowNewQuestionButton(true);
       }
+
+      await handleNewQuestion();
     } catch (error) {
       Logger.error("Failed to update option:", error);
     }
