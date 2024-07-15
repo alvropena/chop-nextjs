@@ -1,6 +1,5 @@
 import { getThreadsHistory } from "@/lib/utils";
 import { getAccessToken } from "@auth0/nextjs-auth0";
-import Chat from "../../../_components/chat-clone/Chat";
 import Translator from "../../../_components/speech/Translator";
 
 async function getData() {
