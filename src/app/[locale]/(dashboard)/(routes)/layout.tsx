@@ -13,73 +13,7 @@ import { MobileSidebar } from "../_components/sidebar/mobile-sidebar";
 import { GiveFeedbackDialog } from "../_components/give-feedback-dialog";
 import ThemeSwitch from "../../components/ThemeSwitch";
 
-// export default function DashboardLayout({
-//   children,
-//   params: { locale },
-// }: {
-//   children: React.ReactNode;
-//   params: { locale: string };
-// }) {
-//   return (
-//     <main className="grid min-h-screen w-full overflow-hidden lg:grid-cols-[280px_1fr]">
-//       {/* Sidebar for large screens */}
-//       <div className="hidden lg:block lg:w-72 border-r bg-gray-100/40 dark:bg-gray-800/40">
-//         <div className="flex h-full max-h-screen flex-col gap-2">
-//           <Navbar locale={locale} />
-//         </div>
-//       </div>
-//       {/* Main content area */}
-//       <div className="flex flex-col">
-//         {/* Header */}
-//         <header className="flex h-14 items-center justify-between gap-4 border-b bg-gray-100/40 px-4 dark:bg-gray-800/40 lg:h-[60px] lg:px-6">
-//           <div className="flex flex-col">
-//             <MobileSidebar />
-//           </div>
-//           <div className="flex flex-row items-center gap-4">
-//             {/* Uncomment the below lines if these components are needed */}
-//             {/* <Button>Upgrade</Button>
-//                   <GiveFeedbackDialog />
-//                   <NotificationsDropdownMenu /> */}
-//             <ThemeSwitch />
-//             <AvatarDropdownMenu />
-//           </div>
-//         </header>
-//         {/* Main children content */}
-//         <div className="flex-grow p-4 lg:p-6 overflow-y-auto max-w-full h-fit">
-//           {children}
-//         </div>
-//       </div>
-//     </main>
-//   );
-// }
 
-// export default function Layout({
-//   children,
-//   params: { locale },
-// }: {
-//   children: React.ReactNode;
-//   params: { locale: string };
-// }) {
-//   const [isComponentVisible, setIsComponentVisible] = useState(false);
-
-//   const toggleComponentVisibility = () => {
-//     setIsComponentVisible(!isComponentVisible);
-//   };
-
-//   return (
-//     <main className="overflow-hidden w-full h-screen relative flex">
-//       {isComponentVisible ? (
-//         <MobileSiderbar toggleComponentVisibility={toggleComponentVisibility} />
-//       ) : null}
-//       <div className="dark hidden flex-shrink-0 bg-gray-900 md:flex md:w-[260px] md:flex-col">
-//         <div className="flex h-full min-h-0 flex-col ">
-//           <Sidebara locale={locale} />
-//         </div>
-//       </div>{" "}
-//       <main className="flex flex-1 flex-grow p-4 lg:p-6">{children}</main>
-//     </main>
-//   );
-// }
 
 export default function Layout({
   children,
@@ -107,12 +41,12 @@ export default function Layout({
             <MobileSidebar />
           </div>
 
-          <div className="flex flex-row items-center gap-4 m-4">
+          <div className="flex flex-row items-center gap-4">
             {/* Uncomment the below lines if these components are needed */}
             {/* <Button>Upgrade</Button>
                 <GiveFeedbackDialog />
                 <NotificationsDropdownMenu /> */}
-            <ThemeSwitch />
+            <ModeToggle />
             <AvatarDropdownMenu />
           </div>
         </header>
