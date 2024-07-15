@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, Currency, Plus } from "lucide-react";
+import { ArrowUpIcon, Plus, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { usePathname, useSelectedLayoutSegments } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import {
   createThread,
@@ -24,6 +24,24 @@ import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { useTranslations } from "next-intl";
 import { Option } from "@/types/prompt";
+
+const TextToSpeechButton = ({ text }: { text: string }) => {
+  const speak = () => {
+    if ("speechSynthesis" in window) {
+      console.log(text);
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("Your browser does not support Text to Speech.");
+    }
+  };
+
+  return (
+    <button onClick={speak} className="ml-2">
+      <Volume2 className="w-4 h-4" />
+    </button>
+  );
+};
 
 export default function HomePage() {
   const pathname = usePathname();
@@ -58,6 +76,7 @@ export default function HomePage() {
       resetStore();
     };
   }, [user]);
+
   const {
     setValue,
     register,
@@ -68,17 +87,6 @@ export default function HomePage() {
   } = useForm<PromptFormData>({
     resolver: zodResolver(promptSchema),
   });
-
-  // useEffect(() => {
-  //   setValue("prompt", user_input_generation);
-
-  //   if (!currentPrompt) {
-  //     reset();
-  //   }
-  //   return () => {
-  //     reset();
-  //   };
-  // }, [currentPrompt]);
 
   const handleSend = async (data: PromptFormData) => {
     if (!data.prompt.trim()) {
@@ -243,6 +251,7 @@ export default function HomePage() {
                   <AvatarFallback>CH</AvatarFallback>
                 </Avatar>
                 <p className="ml-2">{entry.question.question_text}</p>
+                <TextToSpeechButton text={entry.question.question_text} />
               </div>
               <div className="flex flex-row p-2 items-center">
                 <Avatar>
@@ -255,20 +264,21 @@ export default function HomePage() {
                 {entry.question.options
                   .filter((item) => !item.is_typed)
                   .map((option, index) => (
-                    <Button
-                      key={index}
-                      onClick={() =>
-                        handleOptionClick(option.id, !option.is_selected)
-                      }
-                      className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                      disabled={
-                        entry.question.options.filter(
-                          (item) => item.is_selected
-                        ).length > 0
-                      }
-                    >
-                      {option.option_text}
-                    </Button>
+                    <div key={index} className="flex flex-row items-center">
+                      <Button
+                        onClick={() =>
+                          handleOptionClick(option.id, !option.is_selected)
+                        }
+                        className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
+                        disabled={
+                          entry.question.options.filter(
+                            (item) => item.is_selected
+                          ).length > 0
+                        }
+                      >
+                        {option.option_text}
+                      </Button>
+                    </div>
                   ))}
               </div>
               {entry.question.options.filter((item) => item.is_selected)
