@@ -11,9 +11,6 @@ import { NotificationsDropdownMenu } from "../_components/notifications-dropdown
 import Navbar from "../_components/sidebar/navbar";
 import { MobileSidebar } from "../_components/sidebar/mobile-sidebar";
 import { GiveFeedbackDialog } from "../_components/give-feedback-dialog";
-import ThemeSwitch from "../../components/ThemeSwitch";
-
-
 
 export default function Layout({
   children,

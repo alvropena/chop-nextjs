@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import React, { useState } from 'react'
 import { FiGlobe } from 'react-icons/fi'
-import Button from './Button'
+import { Button } from '@/components/ui/button'
 import { useSchemaStore } from "@/providers/schema-store-provider";
 
 const LangSwitcher: React.FC = () => {
@@ -17,7 +17,7 @@ const LangSwitcher: React.FC = () => {
   const [isOptionsExpanded, setIsOptionsExpanded] = useState(false);
   const { setLang } = useSchemaStore((state) => state);
   const options: Option[] = [
-    { country: "English", code: "en" }, // Native name is the same
+    { country: "English", code: "en" },
     { country: "Español", code: "es" },
   ];
 
@@ -26,7 +26,7 @@ const LangSwitcher: React.FC = () => {
       <div className="relative">
         <Button
           className="text-destructive inline-flex w-full items-center justify-between gap-3"
-          size="small"
+
           onClick={() => setIsOptionsExpanded(!isOptionsExpanded)}
           onBlur={() => setIsOptionsExpanded(false)}
         >
@@ -50,11 +50,10 @@ const LangSwitcher: React.FC = () => {
                         e.preventDefault();
                         setLang(lang.code as "en" | "es"); // Update the Zustand store
                       }}
-                      className={`block w-full px-4 py-2 text-left text-sm hover:bg-dropdownHover ${
-                        pathname === `/${lang.code}`
-                          ? "bg-selected text-primary hover:bg-selected"
-                          : "text-secondary"
-                      }`}
+                      className={`block w-full px-4 py-2 text-left text-sm hover:bg-dropdownHover ${pathname === `/${lang.code}`
+                        ? "bg-selected text-primary hover:bg-selected"
+                        : "text-secondary"
+                        }`}
                     >
                       {capitalize(lang.country)}
                     </button>
