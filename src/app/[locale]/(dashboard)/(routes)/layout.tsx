@@ -41,7 +41,7 @@ export default function Layout({
             <MobileSidebar />
           </div>
 
-          <div className="flex flex-row items-center ">
+          <div className="flex flex-row items-center gap-4">
             {/* Uncomment the below lines if these components are needed */}
             {/* <Button>Upgrade</Button>
                 <GiveFeedbackDialog />
