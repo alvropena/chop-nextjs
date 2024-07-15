@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@/app/[locale]/components/ThemeProvider'
+import { ThemeProvider } from '@/components/theme-provider'
 import type { Metadata } from 'next'
 import {
   AbstractIntlMessages,
@@ -7,7 +7,6 @@ import {
 } from 'next-intl'
 import { Inter, Rubik, Space_Grotesk } from 'next/font/google'
 import NextTopLoader from 'nextjs-toploader'
-import { Header } from './components/Header'
 import './globals.css'
 import { ZustandProvider } from '@/providers/zustand-provider'
 import { UserProvider } from '@auth0/nextjs-auth0/client'

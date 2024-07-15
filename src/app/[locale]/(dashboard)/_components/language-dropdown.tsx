@@ -26,7 +26,6 @@ const LangSwitcher: React.FC = () => {
       <div className="relative">
         <Button
           className="text-destructive inline-flex w-full items-center justify-between gap-3"
-
           onClick={() => setIsOptionsExpanded(!isOptionsExpanded)}
           onBlur={() => setIsOptionsExpanded(false)}
         >
