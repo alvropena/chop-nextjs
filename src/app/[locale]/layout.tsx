@@ -12,6 +12,12 @@ import { ZustandProvider } from '@/providers/zustand-provider'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { PHProvider } from "./providers";
+import dynamic from "next/dynamic";
+
+const PostHogPageView = dynamic(() => import("./PostHogPageView"), {
+  ssr: false,
+});
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,30 +37,33 @@ export default function RootLayout({
   return (
     <html
       lang={locale}
-      dir={locale === 'ar' || locale == 'fa' ? 'rtl' : 'ltr'}
+      dir={locale === "ar" || locale == "fa" ? "rtl" : "ltr"}
       suppressHydrationWarning
     >
-      <body>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextIntlClientProvider
-            locale={locale}
-            messages={messages as AbstractIntlMessages}
+      <PHProvider>
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
           >
-            <ZustandProvider>
-              <UserProvider>
-                {children}
-                <Analytics mode={'production'} />
-                <SpeedInsights />
-              </UserProvider>
-            </ZustandProvider>
-          </NextIntlClientProvider>
-        </ThemeProvider>
-      </body>
+            <NextIntlClientProvider
+              locale={locale}
+              messages={messages as AbstractIntlMessages}
+            >
+              <ZustandProvider>
+                <UserProvider>
+                  <PostHogPageView />
+                  {children}
+                  <Analytics mode={"production"} />
+                  <SpeedInsights />
+                </UserProvider>
+              </ZustandProvider>
+            </NextIntlClientProvider>
+          </ThemeProvider>
+        </body>
+      </PHProvider>
     </html>
-  )
+  );
 }
