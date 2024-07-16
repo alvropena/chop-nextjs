@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowUpIcon, Plus, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   createThread,
@@ -45,6 +45,7 @@ const TextToSpeechButton = ({ text }: { text: string }) => {
 
 export default function HomePage() {
   const pathname = usePathname();
+  const router = useRouter();
   const lang = pathname.split("/").slice(1)[0];
   const { user } = useUser();
   const [conversation, setConversation] = useState<
@@ -215,6 +216,7 @@ export default function HomePage() {
         <Button
           onClick={() => {
             resetStore();
+            setstateThread("CREATE");
             setShowNewQuestionButton(false);
           }}
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
@@ -329,6 +331,16 @@ export default function HomePage() {
         </div>
       </main>
       <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
+        {!currentPrompt && (
+          <div className="flex justify-center">
+            <Button
+              onClick={() => router.push("/history")}
+              className="w-68 mb-2"
+            >
+              Continue learning from a previous prompt
+            </Button>
+          </div>
+        )}
         <form
           onSubmit={handleSubmit(handleSend)}
           className="relative max-w-2xl mx-auto w-full"
