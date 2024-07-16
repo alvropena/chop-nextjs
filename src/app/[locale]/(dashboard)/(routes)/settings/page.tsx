@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
-import LangSwitcher from "@/app/[locale]/components/LangSwitcher";
+import LangSwitcher from "@/app/[locale]/(dashboard)/_components/language-dropdown";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 
 const FormSchema = z.object({
