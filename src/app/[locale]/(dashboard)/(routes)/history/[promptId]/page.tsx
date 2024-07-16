@@ -96,7 +96,6 @@ export default function IndividualPromptPage() {
           setQuestionId(data.thread[data.thread.length - 1].question.id);
           setstateThread("RESPONSE");
 
-          console.log(threads, currentPrompt, question_id, stateThread);
         }
       } catch (error) {
         console.error(error);
@@ -247,8 +246,9 @@ export default function IndividualPromptPage() {
       <header className="sticky top-0 p-2 flex flex-row justify-end">
         <Button
           onClick={() => {
-            router.push("/home");
             resetStore();
+            setstateThread("CREATE");
+            setShowNewQuestionButton(false);
           }}
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
