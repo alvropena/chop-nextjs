@@ -44,9 +44,9 @@ const TextToSpeechButton = ({ text }: { text: string }) => {
   );
 };
 
-export default function HomePage() {
-  const pathname = usePathname();
+export default function IndividualPromptPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const pathname = usePathname();
   const router = useRouter();
   const lang = pathname.split("/").slice(1)[0];
   const array = pathname.split("/").splice(2);
@@ -59,7 +59,7 @@ export default function HomePage() {
   const [optionsDisabled, setOptionsDisabled] = useState(false);
   const [stateThread, setstateThread] = useState<
     "CREATE" | "RESPONSE" | "NEW_QUESTION"
-  >("CREATE");
+  >("RESPONSE");
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
     question_id,
@@ -89,13 +89,14 @@ export default function HomePage() {
             },
           }
         );
-        console.log(response.data);
         const data: Thread = response.data;
         if (response) {
           setThreads(data.thread);
           setCurrentPrompt(response.data.prompt);
-          setQuestionId(data.thread[0].question.id);
+          setQuestionId(data.thread[data.thread.length - 1].question.id);
           setstateThread("RESPONSE");
+
+          console.log(threads, currentPrompt, question_id, stateThread);
         }
       } catch (error) {
         console.error(error);
@@ -110,7 +111,6 @@ export default function HomePage() {
       resetStore();
     };
   }, [user]);
-
   const {
     setValue,
     register,
@@ -146,8 +146,8 @@ export default function HomePage() {
         currentThreadId = response.thread.id;
         addThread(response.thread);
         setCurrentPrompt(response.prompt);
-        setQuestionId(response.thread.question.id);
         setstateThread("RESPONSE");
+        setQuestionId(response.thread.question.id);
       } else if (currentThreadId && stateThread === "RESPONSE") {
         const response = await sendOptionTyped(
           token.accessToken,
@@ -168,7 +168,6 @@ export default function HomePage() {
       updateConversationWithError("Error: Failed to process the request.");
     }
   };
-
   const handleOptionClick = async (optionId: number, isSelected: boolean) => {
     const token = await getData();
     try {
@@ -195,7 +194,7 @@ export default function HomePage() {
         );
         setThread(updatedThread);
       }
-
+      setQuestionId(response.question_id);
       await handleNewQuestion();
     } catch (error) {
       Logger.error("Failed to update option:", error);
@@ -248,9 +247,8 @@ export default function HomePage() {
       <header className="sticky top-0 p-2 flex flex-row justify-end">
         <Button
           onClick={() => {
+            router.push("/home");
             resetStore();
-            setstateThread("CREATE");
-            setShowNewQuestionButton(false);
           }}
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
