@@ -1,38 +1,65 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, Plus } from "lucide-react";
+import { ArrowUpIcon, Plus, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { usePathname, useRouter } from "next/navigation";
+
 import {
-  getData,
   createThread,
+  getData,
   sendPromptToThread,
   updateOption,
+  sendOptionTyped,
 } from "@/lib/utils";
 import { Logger } from "@/lib/logger";
 import { PromptFormData, promptSchema } from "@/zod/validation-schema";
 import TypingEffect from "@/lib/typing-effect";
-import { Thread } from "@/types/prompt";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { useThreadStore } from "@/providers/thread-store-provider";
-import { useTranslations } from "next-intl";
 import { useSchemaStore } from "@/providers/schema-store-provider";
+import { useTranslations } from "next-intl";
+import { Option, Thread } from "@/types/prompt";
+import axios from "axios";
 
-export default function HistoryPage() {
-  const { user } = useUser();
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const TextToSpeechButton = ({ text }: { text: string }) => {
+  const speak = () => {
+    if ("speechSynthesis" in window) {
+      console.log(text);
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("Your browser does not support Text to Speech.");
+    }
+  };
+
+  return (
+    <button onClick={speak} className="ml-2">
+      <Volume2 className="w-4 h-4" />
+    </button>
+  );
+};
+
+export default function HomePage() {
   const pathname = usePathname();
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const router = useRouter();
   const lang = pathname.split("/").slice(1)[0];
   const array = pathname.split("/").splice(2);
   const promptId = array[1];
-  const router = useRouter();
+  const { user } = useUser();
+  const [conversation, setConversation] = useState<
+    { prompt: string; response: string }[]
+  >([]);
+  const t = useTranslations("");
   const [optionsDisabled, setOptionsDisabled] = useState(false);
+  const [stateThread, setstateThread] = useState<
+    "CREATE" | "RESPONSE" | "NEW_QUESTION"
+  >("CREATE");
   const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
   const {
     question_id,
@@ -42,21 +69,13 @@ export default function HistoryPage() {
     setThread,
     clearThreads,
     setCurrentPrompt,
-    setThreads,
     resetStore,
     setQuestionId,
+    addOption,
+    setThreads,
   } = useThreadStore((state) => state);
-  const t = useTranslations("");
-  const { user_input_generation } = useSchemaStore((state) => state);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-    reset,
-  } = useForm<PromptFormData>({
-    resolver: zodResolver(promptSchema),
-  });
+  const { user_input_generation } = useSchemaStore((state) => state);
 
   useEffect(() => {
     async function fetchProfile() {
@@ -76,6 +95,7 @@ export default function HistoryPage() {
           setThreads(data.thread);
           setCurrentPrompt(response.data.prompt);
           setQuestionId(data.thread[0].question.id);
+          setstateThread("RESPONSE");
         }
       } catch (error) {
         console.error(error);
@@ -90,6 +110,64 @@ export default function HistoryPage() {
       resetStore();
     };
   }, [user]);
+
+  const {
+    setValue,
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+    getValues,
+  } = useForm<PromptFormData>({
+    resolver: zodResolver(promptSchema),
+  });
+
+  const handleSend = async (data: PromptFormData) => {
+    if (!data.prompt.trim()) {
+      return; // Si el prompt está vacío, no hacer nada
+    }
+
+    const newPrompt = {
+      text: data.prompt,
+      user_id: user?.sub || "unknown",
+    };
+
+    try {
+      const token = await getData();
+      let currentThreadId = threads.length ? threads[0].id : null;
+
+      if (!currentThreadId && stateThread === "CREATE") {
+        const response = await createThread(
+          token.accessToken,
+          newPrompt,
+          user_input_generation,
+          lang
+        );
+        currentThreadId = response.thread.id;
+        addThread(response.thread);
+        setCurrentPrompt(response.prompt);
+        setQuestionId(response.thread.question.id);
+        setstateThread("RESPONSE");
+      } else if (currentThreadId && stateThread === "RESPONSE") {
+        const response = await sendOptionTyped(
+          token.accessToken,
+          question_id ?? 0,
+          getValues("prompt"),
+          lang
+        );
+
+        Logger.info(response);
+        updateConversationWithResponse(response);
+        addOption(question_id, response as Option);
+        setstateThread("NEW_QUESTION");
+        await handleNewQuestion();
+      }
+      reset();
+    } catch (error) {
+      Logger.error("Failed to send prompt:", error);
+      updateConversationWithError("Error: Failed to process the request.");
+    }
+  };
 
   const handleOptionClick = async (optionId: number, isSelected: boolean) => {
     const token = await getData();
@@ -116,11 +194,32 @@ export default function HistoryPage() {
               : option
         );
         setThread(updatedThread);
-        setShowNewQuestionButton(true);
       }
+
+      await handleNewQuestion();
     } catch (error) {
       Logger.error("Failed to update option:", error);
     }
+  };
+
+  const updateConversationWithResponse = (response: any) => {
+    setConversation((prev) =>
+      prev.map((entry, index) =>
+        index === prev.length - 1
+          ? { prompt: entry.prompt, response: JSON.stringify(response) }
+          : entry
+      )
+    );
+  };
+
+  const updateConversationWithError = (errorMessage: any) => {
+    setConversation((prev) =>
+      prev.map((entry, index) =>
+        index === prev.length - 1
+          ? { prompt: entry.prompt, response: errorMessage }
+          : entry
+      )
+    );
   };
 
   const handleNewQuestion = async () => {
@@ -131,31 +230,35 @@ export default function HistoryPage() {
         token.accessToken,
         currentPrompt?.id ?? 0,
         user_input_generation,
-
         lang
       );
+      console.log(response);
+      setQuestionId(response.thread.question.id);
       addThread(response.thread);
       setShowNewQuestionButton(false); // Hide the button after generating a new question
+      setstateThread("RESPONSE");
     } catch (error) {
       Logger.error("Failed to create new question:", error);
+      updateConversationWithError("Error: Failed to create new question.");
     }
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="sticky top-0 p-2 flex flex-row justify-end">
+    <div className="flex flex-col h-full">
+      <header className="sticky top-0 p-2 flex flex-row justify-end">
         <Button
           onClick={() => {
-            router.push("/home");
             resetStore();
+            setstateThread("CREATE");
+            setShowNewQuestionButton(false);
           }}
           className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
           <Plus size={"16"} />
           New Thread
         </Button>
-      </div>
-      <div className="flex-1 overflow-auto px-4">
+      </header>
+      <main className="flex-1 overflow-auto px-4">
         <div className="max-w-2xl mx-auto flex flex-col items-start gap-8">
           <div className="flex flex-row justify-end p-2 items-center">
             <Avatar>
@@ -183,6 +286,7 @@ export default function HistoryPage() {
                   <AvatarFallback>CH</AvatarFallback>
                 </Avatar>
                 <p className="ml-2">{entry.question.question_text}</p>
+                <TextToSpeechButton text={entry.question.question_text} />
               </div>
               <div className="flex flex-row p-2 items-center">
                 <Avatar>
@@ -195,20 +299,21 @@ export default function HistoryPage() {
                 {entry.question.options
                   .filter((item) => !item.is_typed)
                   .map((option, index) => (
-                    <Button
-                      key={index}
-                      onClick={() =>
-                        handleOptionClick(option.id, !option.is_selected)
-                      }
-                      className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                      disabled={
-                        entry.question.options.filter(
-                          (item) => item.is_selected
-                        ).length > 0
-                      }
-                    >
-                      {option.option_text}
-                    </Button>
+                    <div key={index} className="flex flex-row items-center">
+                      <Button
+                        onClick={() =>
+                          handleOptionClick(option.id, !option.is_selected)
+                        }
+                        className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
+                        disabled={
+                          entry.question.options.filter(
+                            (item) => item.is_selected
+                          ).length > 0
+                        }
+                      >
+                        {option.option_text}
+                      </Button>
+                    </div>
                   ))}
               </div>
               {entry.question.options.filter((item) => item.is_selected)
@@ -217,7 +322,7 @@ export default function HistoryPage() {
                   <div className="flex flex-row justify-end p-2 items-center">
                     <div className="mr-2">
                       {entry.question.options
-                        .filter((item) => item.is_selected)
+                        .filter((item) => item.is_selected || item.is_typed)
                         .map((a) => (
                           <p key={a.id}>{a.option_text}</p>
                         ))}
@@ -257,6 +362,39 @@ export default function HistoryPage() {
             </Button>
           )}
         </div>
+      </main>
+      <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
+        <form
+          onSubmit={handleSubmit(handleSend)}
+          className="relative max-w-2xl mx-auto w-full"
+          autoFocus={false}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit(handleSend)();
+            }
+          }}
+        >
+          <Textarea
+            placeholder="Type here..."
+            id="prompt"
+            rows={1}
+            className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
+            {...register("prompt")}
+          />
+          {errors.prompt && (
+            <p className="text-red-500 text-sm mt-1">{errors.prompt.message}</p>
+          )}
+          <Button
+            type="submit"
+            size="icon"
+            className="absolute top-3 right-3 w-8 h-8"
+            disabled={!isValid}
+          >
+            <ArrowUpIcon className="w-4 h-4" />
+            <span className="sr-only">Send</span>
+          </Button>
+        </form>
       </div>
     </div>
   );
