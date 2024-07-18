@@ -1,4 +1,4 @@
-import { Copy } from "lucide-react"
+import { Copy, Share } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -32,7 +32,9 @@ export function InviteFriendsDialog() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Share</Button>
+                <Button className="w-full">
+                    <Share className="mr-2 h-4 w-4" />
+                    Share</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
