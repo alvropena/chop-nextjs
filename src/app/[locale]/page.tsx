@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/app/[locale]/(dashboard)/_components/footer";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/[locale]/loading";
 
 export default function AuthPage() {
   const { user, isLoading } = useUser();
@@ -13,7 +14,7 @@ export default function AuthPage() {
 
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (!user) {
     return (

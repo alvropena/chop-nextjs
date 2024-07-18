@@ -18,6 +18,7 @@ import axios from 'axios'
 import { type ProfileFormData, profileSchema } from '@/zod/validation-schema'
 import { Logger } from '@/lib/logger'
 import { getData } from '@/lib/utils'
+import Loading from '@/app/[locale]/loading'
 
 interface FormFieldProps {
   label: string
@@ -90,7 +91,7 @@ export default function ProfileClient() {
     }
   }, [user])
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loading />;
 
   return (
     user && (
