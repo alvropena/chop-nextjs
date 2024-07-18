@@ -6,7 +6,7 @@ import {
   useMessages
 } from 'next-intl'
 import { Inter } from 'next/font/google'
-
+import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
 import { ZustandProvider } from '@/providers/zustand-provider'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
@@ -62,6 +62,7 @@ export default function RootLayout({
               </ZustandProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
+          <Toaster />
         </body>
       </PHProvider>
     </html>

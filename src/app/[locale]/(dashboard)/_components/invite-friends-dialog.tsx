@@ -1,6 +1,9 @@
+import { Copy } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -9,41 +12,60 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
-import { CopyIcon } from "lucide-react"
-
 
 export function InviteFriendsDialog() {
-    const { toast } = useToast()
+    const { toast } = useToast();
+
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText("https://chop.so/register").then(() => {
+            toast({
+                title: "Link copied",
+                description: "Link copied to clipboard.",
+            })
+        }).catch((error) => {
+            console.error("Failed to copy:", error);
+        });
+    };
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Invite Friends</Button>
+                <Button variant="outline">Share</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Invite Friends</DialogTitle>
+                    <DialogTitle>Share link</DialogTitle>
                     <DialogDescription>
-                        Make Chop more fun. Invite your friends over.
+                        Let&apos; make Chop more fun! Invite your friends over.
                     </DialogDescription>
-                    <div className="flex flex-row">
-                        <Input value={"https://chop.so/register"} disabled></Input>
-                        <Button size={"icon"} variant={"outline"} onClick={() => {
-                            toast({
-                                title: "Invitation copied",
-                                description: "Share this link with all your friends.",
-                            })
-                        }}><CopyIcon size={"16"} /></Button>
-                    </div>
                 </DialogHeader>
+                <div className="flex items-center space-x-2">
+                    <div className="grid flex-1 gap-2">
+                        <Label htmlFor="link" className="sr-only">
+                            Link
+                        </Label>
+                        <Input
+                            id="link"
+                            defaultValue="https://chop.so/join/"
+                            readOnly
+                        />
+                    </div>
 
-                <DialogFooter>
-                    <Button
-                        type="submit"
+                    <Button type="submit" size="sm" className="px-3" variant={"outline"} onClick={() => handleCopyLink()}
                     >
-                        Cancel
+                        <span className="sr-only">Copy</span>
+                        <Copy className="h-4 w-4" />
                     </Button>
+
+                </div>
+                <DialogFooter className="sm:justify-start">
+                    <DialogClose asChild>
+                        <Button type="button">
+                            Close
+                        </Button>
+                    </DialogClose>
                 </DialogFooter>
             </DialogContent>
         </Dialog >
