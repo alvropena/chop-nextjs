@@ -36,7 +36,7 @@ export default function AuthPage() {
         </header>
         <main className="flex-1 flex flex-col justify-center items-center text-center py-12 md:py-24 lg:py-32 border-b">
           <div className="space-y-4 max-w-3xl">
-            <TypingEffect text="Learn quicker" className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl" />
+            <TypingEffect text="Learn quicker." className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl" />
             <p className="text-gray-500 text-xl md:text-2xl dark:text-gray-400">
               The first generative learning platform.
             </p>
