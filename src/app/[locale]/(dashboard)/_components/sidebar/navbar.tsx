@@ -43,7 +43,7 @@ const Navbar: FC<Props> = ({ locale }) => {
           ))}
         </nav>
       </div>
-      <div className="px-4 py-6">
+      <div className=" px-6 py-6">
         <InviteFriendsDialog />
       </div>
     </>
