@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, Plus, Volume2 } from "lucide-react";
+import { ArrowUpIcon, LoaderCircle, Plus, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
@@ -24,6 +24,7 @@ import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { useTranslations } from "next-intl";
 import { Option } from "@/types/prompt";
+import { Loader2 } from "lucide-react";
 
 const TextToSpeechButton = ({ text }: { text: string }) => {
   const speak = () => {
@@ -70,6 +71,7 @@ export default function HomePage() {
     addOption,
   } = useThreadStore((state) => state);
 
+  const [isLoading, setIsLoading] = useState(false);
   const { user_input_generation } = useSchemaStore((state) => state);
 
   useEffect(() => {
@@ -99,6 +101,9 @@ export default function HomePage() {
       user_id: user?.sub || "unknown",
     };
 
+    setCurrentPrompt(newPrompt);
+    setIsLoading(true);
+
     try {
       const token = await getData();
       let currentThreadId = threads.length ? threads[0].id : null;
@@ -112,8 +117,6 @@ export default function HomePage() {
         );
         currentThreadId = response.thread.id;
         addThread(response.thread);
-        setCurrentPrompt(response.prompt);
-        setstateThread("RESPONSE");
         setQuestionId(response.thread.question.id);
       } else if (currentThreadId && stateThread === "RESPONSE") {
         const response = await sendOptionTyped(
@@ -133,6 +136,8 @@ export default function HomePage() {
     } catch (error) {
       Logger.error("Failed to send prompt:", error);
       updateConversationWithError("Error: Failed to process the request.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -242,6 +247,17 @@ export default function HomePage() {
                   <AvatarImage src="" alt="" />
                   <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
                 </Avatar>
+              </div>
+              <div className="flex flex-row p-2 items-center">
+                <Avatar>
+                  <AvatarImage src="" alt="@shadcn" />
+                  <AvatarFallback>CH</AvatarFallback>
+                </Avatar>
+                {isLoading ? (
+                  <LoaderCircle className="animate-spin w-4 h-4 ml-2" />
+                ) : (
+                  <TypingEffect text={currentPrompt?.response || ""} />
+                )}
               </div>
             </div>
           )}

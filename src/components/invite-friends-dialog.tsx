@@ -19,7 +19,7 @@ export function InviteFriendsDialog() {
     const { toast } = useToast();
 
     const handleCopyLink = () => {
-        navigator.clipboard.writeText("https://chop.so/register").then(() => {
+        navigator.clipboard.writeText("https://join.chop.so/").then(() => {
             toast({
                 title: "Link copied",
                 description: "Link copied to clipboard.",
@@ -50,7 +50,7 @@ export function InviteFriendsDialog() {
                         </Label>
                         <Input
                             id="link"
-                            defaultValue="https://chop.so/join/"
+                            defaultValue="join.chop.so"
                             readOnly
                         />
                     </div>
