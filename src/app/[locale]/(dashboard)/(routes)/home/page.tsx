@@ -331,7 +331,7 @@ export default function HomePage() {
         </div>
       </main>
       <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
-        {!currentPrompt && (
+        {/* {!currentPrompt && (
           <div className="flex justify-center">
             <Button
               onClick={() => router.push("/history")}
@@ -341,6 +341,7 @@ export default function HomePage() {
             </Button>
           </div>
         )}
+      */}
         <form
           onSubmit={handleSubmit(handleSend)}
           className="relative max-w-2xl mx-auto w-full"

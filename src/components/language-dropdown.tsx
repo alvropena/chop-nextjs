@@ -32,7 +32,7 @@ export default function LanguageDropdown() {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Button>
+          <Button variant={"outline"}>
             <LanguagesIcon className='mr-2 h-4 w-4' /> Language
           </Button>
         </DropdownMenuTrigger>
