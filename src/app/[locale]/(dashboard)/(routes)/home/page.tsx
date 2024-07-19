@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, LoaderCircle, Plus, Volume2 } from "lucide-react";
+import { ArrowUpIcon, LoaderCircle, Plus, Square, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
@@ -72,6 +72,8 @@ export default function HomePage() {
   } = useThreadStore((state) => state);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const { user_input_generation } = useSchemaStore((state) => state);
 
   useEffect(() => {
@@ -135,6 +137,7 @@ export default function HomePage() {
       reset();
     } catch (error) {
       Logger.error("Failed to send prompt:", error);
+      setIsError(true);
       updateConversationWithError("Error: Failed to process the request.");
     } finally {
       setIsLoading(false);
@@ -233,7 +236,7 @@ export default function HomePage() {
       <main className="flex-1 overflow-auto px-4">
         <div className="max-w-2xl mx-auto flex flex-col items-start gap-8">
           <div className="flex flex-row justify-end p-2 items-center">
-            <Avatar>
+            <Avatar className="mr-2">
               <AvatarImage src="" alt="@chop" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
@@ -248,17 +251,20 @@ export default function HomePage() {
                   <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
                 </Avatar>
               </div>
-              <div className="flex flex-row p-2 items-center">
-                <Avatar>
+              <div className="flex flex-row p-2">
+                <Avatar className="mr-2">
                   <AvatarImage src="" alt="@shadcn" />
                   <AvatarFallback>CH</AvatarFallback>
                 </Avatar>
                 {isLoading ? (
                   <LoaderCircle className="animate-spin w-4 h-4 ml-2" />
+                ) : isError ? (
+                  <TypingEffect text="An error occurred, we cannot process your request at the moment. Please, try again later. " className="mr-2" />
                 ) : (
-                  <TypingEffect text={currentPrompt?.response || ""} />
+                  <TypingEffect text={currentPrompt?.response || ""} className="mr-2" />
                 )}
               </div>
+
             </div>
           )}
           {threads.map((entry, index) => (
@@ -385,9 +391,10 @@ export default function HomePage() {
             className="absolute top-3 right-3 w-8 h-8"
             disabled={!isValid}
           >
-            <ArrowUpIcon className="w-4 h-4" />
+            {isLoading ? <Square className="w-4 h-4" /> : <ArrowUpIcon className="w-4 h-4" />}
             <span className="sr-only">Send</span>
           </Button>
+
         </form>
       </div>
     </div>

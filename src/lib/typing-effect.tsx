@@ -16,7 +16,7 @@ const TypingEffect: React.FC<TypingEffectProps> = ({ text, className }) => {
       const timer = setTimeout(() => {
         setDisplayedText(prev => prev + text.charAt(index));
         setIndex(prev => prev + 1);
-      }, 50);
+      }, 70);
       return () => clearTimeout(timer);
     }
   }, [index, text]);
