@@ -1,12 +1,12 @@
 'use client'
 
-import { MobileSidebar } from "../_components/sidebar/mobile-sidebar";
-import Sidebar from "../_components/sidebar/sidebar";
+import { MobileSidebar } from "../../../../components/sidebar/mobile-sidebar";
+import Sidebar from "../../../../components/sidebar/sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
-import { AvatarDropdownMenu } from "../_components/avatar-dropdown-menu";
-import { NotificationsDropdownMenu } from "../_components/notifications-dropdown-menu";
-import Navbar from "../_components/sidebar/navbar";
-import { GiveFeedbackDialog } from "../_components/give-feedback-dialog";
+import { AvatarDropdownMenu } from "../../../../components/avatar-dropdown-menu";
+import { NotificationsDropdownMenu } from "../../../../components/notifications-dropdown-menu";
+import Navbar from "../../../../components/sidebar/navbar";
+import { GiveFeedbackDialog } from "../../../../components/give-feedback-dialog";
 
 export default function Layout({
   children,
@@ -17,13 +17,13 @@ export default function Layout({
 }) {
   return (
     <main className="overflow-hidden w-full h-screen relative flex">
-      <div className="dark hidden flex-shrink-0 bg-gray-100/40 dark:bg-gray-800/40 md:flex md:w-[260px] md:flex-col">
+      <div className="flex-shrink-0  md:flex md:w-[260px] md:flex-col">
         <div className="flex h-full min-h-0 flex-col border-r">
           <Navbar locale={locale} />
         </div>
       </div>
       <div className="flex flex-1 flex-col">
-        <header className="flex h-[52px] items-center justify-between gap-4 border-b bg-gray-100/40 px-4 dark:bg-gray-800/40 lg:h-[60px] lg:px-6">
+        <header className="flex h-[52px] items-center justify-between gap-4 border-b lg:h-[60px] lg:px-6">
           <div className="flex flex-col">
             <MobileSidebar />
           </div>

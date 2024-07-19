@@ -1,22 +1,19 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss"
 
-const config: Config = {
+const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+	],
+  prefix: "",
   theme: {
     container: {
       center: true,
-      padding: "1rem", // Reduce el padding para móvil y aumenta para pantallas más grandes
+      padding: "2rem",
       screens: {
-        sm: "100%", // Ajuste para móvil
-        md: "100%", // Ajuste para tabletas
-        lg: "100%", // Ajuste para pantallas medianas
-        xl: "1280px",
         "2xl": "1400px",
       },
     },
@@ -78,6 +75,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config
 
-export default config;
+export default config

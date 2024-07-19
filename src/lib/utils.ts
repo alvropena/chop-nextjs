@@ -2,16 +2,13 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Logger } from "./logger";
 
-
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -88,8 +85,6 @@ export async function getToken() {
   return res.json();
 }
 
-
-
 // utils/api.js
 
 export const createThread = async (
@@ -138,7 +133,6 @@ export const sendPromptToThread = async (
   return await response.json();
 };
 
-
 export const updateOption = async (
   optionId: number,
   sessionToken: string,
@@ -160,7 +154,6 @@ export const updateOption = async (
 
   return await response.json();
 };
-
 
 export const getThreadsHistory = async (accessToken: string) => {
   const url = `${baseUrl}/api/v1/prompts/history?token=${accessToken}`;

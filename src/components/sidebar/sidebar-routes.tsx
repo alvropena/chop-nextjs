@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarItem } from '@/app/[locale]/(dashboard)/_components/sidebar/sidebar-item'
+import { SidebarItem } from '@/components/sidebar/sidebar-item'
 import { navLinks } from "@/data/nav-links";
 import {
   BellIcon,

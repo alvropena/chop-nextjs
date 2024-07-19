@@ -250,7 +250,6 @@ export default function IndividualPromptPage() {
             setstateThread("CREATE");
             setShowNewQuestionButton(false);
           }}
-          className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
           <Plus size={"16"} />
           New Thread
@@ -316,39 +315,39 @@ export default function IndividualPromptPage() {
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
-                <>
-                  <div className="flex flex-row justify-end p-2 items-center">
-                    <div className="mr-2">
-                      {entry.question.options
-                        .filter((item) => item.is_selected || item.is_typed)
-                        .map((a) => (
-                          <p key={a.id}>{a.option_text}</p>
-                        ))}
+                  <>
+                    <div className="flex flex-row justify-end p-2 items-center">
+                      <div className="mr-2">
+                        {entry.question.options
+                          .filter((item) => item.is_selected || item.is_typed)
+                          .map((a) => (
+                            <p key={a.id}>{a.option_text}</p>
+                          ))}
+                      </div>
+                      <Avatar>
+                        <AvatarImage src="" alt="@alvaro" />
+                        <AvatarFallback>AL</AvatarFallback>
+                      </Avatar>
                     </div>
-                    <Avatar>
-                      <AvatarImage src="" alt="@alvaro" />
-                      <AvatarFallback>AL</AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <div className="flex flex-row p-2 items-center">
-                    <Avatar>
-                      <AvatarImage src="" alt="@shadcn" />
-                      <AvatarFallback>CH</AvatarFallback>
-                    </Avatar>
-                    <p className="ml-2">
-                      {entry.question.options
-                        .filter((itemFiltered) => itemFiltered.is_selected)
-                        .map((itemMapped) =>
-                          itemMapped.is_correct_answer ? (
-                            <p key={itemMapped.id}>Its correct!</p>
-                          ) : (
-                            <p key={itemMapped.id}>This is incorrect</p>
-                          )
-                        )}
-                    </p>
-                  </div>
-                </>
-              )}
+                    <div className="flex flex-row p-2 items-center">
+                      <Avatar>
+                        <AvatarImage src="" alt="@shadcn" />
+                        <AvatarFallback>CH</AvatarFallback>
+                      </Avatar>
+                      <p className="ml-2">
+                        {entry.question.options
+                          .filter((itemFiltered) => itemFiltered.is_selected)
+                          .map((itemMapped) =>
+                            itemMapped.is_correct_answer ? (
+                              <p key={itemMapped.id}>Its correct!</p>
+                            ) : (
+                              <p key={itemMapped.id}>This is incorrect</p>
+                            )
+                          )}
+                      </p>
+                    </div>
+                  </>
+                )}
             </div>
           ))}
           {showNewQuestionButton && (
