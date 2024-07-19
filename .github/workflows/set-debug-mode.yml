@@ -1,0 +1,35 @@
+name: Set Debug Mode and Implement Logger
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  set-debug-mode:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18" 
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set Debug Mode for Production
+        run: echo "NEXT_PUBLIC_DEBUG_MODE=false" >> .env.production
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Archive Logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: ./*.log
