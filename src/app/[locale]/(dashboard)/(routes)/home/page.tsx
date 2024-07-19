@@ -24,7 +24,6 @@ import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { useTranslations } from "next-intl";
 import { Option } from "@/types/prompt";
-import { Loader2 } from "lucide-react";
 
 const TextToSpeechButton = ({ text }: { text: string }) => {
   const speak = () => {
@@ -227,9 +226,8 @@ export default function HomePage() {
             setstateThread("CREATE");
             setShowNewQuestionButton(false);
           }}
-
         >
-          <Plus size={"16"} />
+          <Plus className="h-4 w-4 mr-2" />
           New Thread
         </Button>
       </header>

@@ -251,7 +251,7 @@ export default function IndividualPromptPage() {
             setShowNewQuestionButton(false);
           }}
         >
-          <Plus size={"16"} />
+          <Plus className="h-4 w-4 mr-2" />
           New Thread
         </Button>
       </header>
