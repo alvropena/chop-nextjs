@@ -1,6 +1,6 @@
 'use client'
 
-import { AvatarDropdownMenu } from '@/app/[locale]/(dashboard)/_components/avatar-dropdown-menu'
+import { AvatarDropdownMenu } from '@/components/avatar-dropdown-menu'
 import { usePathname, useRouter } from 'next/navigation'
 
 export const NavbarRoutes = () => {

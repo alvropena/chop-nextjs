@@ -3,9 +3,11 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Footer from "@/app/[locale]/(dashboard)/_components/footer";
+import Footer from "@/components/footer";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/[locale]/loading";
+import TypingEffect from "@/lib/typing-effect";
 
 export default function AuthPage() {
   const { user, isLoading } = useUser();
@@ -13,7 +15,7 @@ export default function AuthPage() {
 
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (!user) {
     return (
@@ -34,15 +36,13 @@ export default function AuthPage() {
         </header>
         <main className="flex-1 flex flex-col justify-center items-center text-center py-12 md:py-24 lg:py-32 border-b">
           <div className="space-y-4 max-w-3xl">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-              Learn quicker.
-            </h1>
+            <TypingEffect text="Learn quicker." className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl" />
             <p className="text-gray-500 text-xl md:text-2xl dark:text-gray-400">
               The first generative learning platform.
             </p>
             <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
               <Link href={!user ? `/api/auth/login` : `/home`}>
-                <Button className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300">
+                <Button>
                   Get Started
                 </Button>
               </Link>

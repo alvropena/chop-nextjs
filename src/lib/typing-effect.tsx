@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 
 interface TypingEffectProps {
   text: string;
+  className?: string;
 }
 
-const TypingEffect: React.FC<TypingEffectProps> = ({ text }) => {
+const TypingEffect: React.FC<TypingEffectProps> = ({ text, className }) => {
   const [displayedText, setDisplayedText] = useState<string>('');
   const [index, setIndex] = useState<number>(0);
 
@@ -15,12 +16,12 @@ const TypingEffect: React.FC<TypingEffectProps> = ({ text }) => {
       const timer = setTimeout(() => {
         setDisplayedText(prev => prev + text.charAt(index));
         setIndex(prev => prev + 1);
-      }, 50);
+      }, 20);
       return () => clearTimeout(timer);
     }
   }, [index, text]);
 
-  return <p className='m-2'>{displayedText}</p>;
+  return <p className={className}>{displayedText}</p>;
 };
 
 export default TypingEffect;

@@ -1,6 +1,6 @@
 import { getThreadsHistory } from "@/lib/utils";
 import { getAccessToken } from "@auth0/nextjs-auth0";
-import Translator from "../../../_components/speech/Translator";
+import Translator from "../../../../../../components/translator";
 
 async function getData() {
   const res = await fetch("https://dogapi.dog/api/v2/breeds");

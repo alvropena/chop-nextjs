@@ -1,0 +1,6 @@
+version: "3"
+
+tasks:
+  run:
+    description: "Run the development server"
+    cmd: "npm run dev"

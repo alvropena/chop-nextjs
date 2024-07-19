@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, Plus, Volume2 } from "lucide-react";
+import { ArrowUpIcon, LoaderCircle, Plus, Square, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
@@ -70,6 +70,9 @@ export default function HomePage() {
     addOption,
   } = useThreadStore((state) => state);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const { user_input_generation } = useSchemaStore((state) => state);
 
   useEffect(() => {
@@ -99,6 +102,9 @@ export default function HomePage() {
       user_id: user?.sub || "unknown",
     };
 
+    setCurrentPrompt(newPrompt);
+    setIsLoading(true);
+
     try {
       const token = await getData();
       let currentThreadId = threads.length ? threads[0].id : null;
@@ -112,8 +118,6 @@ export default function HomePage() {
         );
         currentThreadId = response.thread.id;
         addThread(response.thread);
-        setCurrentPrompt(response.prompt);
-        setstateThread("RESPONSE");
         setQuestionId(response.thread.question.id);
       } else if (currentThreadId && stateThread === "RESPONSE") {
         const response = await sendOptionTyped(
@@ -132,7 +136,10 @@ export default function HomePage() {
       reset();
     } catch (error) {
       Logger.error("Failed to send prompt:", error);
+      setIsError(true);
       updateConversationWithError("Error: Failed to process the request.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -219,16 +226,15 @@ export default function HomePage() {
             setstateThread("CREATE");
             setShowNewQuestionButton(false);
           }}
-          className="text-left px-2 justify-start hover:bg-neutral-900 hover:text-neutral-50 gap-2"
         >
-          <Plus size={"16"} />
+          <Plus className="h-4 w-4 mr-2" />
           New Thread
         </Button>
       </header>
       <main className="flex-1 overflow-auto px-4">
         <div className="max-w-2xl mx-auto flex flex-col items-start gap-8">
           <div className="flex flex-row justify-end p-2 items-center">
-            <Avatar>
+            <Avatar className="mr-2">
               <AvatarImage src="" alt="@chop" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
@@ -243,6 +249,20 @@ export default function HomePage() {
                   <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
                 </Avatar>
               </div>
+              <div className="flex flex-row p-2">
+                <Avatar className="mr-2">
+                  <AvatarImage src="" alt="@shadcn" />
+                  <AvatarFallback>CH</AvatarFallback>
+                </Avatar>
+                {isLoading ? (
+                  <LoaderCircle className="animate-spin w-4 h-4 ml-2" />
+                ) : isError ? (
+                  <TypingEffect text="An error occurred, we cannot process your request at the moment. Please, try again later. " className="mr-2" />
+                ) : (
+                  <TypingEffect text={currentPrompt?.response || ""} className="mr-2" />
+                )}
+              </div>
+
             </div>
           )}
           {threads.map((entry, index) => (
@@ -285,39 +305,39 @@ export default function HomePage() {
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
-                <>
-                  <div className="flex flex-row justify-end p-2 items-center">
-                    <div className="mr-2">
-                      {entry.question.options
-                        .filter((item) => item.is_selected || item.is_typed)
-                        .map((a) => (
-                          <p key={a.id}>{a.option_text}</p>
-                        ))}
+                  <>
+                    <div className="flex flex-row justify-end p-2 items-center">
+                      <div className="mr-2">
+                        {entry.question.options
+                          .filter((item) => item.is_selected || item.is_typed)
+                          .map((a) => (
+                            <p key={a.id}>{a.option_text}</p>
+                          ))}
+                      </div>
+                      <Avatar>
+                        <AvatarImage src="" alt="@alvaro" />
+                        <AvatarFallback>AL</AvatarFallback>
+                      </Avatar>
                     </div>
-                    <Avatar>
-                      <AvatarImage src="" alt="@alvaro" />
-                      <AvatarFallback>AL</AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <div className="flex flex-row p-2 items-center">
-                    <Avatar>
-                      <AvatarImage src="" alt="@shadcn" />
-                      <AvatarFallback>CH</AvatarFallback>
-                    </Avatar>
-                    <p className="ml-2">
-                      {entry.question.options
-                        .filter((itemFiltered) => itemFiltered.is_selected)
-                        .map((itemMapped) =>
-                          itemMapped.is_correct_answer ? (
-                            <p key={itemMapped.id}>Its correct!</p>
-                          ) : (
-                            <p key={itemMapped.id}>This is incorrect</p>
-                          )
-                        )}
-                    </p>
-                  </div>
-                </>
-              )}
+                    <div className="flex flex-row p-2 items-center">
+                      <Avatar>
+                        <AvatarImage src="" alt="@shadcn" />
+                        <AvatarFallback>CH</AvatarFallback>
+                      </Avatar>
+                      <p className="ml-2">
+                        {entry.question.options
+                          .filter((itemFiltered) => itemFiltered.is_selected)
+                          .map((itemMapped) =>
+                            itemMapped.is_correct_answer ? (
+                              <p key={itemMapped.id}>Its correct!</p>
+                            ) : (
+                              <p key={itemMapped.id}>This is incorrect</p>
+                            )
+                          )}
+                      </p>
+                    </div>
+                  </>
+                )}
             </div>
           ))}
           {showNewQuestionButton && (
@@ -331,7 +351,7 @@ export default function HomePage() {
         </div>
       </main>
       <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
-        {!currentPrompt && (
+        {/* {!currentPrompt && (
           <div className="flex justify-center">
             <Button
               onClick={() => router.push("/history")}
@@ -341,6 +361,7 @@ export default function HomePage() {
             </Button>
           </div>
         )}
+      */}
         <form
           onSubmit={handleSubmit(handleSend)}
           className="relative max-w-2xl mx-auto w-full"
@@ -368,9 +389,10 @@ export default function HomePage() {
             className="absolute top-3 right-3 w-8 h-8"
             disabled={!isValid}
           >
-            <ArrowUpIcon className="w-4 h-4" />
+            {isLoading ? <Square className="w-4 h-4" /> : <ArrowUpIcon className="w-4 h-4" />}
             <span className="sr-only">Send</span>
           </Button>
+
         </form>
       </div>
     </div>

@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/pagination";
 import { usePathname, useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import Loading from "@/app/[locale]/loading";
 
 export default function HistoryPage({
   searchParams,
@@ -62,11 +63,7 @@ export default function HistoryPage({
   }, [user]);
 
   if (isLoading || loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
-    );
+    return <Loading />
   }
 
   if (error) {

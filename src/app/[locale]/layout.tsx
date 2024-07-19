@@ -6,7 +6,7 @@ import {
   useMessages
 } from 'next-intl'
 import { Inter } from 'next/font/google'
-
+import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
 import { ZustandProvider } from '@/providers/zustand-provider'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
@@ -15,7 +15,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { PHProvider } from "./providers";
 import dynamic from "next/dynamic";
 
-const PostHogPageView = dynamic(() => import("./PostHogPageView"), {
+const PostHogPageView = dynamic(() => import("./posthog-page-view"), {
   ssr: false,
 });
 
@@ -62,6 +62,7 @@ export default function RootLayout({
               </ZustandProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
+          <Toaster />
         </body>
       </PHProvider>
     </html>
