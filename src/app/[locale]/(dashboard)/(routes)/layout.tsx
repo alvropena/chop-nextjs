@@ -32,7 +32,7 @@ export default function Layout({
             {/* <Button>Upgrade</Button>
                 <GiveFeedbackDialog />
                 <NotificationsDropdownMenu /> */}
-            <ModeToggle />
+
             <AvatarDropdownMenu />
           </div>
         </header>
