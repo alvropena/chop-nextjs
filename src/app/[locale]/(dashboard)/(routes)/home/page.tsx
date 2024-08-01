@@ -23,7 +23,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { useTranslations } from "next-intl";
-import { Option } from "@/types/prompt";
+import { Option, Prompt } from "@/types/prompt";
 
 const TextToSpeechButton = ({ text }: { text: string }) => {
   const speak = () => {
@@ -97,7 +97,9 @@ export default function HomePage() {
       return; // Si el prompt está vacío, no hacer nada
     }
 
-    const newPrompt = {
+    const newPrompt: Prompt = {
+      id: 0,
+      created_at: "",
       text: data.prompt,
       user_id: user?.sub || "unknown",
     };
@@ -257,12 +259,17 @@ export default function HomePage() {
                 {isLoading ? (
                   <LoaderCircle className="animate-spin w-4 h-4 ml-2" />
                 ) : isError ? (
-                  <TypingEffect text="An error occurred, we cannot process your request at the moment. Please, try again later. " className="mr-2" />
+                  <TypingEffect
+                    text="An error occurred, we cannot process your request at the moment. Please, try again later. "
+                    className="mr-2"
+                  />
                 ) : (
-                  <TypingEffect text={currentPrompt?.response || ""} className="mr-2" />
+                  <TypingEffect
+                    text={currentPrompt?.text || ""}
+                    className="mr-2"
+                  />
                 )}
               </div>
-
             </div>
           )}
           {threads.map((entry, index) => (
@@ -305,39 +312,39 @@ export default function HomePage() {
               </div>
               {entry.question.options.filter((item) => item.is_selected)
                 .length > 0 && (
-                  <>
-                    <div className="flex flex-row justify-end p-2 items-center">
-                      <div className="mr-2">
-                        {entry.question.options
-                          .filter((item) => item.is_selected || item.is_typed)
-                          .map((a) => (
-                            <p key={a.id}>{a.option_text}</p>
-                          ))}
-                      </div>
-                      <Avatar>
-                        <AvatarImage src="" alt="@alvaro" />
-                        <AvatarFallback>AL</AvatarFallback>
-                      </Avatar>
+                <>
+                  <div className="flex flex-row justify-end p-2 items-center">
+                    <div className="mr-2">
+                      {entry.question.options
+                        .filter((item) => item.is_selected || item.is_typed)
+                        .map((a) => (
+                          <p key={a.id}>{a.option_text}</p>
+                        ))}
                     </div>
-                    <div className="flex flex-row p-2 items-center">
-                      <Avatar>
-                        <AvatarImage src="" alt="@shadcn" />
-                        <AvatarFallback>CH</AvatarFallback>
-                      </Avatar>
-                      <p className="ml-2">
-                        {entry.question.options
-                          .filter((itemFiltered) => itemFiltered.is_selected)
-                          .map((itemMapped) =>
-                            itemMapped.is_correct_answer ? (
-                              <p key={itemMapped.id}>Its correct!</p>
-                            ) : (
-                              <p key={itemMapped.id}>This is incorrect</p>
-                            )
-                          )}
-                      </p>
-                    </div>
-                  </>
-                )}
+                    <Avatar>
+                      <AvatarImage src="" alt="@alvaro" />
+                      <AvatarFallback>AL</AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className="flex flex-row p-2 items-center">
+                    <Avatar>
+                      <AvatarImage src="" alt="@shadcn" />
+                      <AvatarFallback>CH</AvatarFallback>
+                    </Avatar>
+                    <p className="ml-2">
+                      {entry.question.options
+                        .filter((itemFiltered) => itemFiltered.is_selected)
+                        .map((itemMapped) =>
+                          itemMapped.is_correct_answer ? (
+                            <p key={itemMapped.id}>Its correct!</p>
+                          ) : (
+                            <p key={itemMapped.id}>This is incorrect</p>
+                          )
+                        )}
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           ))}
           {showNewQuestionButton && (
@@ -389,10 +396,13 @@ export default function HomePage() {
             className="absolute top-3 right-3 w-8 h-8"
             disabled={!isValid}
           >
-            {isLoading ? <Square className="w-4 h-4" /> : <ArrowUpIcon className="w-4 h-4" />}
+            {isLoading ? (
+              <Square className="w-4 h-4" />
+            ) : (
+              <ArrowUpIcon className="w-4 h-4" />
+            )}
             <span className="sr-only">Send</span>
           </Button>
-
         </form>
       </div>
     </div>
