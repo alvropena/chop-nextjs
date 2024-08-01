@@ -23,7 +23,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { useTranslations } from "next-intl";
-import { Option } from "@/types/prompt";
+import { Option, Prompt } from "@/types/prompt";
 
 const TextToSpeechButton = ({ text }: { text: string }) => {
   const speak = () => {
@@ -97,7 +97,9 @@ export default function HomePage() {
       return; // Si el prompt está vacío, no hacer nada
     }
 
-    const newPrompt = {
+    const newPrompt: Prompt = {
+      id: 0,
+      created_at: "",
       text: data.prompt,
       user_id: user?.sub || "unknown",
     };
@@ -257,12 +259,17 @@ export default function HomePage() {
                 {isLoading ? (
                   <LoaderCircle className="animate-spin w-4 h-4 ml-2" />
                 ) : isError ? (
-                  <TypingEffect text="An error occurred, we cannot process your request at the moment. Please, try again later. " className="mr-2" />
+                  <TypingEffect
+                    text="An error occurred, we cannot process your request at the moment. Please, try again later. "
+                    className="mr-2"
+                  />
                 ) : (
-                  <TypingEffect text={currentPrompt?.response || ""} className="mr-2" />
+                  <TypingEffect
+                    text={currentPrompt?.text || ""}
+                    className="mr-2"
+                  />
                 )}
               </div>
-
             </div>
           )}
           {threads.map((entry, index) => (
@@ -389,7 +396,12 @@ export default function HomePage() {
             className="absolute top-3 right-3 w-8 h-8"
             disabled={!isValid}
           >
-            {isLoading ? <Square className="w-4 h-4" /> : <ArrowUpIcon className="w-4 h-4" />}
+            {isLoading ? (
+              <Square className="w-4 h-4" />
+            ) : (
+              <ArrowUpIcon className="w-4 h-4" />
+            )}
+
             <span className="sr-only">Send</span>
           </Button>
 
