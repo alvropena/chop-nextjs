@@ -25,7 +25,11 @@ export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [userInput, setUserInput] = useState("")
   const { toast } = useToast()
-  const [isDialogOpen, setIsDialogOpen] = useState(false) // State to control dialog
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value)
@@ -45,7 +49,6 @@ export default function Page() {
 
   const validateAnswer = async () => {
     try {
-      //TODO: Change this endpoint to obtain a hint for this question.
       const response = await fetch(`/api/feedback/${currentIndex + 1}`)
       const data = await response.json()
 
@@ -60,7 +63,6 @@ export default function Page() {
 
   const handleHintClick = async () => {
     try {
-      //TODO: Change this endpoint to obtain a hint for this question.
       const response = await fetch(`/api/feedback/${currentIndex + 1}`)
       const data = await response.json()
 
@@ -70,15 +72,33 @@ export default function Page() {
     }
   }
 
-  const handleFeedbackSubmit = () => {
-    showToast("Thank you for your feedback!")
-    setIsDialogOpen(false) // Close the dialog after submission
+  const handleFeedbackSubmit = async () => {
+    try {
+      const response = await fetch("/api/submit-feedback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, message }),
+      })
+
+      if (response.ok) {
+        showToast("Thank you for your feedback!")
+        setIsDialogOpen(false) // Close the dialog on success
+      } else {
+        showToast("An error occurred. Please try again later.")
+      }
+    } catch (error) {
+      showToast("An error occurred. Please try again later.")
+    }
   }
+
+  const isFormFilled = name.trim() && email.trim() && message.trim()
 
   return (
     <div className="flex flex-col justify-center items-center h-screen p-4">
       {/* Header */}
-      <header className="flex flex-col items-center justify-center gap-2 m">
+      <header className="flex flex-col items-center justify-center gap-2 mb-8">
         <Logo />
         <p className="text-lg">Duolingo but for any topic.</p>
       </header>
@@ -114,9 +134,9 @@ export default function Page() {
 
       {/* Footer with Feedback Dialog */}
       <footer className="mt-8 text-center text-gray-600">
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button variant="link">Tell us what you think!</Button>
+            <Button variant="link" onClick={() => setIsDialogOpen(true)}>Tell us what you think!</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -128,19 +148,41 @@ export default function Page() {
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-4">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Your name" />
+                <Input
+                  id="name"
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
               <div className="flex flex-col gap-4">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="Your email" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="flex flex-col gap-4">
                 <Label htmlFor="message">Message</Label>
-                <Textarea id="message" placeholder="Type your message here." />
+                <Textarea
+                  id="message"
+                  placeholder="Type your message here."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" onClick={handleFeedbackSubmit}>Submit</Button>
+              <Button
+                type="submit"
+                onClick={handleFeedbackSubmit}
+                disabled={!isFormFilled} // Disable if form is not filled
+              >
+                Submit
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
