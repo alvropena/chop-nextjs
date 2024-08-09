@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Cloud,
     CreditCard,
@@ -35,10 +37,18 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { Switch } from "@/components/ui/switch"; // Ensure correct import path
+import { Label } from "@/components/ui/label";
+import { useTheme } from "next-themes"; // Import useTheme
 
 export function AvatarDropdownMenu() {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
     const { user, isLoading } = useUser();
+    const { theme, setTheme } = useTheme();
+    const isDarkMode = theme === "dark";
+
+    const handleToggle = () => {
+        setTheme(isDarkMode ? "light" : "dark");
+    };
 
     return (
         <DropdownMenu>
@@ -49,28 +59,20 @@ export function AvatarDropdownMenu() {
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {/*     <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <LifeBuoy className="mr-2 h-4 w-4" />
-                        <span>Support</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem disabled>
-                        <Keyboard className="mr-2 h-4 w-4" />
-                        <span>Keyboard shortcuts</span>
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                */}
-                <DropdownMenuItem>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <a href="/api/auth/logout">Log out</a>
-                    {/*<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>*/}
+                <DropdownMenuItem className="flex justify-between items-center">
+                    <Label htmlFor="dark-mode">Dark Mode</Label>
+                    <Switch id="dark-mode" checked={isDarkMode} onCheckedChange={handleToggle} />
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <Link href="/api/auth/logout">
+                    <DropdownMenuItem className="cursor-pointer justify-center">
+                        <LogOut className="mr-2 h-5 w-5" />
+                        <p>Log out</p>
+                    </DropdownMenuItem>
+                </Link>
             </DropdownMenuContent>
         </DropdownMenu>
-
     )
 }
