@@ -84,7 +84,7 @@ export default function Page() {
 
       if (response.ok) {
         showToast("Thank you for your feedback!")
-        setIsDialogOpen(false) // Close the dialog on success
+        setIsDialogOpen(false)
       } else {
         showToast("An error occurred. Please try again later.")
       }
@@ -179,7 +179,7 @@ export default function Page() {
               <Button
                 type="submit"
                 onClick={handleFeedbackSubmit}
-                disabled={!isFormFilled} // Disable if form is not filled
+                disabled={!isFormFilled}
               >
                 Submit
               </Button>
