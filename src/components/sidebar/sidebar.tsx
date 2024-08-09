@@ -1,4 +1,4 @@
-import { Logo } from '@/components/logo'
+
 import { SidebarRoutes } from '@/components/sidebar/sidebar-routes'
 
 const SidebarPage = () => {
