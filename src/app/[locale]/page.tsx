@@ -24,13 +24,17 @@ import { ModeToggle } from "@/components/mode-toggle"
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [userInput, setUserInput] = useState("")
+  const [hintMessage, setHintMessage] = useState("")
   const [feedbackMessage, setFeedbackMessage] = useState("")
+  const [showContinueButton, setShowContinueButton] = useState(false)
   const { toast } = useToast()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
+
+  const baseUrl = "https://api-dev.chop.so"
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value)
@@ -43,28 +47,43 @@ export default function Page() {
   }
 
   const validateAnswer = async () => {
-    try {
-      const response = await fetch(`/api/feedback/${currentIndex + 1}`)
-      const data = await response.json()
+    if (!userInput.trim()) {
+      setFeedbackMessage("Please enter an answer.")
+      return
+    }
 
-      setFeedbackMessage(data.message)
+    try {
+      const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
+        method: "POST",
+      })
+      const data = await response.json()
+      setFeedbackMessage(data || "No message found in the response")
+      setHintMessage("")  // Clear hint message when feedback is shown
+      setShowContinueButton(true)
     } catch (error) {
       setFeedbackMessage("An error occurred. Try again later.")
-    } finally {
-      setUserInput("")
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % capitalsData.length)
     }
   }
 
   const handleHintClick = async () => {
     try {
-      const response = await fetch(`/api/feedback/${currentIndex + 1}`)
+      const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}`, {
+        method: "POST",
+      })
       const data = await response.json()
-
-      setFeedbackMessage(data.message)
+      setHintMessage(data || "No hint found in the response")
+      setFeedbackMessage("")  // Clear feedback message when hint is shown
     } catch (error) {
-      setFeedbackMessage("An error occurred. Try again later.")
+      setHintMessage("An error occurred. Try again later.")
     }
+  }
+
+  const handleContinue = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % capitalsData.length)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
   }
 
   const showToast = (message: string) => {
@@ -75,17 +94,25 @@ export default function Page() {
 
   const handleFeedbackSubmit = async () => {
     try {
-      const response = await fetch("/api/submit-feedback", {
+      const response = await fetch(`${baseUrl}/api/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({
+          message: message.trim(),
+          name: name.trim(),
+          email: email.trim(),
+        }),
       })
 
       if (response.ok) {
         showToast("Thank you for your feedback!")
         setIsDialogOpen(false)
+        // Reset the form fields after submission
+        setName("")
+        setEmail("")
+        setMessage("")
       } else {
         showToast("An error occurred. Please try again later.")
       }
@@ -121,23 +148,36 @@ export default function Page() {
                   value={userInput}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
+                  disabled={showContinueButton}  // Disable input after submitting the answer
                 />
                 <Button
                   variant="default"
                   size="icon"
                   onClick={validateAnswer}
-                  disabled={!userInput.trim()}
+                  disabled={!userInput.trim() || showContinueButton}  // Disable button after submitting the answer
                 >
                   <ArrowRightIcon className="h-4 w-4" />
                 </Button>
               </div>
-              {/* Display feedback message */}
+              {/* Display hint message for hint response */}
+              {!feedbackMessage && hintMessage && (
+                <p className="text-center mt-4 text-sm">{hintMessage}</p>
+              )}
+              {/* Display feedback message for validation response */}
               {feedbackMessage && (
                 <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
               )}
-              <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick}>
-                <Info className="h-4 w-4" /> Hint
-              </Button>
+              {/* Hide Hint button and show Continue button after answer is submitted */}
+              {!showContinueButton ? (
+                <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick}>
+                  <Info className="h-4 w-4" /> Hint
+                </Button>
+              ) : (
+                <Button variant="default" className="mt-4" onClick={handleContinue}>
+                  Continue
+                </Button>
+              )}
+
             </CardContent>
           </Card>
         </main>
