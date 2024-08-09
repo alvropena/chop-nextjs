@@ -18,8 +18,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import Image from "next/image"
-import { Logo } from "@/components/logo"
+import Logo from "@/components/logo"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -97,101 +97,107 @@ export default function Page() {
   const isFormFilled = name.trim() && email.trim() && message.trim()
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen p-4">
-      {/* Header */}
-      <header className="flex flex-col items-center justify-center gap-2 mb-8">
-        <Logo />
-        <p className="text-lg">Duolingo but for any topic.</p>
-      </header>
+    <div className="relative h-screen">
+      {/* ModeToggle positioned at the top right */}
+      <div className="absolute top-4 right-4">
+        <ModeToggle />
+      </div>
+      <div className="flex flex-col justify-center items-center h-full">
+        {/* Header */}
+        <header className="flex flex-col items-center justify-center gap-2 mb-8">
+          <Logo />
+          <p className="text-lg">Duolingo but for any topic.</p>
+        </header>
 
-      {/* Main Content */}
-      <main className="flex flex-col items-center w-full max-w-md">
-        <Card className="w-full">
-          <CardContent className="flex flex-col items-center justify-center p-6">
-            <Label className="text-xl mb-4 text-center">{capitalsData[currentIndex].question_text}</Label>
-            <div className="flex flex-row items-center justify-center gap-2 w-full">
-              <Input
-                type="text"
-                placeholder="Enter the capital"
-                value={userInput}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-              />
-              <Button
-                variant="default"
-                size="icon"
-                onClick={validateAnswer}
-                disabled={!userInput.trim()}
-              >
-                <ArrowRightIcon className="h-4 w-4" />
+        {/* Main Content */}
+        <main className="flex flex-col items-center w-full max-w-md">
+          <Card className="w-full">
+            <CardContent className="flex flex-col items-center justify-center p-6">
+              <Label className="text-xl mb-4 text-center">{capitalsData[currentIndex].question_text}</Label>
+              <div className="flex flex-row items-center justify-center gap-2 w-full">
+                <Input
+                  type="text"
+                  placeholder="Enter the capital"
+                  value={userInput}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                />
+                <Button
+                  variant="default"
+                  size="icon"
+                  onClick={validateAnswer}
+                  disabled={!userInput.trim()}
+                >
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Button>
+              </div>
+              {/* Display feedback message */}
+              {feedbackMessage && (
+                <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
+              )}
+              <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick}>
+                <Info className="h-4 w-4" /> Hint
               </Button>
-            </div>
-            {/* Display feedback message */}
-            {feedbackMessage && (
-              <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
-            )}
-            <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick}>
-              <Info className="h-4 w-4" /> Hint
-            </Button>
-          </CardContent>
-        </Card>
-      </main>
+            </CardContent>
+          </Card>
+        </main>
 
-      {/* Footer with Feedback Dialog */}
-      <footer className="mt-8 text-center text-gray-600">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button variant="link" onClick={() => setIsDialogOpen(true)}>Tell us what you think!</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Share your feedback</DialogTitle>
-              <DialogDescription>
-                We would love to hear your thoughts! Please share your feedback below.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col gap-4">
+        {/* Footer with Feedback Dialog */}
+        <footer className="mt-8 text-center text-gray-600">
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="link" onClick={() => setIsDialogOpen(true)}>Tell us what you think!</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Share your feedback</DialogTitle>
+                <DialogDescription>
+                  We would love to hear your thoughts! Please share your feedback below.
+                </DialogDescription>
+              </DialogHeader>
               <div className="flex flex-col gap-4">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  placeholder="Your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <div className="flex flex-col gap-4">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea
+                    id="message"
+                    placeholder="Type your message here."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-4">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
-                  placeholder="Type your message here."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button
-                type="submit"
-                onClick={handleFeedbackSubmit}
-                disabled={!isFormFilled}
-              >
-                Submit
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </footer>
+              <DialogFooter>
+                <Button
+                  type="submit"
+                  onClick={handleFeedbackSubmit}
+                  disabled={!isFormFilled}
+                >
+                  Submit
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </footer>
+      </div>
     </div>
   )
 }

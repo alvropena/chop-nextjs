@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { MoonIcon, SunIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Toggle } from "@/components/ui/toggle"
 
@@ -20,12 +19,11 @@ export function ModeToggle() {
 
     return (
         <Toggle aria-label="Toggle theme" pressed={isDarkMode} onPressedChange={handleToggle}>
-            {isDarkMode ?
-                <MoonIcon className="h-4 w-4" />
-                :
-                <SunIcon className="h-4 w-4" />
-            }
+            {isDarkMode ? (
+                <div>Dark</div>
+            ) : (
+                <div>Light</div>
+            )}
         </Toggle>
-
     )
 }
