@@ -57,7 +57,7 @@ export default function Page() {
         method: "POST",
       })
       const data = await response.json()
-      setFeedbackMessage(data || "No message found in the response")
+      setFeedbackMessage(data || "No message found in the  response")
       setHintMessage("")  // Clear hint message when feedback is shown
       setShowContinueButton(true)
     } catch (error) {
@@ -94,7 +94,7 @@ export default function Page() {
 
   const handleFeedbackSubmit = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/feedback`, {
+      const response = await fetch("https://api-dev.chop.so/Prod/api/feedback/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +105,6 @@ export default function Page() {
           email: email.trim(),
         }),
       })
-
       if (response.ok) {
         showToast("Thank you for your feedback!")
         setIsDialogOpen(false)
