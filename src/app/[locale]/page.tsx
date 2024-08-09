@@ -24,6 +24,7 @@ import { Logo } from "@/components/logo"
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [userInput, setUserInput] = useState("")
+  const [feedbackMessage, setFeedbackMessage] = useState("")
   const { toast } = useToast()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -41,20 +42,14 @@ export default function Page() {
     }
   }
 
-  const showToast = (message: string) => {
-    toast({
-      description: message,
-    })
-  }
-
   const validateAnswer = async () => {
     try {
       const response = await fetch(`/api/feedback/${currentIndex + 1}`)
       const data = await response.json()
 
-      showToast(data.message)
+      setFeedbackMessage(data.message)
     } catch (error) {
-      showToast("An error occurred. Try again later.")
+      setFeedbackMessage("An error occurred. Try again later.")
     } finally {
       setUserInput("")
       setCurrentIndex((prevIndex) => (prevIndex + 1) % capitalsData.length)
@@ -66,10 +61,16 @@ export default function Page() {
       const response = await fetch(`/api/feedback/${currentIndex + 1}`)
       const data = await response.json()
 
-      showToast(data.message)
+      setFeedbackMessage(data.message)
     } catch (error) {
-      showToast("An error occurred. Try again later.")
+      setFeedbackMessage("An error occurred. Try again later.")
     }
+  }
+
+  const showToast = (message: string) => {
+    toast({
+      description: message,
+    })
   }
 
   const handleFeedbackSubmit = async () => {
@@ -105,7 +106,7 @@ export default function Page() {
 
       {/* Main Content */}
       <main className="flex flex-col items-center w-full max-w-md">
-        <Card className="shadow-lg w-full">
+        <Card className="w-full">
           <CardContent className="flex flex-col items-center justify-center p-6">
             <Label className="text-xl mb-4 text-center">{capitalsData[currentIndex].question_text}</Label>
             <div className="flex flex-row items-center justify-center gap-2 w-full">
@@ -125,6 +126,10 @@ export default function Page() {
                 <ArrowRightIcon className="h-4 w-4" />
               </Button>
             </div>
+            {/* Display feedback message */}
+            {feedbackMessage && (
+              <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
+            )}
             <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick}>
               <Info className="h-4 w-4" /> Hint
             </Button>
