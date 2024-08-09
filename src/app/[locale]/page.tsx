@@ -94,7 +94,7 @@ export default function Page() {
 
   const handleFeedbackSubmit = async () => {
     try {
-      const response = await fetch("https://api-dev.chop.so/Prod/api/feedback/", {
+      const response = await fetch("https://api-dev.chop.so/api/feedback/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
