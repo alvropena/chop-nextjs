@@ -262,7 +262,7 @@ export default function IndividualPromptPage() {
               <AvatarImage src="" alt="@chop" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
-            <TypingEffect text={t("Hey_what_do_you_want_to_learn_today?")} />
+            <TypingEffect texts={[{ word: t("Hey_what_do_you_want_to_learn_today?"), emoji: "" }]} />
           </div>
           {currentPrompt && (
             <div key={currentPrompt?.id} className="w-full">

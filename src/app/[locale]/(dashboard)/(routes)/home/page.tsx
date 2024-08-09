@@ -240,7 +240,7 @@ export default function HomePage() {
               <AvatarImage src="" alt="@chop" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
-            <TypingEffect text={t("Hey_what_do_you_want_to_learn_today?")} />
+            <TypingEffect texts={[{ word: t("Hey_what_do_you_want_to_learn_today?"), emoji: "" }]} />
           </div>
           {currentPrompt && (
             <div key={currentPrompt?.id} className="w-full">
@@ -260,12 +260,12 @@ export default function HomePage() {
                   <LoaderCircle className="animate-spin w-4 h-4 ml-2" />
                 ) : isError ? (
                   <TypingEffect
-                    text="An error occurred, we cannot process your request at the moment. Please, try again later. "
+                    texts={[{ word: "An error occurred, we cannot process your request at the moment. Please, try again later.", emoji: "" }]}
                     className="mr-2"
                   />
                 ) : (
                   <TypingEffect
-                    text={currentPrompt?.text || ""}
+                    texts={[{ word: currentPrompt?.text || "", emoji: "" }]}
                     className="mr-2"
                   />
                 )}
