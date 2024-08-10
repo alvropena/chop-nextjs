@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { geography } from "@/data/geography"
 import { soccer } from "@/data/soccer"
 import { history } from "@/data/history"
-import { ArrowRightIcon, Info, LoaderCircle } from "lucide-react"
+import { ArrowRightIcon, Info, LoaderCircle, LogIn, User, UserCircle } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import {
   Dialog,
@@ -169,9 +169,12 @@ export default function Page() {
 
   return (
     <div className="relative h-screen">
-      {/* ModeToggle positioned at the top right */}
-      <div className="absolute top-4 right-4">
+      {/* ModeToggle and Sign In positioned at the top right */}
+      <div className="absolute top-4 right-4 flex gap-4">
         <ModeToggle />
+        <Button className="gap-2">
+          <LogIn className="h-4 w-4" />
+          Sign In</Button>
       </div>
       <div className="flex flex-col justify-center items-center h-full">
         {/* Header */}
@@ -288,6 +291,6 @@ export default function Page() {
           </Dialog>
         </footer>
       </div>
-    </div>
+    </div >
   )
 }
