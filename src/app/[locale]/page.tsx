@@ -25,6 +25,16 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { Progress } from "@/components/ui/progress"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -35,16 +45,27 @@ export default function Page() {
   const [currentData, setCurrentData] = useState(geography) // Default to geography
   const [selectedCategory, setSelectedCategory] = useState("geography") // Default category
   const { toast } = useToast()
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false) // For feedback dialog
+  const [isCongratulationsDialogOpen, setIsCongratulationsDialogOpen] = useState(false) // For congratulations dialog
   const [isLoading, setIsLoading] = useState(false)
   const [isHintLoading, setIsHintLoading] = useState(false)
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [questionCount, setQuestionCount] = useState(0)
+  const [sessionCount, setSessionCount] = useState(0) // Track the number of study sessions
+  const [isAlertOpen, setIsAlertOpen] = useState(false) // For change topic alert dialog
+  const [pendingCategory, setPendingCategory] = useState<string | null>(null) // Track the category user wants to switch to
+  //const [pendingCategory, setPendingCategory] = useState(null) // Track the category user wants to switch to
+  const [dontAskAgain, setDontAskAgain] = useState(false) // Track if user selected "Don't ask me again"
 
-  // Update progress dynamically
   useEffect(() => {
-    setProgress(((currentIndex + 1) / currentData.length) * 100)
-  }, [currentIndex, currentData])
+    setSessionCount(0); // Reset session count on page load
+  }, []);
+
+  useEffect(() => {
+    // Update progress to reflect the completion of ten questions
+    setProgress(((questionCount % 10) / 10) * 100)
+  }, [questionCount])
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -108,6 +129,15 @@ export default function Page() {
     setHintMessage("")
     setFeedbackMessage("")
     setShowContinueButton(false)
+    setQuestionCount((prevCount) => {
+      const newCount = prevCount + 1
+      if (newCount % 10 === 0) {
+        setIsCongratulationsDialogOpen(true)
+        setSessionCount(prevSession => prevSession + 1) // Increment session count
+        return 0 // Reset the question count after 10 questions
+      }
+      return newCount
+    })
   }
 
   const showToast = (message: string) => {
@@ -149,8 +179,18 @@ export default function Page() {
 
   const isFormFilled = name.trim() && email.trim() && message.trim()
 
-  // Handle changing the data based on the selected category
   const handleCategoryClick = (category: string) => {
+    if (dontAskAgain) {
+      switchCategory(category)
+    } else if (progress > 0) {
+      setPendingCategory(category)
+      setIsAlertOpen(true)
+    } else {
+      switchCategory(category)
+    }
+  }
+
+  const switchCategory = (category: string) => {
     setSelectedCategory(category)
     switch (category) {
       case "geography":
@@ -170,6 +210,16 @@ export default function Page() {
     setHintMessage("")
     setFeedbackMessage("")
     setShowContinueButton(false)
+    setProgress(0); // Reset progress when changing categories
+    setQuestionCount(0); // Reset question count when changing categories
+  }
+
+  const confirmCategoryChange = () => {
+    if (pendingCategory) {
+      switchCategory(pendingCategory)
+      setPendingCategory(null)
+    }
+    setIsAlertOpen(false)
   }
 
   return (
@@ -211,7 +261,7 @@ export default function Page() {
               ⚽ Soccer
             </Button>
           </div>
-          <Progress value={progress} className="w-[100%] mb-4 h-3" />
+          <Progress value={progress} className="w-[100%] mb-4 h-2" />
           <Card className="flex flex-col w-full items-center justify-center h-64">
             <CardContent className="flex flex-col items-center justify-center p-6">
               <Label className="text-xl mb-4 text-center">{currentData[currentIndex].question_text}</Label>
@@ -220,6 +270,7 @@ export default function Page() {
                   type="text"
                   placeholder="Enter your answer"
                   value={userInput}
+                  className="w-80"
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
                   disabled={showContinueButton || isLoading}  // Disable input during loading
@@ -251,12 +302,38 @@ export default function Page() {
                   Continue
                 </Button>
               )}
-
             </CardContent>
           </Card>
+
+          {/* Alert Dialog for Changing Topic */}
+          <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Change Topic?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to change the topic? This will lose all your progress in the current session.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox"
+                    checked={dontAskAgain}
+                    onChange={() => setDontAskAgain(!dontAskAgain)}
+                  />
+                  <span>Don't ask me again</span>
+                </label>
+                <AlertDialogCancel onClick={() => setIsAlertOpen(false)}>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={confirmCategoryChange}>Confirm</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          {/* Feedback Dialog */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="link" onClick={() => setIsDialogOpen(true)} className="mt-2">Tell us what you think!</Button>
+              <Button variant="link" onClick={() => setIsDialogOpen(true)} className="mt-4">Tell us what you think!</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
@@ -307,13 +384,31 @@ export default function Page() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+
+          {/* Alert Dialog for Study Session Completion */}
+          <AlertDialog open={isCongratulationsDialogOpen} onOpenChange={setIsCongratulationsDialogOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>🎉 Congratulations!</AlertDialogTitle>
+                <AlertDialogDescription>
+                  You have completed your {sessionCount === 0 ? 'first' : sessionCount + 1 + 'th'} study session!
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction onClick={() => setIsCongratulationsDialogOpen(false)}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </main>
       </div>
       {/* Footer with Feedback Dialog */}
       <footer className="flex flex-row justify-between items-center">
         <Badge>Beta</Badge>
+        <p className="text-xs text-gray-500">Chop can make mistakes. Check important info.</p>
         <Button onClick={() => window.open("https://github.com/alvropena/chop-nextjs.git", "_blank")} variant="link">Source</Button>
       </footer>
-    </div >
+    </div>
   )
 }
