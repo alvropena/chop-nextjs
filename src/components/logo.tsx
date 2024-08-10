@@ -9,11 +9,13 @@ export default function Logo() {
     const logoSrc = theme === "dark" ? "/logo.svg" : "/logo_d.svg";
 
     return (
-        <Image
-            height={80}
-            width={80}
-            alt="logo"
-            src={logoSrc}
-        />
+        <Link href={"/"}>
+            <Image
+                height={80}
+                width={80}
+                alt="logo"
+                src={logoSrc}
+            />
+        </Link>
     )
 }

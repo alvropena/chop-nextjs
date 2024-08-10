@@ -35,6 +35,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Question } from "@/types/question"
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -43,6 +45,7 @@ export default function Page() {
   const [feedbackMessage, setFeedbackMessage] = useState("")
   const [showContinueButton, setShowContinueButton] = useState(false)
   const [currentData, setCurrentData] = useState(geography) // Default to geography
+  const [shuffledData, setShuffledData] = useState([]) // Shuffled questions
   const [selectedCategory, setSelectedCategory] = useState("geography") // Default category
   const { toast } = useToast()
   const [isDialogOpen, setIsDialogOpen] = useState(false) // For feedback dialog
@@ -55,8 +58,14 @@ export default function Page() {
   const [sessionCount, setSessionCount] = useState(0) // Track the number of study sessions
   const [isAlertOpen, setIsAlertOpen] = useState(false) // For change topic alert dialog
   const [pendingCategory, setPendingCategory] = useState<string | null>(null) // Track the category user wants to switch to
-  //const [pendingCategory, setPendingCategory] = useState(null) // Track the category user wants to switch to
-  const [dontAskAgain, setDontAskAgain] = useState(false) // Track if user selected "Don't ask me again"
+  const [dontAskAgain, setDontAskAgain] = useState(false)
+
+  useEffect(() => {
+    // Shuffle the questions when the component mounts or when the category changes
+    const shuffledQuestions = shuffleArray([...currentData])
+    setShuffledData(shuffledQuestions)
+    setCurrentIndex(0)
+  }, [currentData])
 
   useEffect(() => {
     setSessionCount(0); // Reset session count on page load
@@ -72,6 +81,14 @@ export default function Page() {
   const [message, setMessage] = useState("")
 
   const baseUrl = "https://api-dev.chop.so"
+
+  const shuffleArray = (array: any) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+    }
+    return array
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value)
@@ -92,7 +109,7 @@ export default function Page() {
     setIsLoading(true)
 
     try {
-      const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(currentData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
+      const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(shuffledData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
         method: "POST",
       })
       const data = await response.json()
@@ -110,7 +127,7 @@ export default function Page() {
     setIsHintLoading(true)
 
     try {
-      const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(currentData[currentIndex].question_text)}`, {
+      const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(shuffledData[currentIndex].question_text)}`, {
         method: "POST",
       })
       const data = await response.json()
@@ -124,7 +141,7 @@ export default function Page() {
   }
 
   const handleContinue = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % currentData.length)
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffledData.length)
     setUserInput("")
     setHintMessage("")
     setFeedbackMessage("")
@@ -227,6 +244,7 @@ export default function Page() {
       {/* Header */}
       <header className="flex flex-row items-center justify-between">
         <Logo />
+
         <div>
           <ModeToggle />
           <Button className="gap-2">
@@ -264,7 +282,7 @@ export default function Page() {
           <Progress value={progress} className="w-[100%] mb-4 h-2" />
           <Card className="flex flex-col w-full items-center justify-center h-64">
             <CardContent className="flex flex-col items-center justify-center p-6">
-              <Label className="text-xl mb-4 text-center">{currentData[currentIndex].question_text}</Label>
+              <Label className="text-xl mb-4 text-center">{shuffledData[currentIndex]?.question_text}</Label>
               <div className="flex flex-row items-center justify-center gap-2 w-full">
                 <Input
                   type="text"
@@ -313,17 +331,16 @@ export default function Page() {
                 <AlertDialogDescription>
                   Are you sure you want to change the topic? This will lose all your progress in the current session.
                 </AlertDialogDescription>
+
               </AlertDialogHeader>
+              <Checkbox id="dontAskAgain" />
+              <label
+                htmlFor="dontAskAgain"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Don't ask me again
+              </label>
               <AlertDialogFooter>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox"
-                    checked={dontAskAgain}
-                    onChange={() => setDontAskAgain(!dontAskAgain)}
-                  />
-                  <span>Don't ask me again</span>
-                </label>
                 <AlertDialogCancel onClick={() => setIsAlertOpen(false)}>Cancel</AlertDialogCancel>
                 <AlertDialogAction onClick={confirmCategoryChange}>Confirm</AlertDialogAction>
               </AlertDialogFooter>
