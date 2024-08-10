@@ -174,7 +174,7 @@ export default function Page() {
         <ModeToggle />
         <Button className="gap-2">
           <LogIn className="h-4 w-4" />
-          Sign In</Button>
+          Log In</Button>
       </div>
       <div className="flex flex-col justify-center items-center h-full">
         {/* Header */}
