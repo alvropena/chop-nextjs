@@ -10,8 +10,8 @@ export default function Logo() {
 
     return (
         <Image
-            height={180}
-            width={180}
+            height={80}
+            width={80}
             alt="logo"
             src={logoSrc}
         />
