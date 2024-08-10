@@ -173,10 +173,10 @@ export default function Page() {
         </div>
         <div className="flex gap-2">
           <ModeToggle />
-          <Button className="gap-2">
+          {/* <Button className="gap-2">
             <LogIn className="h-4 w-4" />
             Log In
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className="flex flex-col flex-grow justify-center items-center">
