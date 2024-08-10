@@ -29,13 +29,11 @@ export default function Page() {
   const [showContinueButton, setShowContinueButton] = useState(false)
   const { toast } = useToast()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
-
   const [isLoading, setIsLoading] = useState(false)
-  const [isHintLoading, setIsHintLoading] = useState(false)  // New state for hint loading
+  const [isHintLoading, setIsHintLoading] = useState(false)
 
   const baseUrl = "https://api-dev.chop.so"
 
@@ -55,7 +53,7 @@ export default function Page() {
       return
     }
 
-    setIsLoading(true)  // Start loading
+    setIsLoading(true)
 
     try {
       const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
@@ -63,17 +61,17 @@ export default function Page() {
       })
       const data = await response.json()
       setFeedbackMessage(data || "No message found in the  response")
-      setHintMessage("")  // Clear hint message when feedback is shown
+      setHintMessage("")
       setShowContinueButton(true)
     } catch (error) {
       setFeedbackMessage("An error occurred. Try again later.")
     } finally {
-      setIsLoading(false)  // Stop loading
+      setIsLoading(false)
     }
   }
 
   const handleHintClick = async () => {
-    setIsHintLoading(true)  // Start loading for hint
+    setIsHintLoading(true)
 
     try {
       const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}`, {
@@ -81,11 +79,11 @@ export default function Page() {
       })
       const data = await response.json()
       setHintMessage(data || "No hint found in the response")
-      setFeedbackMessage("")  // Clear feedback message when hint is shown
+      setFeedbackMessage("")
     } catch (error) {
       setHintMessage("An error occurred. Try again later.")
     } finally {
-      setIsHintLoading(false)  // Stop loading for hint
+      setIsHintLoading(false)
     }
   }
 
@@ -119,7 +117,6 @@ export default function Page() {
       if (response.ok) {
         showToast("Thank you for your feedback!")
         setIsDialogOpen(false)
-        // Reset the form fields after submission
         setName("")
         setEmail("")
         setMessage("")
@@ -158,26 +155,23 @@ export default function Page() {
                   value={userInput}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  disabled={showContinueButton || isLoading}  // Disable input after submitting the answer or while loading
+                  disabled={showContinueButton || isLoading}
                 />
                 <Button
                   variant="default"
                   size="icon"
                   onClick={validateAnswer}
-                  disabled={!userInput.trim() || showContinueButton || isLoading}  // Disable button after submitting the answer or while loading
+                  disabled={!userInput.trim() || showContinueButton || isLoading}
                 >
                   {isLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <ArrowRightIcon className="h-4 w-4" />}
                 </Button>
               </div>
-              {/* Display hint message for hint response */}
               {!feedbackMessage && hintMessage && (
                 <p className="text-center mt-4 text-sm">{hintMessage}</p>
               )}
-              {/* Display feedback message for validation response */}
               {feedbackMessage && (
                 <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
               )}
-              {/* Hide Hint button and show Continue button after answer is submitted */}
               {!showContinueButton ? (
                 <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick} disabled={isHintLoading}>
                   {isHintLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <Info className="h-4 w-4" />} {isHintLoading ? "Loading" : "Hint"}
