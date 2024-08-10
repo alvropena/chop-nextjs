@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { geography } from "@/data/geography"
 import { soccer } from "@/data/soccer"
 import { history } from "@/data/history"
-import { ArrowRightIcon, Info, LoaderCircle, LogIn, User, UserCircle } from "lucide-react"
+import { ArrowRightIcon, Info, LoaderCircle, LogIn } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import {
   Dialog,
@@ -30,6 +30,7 @@ export default function Page() {
   const [feedbackMessage, setFeedbackMessage] = useState("")
   const [showContinueButton, setShowContinueButton] = useState(false)
   const [currentData, setCurrentData] = useState(geography) // Default to geography
+  const [selectedCategory, setSelectedCategory] = useState("geography") // Default category
   const { toast } = useToast()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -140,26 +141,21 @@ export default function Page() {
   const isFormFilled = name.trim() && email.trim() && message.trim()
 
   // Handle changing the data based on the selected category
-  const handleGeographyClick = () => {
-    setCurrentData(geography)
-    setCurrentIndex(0)
-    setUserInput("")
-    setHintMessage("")
-    setFeedbackMessage("")
-    setShowContinueButton(false)
-  }
-
-  const handleHistoryClick = () => {
-    setCurrentData(history)
-    setCurrentIndex(0)
-    setUserInput("")
-    setHintMessage("")
-    setFeedbackMessage("")
-    setShowContinueButton(false)
-  }
-
-  const handleSoccerClick = () => {
-    setCurrentData(soccer)
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category)
+    switch (category) {
+      case "geography":
+        setCurrentData(geography)
+        break
+      case "history":
+        setCurrentData(history)
+        break
+      case "soccer":
+        setCurrentData(soccer)
+        break
+      default:
+        setCurrentData(geography)
+    }
     setCurrentIndex(0)
     setUserInput("")
     setHintMessage("")
@@ -186,9 +182,27 @@ export default function Page() {
         {/* Main Content */}
         <main className="flex flex-col items-center w-full max-w-md">
           <div className="flex flex-row gap-4 mb-4">
-            <Button className="h-6 text-xs" onClick={handleGeographyClick}>🗺️  Geography</Button>
-            <Button className="h-6 text-xs" onClick={handleHistoryClick}>🏛️ History</Button>
-            <Button className="h-6 text-xs" onClick={handleSoccerClick}>⚽ Soccer</Button>
+            <Button
+              variant={selectedCategory === "geography" ? "default" : "outline"}
+              className="h-6 text-xs"
+              onClick={() => handleCategoryClick("geography")}
+            >
+              🗺️  Geography
+            </Button>
+            <Button
+              variant={selectedCategory === "history" ? "default" : "outline"}
+              className="h-6 text-xs"
+              onClick={() => handleCategoryClick("history")}
+            >
+              🏛️ History
+            </Button>
+            <Button
+              variant={selectedCategory === "soccer" ? "default" : "outline"}
+              className="h-6 text-xs"
+              onClick={() => handleCategoryClick("soccer")}
+            >
+              ⚽ Soccer
+            </Button>
           </div>
           <Card className="w-full">
             <CardContent className="flex flex-col items-center justify-center p-6">
