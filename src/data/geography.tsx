@@ -1,4 +1,4 @@
-export const capitalsData = [
+export const geography = [
     {
         "id": "1",
         "created_at": "2024-08-08T00:00:00Z",

@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { capitalsData } from "@/data/capitals"
+import { geography } from "@/data/geography"
+import { soccer } from "@/data/soccer"
+import { history } from "@/data/history"
 import { ArrowRightIcon, Info } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import {
@@ -20,6 +22,7 @@ import {
 } from "@/components/ui/dialog"
 import Logo from "@/components/logo"
 import { ModeToggle } from "@/components/mode-toggle"
+import { Badge } from "@/components/ui/badge"
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -27,6 +30,7 @@ export default function Page() {
   const [hintMessage, setHintMessage] = useState("")
   const [feedbackMessage, setFeedbackMessage] = useState("")
   const [showContinueButton, setShowContinueButton] = useState(false)
+  const [currentData, setCurrentData] = useState(geography) // Default to geography
   const { toast } = useToast()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -53,11 +57,11 @@ export default function Page() {
     }
 
     try {
-      const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
+      const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(currentData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
         method: "POST",
       })
       const data = await response.json()
-      setFeedbackMessage(data || "No message found in the  response")
+      setFeedbackMessage(data || "No message found in the response")
       setHintMessage("")  // Clear hint message when feedback is shown
       setShowContinueButton(true)
     } catch (error) {
@@ -67,7 +71,7 @@ export default function Page() {
 
   const handleHintClick = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}`, {
+      const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(currentData[currentIndex].question_text)}`, {
         method: "POST",
       })
       const data = await response.json()
@@ -79,7 +83,7 @@ export default function Page() {
   }
 
   const handleContinue = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % capitalsData.length)
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % currentData.length)
     setUserInput("")
     setHintMessage("")
     setFeedbackMessage("")
@@ -122,6 +126,34 @@ export default function Page() {
 
   const isFormFilled = name.trim() && email.trim() && message.trim()
 
+  // Handle changing the data based on the selected category
+  const handleGeographyClick = () => {
+    setCurrentData(geography)
+    setCurrentIndex(0)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
+  }
+
+  const handleHistoryClick = () => {
+    setCurrentData(history)
+    setCurrentIndex(0)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
+  }
+
+  const handleSoccerClick = () => {
+    setCurrentData(soccer)
+    setCurrentIndex(0)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
+  }
+
   return (
     <div className="relative h-screen">
       {/* ModeToggle positioned at the top right */}
@@ -137,13 +169,18 @@ export default function Page() {
 
         {/* Main Content */}
         <main className="flex flex-col items-center w-full max-w-md">
+          <div className="flex flex-row gap-4 mb-4">
+            <Button className="h-6 text-xs" onClick={handleGeographyClick}>🗺️  Geography</Button>
+            <Button className="h-6 text-xs" onClick={handleHistoryClick}>🏛️ History</Button>
+            <Button className="h-6 text-xs" onClick={handleSoccerClick}>⚽ Soccer</Button>
+          </div>
           <Card className="w-full">
             <CardContent className="flex flex-col items-center justify-center p-6">
-              <Label className="text-xl mb-4 text-center">{capitalsData[currentIndex].question_text}</Label>
+              <Label className="text-xl mb-4 text-center">{currentData[currentIndex].question_text}</Label>
               <div className="flex flex-row items-center justify-center gap-2 w-full">
                 <Input
                   type="text"
-                  placeholder="Enter the capital"
+                  placeholder="Enter your answer"
                   value={userInput}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
@@ -176,7 +213,6 @@ export default function Page() {
                   Continue
                 </Button>
               )}
-
             </CardContent>
           </Card>
         </main>
