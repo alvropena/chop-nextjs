@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog"
 import Logo from "@/components/logo"
 import { ModeToggle } from "@/components/mode-toggle"
+import { Badge } from "@/components/ui/badge"
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -164,15 +165,21 @@ export default function Page() {
   }
 
   return (
-    <div className="relative h-screen">
+    <div className="h-fit min-h-screen flex flex-col">
       {/* ModeToggle and Sign In positioned at the top right */}
-      <div className="absolute top-4 right-4 flex gap-4">
-        <ModeToggle />
-        <Button className="gap-2">
-          <LogIn className="h-4 w-4" />
-          Log In</Button>
+      <div className="flex flex-row items-center justify-between p-4">
+        <div>
+          <Badge>Beta</Badge>
+        </div>
+        <div className="flex gap-2">
+          <ModeToggle />
+          <Button className="gap-2">
+            <LogIn className="h-4 w-4" />
+            Log In
+          </Button>
+        </div>
       </div>
-      <div className="flex flex-col justify-center items-center h-full">
+      <div className="flex flex-col flex-grow justify-center items-center">
         {/* Header */}
         <header className="flex flex-col items-center justify-center gap-2 mb-8">
           <Logo />
@@ -247,9 +254,8 @@ export default function Page() {
             </CardContent>
           </Card>
         </main>
-
         {/* Footer with Feedback Dialog */}
-        <footer className="mt-8 text-center text-gray-600">
+        <footer className="flex flex-col mt-8">
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button variant="link" onClick={() => setIsDialogOpen(true)}>Tell us what you think!</Button>
@@ -303,6 +309,7 @@ export default function Page() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+
         </footer>
       </div>
     </div >
