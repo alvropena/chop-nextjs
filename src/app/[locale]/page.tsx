@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { capitalsData } from "@/data/capitals"
-import { ArrowRightIcon, Info } from "lucide-react"
+import { ArrowRightIcon, Info, LoaderCircle } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import {
   Dialog,
@@ -34,6 +34,9 @@ export default function Page() {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
 
+  const [isLoading, setIsLoading] = useState(false)
+  const [isHintLoading, setIsHintLoading] = useState(false)  // New state for hint loading
+
   const baseUrl = "https://api-dev.chop.so"
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +55,8 @@ export default function Page() {
       return
     }
 
+    setIsLoading(true)  // Start loading
+
     try {
       const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
         method: "POST",
@@ -62,10 +67,14 @@ export default function Page() {
       setShowContinueButton(true)
     } catch (error) {
       setFeedbackMessage("An error occurred. Try again later.")
+    } finally {
+      setIsLoading(false)  // Stop loading
     }
   }
 
   const handleHintClick = async () => {
+    setIsHintLoading(true)  // Start loading for hint
+
     try {
       const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(capitalsData[currentIndex].question_text)}`, {
         method: "POST",
@@ -75,6 +84,8 @@ export default function Page() {
       setFeedbackMessage("")  // Clear feedback message when hint is shown
     } catch (error) {
       setHintMessage("An error occurred. Try again later.")
+    } finally {
+      setIsHintLoading(false)  // Stop loading for hint
     }
   }
 
@@ -147,15 +158,15 @@ export default function Page() {
                   value={userInput}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  disabled={showContinueButton}  // Disable input after submitting the answer
+                  disabled={showContinueButton || isLoading}  // Disable input after submitting the answer or while loading
                 />
                 <Button
                   variant="default"
                   size="icon"
                   onClick={validateAnswer}
-                  disabled={!userInput.trim() || showContinueButton}  // Disable button after submitting the answer
+                  disabled={!userInput.trim() || showContinueButton || isLoading}  // Disable button after submitting the answer or while loading
                 >
-                  <ArrowRightIcon className="h-4 w-4" />
+                  {isLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <ArrowRightIcon className="h-4 w-4" />}
                 </Button>
               </div>
               {/* Display hint message for hint response */}
@@ -168,8 +179,8 @@ export default function Page() {
               )}
               {/* Hide Hint button and show Continue button after answer is submitted */}
               {!showContinueButton ? (
-                <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick}>
-                  <Info className="h-4 w-4" /> Hint
+                <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick} disabled={isHintLoading}>
+                  {isHintLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <Info className="h-4 w-4" />} {isHintLoading ? "Loading" : "Hint"}
                 </Button>
               ) : (
                 <Button variant="default" className="mt-4" onClick={handleContinue}>
