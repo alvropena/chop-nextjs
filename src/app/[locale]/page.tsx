@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { geography } from "@/data/geography"
 import { soccer } from "@/data/soccer"
 import { history } from "@/data/history"
-import { ArrowRightIcon, Info } from "lucide-react"
+import { ArrowRightIcon, Info, LoaderCircle } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import {
   Dialog,
@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/dialog"
 import Logo from "@/components/logo"
 import { ModeToggle } from "@/components/mode-toggle"
-import { Badge } from "@/components/ui/badge"
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -33,6 +32,9 @@ export default function Page() {
   const [currentData, setCurrentData] = useState(geography) // Default to geography
   const { toast } = useToast()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isHintLoading, setIsHintLoading] = useState(false)
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -56,6 +58,8 @@ export default function Page() {
       return
     }
 
+    setIsLoading(true)
+
     try {
       const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(currentData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
         method: "POST",
@@ -66,10 +70,14 @@ export default function Page() {
       setShowContinueButton(true)
     } catch (error) {
       setFeedbackMessage("An error occurred. Try again later.")
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleHintClick = async () => {
+    setIsHintLoading(true)
+
     try {
       const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(currentData[currentIndex].question_text)}`, {
         method: "POST",
@@ -79,6 +87,8 @@ export default function Page() {
       setFeedbackMessage("")  // Clear feedback message when hint is shown
     } catch (error) {
       setHintMessage("An error occurred. Try again later.")
+    } finally {
+      setIsHintLoading(false)
     }
   }
 
@@ -97,6 +107,7 @@ export default function Page() {
   }
 
   const handleFeedbackSubmit = async () => {
+    setIsSubmitLoading(true)
     try {
       const response = await fetch("https://api-dev.chop.so/api/feedback/send-feedback", {
         method: "POST",
@@ -121,6 +132,8 @@ export default function Page() {
       }
     } catch (error) {
       showToast("An error occurred. Please try again later.")
+    } finally {
+      setIsSubmitLoading(false)
     }
   }
 
@@ -184,15 +197,15 @@ export default function Page() {
                   value={userInput}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  disabled={showContinueButton}  // Disable input after submitting the answer
+                  disabled={showContinueButton || isLoading}  // Disable input during loading
                 />
                 <Button
                   variant="default"
                   size="icon"
                   onClick={validateAnswer}
-                  disabled={!userInput.trim() || showContinueButton}  // Disable button after submitting the answer
+                  disabled={!userInput.trim() || showContinueButton || isLoading}  // Disable button during loading
                 >
-                  <ArrowRightIcon className="h-4 w-4" />
+                  {isLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <ArrowRightIcon className="h-4 w-4" />}
                 </Button>
               </div>
               {/* Display hint message for hint response */}
@@ -205,14 +218,15 @@ export default function Page() {
               )}
               {/* Hide Hint button and show Continue button after answer is submitted */}
               {!showContinueButton ? (
-                <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick}>
-                  <Info className="h-4 w-4" /> Hint
+                <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick} disabled={isHintLoading}>
+                  {isHintLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <Info className="h-4 w-4" />} {isHintLoading ? "Loading" : "Hint"}
                 </Button>
               ) : (
                 <Button variant="default" className="mt-4" onClick={handleContinue}>
                   Continue
                 </Button>
               )}
+
             </CardContent>
           </Card>
         </main>
@@ -264,9 +278,10 @@ export default function Page() {
                 <Button
                   type="submit"
                   onClick={handleFeedbackSubmit}
-                  disabled={!isFormFilled}
+                  disabled={!isFormFilled || isSubmitLoading}
                 >
-                  Submit
+                  {isSubmitLoading ? <LoaderCircle className="animate-spin h-4 w-4 mr-2" /> : null}
+                  {isSubmitLoading ? "Loading" : "Submit"}
                 </Button>
               </DialogFooter>
             </DialogContent>
