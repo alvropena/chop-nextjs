@@ -37,6 +37,8 @@ export default function Page() {
 
   const baseUrl = "https://api-dev.chop.so"
 
+  const baseUrl = "https://api-dev.chop.so"
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value)
   }
