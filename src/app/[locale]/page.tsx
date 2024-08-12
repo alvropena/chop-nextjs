@@ -38,8 +38,10 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { Question } from "@/types/question"
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
-
+import { useRouter } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0/client";
 export default function Page() {
+  const { user } = useUser();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [hintMessage, setHintMessage] = useState("");
@@ -62,6 +64,7 @@ export default function Page() {
   const [pendingCategory, setPendingCategory] = useState<string | null>(null); // Track the category user wants to switch to
   const [dontAskAgain, setDontAskAgain] = useState(false);
 
+  const router = useRouter();
   useEffect(() => {
     // Shuffle the questions when the component mounts or when the category changes
     const shuffledQuestions = shuffleArray([...currentData]);
@@ -108,47 +111,53 @@ export default function Page() {
       return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(currentData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
-        method: "POST",
-      })
-      const data = await response.json()
-      setFeedbackMessage(data || "No message found in the response")
-      setHintMessage("")  // Clear hint message when feedback is shown
-      setShowContinueButton(true)
+      const response = await fetch(
+        `${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(currentData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`,
+        {
+          method: "POST",
+        }
+      );
+      const data = await response.json();
+      setFeedbackMessage(data || "No message found in the response");
+      setHintMessage(""); // Clear hint message when feedback is shown
+      setShowContinueButton(true);
     } catch (error) {
-      setFeedbackMessage("An error occurred. Try again later.")
+      setFeedbackMessage("An error occurred. Try again later.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
   const handleHintClick = async () => {
-    setIsHintLoading(true)
+    setIsHintLoading(true);
 
     try {
-      const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(currentData[currentIndex].question_text)}`, {
-        method: "POST",
-      })
-      const data = await response.json()
-      setHintMessage(data || "No hint found in the response")
-      setFeedbackMessage("")
+      const response = await fetch(
+        `${baseUrl}/api/assignments/hint?question=${encodeURIComponent(currentData[currentIndex].question_text)}`,
+        {
+          method: "POST",
+        }
+      );
+      const data = await response.json();
+      setHintMessage(data || "No hint found in the response");
+      setFeedbackMessage("");
     } catch (error) {
-      setHintMessage("An error occurred. Try again later.")
+      setHintMessage("An error occurred. Try again later.");
     } finally {
-      setIsHintLoading(false)
+      setIsHintLoading(false);
     }
   };
 
   const handleContinue = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % currentData.length)
-    setUserInput("")
-    setHintMessage("")
-    setFeedbackMessage("")
-    setShowContinueButton(false)
-  }
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % currentData.length);
+    setUserInput("");
+    setHintMessage("");
+    setFeedbackMessage("");
+    setShowContinueButton(false);
+  };
 
   const showToast = (message: string) => {
     toast({
@@ -157,7 +166,7 @@ export default function Page() {
   };
 
   const handleFeedbackSubmit = async () => {
-    setIsSubmitLoading(true)
+    setIsSubmitLoading(true);
     try {
       const response = await fetch(
         "https://api-dev.chop.so/api/feedback/send-feedback",
@@ -174,18 +183,18 @@ export default function Page() {
         }
       );
       if (response.ok) {
-        showToast("Thank you for your feedback!")
-        setIsDialogOpen(false)
-        setName("")
-        setEmail("")
-        setMessage("")
+        showToast("Thank you for your feedback!");
+        setIsDialogOpen(false);
+        setName("");
+        setEmail("");
+        setMessage("");
       } else {
         showToast("An error occurred. Please try again later.");
       }
     } catch (error) {
-      showToast("An error occurred. Please try again later.")
+      showToast("An error occurred. Please try again later.");
     } finally {
-      setIsSubmitLoading(false)
+      setIsSubmitLoading(false);
     }
   };
 
@@ -236,31 +245,31 @@ export default function Page() {
 
   // Handle changing the data based on the selected category
   const handleGeographyClick = () => {
-    setCurrentData(geography)
-    setCurrentIndex(0)
-    setUserInput("")
-    setHintMessage("")
-    setFeedbackMessage("")
-    setShowContinueButton(false)
-  }
+    setCurrentData(geography);
+    setCurrentIndex(0);
+    setUserInput("");
+    setHintMessage("");
+    setFeedbackMessage("");
+    setShowContinueButton(false);
+  };
 
   const handleHistoryClick = () => {
-    setCurrentData(history)
-    setCurrentIndex(0)
-    setUserInput("")
-    setHintMessage("")
-    setFeedbackMessage("")
-    setShowContinueButton(false)
-  }
+    setCurrentData(history);
+    setCurrentIndex(0);
+    setUserInput("");
+    setHintMessage("");
+    setFeedbackMessage("");
+    setShowContinueButton(false);
+  };
 
   const handleSoccerClick = () => {
-    setCurrentData(soccer)
-    setCurrentIndex(0)
-    setUserInput("")
-    setHintMessage("")
-    setFeedbackMessage("")
-    setShowContinueButton(false)
-  }
+    setCurrentData(soccer);
+    setCurrentIndex(0);
+    setUserInput("");
+    setHintMessage("");
+    setFeedbackMessage("");
+    setShowContinueButton(false);
+  };
 
   return (
     <div className="h-fit min-h-screen flex flex-col p-6">
@@ -269,7 +278,12 @@ export default function Page() {
         <Logo />
         <div className="flex flex-row items-center gap-4">
           <ModeToggle />
-          <Button className="gap-2">
+          <Button
+            className="gap-2"
+            onClick={() => {
+              router.push("/api/auth/login");
+            }}
+          >
             <LogIn className="h-4 w-4" />
             Log In
           </Button>
@@ -278,7 +292,7 @@ export default function Page() {
       {/* Main Content */}
       <div className="flex flex-col items-center flex-grow justify-center w-full">
         <main className="flex flex-col items-center w-full max-w-md">
-          <p className="text-3xl mb-4">👋 Hey Alvaro!</p>
+          <p className="text-3xl mb-4">👋 Hey {user?.name}!</p>
           <p className="text-sm mb-4 text-slate-500">
             Select one of the topics from below and start playing.
           </p>
