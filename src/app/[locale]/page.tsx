@@ -38,8 +38,7 @@ export default function Page() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [isHintLoading, setIsHintLoading] = useState(false)
+
 
   const baseUrl = "https://api-dev.chop.so";
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
