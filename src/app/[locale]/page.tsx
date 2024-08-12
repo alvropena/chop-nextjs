@@ -108,62 +108,47 @@ export default function Page() {
       return;
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
 
     try {
-      const response = await fetch(
-        `${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(shuffledData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`,
-        {
-          method: "POST",
-        }
-      );
-      const data = await response.json();
-      setFeedbackMessage(data || "No message found in the response");
-      setHintMessage(""); // Clear hint message when feedback is shown
-      setShowContinueButton(true);
+      const response = await fetch(`${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(currentData[currentIndex].question_text)}&response=${encodeURIComponent(userInput)}`, {
+        method: "POST",
+      })
+      const data = await response.json()
+      setFeedbackMessage(data || "No message found in the response")
+      setHintMessage("")  // Clear hint message when feedback is shown
+      setShowContinueButton(true)
     } catch (error) {
-      setFeedbackMessage("An error occurred. Try again later.");
+      setFeedbackMessage("An error occurred. Try again later.")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
 
   const handleHintClick = async () => {
-    setIsHintLoading(true);
+    setIsHintLoading(true)
 
     try {
-      const response = await fetch(
-        `${baseUrl}/api/assignments/hint?question=${encodeURIComponent(shuffledData[currentIndex].question_text)}`,
-        {
-          method: "POST",
-        }
-      );
-      const data = await response.json();
-      setHintMessage(data || "No hint found in the response");
-      setFeedbackMessage(""); // Clear feedback message when hint is shown
+      const response = await fetch(`${baseUrl}/api/assignments/hint?question=${encodeURIComponent(currentData[currentIndex].question_text)}`, {
+        method: "POST",
+      })
+      const data = await response.json()
+      setHintMessage(data || "No hint found in the response")
+      setFeedbackMessage("")
     } catch (error) {
-      setHintMessage("An error occurred. Try again later.");
+      setHintMessage("An error occurred. Try again later.")
     } finally {
-      setIsHintLoading(false);
+      setIsHintLoading(false)
     }
   };
 
   const handleContinue = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffledData.length);
-    setUserInput("");
-    setHintMessage("");
-    setFeedbackMessage("");
-    setShowContinueButton(false);
-    setQuestionCount((prevCount) => {
-      const newCount = prevCount + 1;
-      if (newCount % 10 === 0) {
-        setIsCongratulationsDialogOpen(true);
-        setSessionCount((prevSession) => prevSession + 1); // Increment session count
-        return 0; // Reset the question count after 10 questions
-      }
-      return newCount;
-    });
-  };
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % currentData.length)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
+  }
 
   const showToast = (message: string) => {
     toast({
@@ -172,7 +157,7 @@ export default function Page() {
   };
 
   const handleFeedbackSubmit = async () => {
-    setIsSubmitLoading(true);
+    setIsSubmitLoading(true)
     try {
       const response = await fetch(
         "https://api-dev.chop.so/api/feedback/send-feedback",
@@ -189,19 +174,18 @@ export default function Page() {
         }
       );
       if (response.ok) {
-        showToast("Thank you for your feedback!");
-        setIsDialogOpen(false);
-        // Reset the form fields after submission
-        setName("");
-        setEmail("");
-        setMessage("");
+        showToast("Thank you for your feedback!")
+        setIsDialogOpen(false)
+        setName("")
+        setEmail("")
+        setMessage("")
       } else {
         showToast("An error occurred. Please try again later.");
       }
     } catch (error) {
-      showToast("An error occurred. Please try again later.");
+      showToast("An error occurred. Please try again later.")
     } finally {
-      setIsSubmitLoading(false);
+      setIsSubmitLoading(false)
     }
   };
 
@@ -249,6 +233,34 @@ export default function Page() {
     }
     setIsAlertOpen(false);
   };
+
+  // Handle changing the data based on the selected category
+  const handleGeographyClick = () => {
+    setCurrentData(geography)
+    setCurrentIndex(0)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
+  }
+
+  const handleHistoryClick = () => {
+    setCurrentData(history)
+    setCurrentIndex(0)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
+  }
+
+  const handleSoccerClick = () => {
+    setCurrentData(soccer)
+    setCurrentIndex(0)
+    setUserInput("")
+    setHintMessage("")
+    setFeedbackMessage("")
+    setShowContinueButton(false)
+  }
 
   return (
     <div className="h-fit min-h-screen flex flex-col p-6">
@@ -324,15 +336,12 @@ export default function Page() {
                   )}
                 </Button>
               </div>
-              {/* Display hint message for hint response */}
               {!feedbackMessage && hintMessage && (
                 <p className="text-center mt-4 text-sm">{hintMessage}</p>
               )}
-              {/* Display feedback message for validation response */}
               {feedbackMessage && (
                 <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
               )}
-              {/* Hide Hint button and show Continue button after answer is submitted */}
               {!showContinueButton ? (
                 <Button
                   variant="secondary"
