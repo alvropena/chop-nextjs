@@ -39,8 +39,9 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Question } from "@/types/question"
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
 import { useRouter } from "next/navigation";
-
+import { useUser } from "@auth0/nextjs-auth0/client";
 export default function Page() {
+  const { user } = useUser();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [hintMessage, setHintMessage] = useState("");
@@ -291,7 +292,7 @@ export default function Page() {
       {/* Main Content */}
       <div className="flex flex-col items-center flex-grow justify-center w-full">
         <main className="flex flex-col items-center w-full max-w-md">
-          <p className="text-3xl mb-4">👋 Hey Alvaro!</p>
+          <p className="text-3xl mb-4">👋 Hey {user?.name}!</p>
           <p className="text-sm mb-4 text-slate-500">
             Select one of the topics from below and start playing.
           </p>
