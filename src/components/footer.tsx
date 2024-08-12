@@ -1,31 +1,21 @@
-import Link from 'next/link'
-import { TwitterIcon, FacebookIcon, LinkedinIcon, InstagramIcon } from 'lucide-react'
-import React from 'react'
+import React from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function Footer() {
     return (
-        <footer className="  py-6">
-            <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between">
-                <p className="text-sm">&copy; 2024 Chop Inc. All rights reserved.</p>
-                <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-                    <Link href="#" className="" prefetch={false}>
-                        <TwitterIcon className="w-5 h-5" />
-                        <span className="sr-only">Twitter</span>
-                    </Link>
-                    <Link href="#" className="" prefetch={false}>
-                        <FacebookIcon className="w-5 h-5" />
-                        <span className="sr-only">Facebook</span>
-                    </Link>
-                    <Link href="#" className="" prefetch={false}>
-                        <InstagramIcon className="w-5 h-5" />
-                        <span className="sr-only">Instagram</span>
-                    </Link>
-                    <Link href="#" className="" prefetch={false}>
-                        <LinkedinIcon className="w-5 h-5" />
-                        <span className="sr-only">LinkedIn</span>
-                    </Link>
-                </div>
-            </div>
+        <footer className="flex flex-row justify-between items-center">
+            <Badge>Beta</Badge>
+            <p className="text-xs text-gray-500">Chop can make mistakes. Check important info.</p>
+            {/* <Button
+                onClick={() =>
+                    window.open("https://github.com/alvropena/chop-nextjs.git", "_blank")
+                }
+                variant="link"
+                className="text-xs"
+            >
+                Source
+            </Button> */}
         </footer>
-    )
+    );
 }
