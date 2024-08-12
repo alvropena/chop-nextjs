@@ -35,13 +35,13 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false)
   const [isHintLoading, setIsHintLoading] = useState(false)
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
-
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [isHintLoading, setIsHintLoading] = useState(false)
 
-  const baseUrl = "https://api-dev.chop.so"
-
+  const baseUrl = "https://api-dev.chop.so";
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value)
   }
@@ -84,7 +84,7 @@ export default function Page() {
       })
       const data = await response.json()
       setHintMessage(data || "No hint found in the response")
-      setFeedbackMessage("")  // Clear feedback message when hint is shown
+      setFeedbackMessage("")
     } catch (error) {
       setHintMessage("An error occurred. Try again later.")
     } finally {
@@ -123,7 +123,6 @@ export default function Page() {
       if (response.ok) {
         showToast("Thank you for your feedback!")
         setIsDialogOpen(false)
-        // Reset the form fields after submission
         setName("")
         setEmail("")
         setMessage("")
@@ -208,15 +207,12 @@ export default function Page() {
                   {isLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <ArrowRightIcon className="h-4 w-4" />}
                 </Button>
               </div>
-              {/* Display hint message for hint response */}
               {!feedbackMessage && hintMessage && (
                 <p className="text-center mt-4 text-sm">{hintMessage}</p>
               )}
-              {/* Display feedback message for validation response */}
               {feedbackMessage && (
                 <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
               )}
-              {/* Hide Hint button and show Continue button after answer is submitted */}
               {!showContinueButton ? (
                 <Button variant="secondary" className="gap-1 mt-4" onClick={handleHintClick} disabled={isHintLoading}>
                   {isHintLoading ? <LoaderCircle className="animate-spin h-4 w-4" /> : <Info className="h-4 w-4" />} {isHintLoading ? "Loading" : "Hint"}
