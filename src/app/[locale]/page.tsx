@@ -278,6 +278,7 @@ export default function Page() {
         <Logo />
         <div className="flex flex-row items-center gap-4">
           <ModeToggle />
+
           {!user ? (
             <Button
               className="gap-2"
@@ -299,12 +300,13 @@ export default function Page() {
               Log out
             </Button>
           )}
+
         </div>
       </header>
       {/* Main Content */}
       <div className="flex flex-col items-center flex-grow justify-center w-full">
         <main className="flex flex-col items-center w-full max-w-md">
-          <p className="text-3xl mb-4">👋 Hey {user?.name ?? "Learner"}!</p>
+          <p className="text-3xl mb-4">👋 Hey {user?.name ?? ""}!</p>
           <p className="text-sm mb-4 text-slate-500">
             Select one of the topics from below and start playing.
           </p>
