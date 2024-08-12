@@ -6,7 +6,7 @@ const afterCallback = async (req: any, session: any, state: any) => {
   try {
     // Enviar una solicitud POST al endpoint especificado con el contenido de session.user
     const response = await axios.post(
-      `${baseUrl}/api/v1/user/?secret_key=${process.env.AUTH0_SECRET}`,
+      `${baseUrl}/api/user/?secret_key=${process.env.AUTH0_SECRET}`,
       session.user,
       {
         headers: {
@@ -14,6 +14,8 @@ const afterCallback = async (req: any, session: any, state: any) => {
         },
       }
     );
+
+    console.log(response.data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Error al enviar la solicitud POST:", error.message);
@@ -26,7 +28,7 @@ const afterCallback = async (req: any, session: any, state: any) => {
 };
 export const GET = handleAuth({
   login: handleLogin({
-    returnTo: "/home",
+    returnTo: "/",
   }),
   callback: handleCallback({ afterCallback }),
 });
