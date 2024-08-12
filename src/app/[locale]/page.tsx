@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Question } from "@/types/question"
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
 
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -59,6 +60,7 @@ export default function Page() {
   const [isAlertOpen, setIsAlertOpen] = useState(false) // For change topic alert dialog
   const [pendingCategory, setPendingCategory] = useState<string | null>(null) // Track the category user wants to switch to
   const [dontAskAgain, setDontAskAgain] = useState(false)
+
 
   useEffect(() => {
     // Shuffle the questions when the component mounts or when the category changes
@@ -244,7 +246,6 @@ export default function Page() {
       {/* Header */}
       <header className="flex flex-row items-center justify-between">
         <Logo />
-
         <div>
           <ModeToggle />
           <Button className="gap-2">
@@ -256,6 +257,8 @@ export default function Page() {
       {/* Main Content */}
       <div className="flex flex-col items-center flex-grow justify-center w-full">
         <main className="flex flex-col items-center w-full max-w-md">
+          <p className="text-3xl mb-4">👋 Hey Alvaro!</p>
+          <p className="text-sm mb-4 text-slate-500">Select one of the topics from below and start playing.</p>
           <div className="flex flex-row gap-4 mb-4">
             <Button
               variant={selectedCategory === "geography" ? "default" : "outline"}
@@ -333,13 +336,15 @@ export default function Page() {
                 </AlertDialogDescription>
 
               </AlertDialogHeader>
-              <Checkbox id="dontAskAgain" />
-              <label
-                htmlFor="dontAskAgain"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Don't ask me again
-              </label>
+              <div className="flex flex-row items-center gap-2">
+                <Checkbox id="dontAskAgain" />
+                <label
+                  htmlFor="dontAskAgain"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Don't ask me again
+                </label>
+              </div>
               <AlertDialogFooter>
                 <AlertDialogCancel onClick={() => setIsAlertOpen(false)}>Cancel</AlertDialogCancel>
                 <AlertDialogAction onClick={confirmCategoryChange}>Confirm</AlertDialogAction>

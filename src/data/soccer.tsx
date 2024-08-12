@@ -146,11 +146,11 @@ export const soccer = [
         "user_id": "123",
         "question_text": "Which country won the World Cup in 2018?"
     },
-    {
-        "id": "9b4a6503-e5d3-4cf4-bef2-56d45d81d7f8",
-        "created_at": "2024-08-10T00:00:00Z",
-        "prompt_id": "22",
-        "user_id": "123",
-        "question_text": "Which country won the World Cup in 2022?"
-    }
+    // {
+    //     "id": "9b4a6503-e5d3-4cf4-bef2-56d45d81d7f8",
+    //     "created_at": "2024-08-10T00:00:00Z",
+    //     "prompt_id": "22",
+    //     "user_id": "123",
+    //     "question_text": "Which country won the World Cup in 2022?"
+    // }
 ]
