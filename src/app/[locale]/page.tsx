@@ -79,9 +79,10 @@ export default function Page() {
     }
     setIsLoading(true);
     try {
+      const currentQuestion = shuffledData[currentIndex]?.question_text;
       const response = await fetch(
         `${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(
-          currentData[currentIndex].question_text
+          currentQuestion
         )}&response=${encodeURIComponent(userInput)}`,
         {
           method: "POST",
@@ -98,12 +99,14 @@ export default function Page() {
     }
   };
 
+
   const handleHintClick = async () => {
     setIsHintLoading(true);
     try {
+      const currentQuestion = shuffledData[currentIndex]?.question_text;
       const response = await fetch(
         `${baseUrl}/api/assignments/hint?question=${encodeURIComponent(
-          currentData[currentIndex].question_text
+          currentQuestion
         )}`,
         {
           method: "POST",
@@ -119,13 +122,34 @@ export default function Page() {
     }
   };
 
+
   const handleContinue = () => {
+    // Increment the current index
     setCurrentIndex((prevIndex) => (prevIndex + 1) % currentData.length);
+
+    // Increment the question count
+    setQuestionCount((prevCount) => {
+      const newCount = prevCount + 1;
+
+      // Update progress bar
+      setProgress(((newCount % 10) / 10) * 100);
+
+      // Check if it's time to display the CompletionDialog
+      if (newCount % 10 === 0) {
+        setSessionCount((prevSessionCount) => prevSessionCount + 1);
+        setIsCongratulationsDialogOpen(true);
+      }
+
+      return newCount;
+    });
+
+    // Reset input fields and messages
     setUserInput("");
     setHintMessage("");
     setFeedbackMessage("");
     setShowContinueButton(false);
   };
+
 
   const handleCategoryClick = (category: string) => {
     if (dontAskAgain) {
