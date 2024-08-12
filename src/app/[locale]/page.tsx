@@ -278,15 +278,27 @@ export default function Page() {
         <Logo />
         <div className="flex flex-row items-center gap-4">
           <ModeToggle />
-          <Button
-            className="gap-2"
-            onClick={() => {
-              router.push("/api/auth/login");
-            }}
-          >
-            <LogIn className="h-4 w-4" />
-            Log In
-          </Button>
+          {!user ? (
+            <Button
+              className="gap-2"
+              onClick={() => {
+                router.push("/api/auth/login");
+              }}
+            >
+              <LogIn className="h-4 w-4" />
+              Log In
+            </Button>
+          ) : (
+            <Button
+              className="gap-2"
+              onClick={() => {
+                router.push("/api/auth/logout");
+              }}
+            >
+              <LogIn className="h-4 w-4" />
+              Log out
+            </Button>
+          )}
         </div>
       </header>
       {/* Main Content */}
