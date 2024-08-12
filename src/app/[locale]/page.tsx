@@ -35,10 +35,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false)
   const [isHintLoading, setIsHintLoading] = useState(false)
 
-  const baseUrl = "https://api-dev.chop.so"
-
-  const baseUrl = "https://api-dev.chop.so"
-
+  const baseUrl = "https://api-dev.chop.so";
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value)
   }
