@@ -246,7 +246,7 @@ export default function Page() {
       {/* Header */}
       <header className="flex flex-row items-center justify-between">
         <Logo />
-        <div>
+        <div className="flex flex-row items-center gap-4">
           <ModeToggle />
           <Button className="gap-2">
             <LogIn className="h-4 w-4" />
@@ -355,7 +355,7 @@ export default function Page() {
           {/* Feedback Dialog */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="link" onClick={() => setIsDialogOpen(true)} className="mt-4">Tell us what you think!</Button>
+              <Button variant="link" onClick={() => setIsDialogOpen(true)} className="mt-4">How we can improve? 🙏</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
@@ -429,7 +429,7 @@ export default function Page() {
       <footer className="flex flex-row justify-between items-center">
         <Badge>Beta</Badge>
         <p className="text-xs text-gray-500">Chop can make mistakes. Check important info.</p>
-        <Button onClick={() => window.open("https://github.com/alvropena/chop-nextjs.git", "_blank")} variant="link">Source</Button>
+        <Button onClick={() => window.open("https://github.com/alvropena/chop-nextjs.git", "_blank")} variant="link" className="text-xs">Source</Button>
       </footer>
     </div>
   )
