@@ -48,8 +48,8 @@ export const createSchemaStore = (
           set(() => ({ remember_skip: skip })),
       }),
       {
-        name: "schema-user", // name of the item in the storage (must be unique)
-        storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+        name: "schema", // name of the item in the storage (must be unique)
+        storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
       }
     )
   );
