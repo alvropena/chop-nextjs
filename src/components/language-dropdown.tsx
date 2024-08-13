@@ -43,7 +43,7 @@ export default function LanguageDropdown() {
             <Link
               key={lang.code}
               href={`/${lang.code}/settings`}
-              onClick={router.refresh()}
+              onClick={() => router.refresh()}
             >
               <DropdownMenuItem
                 lang={lang.code}
