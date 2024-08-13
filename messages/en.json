@@ -66,5 +66,9 @@
   "Female": "Female",
   "Save_Changes": "Save Changes",
   "Profile_updated": "Profile updated",
-  "Your_changes_have_been_saved": "Your changes have been saved."
+  "Your_changes_have_been_saved": "Your changes have been saved.",
+
+  "Settings--": "Settings",
+  "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable": "Above is the prompt we use to generate new questions for you. It is not editable.",
+  "Language": "Language"
 }

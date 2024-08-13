@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { LanguagesIcon } from 'lucide-react'
+import { useTranslations } from "next-intl";
 
 interface Option {
   country: string;
@@ -27,20 +28,20 @@ export default function LanguageDropdown() {
     { country: "English", code: "en" },
     { country: "Español", code: "es" },
   ];
+  const t = useTranslations("");
 
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Button variant={"outline"}>
-            <LanguagesIcon className='mr-2 h-4 w-4' /> Language
+            <LanguagesIcon className="mr-2 h-4 w-4" /> {t("Language")}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {options.map((lang) => (
             <Link key={lang.code} href={`/${lang.code}/settings`}>
               <DropdownMenuItem
-
                 lang={lang.code}
                 onMouseDown={(e) => {
                   e.preventDefault();
