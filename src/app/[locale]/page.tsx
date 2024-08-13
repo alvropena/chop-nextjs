@@ -15,15 +15,22 @@ import ChangeTopicDialog from "@/components/change-topic-dialog";
 import FeedbackDialog from "@/components/feedback-dialog";
 import CompletionDialog from "@/components/completion-dialog";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useParams, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Page() {
   const { toast } = useToast();
+  const pathName = usePathname();
+  const regex = /^\/([^/]+)/;
+  const match: any = pathName.match(regex);
+  const lang: "en" | "es" = match ? match[1] : "en";
+  const t = useTranslations("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [hintMessage, setHintMessage] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showContinueButton, setShowContinueButton] = useState(false);
-  const [currentData, setCurrentData] = useState(geography);
+  const [currentData, setCurrentData] = useState(geography[lang]);
   const [shuffledData, setShuffledData] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("geography");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,9 +47,9 @@ export default function Page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const { user } = useUser();
   const baseUrl = "https://api-dev.chop.so";
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     const shuffledQuestions = shuffleArray([...currentData]);
@@ -99,7 +106,6 @@ export default function Page() {
     }
   };
 
-
   const handleHintClick = async () => {
     setIsHintLoading(true);
     try {
@@ -121,7 +127,6 @@ export default function Page() {
       setIsHintLoading(false);
     }
   };
-
 
   const handleContinue = () => {
     // Increment the current index
@@ -150,7 +155,6 @@ export default function Page() {
     setShowContinueButton(false);
   };
 
-
   const handleCategoryClick = (category: string) => {
     if (dontAskAgain) {
       switchCategory(category);
@@ -166,16 +170,16 @@ export default function Page() {
     setSelectedCategory(category);
     switch (category) {
       case "geography":
-        setCurrentData(geography);
+        setCurrentData(geography[lang]);
         break;
       case "history":
-        setCurrentData(history);
+        setCurrentData(history[lang]);
         break;
       case "soccer":
-        setCurrentData(soccer);
+        setCurrentData(soccer[lang]);
         break;
       default:
-        setCurrentData(geography);
+        setCurrentData(geography[lang]);
     }
     setCurrentIndex(0);
     setUserInput("");
@@ -212,23 +216,23 @@ export default function Page() {
         }
       );
       if (response.ok) {
-        toast({ description: "Thank you for your feedback!" })
+        toast({ description: "Thank you for your feedback!" });
         setIsDialogOpen(false);
         setName("");
         setEmail("");
         setMessage("");
       } else {
-        toast({ description: "An error ocurred. Please, try again later." })
+        toast({ description: "An error ocurred. Please, try again later." });
       }
     } catch (error) {
-      toast({ description: "An error ocurred. Please, try again later." })
+      toast({ description: "An error ocurred. Please, try again later." });
     } finally {
       setIsSubmitLoading(false); // Set loading state to false
     }
   };
 
-  const isFormFilled = name.trim() !== "" && email.trim() !== "" && message.trim() !== "";
-
+  const isFormFilled =
+    name.trim() !== "" && email.trim() !== "" && message.trim() !== "";
 
   return (
     <div className="h-fit min-h-screen flex flex-col p-6">
@@ -239,7 +243,7 @@ export default function Page() {
             👋 Hey {user ? user?.name?.split(" ")[0] : ""}!
           </p>
           <p className="text-sm mb-4 text-slate-500">
-            Select one of the topics from below and start playing.
+            {t("Select_one_of_the_topics_from_below_and_start_playing")}
           </p>
           <CategoryButtons
             selectedCategory={selectedCategory}
