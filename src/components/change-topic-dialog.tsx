@@ -15,6 +15,10 @@ export default function ChangeTopicDialog({
     isAlertOpen,
     setIsAlertOpen,
     confirmCategoryChange,
+}: {
+    isAlertOpen: boolean;
+    setIsAlertOpen: (open: boolean) => void;
+    confirmCategoryChange: () => void;
 }) {
     return (
         <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>

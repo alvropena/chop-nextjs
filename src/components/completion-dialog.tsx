@@ -13,6 +13,10 @@ export default function CompletionDialog({
     isCongratulationsDialogOpen,
     setIsCongratulationsDialogOpen,
     sessionCount,
+}: {
+    isCongratulationsDialogOpen: boolean;
+    setIsCongratulationsDialogOpen: (open: boolean) => void;
+    sessionCount: number;
 }) {
     return (
         <AlertDialog

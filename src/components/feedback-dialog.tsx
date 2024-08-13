@@ -27,6 +27,18 @@ export default function FeedbackDialog({
     setEmail,
     message,
     setMessage,
+}: {
+    isDialogOpen: boolean;
+    setIsDialogOpen: (open: boolean) => void;
+    handleFeedbackSubmit: () => void;
+    isFormFilled: boolean;
+    isSubmitLoading: boolean;
+    name: string;
+    setName: (name: string) => void;
+    email: string;
+    setEmail: (email: string) => void;
+    message: string;
+    setMessage: (message: string) => void;
 }) {
     return (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

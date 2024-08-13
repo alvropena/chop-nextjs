@@ -18,6 +18,19 @@ export default function QuestionCard({
     hintMessage,
     feedbackMessage,
     isHintLoading,
+}: {
+    question: string;
+    userInput: string;
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    validateAnswer: () => void;
+    handleHintClick: () => void;
+    handleContinue: () => void;
+    isLoading: boolean;
+    showContinueButton: boolean;
+    hintMessage?: string;
+    feedbackMessage?: string;
+    isHintLoading: boolean;
 }) {
     return (
         <Card className="flex flex-col w-full items-center justify-center h-64">
