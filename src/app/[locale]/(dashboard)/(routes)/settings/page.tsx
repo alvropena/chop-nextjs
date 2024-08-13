@@ -53,35 +53,38 @@ export default function InputForm() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl">Settings</h1>
+      <h1 className="text-2xl">{t("Settings")}</h1>
       <div>
         <Label>Prompt</Label>
         <Input value={user_input_generation} disabled />
         <p className="text-xs">
-          Above is the prompt we use to generate new questions for you. It is
-          not editable.
+          {t(
+            "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable"
+          )}
         </p>
       </div>
 
       <div>
-        <Label>Hint</Label>
+        <Label>{t("Hint")}</Label>
         <Textarea value={system_message_hint} disabled />
         <p className="text-xs">
-          Above is the prompt we use to generate hints for you. It is not
-          editable.
+          {t(
+            "Above_is_the_prompt_we_use_to_generate_hints_for_you_It_is_not_editable"
+          )}
         </p>
       </div>
 
       <div>
-        <Label>Feedback Answer</Label>
+        <Label>{t("Feedback_Answer")}</Label>
         <Textarea value={system_prompt_answer_feedback} disabled />
         <p className="text-xs">
-          Above is the prompt we use to generate answer_feedback for you. It is
-          not editable.
+          {t(
+            "Above_is_the_prompt_we_use_to_generate_answer_feedback_for_you_It_is_not_editable"
+          )}
         </p>
       </div>
 
-      <Label>Language</Label>
+      <Label>{t("Language")}</Label>
       <LanguageDropdown />
     </div>
   );
