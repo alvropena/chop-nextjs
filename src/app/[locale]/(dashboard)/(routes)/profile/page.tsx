@@ -19,77 +19,78 @@ import { type ProfileFormData, profileSchema } from '@/zod/validation-schema'
 import { Logger } from '@/lib/logger'
 import { getData } from '@/lib/utils'
 import Loading from '@/app/[locale]/loading'
+import { useTranslations } from "next-intl";
 
 interface FormFieldProps {
-  label: string
-  id: string
-  children: React.ReactNode
+  label: string;
+  id: string;
+  children: React.ReactNode;
 }
 
 const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
-  <div className='space-y-2'>
+  <div className="space-y-2">
     <Label htmlFor={id}>{label}</Label>
     {children}
   </div>
-)
+);
 
 export default function ProfileClient() {
-  const { user, error, isLoading } = useUser()
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-
+  const { user, error, isLoading } = useUser();
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const t = useTranslations("");
   const methods = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema)
-  })
+    resolver: zodResolver(profileSchema),
+  });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
-  } = methods
+    reset,
+  } = methods;
 
   const onSubmit = (data: ProfileFormData) => {
-    Logger.info(data)
+    Logger.info(data);
     toast({
-      title: 'Profile updated',
-      description: 'Your changes have been saved.'
-    })
-  }
+      title: t("Profile_updated"),
+      description: t("Your_changes_have_been_saved"),
+    });
+  };
 
   useEffect(() => {
     async function fetchProfile() {
       try {
         // Assuming getData returns an object with an accessToken.
-        const tokenData = await getData()
+        const tokenData = await getData();
         const response = await axios.get(
           `${baseUrl}/api/v1/user/profile-user/me?token=${tokenData.accessToken}`,
           {
             headers: {
-              'Content-Type': 'application/json'
-            }
+              "Content-Type": "application/json",
+            },
           }
-        )
+        );
 
-        const profileData = response.data
+        const profileData = response.data;
         reset({
-          name: profileData.name ?? '',
-          bio: profileData.bio ?? '',
-          location: profileData.location ?? '',
+          name: profileData.name ?? "",
+          bio: profileData.bio ?? "",
+          location: profileData.location ?? "",
           birthday: profileData.birthday
             ? new Date(profileData.birthday)
             : undefined,
-          gender: profileData.gender ?? '',
-          phone: profileData.phone_number ?? ''
-        })
+          gender: profileData.gender ?? "",
+          phone: profileData.phone_number ?? "",
+        });
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
 
     if (user) {
-      fetchProfile()
+      fetchProfile();
     }
-  }, [user])
+  }, [user]);
 
   if (isLoading) return <Loading />;
 
@@ -111,7 +112,7 @@ export default function ProfileClient() {
               </Avatar>
               <input type="file" style={{ display: "none" }} accept="image/*" />
             </div>
-            <FormField label="Name" id="name">
+            <FormField label={t("Name")} id="name">
               <Input
                 id="name"
                 placeholder={user.name ?? "No name"}
@@ -123,13 +124,13 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
-            <FormField label="Username" id="username">
+            <FormField label={t("Username")} id="username">
               <Input
                 id="username"
                 placeholder={user.nickname ?? "No nickname"}
               />
             </FormField>
-            <FormField label="Bio" id="bio">
+            <FormField label={t("Bio")} id="bio">
               <Textarea
                 id="bio"
                 placeholder="Enter your bio"
@@ -142,7 +143,7 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
-            <FormField label="Location" id="location">
+            <FormField label={t("Location")} id="location">
               <Input
                 id="location"
                 placeholder="San Francisco, CA"
@@ -154,7 +155,7 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
-            <FormField label="Birthday" id="birthday">
+            <FormField label={t("Birthday")} id="birthday">
               <DatePicker name="birthday" />
               {errors.birthday && (
                 <p className="mt-1 text-sm text-red-500">
@@ -162,7 +163,7 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
-            <FormField label="Phone" id="phone">
+            <FormField label={t("Phone")} id="phone">
               <Input
                 id="phone"
                 placeholder="(123) 456-7890"
@@ -175,7 +176,7 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
-            <FormField label="Gender" id="gender">
+            <FormField label={t("Gender")} id="gender">
               <GenderRadioGroup name="gender" />
               {errors.gender && (
                 <p className="mt-1 text-sm text-red-500">
@@ -185,7 +186,7 @@ export default function ProfileClient() {
             </FormField>
             <div className="flex justify-end">
               <Button type="submit" size="lg">
-                Save Changes
+                {t("Save_Changes")}
               </Button>
             </div>
           </div>

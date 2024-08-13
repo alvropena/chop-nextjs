@@ -54,5 +54,17 @@
   "session": "sesión",
   "Geography_Category": "🗺️ Geografía",
   "History_Category": "🏛️ Historia",
-  "Soccer_Category": "⚽ Fútbol"
+  "Soccer_Category": "⚽ Fútbol",
+  "Username": "Nombre de usuario",
+  "Bio": "Biografía",
+  "Location": "Ubicación",
+  "Birthday": "Cumpleaños",
+  "Pick_date": "Seleccionar una fecha",
+  "Phone": "Teléfono",
+  "Gender": "Género",
+  "Male": "Masculino",
+  "Female": "Femenino",
+  "Save_Changes": "Guardar cambios",
+  "Profile_updated": "Perfil actualizado",
+  "Your_changes_have_been_saved": "Tus cambios han sido guardados."
 }
