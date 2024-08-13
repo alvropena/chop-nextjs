@@ -15,9 +15,11 @@ import ChangeTopicDialog from "@/components/change-topic-dialog";
 import FeedbackDialog from "@/components/feedback-dialog";
 import CompletionDialog from "@/components/completion-dialog";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useSchemaStore } from "@/providers/schema-store-provider";
 
 export default function Page() {
   const { toast } = useToast();
+  const { remember_skip, setRememberSkip } = useSchemaStore((state) => state);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [hintMessage, setHintMessage] = useState("");
@@ -36,7 +38,6 @@ export default function Page() {
   const [sessionCount, setSessionCount] = useState(0);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [pendingCategory, setPendingCategory] = useState<string | null>(null);
-  const [dontAskAgain, setDontAskAgain] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -99,7 +100,6 @@ export default function Page() {
     }
   };
 
-
   const handleHintClick = async () => {
     setIsHintLoading(true);
     try {
@@ -121,7 +121,6 @@ export default function Page() {
       setIsHintLoading(false);
     }
   };
-
 
   const handleContinue = () => {
     // Increment the current index
@@ -150,9 +149,8 @@ export default function Page() {
     setShowContinueButton(false);
   };
 
-
   const handleCategoryClick = (category: string) => {
-    if (dontAskAgain) {
+    if (remember_skip) {
       switchCategory(category);
     } else if (progress > 0) {
       setPendingCategory(category);
@@ -190,6 +188,7 @@ export default function Page() {
     if (pendingCategory) {
       switchCategory(pendingCategory);
       setPendingCategory(null);
+      setRememberSkip(true);
     }
     setIsAlertOpen(false);
   };
@@ -212,23 +211,23 @@ export default function Page() {
         }
       );
       if (response.ok) {
-        toast({ description: "Thank you for your feedback!" })
+        toast({ description: "Thank you for your feedback!" });
         setIsDialogOpen(false);
         setName("");
         setEmail("");
         setMessage("");
       } else {
-        toast({ description: "An error ocurred. Please, try again later." })
+        toast({ description: "An error ocurred. Please, try again later." });
       }
     } catch (error) {
-      toast({ description: "An error ocurred. Please, try again later." })
+      toast({ description: "An error ocurred. Please, try again later." });
     } finally {
       setIsSubmitLoading(false); // Set loading state to false
     }
   };
 
-  const isFormFilled = name.trim() !== "" && email.trim() !== "" && message.trim() !== "";
-
+  const isFormFilled =
+    name.trim() !== "" && email.trim() !== "" && message.trim() !== "";
 
   return (
     <div className="h-fit min-h-screen flex flex-col p-6">
