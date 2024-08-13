@@ -17,6 +17,7 @@ export default function CompletionDialog({
     isCongratulationsDialogOpen: boolean;
     setIsCongratulationsDialogOpen: (open: boolean) => void;
     sessionCount: number;
+
 }) {
     return (
         <AlertDialog

@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 export default function CategoryButtons({
     selectedCategory,
     handleCategoryClick,
+
 }: {
     selectedCategory: any;
     handleCategoryClick: (category: any) => void;
+
 }) {
     return (
         <div className="flex flex-row gap-4 mb-4">

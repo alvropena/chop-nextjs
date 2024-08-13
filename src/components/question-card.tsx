@@ -31,6 +31,7 @@ export default function QuestionCard({
     hintMessage?: string;
     feedbackMessage?: string;
     isHintLoading: boolean;
+
 }) {
     return (
         <Card className="flex flex-col w-full items-center justify-center h-64">

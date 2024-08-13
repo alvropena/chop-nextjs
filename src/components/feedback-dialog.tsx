@@ -1,4 +1,3 @@
-// FeedbackDialog.tsx
 import React from "react";
 import {
     Dialog,
@@ -39,6 +38,7 @@ export default function FeedbackDialog({
     setEmail: (email: string) => void;
     message: string;
     setMessage: (message: string) => void;
+
 }) {
     return (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
