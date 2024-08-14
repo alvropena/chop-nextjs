@@ -1,7 +1,7 @@
 'use client'
 import { capitalize } from '@/lib/utils'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { useSchemaStore } from "@/providers/schema-store-provider";
@@ -22,13 +22,13 @@ interface Option {
 }
 
 export default function LanguageDropdown() {
-  const pathname = usePathname();
   const { setLang } = useSchemaStore((state) => state);
   const options: Option[] = [
     { country: "English", code: "en" },
     { country: "Español", code: "es" },
   ];
   const t = useTranslations("");
+  const router = useRouter();
 
   return (
     <div>
@@ -40,7 +40,11 @@ export default function LanguageDropdown() {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {options.map((lang) => (
-            <Link key={lang.code} href={`/${lang.code}/settings`}>
+            <Link
+              key={lang.code}
+              href={`/${lang.code}/settings`}
+              onClick={() => router.refresh()}
+            >
               <DropdownMenuItem
                 lang={lang.code}
                 onMouseDown={(e) => {
