@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useController, useFormContext } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 interface DatePickerProps {
   name: string;
@@ -32,7 +33,7 @@ export function DatePicker({ name }: DatePickerProps) {
     setDate(selectedDate);
     onChange(selectedDate);
   };
-
+  const t = useTranslations("");
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -44,7 +45,7 @@ export function DatePicker({ name }: DatePickerProps) {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? format(date, "PPP") : <span>{t("Pick_date")}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
