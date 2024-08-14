@@ -15,7 +15,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 // Función para verificar la autenticación
 export const checkAuthentication = async () => {
   try {
-    const response = await fetch(`${baseUrl}/Prod/api/v1/auth/verify-with`, {
+    const response = await fetch(`${baseUrl}/api/v1/auth/verify-with`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -38,7 +38,7 @@ export const checkAuthentication = async () => {
 export const logoutAndClearLocalStorage = async () => {
   try {
     // URL del endpoint de logout
-    const logoutUrl = `${baseUrl}/Prod/api/v1/logout`;
+    const logoutUrl = `${baseUrl}/api/v1/logout`;
 
     // Realizar la solicitud al endpoint de logout
     const response = await fetch(logoutUrl, {
