@@ -13,8 +13,10 @@ import {
     Plus,
     PlusCircle,
     Settings,
+    SettingsIcon,
     TimerIcon,
     User,
+    UserIcon,
     UserPlus,
     Users,
 } from "lucide-react"
@@ -54,21 +56,27 @@ export function AvatarDropdownMenu() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar className="items-center justify-center cursor-pointer border">
-                    <AvatarImage src="" alt="" />
+                    <AvatarImage src={user?.picture || ''} alt={user?.name || ''} />
                     <AvatarFallback>{user?.name?.substring(0, 1)}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="flex justify-between items-center">
-                    <Label htmlFor="dark-mode">Dark Mode</Label>
-                    <Switch id="dark-mode" checked={isDarkMode} onCheckedChange={handleToggle} />
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
+                {/* <DropdownMenuGroup>
+                    <DropdownMenuItem>
+                        <UserIcon className="mr-2 h-4 w-4" />
+                        Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <SettingsIcon className="mr-2 h-4 w-4" />
+                        Settings
+                    </DropdownMenuItem>
+                </DropdownMenuGroup> 
+                <DropdownMenuSeparator /> */}
                 <Link href="/api/auth/logout">
-                    <DropdownMenuItem className="cursor-pointer justify-center">
-                        <LogOut className="mr-2 h-5 w-5" />
+                    <DropdownMenuItem>
+                        <LogOut className="mr-2 h-4 w-4" />
                         <p>Log out</p>
                     </DropdownMenuItem>
                 </Link>

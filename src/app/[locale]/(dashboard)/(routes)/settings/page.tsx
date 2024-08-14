@@ -2,7 +2,7 @@
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import LanguageDropdown from "@/components/language-dropdown";
+import LanguageCombobox from "@/components/language-combobox";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
@@ -85,7 +85,7 @@ export default function InputForm() {
       </div>
 
       <Label>{t("Language")}</Label>
-      <LanguageDropdown />
+      <LanguageCombobox />
     </div>
   );
 }
