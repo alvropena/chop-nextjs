@@ -17,6 +17,7 @@ export default function SearchBarUser() {
           );
           const data = await response.json();
           setResults(data);
+          console.log("DATA SEARCH USER");
           console.log(data);
         } catch (error) {
           console.error("Error fetching data:", error);
