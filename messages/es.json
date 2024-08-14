@@ -64,7 +64,7 @@
   "Save_Changes": "Guardar cambios",
   "Profile_updated": "Perfil actualizado",
   "Your_changes_have_been_saved": "Tus cambios han sido guardados.",
-  "An_error_ocurred._Please_,_try_again_later.": "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
+  "An_error_ocurred_Please_try_again_later": "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
   "Thank_you_for_your_feedback!": "¡Gracias por tus comentarios!",
   "Settings--": "Configuraciones",
   "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable": "Arriba está el prompt que usamos para generar nuevas preguntas para ti. No es editable.",

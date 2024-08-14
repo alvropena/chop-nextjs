@@ -225,12 +225,12 @@ export default function Page() {
         setMessage("");
       } else {
         toast({
-          description: t("An_error_ocurred._Please_,_try_again_later."),
+          description: t("An_error_ocurred_Please_try_again_later"),
         }); // Retained from develop
       }
     } catch (error) {
       toast({
-        description: t("An_error_ocurred._Please_,_try_again_later."),
+        description: t("An_error_ocurred_Please_try_again_later"),
       }); // Retained from develop
     } finally {
       setIsSubmitLoading(false);

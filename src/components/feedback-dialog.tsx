@@ -55,38 +55,43 @@ export default function FeedbackDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t("Share_your_feedback")}</DialogTitle> {/* Retained from develop */}
+          <DialogTitle>{t("Share_your_feedback")}</DialogTitle>{" "}
+          {/* Retained from develop */}
           <DialogDescription>
             {t(
               "We_would_love_to_hear_your_thoughts_Please_share_your_feedback_below"
-            )} {/* Retained from develop */}
+            )}{" "}
+            {/* Retained from develop */}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
-            <Label htmlFor="name">{t("Name")}</Label> {/* Retained from develop */}
+            <Label htmlFor="name">{t("Name")}</Label>{" "}
+            {/* Retained from develop */}
             <Input
               id="name"
-              placeholder={t("Your_name_placeholder")} {/* Retained from develop */}
+              placeholder={t("Your_name_placeholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-4">
-            <Label htmlFor="email">{t("Email")}</Label> {/* Retained from develop */}
+            <Label htmlFor="email">{t("Email")}</Label>{" "}
+            {/* Retained from develop */}
             <Input
               id="email"
               type="email"
-              placeholder={t("Your_email_placeholder")} {/* Retained from develop */}
+              placeholder={t("Your_email_placeholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-4">
-            <Label htmlFor="message">{t("Message")}</Label> {/* Retained from develop */}
+            <Label htmlFor="message">{t("Message")}</Label>{" "}
+            {/* Retained from develop */}
             <Textarea
               id="message"
-              placeholder={t("Message_placeholder")} {/* Retained from develop */}
+              placeholder={t("Message_placeholder")}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
@@ -101,7 +106,8 @@ export default function FeedbackDialog({
             {isSubmitLoading ? (
               <LoaderCircle className="animate-spin h-4 w-4 mr-2" />
             ) : null}
-            {isSubmitLoading ? t("Loading") : t("Submit")} {/* Retained from develop */}
+            {isSubmitLoading ? t("Loading") : t("Submit")}{" "}
+            {/* Retained from develop */}
           </Button>
         </DialogFooter>
       </DialogContent>

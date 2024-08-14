@@ -13,11 +13,11 @@ import { useTranslations } from "next-intl"; // Retained from develop
 export default function CompletionDialog({
   isCongratulationsDialogOpen,
   setIsCongratulationsDialogOpen,
-  sessionCount, // Retained from staging
+  //sessionCount, // Retained from staging
 }: {
   isCongratulationsDialogOpen: boolean;
   setIsCongratulationsDialogOpen: (open: boolean) => void;
-  sessionCount: number; // Retained from staging
+  //sessionCount: number; // Retained from staging
 }) {
   const t = useTranslations(""); // Retained from develop
 
@@ -28,9 +28,11 @@ export default function CompletionDialog({
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t("Congratulations")}</AlertDialogTitle> {/* Retained from develop */}
+          <AlertDialogTitle>{t("Congratulations")}</AlertDialogTitle>{" "}
+          {/* Retained from develop */}
           <AlertDialogDescription>
-            {t("You_have_completed_a_study_session")} {/* Retained from develop */}
+            {t("You_have_completed_a_study_session")}{" "}
+            {/* Retained from develop */}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
