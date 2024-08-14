@@ -84,7 +84,7 @@ export default function QuestionCard({
           </Button>
         ) : (
           <Button variant="default" className="mt-4" onClick={handleContinue}>
-            {t("Hint")}
+            {t("Continue")}
           </Button>
         )}
       </CardContent>

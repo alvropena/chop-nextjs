@@ -1,7 +1,7 @@
 'use client'
 import { capitalize } from '@/lib/utils'
 import Link from 'next/link'
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { useSchemaStore } from "@/providers/schema-store-provider";
@@ -22,7 +22,6 @@ interface Option {
 }
 
 export default function LanguageDropdown() {
-  const pathname = usePathname();
   const { setLang } = useSchemaStore((state) => state);
   const options: Option[] = [
     { country: "English", code: "en" },
@@ -30,6 +29,7 @@ export default function LanguageDropdown() {
   ];
   const t = useTranslations("");
   const router = useRouter();
+
   return (
     <div>
       <DropdownMenu>

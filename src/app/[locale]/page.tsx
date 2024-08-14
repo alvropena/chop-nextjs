@@ -216,18 +216,18 @@ export default function Page() {
         }
       );
       if (response.ok) {
-        toast({ description: "Thank you for your feedback!" });
+        toast({ description: t("Thank_you_for_your_feedback!") });
         setIsDialogOpen(false);
         setName("");
         setEmail("");
         setMessage("");
       } else {
-        toast({ description: "An error ocurred. Please, try again later." });
+        toast({ description: t("An_error_ocurred._Please_,_try_again_later.") });
       }
     } catch (error) {
-      toast({ description: "An error ocurred. Please, try again later." });
+      toast({ description: t("An_error_ocurred._Please_,_try_again_later.") });
     } finally {
-      setIsSubmitLoading(false); // Set loading state to false
+      setIsSubmitLoading(false);
     }
   };
 
@@ -285,7 +285,6 @@ export default function Page() {
           <CompletionDialog
             isCongratulationsDialogOpen={isCongratulationsDialogOpen}
             setIsCongratulationsDialogOpen={setIsCongratulationsDialogOpen}
-            sessionCount={sessionCount}
           />
         </main>
       </div>

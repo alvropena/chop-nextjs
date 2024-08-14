@@ -115,7 +115,7 @@ export default function ProfileClient() {
             <FormField label={t("Name")} id="name">
               <Input
                 id="name"
-                placeholder={user.name ?? "No name"}
+                placeholder={t("Enter_your_name")}
                 {...register("name")}
               />
               {errors.name && (
@@ -124,16 +124,18 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
+
             <FormField label={t("Username")} id="username">
               <Input
                 id="username"
-                placeholder={user.nickname ?? "No nickname"}
+                placeholder={t("Enter_your_username")}
               />
             </FormField>
+
             <FormField label={t("Bio")} id="bio">
               <Textarea
                 id="bio"
-                placeholder="Enter your bio"
+                placeholder={t("Enter_your_bio")}
                 className="min-h-[100px]"
                 {...register("bio")}
               />
@@ -143,10 +145,11 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
+
             <FormField label={t("Location")} id="location">
               <Input
                 id="location"
-                placeholder="San Francisco, CA"
+                placeholder={t("Enter_your_location")}
                 {...register("location")}
               />
               {errors.location && (
@@ -155,6 +158,7 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
+
             <FormField label={t("Birthday")} id="birthday">
               <DatePicker name="birthday" />
               {errors.birthday && (
@@ -163,10 +167,11 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
+
             <FormField label={t("Phone")} id="phone">
               <Input
                 id="phone"
-                placeholder="(123) 456-7890"
+                placeholder={t("Enter_your_phone_number")}
                 type="tel"
                 {...register("phone")}
               />
@@ -176,6 +181,7 @@ export default function ProfileClient() {
                 </p>
               )}
             </FormField>
+
             <FormField label={t("Gender")} id="gender">
               <GenderRadioGroup name="gender" />
               {errors.gender && (
