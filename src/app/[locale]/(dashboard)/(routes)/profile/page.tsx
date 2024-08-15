@@ -49,12 +49,24 @@ export default function ProfileClient() {
     reset,
   } = methods;
 
-  const onSubmit = (data: ProfileFormData) => {
-    Logger.info(data);
-    toast({
-      title: t("Profile_updated"),
-      description: t("Your_changes_have_been_saved"),
-    });
+  const onSubmit = async (data: ProfileFormData) => {
+    try {
+      const response = await axios.put(
+        `${baseUrl}/api/user/me?user_id=${user?.sub}`,
+        data
+      );
+      Logger.info(data);
+      toast({
+        title: t("Profile_updated"),
+        description: t("Your_changes_have_been_saved"),
+      });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast({
+        title: t("Error"),
+        description: t("An_error_occurred_while_updating_your_profile"),
+      });
+    }
   };
 
   useEffect(() => {
@@ -63,18 +75,20 @@ export default function ProfileClient() {
         // Assuming getData returns an object with an accessToken.
         const tokenData = await getData();
         const response = await axios.get(
-          `${baseUrl}/api/v1/user/profile-user/me?token=${tokenData.accessToken}`,
+          `${baseUrl}/api/user/profile-user/me?user_id=${user?.sub}`,
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
+        console.log(response.data);
 
         const profileData = response.data;
         reset({
           name: profileData.name ?? "",
           bio: profileData.bio ?? "",
+          username: profileData.username ?? "",
           location: profileData.location ?? "",
           birthday: profileData.birthday
             ? new Date(profileData.birthday)
@@ -129,7 +143,14 @@ export default function ProfileClient() {
               <Input
                 id="username"
                 placeholder={t("Enter_your_username")}
+                disabled
+                {...register("username")}
               />
+              {errors.username && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.username.message}
+                </p>
+              )}
             </FormField>
 
             <FormField label={t("Bio")} id="bio">
