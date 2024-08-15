@@ -181,7 +181,6 @@ export default function Page() {
         break;
       default:
         setCurrentData(geography[lang]);
-    }
     setCurrentIndex(0);
     setUserInput("");
     setHintMessage("");
