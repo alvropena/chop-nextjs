@@ -37,7 +37,7 @@ export default function CompletionDialog({
           <AlertDialogAction
             onClick={() => setIsCongratulationsDialogOpen(false)}
           >
-            {t("Continue")} 
+            {t("Continue")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
