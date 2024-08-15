@@ -1,0 +1,76 @@
+export const basketball = {
+  es: [
+    {
+      id: "a1b2c3d4-1234-5678-9abc-1def23456789",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "1",
+      user_id: "456",
+      question_text: "¿Qué equipo ganó el campeonato de la NBA en 1996?",
+    },
+    {
+      id: "b2c3d4e5-2345-6789-0abc-2def34567890",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "2",
+      user_id: "456",
+      question_text: "¿Quién fue el MVP de las Finales de la NBA en 2000?",
+    },
+    {
+      id: "c3d4e5f6-3456-7890-1abc-3def45678901",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "3",
+      user_id: "456",
+      question_text: "¿En qué año Michael Jordan se retiró por primera vez?",
+    },
+    {
+      id: "d4e5f6g7-4567-8901-2abc-4def56789012",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "4",
+      user_id: "456",
+      question_text: "¿Cuál es el récord de puntos en un solo juego de la NBA?",
+    },
+    {
+      id: "e5f6g7h8-5678-9012-3abc-5def67890123",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "5",
+      user_id: "456",
+      question_text: "¿Qué equipo ganó el campeonato de la NBA en 2010?",
+    },
+  ],
+  en: [
+    {
+      id: "a1b2c3d4-1234-5678-9abc-1def23456789",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "1",
+      user_id: "456",
+      question_text: "Which team won the NBA Championship in 1996?",
+    },
+    {
+      id: "b2c3d4e5-2345-6789-0abc-2def34567890",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "2",
+      user_id: "456",
+      question_text: "Who was the NBA Finals MVP in 2000?",
+    },
+    {
+      id: "c3d4e5f6-3456-7890-1abc-3def45678901",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "3",
+      user_id: "456",
+      question_text: "In what year did Michael Jordan first retire?",
+    },
+    {
+      id: "d4e5f6g7-4567-8901-2abc-4def56789012",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "4",
+      user_id: "456",
+      question_text: "What is the record for most points in a single NBA game?",
+    },
+    {
+      id: "e5f6g7h8-5678-9012-3abc-5def67890123",
+      created_at: "2024-08-14T00:00:00Z",
+      prompt_id: "5",
+      user_id: "456",
+      question_text: "Which team won the NBA Championship in 2010?",
+    },
+  ],
+};
