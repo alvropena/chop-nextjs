@@ -15,24 +15,24 @@ import ChangeTopicDialog from "@/components/change-topic-dialog";
 import FeedbackDialog from "@/components/feedback-dialog";
 import CompletionDialog from "@/components/completion-dialog";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useSchemaStore } from "@/providers/schema-store-provider"; // Retained from develop
-import { useParams, usePathname } from "next/navigation"; // Retained from develop
-import { useTranslations } from "next-intl"; // Retained from develop
+import { useSchemaStore } from "@/providers/schema-store-provider";
+import { useParams, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Page() {
   const { toast } = useToast();
-  const { remember_skip, setRememberSkip } = useSchemaStore((state) => state); // Retained from develop
-  const pathName = usePathname(); // Retained from develop
-  const regex = /^\/([^/]+)/; // Retained from develop
-  const match: any = pathName.match(regex); // Retained from develop
-  const lang: "en" | "es" = match ? match[1] : "en"; // Retained from develop
-  const t = useTranslations(""); // Retained from develop
+  const { remember_skip, setRememberSkip } = useSchemaStore((state) => state);
+  const pathName = usePathname();
+  const regex = /^\/([^/]+)/;
+  const match: any = pathName.match(regex);
+  const lang: "en" | "es" = match ? match[1] : "en";
+  const t = useTranslations("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [hintMessage, setHintMessage] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showContinueButton, setShowContinueButton] = useState(false);
-  const [currentData, setCurrentData] = useState(geography[lang]); // Retained from develop
+  const [currentData, setCurrentData] = useState(geography[lang]);
   const [shuffledData, setShuffledData] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("geography");
   const [isLoading, setIsLoading] = useState(false);
@@ -171,16 +171,16 @@ export default function Page() {
     setSelectedCategory(category);
     switch (category) {
       case "geography":
-        setCurrentData(geography[lang]); // Retained from develop
+        setCurrentData(geography[lang]); 
         break;
       case "history":
-        setCurrentData(history[lang]); // Retained from develop
+        setCurrentData(history[lang]); 
         break;
       case "soccer":
-        setCurrentData(soccer[lang]); // Retained from develop
+        setCurrentData(soccer[lang]); 
         break;
       default:
-        setCurrentData(geography[lang]); // Retained from develop
+        setCurrentData(geography[lang]); 
     }
     setCurrentIndex(0);
     setUserInput("");
@@ -195,7 +195,7 @@ export default function Page() {
     if (pendingCategory) {
       switchCategory(pendingCategory);
       setPendingCategory(null);
-      setRememberSkip(true); // Retained from develop
+      setRememberSkip(true); 
     }
     setIsAlertOpen(false);
   };
@@ -218,7 +218,7 @@ export default function Page() {
         }
       );
       if (response.ok) {
-        toast({ description: t("Thank_you_for_your_feedback!") }); // Retained from develop
+        toast({ description: t("Thank_you_for_your_feedback!") }); 
         setIsDialogOpen(false);
         setName("");
         setEmail("");
@@ -226,12 +226,12 @@ export default function Page() {
       } else {
         toast({
           description: t("An_error_ocurred_Please_try_again_later"),
-        }); // Retained from develop
+        }); 
       }
     } catch (error) {
       toast({
         description: t("An_error_ocurred_Please_try_again_later"),
-      }); // Retained from develop
+      });
     } finally {
       setIsSubmitLoading(false);
     }
@@ -249,7 +249,7 @@ export default function Page() {
             👋 Hey {user ? user?.name?.split(" ")[0] : ""}!
           </p>
           <p className="text-sm mb-4 text-slate-500">
-            {t("Select_one_of_the_topics_from_below_and_start_playing")} {/* Retained from develop */}
+            {t("Select_one_of_the_topics_from_below_and_start_playing")} 
           </p>
           <CategoryButtons
             selectedCategory={selectedCategory}
