@@ -4,10 +4,10 @@ import * as React from 'react';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { LanguagesIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { cn, capitalize } from '@/lib/utils';
-import { useSchemaStore } from '@/providers/schema-store-provider';
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { cn, capitalize } from "@/lib/utils";
+import { useSchemaStore } from "@/providers/schema-store-provider";
 import {
   Command,
   CommandEmpty,
@@ -15,29 +15,35 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 
 const languages = [
   {
-    country: 'English',
-    code: 'en',
+    country: "English",
+    code: "en",
   },
   {
-    country: 'Español',
-    code: 'es',
+    country: "Español",
+    code: "es",
   },
 ];
 
 export default function LanguageCombobox() {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
-  const { setLang } = useSchemaStore((state) => state);
+  const { lang, setLang } = useSchemaStore((state) => state);
   const router = useRouter();
+  const pathName = usePathname();
+  const regex = /^\/([^/]+)/;
+  const match: any = pathName.match(regex);
+  const langPath: "en" | "es" = match ? match[1] : "en";
+  React.useEffect(() => {
+    setLang(langPath);
+  }, [langPath]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -49,9 +55,9 @@ export default function LanguageCombobox() {
           className="w-[200px] justify-between"
         >
           <LanguagesIcon className="mr-2 h-4 w-4" />
-          {value
-            ? languages.find((lang) => lang.code === value)?.country
-            : 'Select language...'}
+          {lang
+            ? languages.find((langFilter) => langFilter.code === lang)?.country
+            : "Select language..."}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -61,25 +67,24 @@ export default function LanguageCombobox() {
           <CommandList>
             <CommandEmpty>No language found.</CommandEmpty>
             <CommandGroup>
-              {languages.map((lang) => (
+              {languages.map((langMap) => (
                 <Link
-                  key={lang.code}
-                  href={`/${lang.code}/`}
+                  key={langMap.code}
+                  href={`/${langMap.code}/`}
                   onClick={() => router.refresh()}
                 >
                   <CommandItem
-                    value={lang.code}
+                    value={langMap.code}
                     onSelect={(currentValue) => {
-                      setValue(currentValue === value ? '' : currentValue);
-                      setLang(lang.code as 'en' | 'es');
+                      setLang(langMap.code as "en" | "es");
                       setOpen(false);
                     }}
                   >
-                    {capitalize(lang.country)}
+                    {capitalize(langMap.country)}
                     <CheckIcon
                       className={cn(
-                        'ml-auto h-4 w-4',
-                        value === lang.code ? 'opacity-100' : 'opacity-0'
+                        "ml-auto h-4 w-4",
+                        lang === langMap.code ? "opacity-100" : "opacity-0"
                       )}
                     />
                   </CommandItem>
