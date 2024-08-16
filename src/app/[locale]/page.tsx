@@ -34,7 +34,7 @@ export default function Page() {
         <h1 className="text-5xl font-bold">
           The first generative learning platform.
         </h1>
-        <p className="text-xl text-muted-foreground">
+        <p className="text-2xl text-muted-foreground">
           Learn any topic playing, just type it.
         </p>
         <Button className="" size="lg">Get Started</Button>

@@ -65,14 +65,18 @@ export function AvatarDropdownMenu() {
                 <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <UserIcon className="mr-2 h-4 w-4" />
-                        Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <SettingsIcon className="mr-2 h-4 w-4" />
-                        Settings
-                    </DropdownMenuItem>
+                    <Link href="/profile">
+                        <DropdownMenuItem>
+                            <UserIcon className="mr-2 h-4 w-4" />
+                            Profile
+                        </DropdownMenuItem>
+                    </Link>
+                    <Link href="/settings">
+                        <DropdownMenuItem>
+                            <SettingsIcon className="mr-2 h-4 w-4" />
+                            Settings
+                        </DropdownMenuItem>
+                    </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <Link href="/api/auth/logout">

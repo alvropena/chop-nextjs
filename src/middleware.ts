@@ -55,5 +55,8 @@ export const config = {
     "/home",
     "/profile",
     "/settings",
+    "/about",
+    "/pricing",
+    "/blog",
   ],
 };

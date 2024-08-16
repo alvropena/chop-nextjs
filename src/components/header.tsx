@@ -20,21 +20,8 @@ export default function Header() {
       <Logo />
       <div className="flex flex-row items-center gap-4">
         <SearchBarUser />
-        <LanguageCombobox />
         <ModeToggle />
-        {!user ? (
-          <Button
-            className="gap-2"
-            onClick={() => {
-              router.push("/api/auth/login");
-            }}
-          >
-            <LogIn className="h-4 w-4" />
-            {t("Log_in")}
-          </Button>
-        ) : (
-          <AvatarDropdownMenu />
-        )}
+        <AvatarDropdownMenu />
       </div>
     </header>
   );
