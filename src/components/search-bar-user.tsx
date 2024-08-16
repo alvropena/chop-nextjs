@@ -37,12 +37,6 @@ export default function SearchBarUser() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <Button
-        variant="secondary"
-        size="icon"
-      >
-        <SearchIcon className="w-4 h-4" />
-      </Button>
     </div>
   );
 }

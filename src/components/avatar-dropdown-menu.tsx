@@ -10,6 +10,7 @@ import {
     LogOut,
     Mail,
     MessageSquare,
+    MoonIcon,
     Plus,
     PlusCircle,
     Settings,
@@ -63,7 +64,7 @@ export function AvatarDropdownMenu() {
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {/* <DropdownMenuGroup>
+                <DropdownMenuGroup>
                     <DropdownMenuItem>
                         <UserIcon className="mr-2 h-4 w-4" />
                         Profile
@@ -72,8 +73,8 @@ export function AvatarDropdownMenu() {
                         <SettingsIcon className="mr-2 h-4 w-4" />
                         Settings
                     </DropdownMenuItem>
-                </DropdownMenuGroup> 
-                <DropdownMenuSeparator /> */}
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
                 <Link href="/api/auth/logout">
                     <DropdownMenuItem>
                         <LogOut className="mr-2 h-4 w-4" />

@@ -28,7 +28,7 @@ const afterCallback = async (req: any, session: any, state: any) => {
 };
 export const GET = handleAuth({
   login: handleLogin({
-    returnTo: "/",
+    returnTo: "/home",
   }),
   callback: handleCallback({ afterCallback }),
 });
