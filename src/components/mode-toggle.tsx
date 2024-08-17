@@ -4,6 +4,8 @@ import * as React from "react"
 import { useTheme } from "next-themes"
 import { Toggle } from "@/components/ui/toggle"
 import { MoonIcon, SunIcon } from "lucide-react"
+import { Label } from "./ui/label"
+import { Switch } from "./ui/switch"
 
 export function ModeToggle() {
     const { theme, setTheme } = useTheme()
@@ -18,13 +20,14 @@ export function ModeToggle() {
         setIsDarkMode(!isDarkMode)
     }
 
+    React.useEffect(() => {
+        setIsDarkMode(theme === "dark")
+    }, [theme])
+
     return (
-        <Toggle aria-label="Toggle theme" pressed={isDarkMode} onPressedChange={handleToggle}>
-            {isDarkMode ? (
-                <MoonIcon className="h-4 w-4" />
-            ) : (
-                <SunIcon className="h-4 w-4" />
-            )}
-        </Toggle>
+        <div className="flex items-center space-x-2">
+            <Switch id="dark-mode" checked={isDarkMode} onCheckedChange={handleToggle} />
+            <Label htmlFor="dark-mode">Dark Mode</Label>
+        </div>
     )
 }

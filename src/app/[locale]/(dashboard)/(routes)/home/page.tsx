@@ -263,50 +263,51 @@ export default function HomePage() {
         name.trim() !== "" && email.trim() !== "" && message.trim() !== "";
 
     return (
-        <div className="h-fit min-h-screen flex flex-col p-6">
-            <Header />
-            <div className="flex flex-col items-center flex-grow justify-center w-full">
-                <main className="flex flex-col items-center w-full max-w-md">
-                    <Progress value={progress} className="w-[100%] mb-4 h-2" />
-                    <QuestionCard
-                        question={shuffledData[currentIndex]?.question_text}
-                        userInput={userInput}
-                        handleInputChange={handleInputChange}
-                        handleKeyDown={handleKeyDown}
-                        validateAnswer={validateAnswer}
-                        handleHintClick={handleHintClick}
-                        handleContinue={handleContinue}
-                        isLoading={isLoading}
-                        showContinueButton={showContinueButton}
-                        hintMessage={hintMessage}
-                        feedbackMessage={feedbackMessage}
-                        isHintLoading={isHintLoading}
-                    />
-                    <ChangeTopicDialog
-                        isAlertOpen={isAlertOpen}
-                        setIsAlertOpen={setIsAlertOpen}
-                        confirmCategoryChange={confirmCategoryChange}
-                    />
-                    <FeedbackDialog
-                        isDialogOpen={isDialogOpen}
-                        setIsDialogOpen={setIsDialogOpen}
-                        handleFeedbackSubmit={handleFeedbackSubmit}
-                        isFormFilled={isFormFilled}
-                        isSubmitLoading={isSubmitLoading}
-                        name={name}
-                        setName={setName}
-                        email={email}
-                        setEmail={setEmail}
-                        message={message}
-                        setMessage={setMessage}
-                    />
-                    <CompletionDialog
-                        isCongratulationsDialogOpen={isCongratulationsDialogOpen}
-                        setIsCongratulationsDialogOpen={setIsCongratulationsDialogOpen}
-                    />
-                </main>
-            </div>
-            <Footer />
+        <div>
+            <main className="flex flex-col items-center w-full max-w-md">
+                <Progress value={progress} className="w-[100%] mb-4 h-2" />
+                <QuestionCard
+                    question={shuffledData[currentIndex]?.question_text}
+                    userInput={userInput}
+                    handleInputChange={handleInputChange}
+                    handleKeyDown={handleKeyDown}
+                    validateAnswer={validateAnswer}
+                    handleHintClick={handleHintClick}
+                    handleContinue={handleContinue}
+                    isLoading={isLoading}
+                    showContinueButton={showContinueButton}
+                    hintMessage={hintMessage}
+                    feedbackMessage={feedbackMessage}
+                    isHintLoading={isHintLoading}
+                />
+                <ChangeTopicDialog
+                    isAlertOpen={isAlertOpen}
+                    setIsAlertOpen={setIsAlertOpen}
+                    confirmCategoryChange={confirmCategoryChange}
+                />
+                <FeedbackDialog
+                    isDialogOpen={isDialogOpen}
+                    setIsDialogOpen={setIsDialogOpen}
+                    handleFeedbackSubmit={handleFeedbackSubmit}
+                    isFormFilled={isFormFilled}
+                    isSubmitLoading={isSubmitLoading}
+                    name={name}
+                    setName={setName}
+                    email={email}
+                    setEmail={setEmail}
+                    message={message}
+                    setMessage={setMessage}
+                />
+                <CompletionDialog
+                    isCongratulationsDialogOpen={isCongratulationsDialogOpen}
+                    setIsCongratulationsDialogOpen={setIsCongratulationsDialogOpen}
+                />
+                <aside className="hidden w-64 flex-col border-l bg-background p-4 md:flex">
+                    <div className="sticky top-0 grid gap-4">
+                        Suggested accounts
+                    </div>
+                </aside>
+            </main>
         </div>
     );
 }

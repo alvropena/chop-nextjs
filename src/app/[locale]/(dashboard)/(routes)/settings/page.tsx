@@ -6,6 +6,7 @@ import LanguageCombobox from "@/components/language-combobox";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function InputForm() {
     const { user_input_generation } = useSchemaStore((state) => state);
@@ -52,7 +53,7 @@ export default function InputForm() {
     4. Ensure that the explanation is informative and adds value beyond the simple statement of correct or incorrect.`;
 
     return (
-        <div className="space-y-4">
+        <div className="flex flex-col space-y-4">
             <h1 className="text-2xl">{t("Settings")}</h1>
             {/* <div>
                 <Label>Prompt</Label>
@@ -85,6 +86,8 @@ export default function InputForm() {
             </div> */}
             <Label>{t("Language")}</Label>
             <LanguageCombobox />
+            <Label>{t("Dark_mode")}</Label>
+            <ModeToggle />
         </div>
     );
 }

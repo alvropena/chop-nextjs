@@ -82,6 +82,9 @@ export default function QuestionCard({
             )}
           </Button>
         </div>
+        <p className="text-xs text-gray-500">
+          {t("Chop_can_make_mistakes_Check_important_info")}
+        </p>
         {!feedbackMessage && hintMessage && (
           <p className="text-center mt-4 text-sm">{hintMessage}</p>
         )}
