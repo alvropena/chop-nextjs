@@ -10,7 +10,7 @@ export default function AboutPage() {
                         We are a small startup dedicated to building the first social learning platform: Chop.
                     </p>
                 </div>
-                <div className="grid gap-8 md:grid-cols-2">
+                <div className="grid gap-8 text-center sm:text-left md:grid-cols-2">
                     <div>
                         <h2 className="text-2xl font-semibold">Mission</h2>
                         <p className="mt-4 text-muted-foreground">
@@ -25,8 +25,8 @@ export default function AboutPage() {
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-2xl font-semibold">Team</h2>
-                    <div className="flex justify-between items-center py-4 ">
+                    <h2 className="text-2xl font-semibold text-center sm:text-left">Team</h2>
+                    <div className="flex flex-col items-center sm:flex-row sm:justify-between sm:items-center gap-4 py-4">
                         <div className="flex items-center justify-center gap-4">
                             <Image
                                 src="https://ca.slack-edge.com/T06BALE8ZA5-U06BLQRGT3J-d6528591df4f-512"
@@ -37,7 +37,7 @@ export default function AboutPage() {
                                 style={{ aspectRatio: "64/64", objectFit: "cover" }}
                             />
                             <div>
-                                <p className="font-medium">
+                                <p className="font-medium text-center sm:text-left">
                                     <a
                                         href="https://www.linkedin.com/in/alvropena/"
                                         target="_blank"
@@ -47,7 +47,7 @@ export default function AboutPage() {
                                         Alvaro Peña
                                     </a>
                                 </p>
-                                <p className="text-muted-foreground">Co-founder, CEO</p>
+                                <p className="text-muted-foreground text-center sm:text-left">Co-founder, CEO</p>
                             </div>
                         </div>
                         <div className="flex items-center justify-center gap-4">
@@ -60,7 +60,7 @@ export default function AboutPage() {
                                 style={{ aspectRatio: "64/64", objectFit: "cover" }}
                             />
                             <div>
-                                <p className="font-medium">
+                                <p className="font-medium text-center sm:text-left">
                                     <a
                                         href="https://www.linkedin.com/in/alonso-rojas-9b011622a/"
                                         target="_blank"
@@ -70,10 +70,10 @@ export default function AboutPage() {
                                         Alonso Rojas
                                     </a>
                                 </p>
-                                <p className="text-muted-foreground">Co-founder, COO</p>
+                                <p className="text-muted-foreground text-center sm:text-left">Co-founder, COO</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center gap-4">
                             <Image
                                 src="https://ca.slack-edge.com/T06BALE8ZA5-U07B8369ADV-8d5f6f326fcb-512"
                                 width={64}
@@ -83,7 +83,7 @@ export default function AboutPage() {
                                 style={{ aspectRatio: "64/64", objectFit: "cover" }}
                             />
                             <div>
-                                <p className="font-medium">
+                                <p className="font-medium text-center sm:text-left">
                                     <a
                                         href="https://www.linkedin.com/in/csarchvz/"
                                         target="_blank"
@@ -93,7 +93,7 @@ export default function AboutPage() {
                                         César Chávez
                                     </a>
                                 </p>
-                                <p className="text-muted-foreground">CTO</p>
+                                <p className="text-muted-foreground text-center sm:text-left">CTO</p>
                             </div>
                         </div>
                     </div>

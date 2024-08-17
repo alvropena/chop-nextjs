@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 export default function ContactPage() {
     return (
         <main className="flex-1 flex flex-col items-center justify-center gap-4">
+
             <div className="max-w-2xl mx-auto space-y-8">
+                <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                    Contact
+                </h1>
                 <Card className="w-full p-6 shadow-lg font-sans">
                     <CardHeader>
                         <CardTitle className="text-2xl">Contact Us</CardTitle>

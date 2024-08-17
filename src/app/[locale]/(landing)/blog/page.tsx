@@ -12,6 +12,9 @@ export default function BlogPage() {
 
     return (
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-4 lg:px-6">
+            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                Blog
+            </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <Card className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                     <Link href="#" className="block" prefetch={false}>
