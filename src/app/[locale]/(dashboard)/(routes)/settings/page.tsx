@@ -7,10 +7,12 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function InputForm() {
     const { user_input_generation } = useSchemaStore((state) => state);
-
+    const router = useRouter();
     const t = useTranslations("")
 
     const system_message_hint = `You are an assistant that gives clear and precise hints.
@@ -53,9 +55,10 @@ export default function InputForm() {
     4. Ensure that the explanation is informative and adds value beyond the simple statement of correct or incorrect.`;
 
     return (
-        <div className="flex flex-col space-y-4">
-            <h1 className="text-2xl">{t("Settings")}</h1>
-            {/* <div>
+        <div className="flex justify-center items-center min-h-screen">
+            <div className="flex flex-col space-y-4 w-full max-w-md">
+                <h1 className="text-2xl">{t("Settings")}</h1>
+                {/* <div>
                 <Label>Prompt</Label>
                 <Input value={user_input_generation} disabled />
                 <p className="text-xs">
@@ -84,10 +87,15 @@ export default function InputForm() {
                     )}
                 </p>
             </div> */}
-            <Label>{t("Language")}</Label>
-            <LanguageCombobox />
-            <Label>{t("Dark_mode")}</Label>
-            <ModeToggle />
+                <Label>{t("Language")}</Label>
+                <LanguageCombobox />
+                <Label>{t("Dark_mode")}</Label>
+                <ModeToggle />
+                <Label>{t("Log_out")}</Label>
+                <div>
+                    <Button onClick={() => router.push("/api/auth/logout")}>{t("Log_out")}</Button>
+                </div>
+            </div>
         </div>
     );
 }

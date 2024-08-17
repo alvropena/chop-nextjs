@@ -9,20 +9,15 @@ import { basketball } from "@/data/topics/basket";
 import { formula1 } from "@/data/topics/formula1";
 import { italy } from "@/data/topics/italy";
 import { tennis } from "@/data/topics/tennis";
-
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { Progress } from "@/components/ui/progress";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import CategoryButtons from "@/components/category-buttons";
 import QuestionCard from "@/components/question-card";
 import ChangeTopicDialog from "@/components/change-topic-dialog";
 import FeedbackDialog from "@/components/feedback-dialog";
 import CompletionDialog from "@/components/completion-dialog";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useSchemaStore } from "@/providers/schema-store-provider";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function HomePage() {
@@ -263,7 +258,7 @@ export default function HomePage() {
         name.trim() !== "" && email.trim() !== "" && message.trim() !== "";
 
     return (
-        <div>
+        <div className="flex justify-center items-center min-h-screen">
             <main className="flex flex-col items-center w-full max-w-md">
                 <Progress value={progress} className="w-[100%] mb-4 h-2" />
                 <QuestionCard
@@ -302,11 +297,6 @@ export default function HomePage() {
                     isCongratulationsDialogOpen={isCongratulationsDialogOpen}
                     setIsCongratulationsDialogOpen={setIsCongratulationsDialogOpen}
                 />
-                <aside className="hidden w-64 flex-col border-l bg-background p-4 md:flex">
-                    <div className="sticky top-0 grid gap-4">
-                        Suggested accounts
-                    </div>
-                </aside>
             </main>
         </div>
     );
