@@ -8,7 +8,9 @@ import Link from "next/link";
 export default function SearchOverlay() {
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState<typeof placeholderData>(
+      []
+    );
 
     const recentSearches = [
         { id: 1, username: 'luana_acevedoo', name: 'Luana Acevedo', avatar: '/path/to/avatar1.jpg' },
