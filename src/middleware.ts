@@ -53,7 +53,7 @@ export const config = {
     "/",
     "/(fr|en|ja|de|ru|es|fa|ar)/:path*",
     "/home",
-    "/search",
+    "/search/:path*",
     "/profile",
     "/settings",
     "/about",
