@@ -109,118 +109,123 @@ export default function ProfileClient() {
     if (isLoading) return <Loading />;
 
     return (
-        user && (
-            <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex justify-center items-center min-h-screen">
-                        <div className="flex flex-col flex-1 w-full max-w-md justify-center space-y-4 p-4 md:p-6">
-                            <h1 className="text-2xl">Profile</h1>
-                            <div className="flex items-center">
-                                <Avatar className="h-20 w-20 cursor-pointer items-center justify-center">
-                                    <AvatarImage
-                                        src={user.picture ?? "/default-avatar.png"}
-                                        alt={user.nickname ?? "User"}
-                                    />
-                                    <AvatarFallback>
-                                        {user.name ? user.name.substring(0, 2).toUpperCase() : "NA"}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <input type="file" style={{ display: "none" }} accept="image/*" />
-                            </div>
-                            <FormField label={t("Name")} id="name">
-                                <Input
-                                    id="name"
-                                    placeholder={t("Enter_your_name")}
-                                    {...register("name")}
-                                />
-                                {errors.name && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.name.message}
-                                    </p>
-                                )}
-                            </FormField>
+      user && (
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex justify-center items-center min-h-screen">
+              <div className="flex flex-col flex-1 w-full max-w-md justify-center space-y-4 p-4 md:p-6">
+                <h1 className="text-2xl">Profile</h1>
+                <div className="flex items-center">
+                  <Avatar className="h-20 w-20 cursor-pointer items-center justify-center">
+                    <AvatarImage
+                      src={user.picture ?? "/default-avatar.png"}
+                      alt={user.nickname ?? "User"}
+                    />
+                    <AvatarFallback>
+                      {user.name
+                        ? user.name.substring(0, 2).toUpperCase()
+                        : "NA"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    accept="image/*"
+                  />
+                </div>
+                <FormField label={t("Name")} id="name">
+                  <Input
+                    id="name"
+                    placeholder={t("Enter_your_name")}
+                    {...register("name")}
+                  />
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.name.message}
+                    </p>
+                  )}
+                </FormField>
 
-                            <FormField label={t("Username")} id="username">
-                                <Input
-                                    id="username"
-                                    placeholder={t("Enter_your_username")}
-                                    disabled
-                                    {...register("username")}
-                                />
-                                {errors.username && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.username.message}
-                                    </p>
-                                )}
-                            </FormField>
+                <FormField label={t("Username")} id="username">
+                  <Input
+                    id="username"
+                    placeholder={t("Enter_your_username")}
+                    {...register("username")}
+                  />
+                  {errors.username && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.username.message}
+                    </p>
+                  )}
+                </FormField>
 
-                            <FormField label={t("Bio")} id="bio">
-                                <Textarea
-                                    id="bio"
-                                    placeholder={t("Enter_your_bio")}
-                                    className="min-h-[100px]"
-                                    {...register("bio")}
-                                />
-                                {errors.bio && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.bio.message}
-                                    </p>
-                                )}
-                            </FormField>
+                <FormField label={t("Bio")} id="bio">
+                  <Textarea
+                    id="bio"
+                    placeholder={t("Enter_your_bio")}
+                    className="min-h-[100px]"
+                    {...register("bio")}
+                  />
+                  {errors.bio && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.bio.message}
+                    </p>
+                  )}
+                </FormField>
 
-                            <FormField label={t("Location")} id="location">
-                                <Input
-                                    id="location"
-                                    placeholder={t("Enter_your_location")}
-                                    {...register("location")}
-                                />
-                                {errors.location && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.location.message}
-                                    </p>
-                                )}
-                            </FormField>
+                <FormField label={t("Location")} id="location">
+                  <Input
+                    id="location"
+                    placeholder={t("Enter_your_location")}
+                    {...register("location")}
+                  />
+                  {errors.location && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.location.message}
+                    </p>
+                  )}
+                </FormField>
 
-                            <FormField label={t("Birthday")} id="birthday">
-                                <DatePicker name="birthday" />
-                                {errors.birthday && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.birthday.message}
-                                    </p>
-                                )}
-                            </FormField>
+                <FormField label={t("Birthday")} id="birthday">
+                  <DatePicker name="birthday" />
+                  {errors.birthday && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.birthday.message}
+                    </p>
+                  )}
+                </FormField>
 
-                            <FormField label={t("Phone")} id="phone">
-                                <Input
-                                    id="phone"
-                                    placeholder={t("Enter_your_phone_number")}
-                                    type="tel"
-                                    {...register("phone")}
-                                />
-                                {errors.phone && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.phone.message}
-                                    </p>
-                                )}
-                            </FormField>
+                <FormField label={t("Phone")} id="phone">
+                  <Input
+                    id="phone"
+                    placeholder={t("Enter_your_phone_number")}
+                    type="tel"
+                    {...register("phone")}
+                  />
+                  {errors.phone && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.phone.message}
+                    </p>
+                  )}
+                </FormField>
 
-                            <FormField label={t("Gender")} id="gender">
-                                <GenderRadioGroup name="gender" />
-                                {errors.gender && (
-                                    <p className="mt-1 text-sm text-red-500">
-                                        {errors.gender.message}
-                                    </p>
-                                )}
-                            </FormField>
-                            <div className="flex justify-end">
-                                <Button type="submit" size="lg">
-                                    {t("Save_Changes")}
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </FormProvider>
-        )
+                <FormField label={t("Gender")} id="gender">
+                  <GenderRadioGroup name="gender" />
+                  {errors.gender && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.gender.message}
+                    </p>
+                  )}
+                </FormField>
+                <div className="flex justify-end">
+                  <Button type="submit" size="lg">
+                    {t("Save_Changes")}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </FormProvider>
+      )
     );
 }
