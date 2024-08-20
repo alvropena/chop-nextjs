@@ -6,13 +6,16 @@ import LanguageCombobox from "@/components/language-combobox";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
+import { ModeToggle } from "@/components/mode-toggle";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function InputForm() {
-  const { user_input_generation } = useSchemaStore((state) => state);
+    const { user_input_generation } = useSchemaStore((state) => state);
+    const router = useRouter();
+    const t = useTranslations("")
 
-  const t = useTranslations("")
-
-  const system_message_hint = `You are an assistant that gives clear and precise hints.
+    const system_message_hint = `You are an assistant that gives clear and precise hints.
   Your task is to create a brief and direct hint that helps guess the question.
   The hint should be closely related to the question, but without repeating it.
   
@@ -34,7 +37,7 @@ export default function InputForm() {
   3. Focus on the concept or keyword of the question.
   4. Don't give the answer, only a hint that clearly guides towards it.`;
 
-  const system_prompt_answer_feedback = `Evaluate if the provided answer is correct for the given question.
+    const system_prompt_answer_feedback = `Evaluate if the provided answer is correct for the given question.
     If the answer is correct, use one of the following formats randomly:
     1. "Correct! [Brief explanation of why the answer is correct]"
     2. "That's right! [Brief explanation of why the answer is correct]"
@@ -51,41 +54,48 @@ export default function InputForm() {
     3. Maintain a friendly and educational tone in all responses.
     4. Ensure that the explanation is informative and adds value beyond the simple statement of correct or incorrect.`;
 
-  return (
-    <div className="space-y-4">
-      <h1 className="text-2xl">{t("Settings")}</h1>
-      <div>
-        <Label>Prompt</Label>
-        <Input value={user_input_generation} disabled />
-        <p className="text-xs">
-          {t(
-            "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable"
-          )}
-        </p>
-      </div>
+    return (
+        <div className="flex justify-center items-center min-h-screen">
+            <div className="flex flex-col space-y-4 w-full max-w-md">
+                <h1 className="text-2xl">{t("Settings")}</h1>
+                {/* <div>
+                <Label>Prompt</Label>
+                <Input value={user_input_generation} disabled />
+                <p className="text-xs">
+                    {t(
+                        "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable"
+                    )}
+                </p>
+            </div>
 
-      <div>
-        <Label>{t("Hint")}</Label>
-        <Textarea value={system_message_hint} disabled />
-        <p className="text-xs">
-          {t(
-            "Above_is_the_prompt_we_use_to_generate_hints_for_you_It_is_not_editable"
-          )}
-        </p>
-      </div>
+            <div>
+                <Label>{t("Hint")}</Label>
+                <Textarea value={system_message_hint} disabled />
+                <p className="text-xs">
+                    {t(
+                        "Above_is_the_prompt_we_use_to_generate_hints_for_you_It_is_not_editable"
+                    )}
+                </p>
+            </div>
 
-      <div>
-        <Label>{t("Feedback_Answer")}</Label>
-        <Textarea value={system_prompt_answer_feedback} disabled />
-        <p className="text-xs">
-          {t(
-            "Above_is_the_prompt_we_use_to_generate_answer_feedback_for_you_It_is_not_editable"
-          )}
-        </p>
-      </div>
-
-      <Label>{t("Language")}</Label>
-      <LanguageCombobox />
-    </div>
-  );
+            <div>
+                <Label>{t("Feedback_Answer")}</Label>
+                <Textarea value={system_prompt_answer_feedback} disabled />
+                <p className="text-xs">
+                    {t(
+                        "Above_is_the_prompt_we_use_to_generate_answer_feedback_for_you_It_is_not_editable"
+                    )}
+                </p>
+            </div> */}
+                <Label>{t("Language")}</Label>
+                <LanguageCombobox />
+                <Label>{t("Dark_mode")}</Label>
+                <ModeToggle />
+                <Label>{t("Log_out")}</Label>
+                <div>
+                    <Button onClick={() => router.push("/api/auth/logout")}>{t("Log_out")}</Button>
+                </div>
+            </div>
+        </div>
+    );
 }

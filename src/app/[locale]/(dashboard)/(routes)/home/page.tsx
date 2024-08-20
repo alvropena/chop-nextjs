@@ -1,412 +1,304 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, LoaderCircle, Plus, Square, Volume2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { usePathname, useRouter } from "next/navigation";
-
-import {
-  createThread,
-  getData,
-  sendPromptToThread,
-  updateOption,
-  sendOptionTyped,
-} from "@/lib/utils";
-import { Logger } from "@/lib/logger";
-import { PromptFormData, promptSchema } from "@/zod/validation-schema";
-import TypingEffect from "@/lib/typing-effect";
+import React, { useState, useEffect } from "react";
+import { geography } from "@/data/topics/geography";
+import { soccer } from "@/data/topics/soccer";
+import { history } from "@/data/topics/history";
+import { artHistory } from "@/data/topics/art-history";
+import { basketball } from "@/data/topics/basket";
+import { formula1 } from "@/data/topics/formula1";
+import { italy } from "@/data/topics/italy";
+import { tennis } from "@/data/topics/tennis";
+import { useToast } from "@/components/ui/use-toast";
+import { Progress } from "@/components/ui/progress";
+import QuestionCard from "@/components/question-card";
+import ChangeTopicDialog from "@/components/change-topic-dialog";
+import FeedbackDialog from "@/components/feedback-dialog";
+import CompletionDialog from "@/components/completion-dialog";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useThreadStore } from "@/providers/thread-store-provider";
 import { useSchemaStore } from "@/providers/schema-store-provider";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Option, Prompt } from "@/types/prompt";
-
-const TextToSpeechButton = ({ text }: { text: string }) => {
-  const speak = () => {
-    if ("speechSynthesis" in window) {
-      console.log(text);
-      const utterance = new SpeechSynthesisUtterance(text);
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert("Your browser does not support Text to Speech.");
-    }
-  };
-
-  return (
-    <button onClick={speak} className="ml-2">
-      <Volume2 className="w-4 h-4" />
-    </button>
-  );
-};
 
 export default function HomePage() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const lang = pathname.split("/").slice(1)[0];
-  const { user } = useUser();
-  const [conversation, setConversation] = useState<
-    { prompt: string; response: string }[]
-  >([]);
-  const t = useTranslations("");
-  const [optionsDisabled, setOptionsDisabled] = useState(false);
-  const [stateThread, setstateThread] = useState<
-    "CREATE" | "RESPONSE" | "NEW_QUESTION"
-  >("CREATE");
-  const [showNewQuestionButton, setShowNewQuestionButton] = useState(false);
-  const {
-    question_id,
-    threads,
-    currentPrompt,
-    addThread,
-    setThread,
-    clearThreads,
-    setCurrentPrompt,
-    resetStore,
-    setQuestionId,
-    addOption,
-  } = useThreadStore((state) => state);
+    const { toast } = useToast();
+    const { remember_skip, setRememberSkip } = useSchemaStore((state) => state);
+    const pathName = usePathname();
+    const regex = /^\/([^/]+)/;
+    const match: any = pathName.match(regex);
+    const lang: "en" | "es" = match ? match[1] : "en";
+    const t = useTranslations("");
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [userInput, setUserInput] = useState("");
+    const [hintMessage, setHintMessage] = useState("");
+    const [feedbackMessage, setFeedbackMessage] = useState("");
+    const [showContinueButton, setShowContinueButton] = useState(false);
+    const [currentData, setCurrentData] = useState(geography[lang]);
+    const [shuffledData, setShuffledData] = useState<any[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState("geography");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isHintLoading, setIsHintLoading] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isCongratulationsDialogOpen, setIsCongratulationsDialogOpen] =
+        useState(false);
+    const [progress, setProgress] = useState(0);
+    const [questionCount, setQuestionCount] = useState(0);
+    const [sessionCount, setSessionCount] = useState(0);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [pendingCategory, setPendingCategory] = useState<string | null>(null);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const baseUrl = "https://api-dev.chop.so";
+    const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+    const { user } = useUser();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+    useEffect(() => {
+        const shuffledQuestions = shuffleArray([...currentData]);
+        setShuffledData(shuffledQuestions);
+        setCurrentIndex(0);
+    }, [currentData]);
 
-  const { user_input_generation } = useSchemaStore((state) => state);
+    useEffect(() => {
+        setProgress(((questionCount % 10) / 10) * 100);
+    }, [questionCount]);
 
-  useEffect(() => {
-    return () => {
-      resetStore();
-    };
-  }, [user]);
-
-  const {
-    setValue,
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-    reset,
-    getValues,
-  } = useForm<PromptFormData>({
-    resolver: zodResolver(promptSchema),
-  });
-
-  const handleSend = async (data: PromptFormData) => {
-    if (!data.prompt.trim()) {
-      return; // Si el prompt está vacío, no hacer nada
-    }
-
-    const newPrompt: Prompt = {
-      id: 0,
-      created_at: "",
-      text: data.prompt,
-      user_id: user?.sub || "unknown",
+    const shuffleArray = (array: any) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     };
 
-    setCurrentPrompt(newPrompt);
-    setIsLoading(true);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUserInput(e.target.value);
+    };
 
-    try {
-      const token = await getData();
-      let currentThreadId = threads.length ? threads[0].id : null;
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && userInput.trim()) {
+            validateAnswer();
+        }
+    };
 
-      if (!currentThreadId && stateThread === "CREATE") {
-        const response = await createThread(
-          token.accessToken,
-          newPrompt,
-          user_input_generation,
-          lang
-        );
-        currentThreadId = response.thread.id;
-        addThread(response.thread);
-        setQuestionId(response.thread.question.id);
-      } else if (currentThreadId && stateThread === "RESPONSE") {
-        const response = await sendOptionTyped(
-          token.accessToken,
-          question_id ?? 0,
-          getValues("prompt"),
-          lang
-        );
+    const validateAnswer = async () => {
+        if (!userInput.trim()) {
+            setFeedbackMessage("Please enter an answer.");
+            return;
+        }
+        setIsLoading(true);
+        try {
+            const currentQuestion = shuffledData[currentIndex]?.question_text;
+            const response = await fetch(
+                `${baseUrl}/api/assignments/check-response?question=${encodeURIComponent(
+                    currentQuestion
+                )}&response=${encodeURIComponent(userInput)}`,
+                {
+                    method: "POST",
+                }
+            );
+            const data = await response.json();
+            setFeedbackMessage(data || "No message found in the response");
+            setHintMessage("");
+            setShowContinueButton(true);
+        } catch (error) {
+            setFeedbackMessage("An error occurred. Try again later.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-        Logger.info(response);
-        updateConversationWithResponse(response);
-        addOption(question_id, response as Option);
-        setstateThread("NEW_QUESTION");
-        await handleNewQuestion();
-      }
-      reset();
-    } catch (error) {
-      Logger.error("Failed to send prompt:", error);
-      setIsError(true);
-      updateConversationWithError("Error: Failed to process the request.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const handleHintClick = async () => {
+        setIsHintLoading(true);
+        try {
+            const currentQuestion = shuffledData[currentIndex]?.question_text;
+            const response = await fetch(
+                `${baseUrl}/api/assignments/hint?question=${encodeURIComponent(
+                    currentQuestion
+                )}`,
+                {
+                    method: "POST",
+                }
+            );
+            const data = await response.json();
+            setHintMessage(data || "No hint found in the response");
+            setFeedbackMessage("");
+        } catch (error) {
+            setHintMessage("An error occurred. Try again later.");
+        } finally {
+            setIsHintLoading(false);
+        }
+    };
 
-  const handleOptionClick = async (optionId: number, isSelected: boolean) => {
-    const token = await getData();
-    try {
-      const response = await updateOption(
-        optionId,
-        token.accessToken,
-        isSelected
-      );
-      Logger.info(response);
+    const handleContinue = () => {
+        // Increment the current index
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % currentData.length);
 
-      // Disable all options once one is selected
-      setOptionsDisabled(true);
+        // Increment the question count
+        setQuestionCount((prevCount) => {
+            const newCount = prevCount + 1;
 
-      // Update Zustand state with the updated option
-      const updatedThread = threads.find((thread) =>
-        thread.question.options.some((option) => option.id === optionId)
-      );
-      if (updatedThread) {
-        updatedThread.question.options = updatedThread.question.options.map(
-          (option) =>
-            option.id === optionId
-              ? { ...option, is_selected: isSelected }
-              : option
-        );
-        setThread(updatedThread);
-      }
+            // Update progress bar
+            setProgress(((newCount % 10) / 10) * 100);
 
-      await handleNewQuestion();
-    } catch (error) {
-      Logger.error("Failed to update option:", error);
-    }
-  };
-
-  const updateConversationWithResponse = (response: any) => {
-    setConversation((prev) =>
-      prev.map((entry, index) =>
-        index === prev.length - 1
-          ? { prompt: entry.prompt, response: JSON.stringify(response) }
-          : entry
-      )
-    );
-  };
-
-  const updateConversationWithError = (errorMessage: any) => {
-    setConversation((prev) =>
-      prev.map((entry, index) =>
-        index === prev.length - 1
-          ? { prompt: entry.prompt, response: errorMessage }
-          : entry
-      )
-    );
-  };
-
-  const handleNewQuestion = async () => {
-    const token = await getData();
-    console.log(currentPrompt);
-    try {
-      const response = await sendPromptToThread(
-        token.accessToken,
-        currentPrompt?.id ?? 0,
-        user_input_generation,
-        lang
-      );
-      console.log(response);
-      setQuestionId(response.thread.question.id);
-      addThread(response.thread);
-      setShowNewQuestionButton(false); // Hide the button after generating a new question
-      setstateThread("RESPONSE");
-    } catch (error) {
-      Logger.error("Failed to create new question:", error);
-      updateConversationWithError("Error: Failed to create new question.");
-    }
-  };
-
-  return (
-    <div className="flex flex-col h-full">
-      <header className="sticky top-0 p-2 flex flex-row justify-end">
-        <Button
-          onClick={() => {
-            resetStore();
-            setstateThread("CREATE");
-            setShowNewQuestionButton(false);
-          }}
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          New Thread
-        </Button>
-      </header>
-      <main className="flex-1 overflow-auto px-4">
-        <div className="max-w-2xl mx-auto flex flex-col items-start gap-8">
-          <div className="flex flex-row justify-end p-2 items-center">
-            <Avatar className="mr-2">
-              <AvatarImage src="" alt="@chop" />
-              <AvatarFallback>CH</AvatarFallback>
-            </Avatar>
-            <TypingEffect texts={[{ word: t("Hey_what_do_you_want_to_learn_today?"), emoji: "" }]} />
-          </div>
-          {currentPrompt && (
-            <div key={currentPrompt?.id} className="w-full">
-              <div className="flex flex-row justify-end p-2 items-center">
-                <p className="mr-2">{currentPrompt?.text}</p>
-                <Avatar>
-                  <AvatarImage src="" alt="" />
-                  <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
-                </Avatar>
-              </div>
-              <div className="flex flex-row p-2">
-                <Avatar className="mr-2">
-                  <AvatarImage src="" alt="@shadcn" />
-                  <AvatarFallback>CH</AvatarFallback>
-                </Avatar>
-                {isLoading ? (
-                  <LoaderCircle className="animate-spin w-4 h-4 ml-2" />
-                ) : isError ? (
-                  <TypingEffect
-                    texts={[{ word: "An error occurred, we cannot process your request at the moment. Please, try again later.", emoji: "" }]}
-                    className="mr-2"
-                  />
-                ) : (
-                  <TypingEffect
-                    texts={[{ word: currentPrompt?.text || "", emoji: "" }]}
-                    className="mr-2"
-                  />
-                )}
-              </div>
-            </div>
-          )}
-          {threads.map((entry, index) => (
-            <div key={index} className="w-full">
-              <div className="flex flex-row p-2 items-center">
-                <Avatar>
-                  <AvatarImage src="" alt="@shadcn" />
-                  <AvatarFallback>CH</AvatarFallback>
-                </Avatar>
-                <p className="ml-2">{entry.question.question_text}</p>
-                <TextToSpeechButton text={entry.question.question_text} />
-              </div>
-              <div className="flex flex-row p-2 items-center">
-                <Avatar>
-                  <AvatarImage src="" alt="@shadcn" />
-                  <AvatarFallback>CH</AvatarFallback>
-                </Avatar>
-                <p className="ml-2">These are the options for the answer:</p>
-              </div>
-              <div className="flex flex-col p-2 items-center">
-                {entry.question.options
-                  .filter((item) => !item.is_typed)
-                  .map((option, index) => (
-                    <div key={index} className="flex flex-row items-center">
-                      <Button
-                        onClick={() =>
-                          handleOptionClick(option.id, !option.is_selected)
-                        }
-                        className="text-left px-2 hover:bg-neutral-900 hover:text-neutral-50 gap-2 m-2"
-                        disabled={
-                          entry.question.options.filter(
-                            (item) => item.is_selected
-                          ).length > 0
-                        }
-                      >
-                        {option.option_text}
-                      </Button>
-                    </div>
-                  ))}
-              </div>
-              {entry.question.options.filter((item) => item.is_selected)
-                .length > 0 && (
-                  <>
-                    <div className="flex flex-row justify-end p-2 items-center">
-                      <div className="mr-2">
-                        {entry.question.options
-                          .filter((item) => item.is_selected || item.is_typed)
-                          .map((a) => (
-                            <p key={a.id}>{a.option_text}</p>
-                          ))}
-                      </div>
-                      <Avatar>
-                        <AvatarImage src="" alt="@alvaro" />
-                        <AvatarFallback>AL</AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <div className="flex flex-row p-2 items-center">
-                      <Avatar>
-                        <AvatarImage src="" alt="@shadcn" />
-                        <AvatarFallback>CH</AvatarFallback>
-                      </Avatar>
-                      <p className="ml-2">
-                        {entry.question.options
-                          .filter((itemFiltered) => itemFiltered.is_selected)
-                          .map((itemMapped) =>
-                            itemMapped.is_correct_answer ? (
-                              <p key={itemMapped.id}>Its correct!</p>
-                            ) : (
-                              <p key={itemMapped.id}>This is incorrect</p>
-                            )
-                          )}
-                      </p>
-                    </div>
-                  </>
-                )}
-            </div>
-          ))}
-          {showNewQuestionButton && (
-            <Button
-              onClick={handleNewQuestion}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              New Question
-            </Button>
-          )}
-        </div>
-      </main>
-      <div className="sticky w-full py-2 flex flex-col gap-1.5 px-4 pb-4">
-        {/* {!currentPrompt && (
-          <div className="flex justify-center">
-            <Button
-              onClick={() => router.push("/history")}
-              className="w-68 mb-2"
-            >
-              Continue learning from a previous prompt
-            </Button>
-          </div>
-        )}
-      */}
-        <form
-          onSubmit={handleSubmit(handleSend)}
-          className="relative max-w-2xl mx-auto w-full"
-          autoFocus={false}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSubmit(handleSend)();
+            // Check if it's time to display the CompletionDialog
+            if (newCount % 10 === 0) {
+                setSessionCount((prevSessionCount) => prevSessionCount + 1);
+                setIsCongratulationsDialogOpen(true);
             }
-          }}
-        >
-          <Textarea
-            placeholder="Type here..."
-            id="prompt"
-            rows={1}
-            className="min-h-[48px] rounded-2xl resize-none p-4 border shadow-sm pr-16"
-            {...register("prompt")}
-          />
-          {errors.prompt && (
-            <p className="text-red-500 text-sm mt-1">{errors.prompt.message}</p>
-          )}
-          <Button
-            type="submit"
-            size="icon"
-            className="absolute top-3 right-3 w-8 h-8"
-            disabled={!isValid}
-          >
-            {isLoading ? (
-              <Square className="w-4 h-4" />
-            ) : (
-              <ArrowUpIcon className="w-4 h-4" />
-            )}
 
-            <span className="sr-only">Send</span>
-          </Button>
+            return newCount;
+        });
 
-        </form>
-      </div>
-    </div>
-  );
+        // Reset input fields and messages
+        setUserInput("");
+        setHintMessage("");
+        setFeedbackMessage("");
+        setShowContinueButton(false);
+    };
+
+    const handleCategoryClick = (category: string) => {
+        if (remember_skip) {
+            switchCategory(category);
+        } else if (progress > 0) {
+            setPendingCategory(category);
+            setIsAlertOpen(true);
+        } else {
+            switchCategory(category);
+        }
+    };
+
+    const switchCategory = (category: string) => {
+        setSelectedCategory(category);
+        switch (category) {
+            case "geography":
+                setCurrentData(geography[lang]);
+                break;
+            case "history":
+                setCurrentData(history[lang]);
+                break;
+            case "soccer":
+                setCurrentData(soccer[lang]);
+                break;
+            case "art-history":
+                setCurrentData(artHistory[lang]);
+                break;
+            case "basketball":
+                setCurrentData(basketball[lang]);
+                break;
+            case "formula1":
+                setCurrentData(formula1[lang]);
+                break;
+            case "italy":
+                setCurrentData(italy[lang]);
+                break;
+            case "tennis":
+                setCurrentData(tennis[lang]);
+                break;
+            default:
+                setCurrentData(geography[lang]);
+                setCurrentIndex(0);
+                setUserInput("");
+                setHintMessage("");
+                setFeedbackMessage("");
+                setShowContinueButton(false);
+                setProgress(0);
+                setQuestionCount(0);
+        };
+    }
+
+
+    const confirmCategoryChange = () => {
+        if (pendingCategory) {
+            switchCategory(pendingCategory);
+            setPendingCategory(null);
+            setRememberSkip(true);
+        }
+        setIsAlertOpen(false);
+    };
+
+    const handleFeedbackSubmit = async () => {
+        setIsSubmitLoading(true);
+        try {
+            const response = await fetch(
+                "https://api-dev.chop.so/api/feedback/send-feedback",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        message: message.trim(),
+                        name: name.trim(),
+                        email: email.trim(),
+                    }),
+                }
+            );
+            if (response.ok) {
+                toast({ description: t("Thank_you_for_your_feedback!") });
+                setIsDialogOpen(false);
+                setName("");
+                setEmail("");
+                setMessage("");
+            } else {
+                toast({
+                    description: t("An_error_ocurred_Please_try_again_later"),
+                });
+            }
+        } catch (error) {
+            toast({
+                description: t("An_error_ocurred_Please_try_again_later"),
+            });
+        } finally {
+            setIsSubmitLoading(false);
+        }
+    };
+
+    const isFormFilled =
+        name.trim() !== "" && email.trim() !== "" && message.trim() !== "";
+
+    return (
+        <div className="flex justify-center items-center min-h-screen">
+            <main className="flex flex-col items-center w-full max-w-md">
+                <Progress value={progress} className="w-[100%] mb-4 h-2" />
+                <QuestionCard
+                    question={shuffledData[currentIndex]?.question_text}
+                    userInput={userInput}
+                    handleInputChange={handleInputChange}
+                    handleKeyDown={handleKeyDown}
+                    validateAnswer={validateAnswer}
+                    handleHintClick={handleHintClick}
+                    handleContinue={handleContinue}
+                    isLoading={isLoading}
+                    showContinueButton={showContinueButton}
+                    hintMessage={hintMessage}
+                    feedbackMessage={feedbackMessage}
+                    isHintLoading={isHintLoading}
+                />
+                <ChangeTopicDialog
+                    isAlertOpen={isAlertOpen}
+                    setIsAlertOpen={setIsAlertOpen}
+                    confirmCategoryChange={confirmCategoryChange}
+                />
+                <FeedbackDialog
+                    isDialogOpen={isDialogOpen}
+                    setIsDialogOpen={setIsDialogOpen}
+                    handleFeedbackSubmit={handleFeedbackSubmit}
+                    isFormFilled={isFormFilled}
+                    isSubmitLoading={isSubmitLoading}
+                    name={name}
+                    setName={setName}
+                    email={email}
+                    setEmail={setEmail}
+                    message={message}
+                    setMessage={setMessage}
+                />
+                <CompletionDialog
+                    isCongratulationsDialogOpen={isCongratulationsDialogOpen}
+                    setIsCongratulationsDialogOpen={setIsCongratulationsDialogOpen}
+                />
+            </main>
+        </div>
+    );
 }
+

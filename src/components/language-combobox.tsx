@@ -70,7 +70,7 @@ export default function LanguageCombobox() {
               {languages.map((langMap) => (
                 <Link
                   key={langMap.code}
-                  href={`/${langMap.code}/`}
+                  href={`/${langMap.code}/settings`}
                   onClick={() => router.refresh()}
                 >
                   <CommandItem

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, LoaderCircle, Info, Volume2 } from "lucide-react";
+import { ArrowRightIcon, LoaderCircle, Info, Volume2, Speech } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const TextToSpeechButton = ({ text }: { text: string }) => {
@@ -18,9 +18,9 @@ const TextToSpeechButton = ({ text }: { text: string }) => {
   };
 
   return (
-    <button onClick={speak} className="ml-2">
-      <Volume2 className="w-4 h-4" />
-    </button>
+    <Button onClick={speak}>
+      <Speech className="w-4 h-4" />
+    </Button>
   );
 };
 
@@ -57,8 +57,7 @@ export default function QuestionCard({
     <Card className="flex flex-col w-full items-center justify-center h-64">
       <CardContent className="flex flex-col items-center justify-center p-6">
         <div className="flex items-center justify-center mb-4">
-          <Label className="text-xl text-center">{question}</Label>
-          <TextToSpeechButton text={question} />
+
         </div>
         <div className="flex flex-row items-center justify-center gap-2 w-full">
           <Input
@@ -83,6 +82,9 @@ export default function QuestionCard({
             )}
           </Button>
         </div>
+        <p className="text-xs text-gray-500">
+          {t("Chop_can_make_mistakes_Check_important_info")}
+        </p>
         {!feedbackMessage && hintMessage && (
           <p className="text-center mt-4 text-sm">{hintMessage}</p>
         )}
@@ -90,19 +92,21 @@ export default function QuestionCard({
           <p className="text-center mt-4 text-sm">{feedbackMessage}</p>
         )}
         {!showContinueButton ? (
-          <Button
-            variant="secondary"
-            className="gap-1 mt-4"
-            onClick={handleHintClick}
-            disabled={isHintLoading}
-          >
-            {isHintLoading ? (
-              <LoaderCircle className="animate-spin h-4 w-4" />
-            ) : (
-              <Info className="h-4 w-4" />
-            )}{" "}
-            {isHintLoading ? t("Loading") : t("Hint")}
-          </Button>
+          <div className="flex flex-row gap-2 mt-4">
+            <Button
+              variant="secondary"
+              onClick={handleHintClick}
+              disabled={isHintLoading}
+            >
+              {isHintLoading ? (
+                <LoaderCircle className="animate-spin h-4 w-4" />
+              ) : (
+                <Info className="h-4 w-4 mr-2" />
+              )}{" "}
+              {isHintLoading ? t("Loading") : t("Hint")}
+            </Button>
+            <TextToSpeechButton text={question} />
+          </div>
         ) : (
           <Button variant="default" className="mt-4" onClick={handleContinue}>
             {t("Continue")}
