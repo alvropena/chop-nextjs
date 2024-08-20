@@ -1,100 +1,140 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  formatDistanceToNow,
+  parseISO,
+  isToday,
+  isYesterday,
+  differenceInDays,
+  differenceInWeeks,
+  differenceInMonths,
+} from "date-fns";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function NotificationsOverlay() {
-    const notificationsToday = [
-        {
-            id: 1,
-            avatar: '/path/to/avatar1.jpg',
-            text: 'prkeyy, nicolaballesteros and fiorzz__ liked your story.',
-            time: '3h',
-        },
-        {
-            id: 2,
-            avatar: '/path/to/avatar2.jpg',
-            text: 'prkeyy and 1214_kusakabe liked your story.',
-            time: '3h',
-        },
-        {
-            id: 3,
-            avatar: '/path/to/avatar3.jpg',
-            text: 'marianopenasantillan, sebas.quesada23 and 85 others liked your reel.',
-            time: '19h',
-        },
-    ];
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const { user } = useUser();
 
-    const notificationsThisWeek = [
-        {
-            id: 4,
-            avatar: '/path/to/avatar4.jpg',
-            text: 'gerardo.saavedra.d started following you from your reel.',
-            time: '2d',
-            action: 'Follow',
-        },
-        {
-            id: 5,
-            avatar: '/path/to/avatar5.jpg',
-            text: 'mattc_aceres commented: NICE 🔥🔥',
-            time: '3d',
-        },
-        {
-            id: 6,
-            avatar: '/path/to/avatar6.jpg',
-            text: 'republic.perez commented: Proud 👏👏',
-            time: '3d',
-        },
-        // Add more notifications
-    ];
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/api/notifications?user_id=${user?.sub}`
+        );
+        const filteredNotifications = response.data.filter(
+          (notification: any) => notification.type_notification === "follow"
+        );
+        setNotifications(filteredNotifications);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, [baseUrl, user?.sub]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const groupNotifications = (notifications: any[]) => {
+    const groups: any = {
+      today: [],
+      yesterday: [],
+      thisWeek: [],
+      lastWeek: [],
+      thisMonth: [],
+      older: [],
+    };
+
+    notifications.forEach((notification: any) => {
+      const date = parseISO(notification.created_at);
+      const now = new Date();
+      const daysDiff = differenceInDays(now, date);
+      const weeksDiff = differenceInWeeks(now, date);
+      const monthsDiff = differenceInMonths(now, date);
+
+      if (isToday(date)) {
+        groups.today.push(notification);
+      } else if (isYesterday(date)) {
+        groups.yesterday.push(notification);
+      } else if (daysDiff < 7) {
+        groups.thisWeek.push(notification);
+      } else if (weeksDiff === 1) {
+        groups.lastWeek.push(notification);
+      } else if (monthsDiff === 0) {
+        groups.thisMonth.push(notification);
+      } else {
+        groups.older.push(notification);
+      }
+    });
+
+    return groups;
+  };
+
+  const groupedNotifications = groupNotifications(notifications);
+
+  const renderNotificationGroup = (title: string, notifications: any[]) => {
+    if (notifications.length === 0) return null;
 
     return (
-        <div className="p-4">
-            <div>
-                <h3 className="font-semibold mb-2">Today</h3>
-                <ul className="mb-4">
-                    {notificationsToday.map(notification => (
-                        <li key={notification.id} className="flex items-center justify-between mb-2">
-                            <div className="flex items-center">
-                                <img
-                                    src={notification.avatar}
-                                    alt="avatar"
-                                    className="w-10 h-10 rounded-full mr-3"
-                                />
-                                <div>
-                                    <p className="text-sm">{notification.text}</p>
-                                    <p className="text-xs text-gray-500">{notification.time}</p>
-                                </div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <div>
-                <h3 className="font-semibold mb-2">This week</h3>
-                <ul>
-                    {notificationsThisWeek.map(notification => (
-                        <li key={notification.id} className="flex items-center justify-between mb-2">
-                            <div className="flex items-center">
-                                <img
-                                    src={notification.avatar}
-                                    alt="avatar"
-                                    className="w-10 h-10 rounded-full mr-3"
-                                />
-                                <div>
-                                    <p className="text-sm">{notification.text}</p>
-                                    <p className="text-xs text-gray-500">{notification.time}</p>
-                                </div>
-                            </div>
-                            {notification.action && (
-                                <Button size="sm" variant="outline" className="text-blue-500 border-blue-500">
-                                    {notification.action}
-                                </Button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
+      <div className="mb-6">
+        <h3 className="font-semibold mb-2">{title}</h3>
+        <ul>
+          {notifications.map((notification) => (
+            <li
+              key={notification.id}
+              className="flex items-center justify-between mb-2 rounded-lg"
+            >
+              <div className="flex items-center">
+                <img
+                  src={notification.avatar}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full mr-3"
+                />
+                <div>
+                  <p className="text-sm">{notification.message}</p>
+                  <p className="text-xs text-gray-500">
+                    {formatDistanceToNow(parseISO(notification.created_at), {
+                      addSuffix: true,
+                    })}
+                  </p>
+                </div>
+              </div>
+              {notification.action && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-blue-500 border-blue-500 hover:bg-blue-50"
+                >
+                  {notification.action}
+                </Button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     );
+  };
+
+  return (
+    <div className="p-4 max-h-[80vh] overflow-y-auto">
+      {renderNotificationGroup("Hoy", groupedNotifications.today)}
+      {renderNotificationGroup("Ayer", groupedNotifications.yesterday)}
+      {renderNotificationGroup("Esta semana", groupedNotifications.thisWeek)}
+      {renderNotificationGroup(
+        "La semana pasada",
+        groupedNotifications.lastWeek
+      )}
+      {renderNotificationGroup("Este mes", groupedNotifications.thisMonth)}
+      {renderNotificationGroup("Más antiguas", groupedNotifications.older)}
+    </div>
+  );
 }
