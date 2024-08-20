@@ -72,30 +72,29 @@ export default function ProfileClient() {
     useEffect(() => {
         async function fetchProfile() {
             try {
-                // Assuming getData returns an object with an accessToken.
-                const tokenData = await getData();
-                const response = await axios.get(
-                    `${baseUrl}/api/user/profile-user/me?user_id=${user?.sub}`,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                console.log(response.data);
+              // Assuming getData returns an object with an accessToken.
+              const response = await axios.get(
+                `${baseUrl}/api/user/profile-user/me?user_id=${user?.sub}`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              console.log(response.data);
 
-                const profileData = response.data;
-                reset({
-                    name: profileData.name ?? "",
-                    bio: profileData.bio ?? "",
-                    username: profileData.username ?? "",
-                    location: profileData.location ?? "",
-                    birthday: profileData.birthday
-                        ? new Date(profileData.birthday)
-                        : undefined,
-                    gender: profileData.gender ?? "",
-                    phone: profileData.phone_number ?? "",
-                });
+              const profileData = response.data;
+              reset({
+                name: profileData.name ?? "",
+                bio: profileData.bio ?? "",
+                username: profileData.username ?? "",
+                location: profileData.location ?? "",
+                birthday: profileData.birthday
+                  ? new Date(profileData.birthday)
+                  : undefined,
+                gender: profileData.gender ?? "",
+                phone: profileData.phone_number ?? "",
+              });
             } catch (error) {
                 console.error(error);
             }

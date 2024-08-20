@@ -74,22 +74,24 @@ export default function SearchOverlay() {
                   key={search.id}
                   className="flex items-center justify-between mb-2"
                 >
-                  <div className="flex items-center">
-                    <img
-                      src={search.profile_picture}
-                      alt={search.username}
-                      className="w-10 h-10 rounded-full mr-3"
-                    />
-                    <div>
-                      <p className="font-semibold">{search.username}</p>
-                      <p className="text-sm text-gray-500">
-                        {search.name}{" "}
-                        {search.verified && (
-                          <span className="text-blue-500">&#10004;</span>
-                        )}
-                      </p>
+                  <Link href={`/search/${search.username}`}>
+                    <div className="flex items-center">
+                      <img
+                        src={search.profile_picture}
+                        alt={search.username}
+                        className="w-10 h-10 rounded-full mr-3"
+                      />
+                      <div>
+                        <p className="font-semibold">{search.username}</p>
+                        <p className="text-sm text-gray-500">
+                          {search.name}{" "}
+                          {search.verified && (
+                            <span className="text-blue-500">&#10004;</span>
+                          )}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </li>
               ))}
 
@@ -111,7 +113,7 @@ export default function SearchOverlay() {
                 className="flex items-center justify-between mb-2"
                 onClick={() => handleSearchResultClick(result)} // Maneja el clic
               >
-                <Link href={`/${result.username}`}>
+                <Link href={`/search/${result.username}`}>
                   <div className="flex items-center">
                     <img
                       src={result.profile_picture}
