@@ -92,21 +92,22 @@ export default function ProfileClient() {
           gender: profileData.gender ?? "",
           phone: profileData.phone_number ?? "",
         });
+        if (user?.sub != targetUser?.id) {
+          // Request to see if the user already follow the target user
+          const relationshipUser = await axios.get(
+            `${baseUrl}/api/contacts/users/${user?.sub}/relationship/${user_id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
-        // Request to see if the user already follow the target user
-        const relationshipUser = await axios.get(
-          `${baseUrl}/api/contacts/users/${user?.sub}/relationship/${user_id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+          if (relationshipUser.data) {
+            setIsFollowed(true);
+          } else {
+            setIsFollowed(false);
           }
-        );
-
-        if (relationshipUser.data) {
-          setIsFollowed(true);
-        } else {
-          setIsFollowed(false);
         }
       } catch (error) {
         console.error(error);
@@ -135,7 +136,6 @@ export default function ProfileClient() {
 
     setIsFollowed(false);
   };
-
   return (
     user && (
       <FormProvider {...methods}>
@@ -251,25 +251,27 @@ export default function ProfileClient() {
             </div>
           </div>
         </form>
-        <div className="flex justify-center items-center ">
-          {isFollowed ? (
-            <Button
-              onClick={async () => {
-                await unfollowUser(user?.sub ?? "", targetUser?.id);
-              }}
-            >
-              Unfollow
-            </Button>
-          ) : (
-            <Button
-              onClick={async () => {
-                await followUser(user?.sub ?? "", targetUser?.id);
-              }}
-            >
-              Follow
-            </Button>
-          )}
-        </div>
+        {user.sub != targetUser?.id && (
+          <div className="flex justify-center items-center ">
+            {isFollowed ? (
+              <Button
+                onClick={async () => {
+                  await unfollowUser(user?.sub ?? "", targetUser?.id);
+                }}
+              >
+                Unfollow
+              </Button>
+            ) : (
+              <Button
+                onClick={async () => {
+                  await followUser(user?.sub ?? "", targetUser?.id);
+                }}
+              >
+                Follow
+              </Button>
+            )}
+          </div>
+        )}
       </FormProvider>
     )
   );
