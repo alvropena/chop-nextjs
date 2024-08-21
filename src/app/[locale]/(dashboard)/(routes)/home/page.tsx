@@ -280,7 +280,7 @@ export default function HomePage() {
                     setIsAlertOpen={setIsAlertOpen}
                     confirmCategoryChange={confirmCategoryChange}
                 />
-                <FeedbackDialog
+                {/* <FeedbackDialog
                     isDialogOpen={isDialogOpen}
                     setIsDialogOpen={setIsDialogOpen}
                     handleFeedbackSubmit={handleFeedbackSubmit}
@@ -292,7 +292,7 @@ export default function HomePage() {
                     setEmail={setEmail}
                     message={message}
                     setMessage={setMessage}
-                />
+                /> */}
                 <CompletionDialog
                     isCongratulationsDialogOpen={isCongratulationsDialogOpen}
                     setIsCongratulationsDialogOpen={setIsCongratulationsDialogOpen}

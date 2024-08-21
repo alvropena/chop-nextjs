@@ -201,5 +201,10 @@
     "profile": "Perfil",
     "settings": "Configuraciones",
     "support": "Soporte"
+  },
+  "DashboardLayout": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "profile": "Perfil"
   }
 }

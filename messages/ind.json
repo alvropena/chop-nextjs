@@ -201,5 +201,10 @@
     "profile": "प्रोफ़ाइल",
     "settings": "सेटिंग्स",
     "support": "सहायता"
+  },
+  "DashboardLayout": {
+    "home": "होम",
+    "search": "खोजें",
+    "profile": "प्रोफ़ाइल"
   }
 }

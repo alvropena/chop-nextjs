@@ -201,5 +201,10 @@
     "profile": "プロフィール",
     "settings": "設定",
     "support": "サポート"
+  },
+  "DashboardLayout": {
+    "home": "ホーム",
+    "search": "検索",
+    "profile": "プロフィール"
   }
 }
