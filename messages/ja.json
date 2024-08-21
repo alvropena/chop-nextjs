@@ -82,5 +82,124 @@
   "Enter_your_username": "あなたのユーザー名を入力してください",
   "Enter_your_bio": "バイオグラフィーを入力してください",
   "Enter_your_location": "場所を入力してください",
-  "Enter_your_phone_number": "電話番号を入力してください"
+  "Enter_your_phone_number": "電話番号を入力してください",
+  "AboutPage": {
+    "title": "私たちについて",
+    "description": "私たちは、最初のソーシャル学習プラットフォームを構築することに専念している小さなスタートアップです：Chop.",
+    "mission": {
+      "title": "ミッション",
+      "description": "私たちの使命は、人々が自習できるツールを作ることによって教育システムを改善することです。"
+    },
+    "vision": {
+      "title": "ビジョン",
+      "description": "私たちのビジョンは、すべての人がどこでも学習できる世界を作ることです。"
+    },
+    "team": {
+      "title": "チーム",
+      "members": {
+        "alvaro": {
+          "name": "アルバロ・ペーニャ",
+          "position": "共同創設者、CEO"
+        },
+        "alonso": {
+          "name": "アロンソ・ロハス",
+          "position": "共同創設者、COO"
+        },
+        "cesar": {
+          "name": "セサール・チャベス",
+          "position": "CTO"
+        }
+      }
+    }
+  },
+  "PricingPage": {
+    "title": "価格設定",
+    "subtitle": "あなたに合ったプランを選んでください。",
+    "individual": {
+      "title": "個人",
+      "description": "個人ユーザーに最適です。学生ですか？",
+      "discount": "割引を受ける。",
+      "price": "¥12"
+    },
+    "family": {
+      "title": "家族",
+      "description": "最大6名までの家族に最適。",
+      "price": "¥24"
+    },
+    "enterprise": {
+      "title": "企業",
+      "description": "大企業や組織のためのカスタマイズされたソリューション。",
+      "price": "話しましょう"
+    },
+    "per_month": "/月"
+  },
+  "BlogPage": {
+    "title": "ブログ",
+    "post1": {
+      "title": "成功したスタートアップの秘密を解き明かす",
+      "excerpt": "最も革新的なスタートアップが成功した鍵となる戦略と洞察を発見してください。資金調達からスケーリングまで、このブログ投稿はすべてをカバーしています。",
+      "image_alt": "ブログ投稿画像"
+    },
+    "post2": {
+      "title": "ビジネスを効率的に拡大する方法",
+      "excerpt": "品質やサービスを損なうことなくビジネスを拡大するためのベストプラクティスを学びましょう。",
+      "image_alt": "ブログ投稿画像"
+    }
+  },
+  "LandingPage": {
+    "learn": "学ぶ",
+    "description": "最初のソーシャルラーニングプラットフォーム。",
+    "getStarted": "始める",
+    "totalUsers": "総ユーザー数",
+    "topics": {
+      "italian": "イタリア語",
+      "poker": "ポーカー",
+      "soccer": "サッカー",
+      "formula1": "フォーミュラ1",
+      "tennis": "テニス",
+      "singing": "歌",
+      "cooking": "料理",
+      "chess": "チェス",
+      "art": "アート"
+    }
+  },
+  "LandingHeader": {
+    "companyName": "チョップ株式会社",
+    "about": "約",
+    "pricing": "価格",
+    "blog": "ブログ",
+    "contact": "連絡先",
+    "login": "ログイン",
+    "toggleMenu": "メニューを切り替える"
+  },
+  "LandingFooter": {
+    "companyName": "チョップ株式会社",
+    "allRightsReserved": "全著作権所有。"
+  },
+  "ContactPage": {
+    "contact": "お問い合わせ",
+    "contactUs": "お問い合わせ",
+    "contactDescription": "ご意見をお聞かせください。このフォームにご記入いただければ、すぐにご連絡いたします。",
+    "name": "名前",
+    "namePlaceholder": "名前を入力してください",
+    "email": "メール",
+    "emailPlaceholder": "メールを入力してください",
+    "subject": "件名",
+    "subjectPlaceholder": "件名を入力してください",
+    "message": "メッセージ",
+    "messagePlaceholder": "メッセージを入力してください",
+    "send": "送信",
+    "messageSent": "メッセージが送信されました",
+    "messageSuccess": "メッセージが正常に送信されました。",
+    "error": "エラー",
+    "messageError": "メッセージの送信中にエラーが発生しました。"
+  },
+  "AsideMenu": {
+    "home": "ホーム",
+    "search": "検索",
+    "notifications": "通知",
+    "profile": "プロフィール",
+    "settings": "設定",
+    "support": "サポート"
+  }
 }

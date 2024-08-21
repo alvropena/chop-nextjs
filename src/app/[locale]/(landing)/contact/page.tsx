@@ -5,6 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 
 import {
   Card,
@@ -19,7 +20,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 
-// Schema de validación con Zod
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
@@ -30,6 +30,7 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactPage() {
+  const t = useTranslations("ContactPage");
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const methods = useForm<ContactFormData>({
@@ -45,46 +46,43 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      const response = await axios.post(
-        `${baseUrl}/api/feedback/send-feedback`,
-        { ...data, type_message: "feedback" }
-      );
+      await axios.post(`${baseUrl}/api/feedback/send-feedback`, {
+        ...data,
+        type_message: "feedback",
+      });
       toast({
-        title: "Message Sent",
-        description: "Your message has been sent successfully.",
+        title: t("messageSent"),
+        description: t("messageSuccess"),
       });
       setTimeout(() => reset(), 1000);
     } catch (error) {
       console.error("Error sending message:", error);
       toast({
-        title: "Error",
-        description: "An error occurred while sending your message.",
+        title: t("error"),
+        description: t("messageError"),
       });
     }
   };
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-4">
+    <main className="flex-1 flex flex-col items-center justify-center p-6 h-screen">
       <div className="max-w-2xl mx-auto space-y-8">
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          Contact
+        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl text-center">
+          {t("contact")}
         </h1>
         <Card className="w-full p-6 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl">Contact Us</CardTitle>
-            <CardDescription>
-              We would love to hear from you. Please fill out this form and we
-              will get in touch with you shortly.
-            </CardDescription>
+            <CardTitle className="text-2xl">{t("contactUs")}</CardTitle>
+            <CardDescription>{t("contactDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name">{t("name")}</Label>
                   <Input
                     id="name"
-                    placeholder="Enter your name"
+                    placeholder={t("namePlaceholder")}
                     {...register("name")}
                     className="shadow-sm"
                   />
@@ -95,11 +93,11 @@ export default function ContactPage() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t("email")}</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder={t("emailPlaceholder")}
                     {...register("email")}
                     className="shadow-sm"
                   />
@@ -110,10 +108,10 @@ export default function ContactPage() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="subject">{t("subject")}</Label>
                   <Input
                     id="subject"
-                    placeholder="Enter your subject"
+                    placeholder={t("subjectPlaceholder")}
                     {...register("subject")}
                     className="shadow-sm"
                   />
@@ -124,10 +122,10 @@ export default function ContactPage() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="message">{t("message")}</Label>
                   <Textarea
                     id="message"
-                    placeholder="Enter your message"
+                    placeholder={t("messagePlaceholder")}
                     className="min-h-[100px] shadow-sm"
                     {...register("message")}
                   />
@@ -137,7 +135,7 @@ export default function ContactPage() {
                     </p>
                   )}
                 </div>
-                <Button type="submit">Send</Button>
+                <Button type="submit">{t("send")}</Button>
               </form>
             </FormProvider>
           </CardContent>

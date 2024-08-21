@@ -3,7 +3,8 @@
 import { useState } from "react";
 import AsideMenu from "@/components/aside-menu";
 import OverlayAside from "@/components/aside-overlay";
-import DashboardHeader from "@/components/header";
+import DashboardHeader from "@/components/dashboard-header";
+import BottomTabNavigation from "@/components/bottom-tab-navigation";
 
 export default function DashboardLayout({
   children,
@@ -32,6 +33,7 @@ export default function DashboardLayout({
           <main className="flex-1 p-4 md:p-6">
             {children}
           </main>
+          <BottomTabNavigation onOpenOverlay={handleOpenOverlay} />
         </div>
       </div>
       <OverlayAside activeTab={activeTab} onClose={handleCloseOverlay} onOpen={() => setIsOverlayOpen(true)} />
