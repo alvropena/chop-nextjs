@@ -11,7 +11,7 @@ type searchType = {
 
 export type SchemaState = {
   schema: {};
-  lang: "en" | "es";
+  lang: "en" | "es" | "ja" | "ind";
   user_input_generation: string;
   remember_skip: boolean;
   recentSearches: searchType[] | [];
@@ -20,7 +20,7 @@ export type SchemaState = {
 export type SchemaActions = {
   setSchema: (SchemaInfo: Partial<SchemaState>) => void;
   clearSchema: () => void;
-  setLang: (lang: "en" | "es") => void;
+  setLang: (lang: "en" | "es" | "ja" | "ind") => void;
   resetLang: () => void;
   setUserInput: (user_input_generation: string) => void;
   setRememberSkip: (skip: boolean) => void;
