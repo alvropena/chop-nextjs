@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import TypingEffect from "@/lib/typing-effect";
+import axios from "axios";
+import { useEffect } from "react";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const topics = [
     { word: "Italian", emoji: "🇮🇹" },
     { word: "poker", emoji: "🃏" },
@@ -14,6 +18,7 @@ export default function LandingPage() {
     { word: "art", emoji: "🎨" },
   ];
 
+  const totalUsers = await (await axios.get(`${baseUrl}/api/user/all`)).data;
   return (
     <main className="flex-1 flex flex-col items-center justify-center gap-4">
       <h1 className="text-5xl font-bold">
@@ -25,6 +30,8 @@ export default function LandingPage() {
       <Button className="" size="lg">
         Get Started
       </Button>
+
+      <h2>Total users: {totalUsers}</h2>
     </main>
   );
 }
