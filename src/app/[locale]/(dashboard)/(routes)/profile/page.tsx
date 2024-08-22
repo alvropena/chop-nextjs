@@ -14,7 +14,7 @@ export default function ProfilePage() {
   const getLocalizedPath = (path: string) => `/${locale}${path}`;
 
   return (
-    <div className="p-4">
+    <div className="p-4 sm:w-full xl:w-4/12 justify-center">
       {/* Profile Header */}
       <div className="flex items-center justify-between">
         {/* Profile Picture */}
