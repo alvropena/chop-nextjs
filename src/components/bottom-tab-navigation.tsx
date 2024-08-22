@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BellIcon, HomeIcon, SearchIcon, UserIcon } from "lucide-react";
+import { BellIcon, HomeIcon, SearchIcon, UserIcon, SettingsIcon, LineChart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePathname } from 'next/navigation';
 

@@ -30,7 +30,7 @@ export default function DashboardLayout({
         <AsideMenu onOpenOverlay={handleOpenOverlay} isOverlayOpen={isOverlayOpen} />
         <div className="flex flex-1 flex-col relative">
           <DashboardHeader />
-          <main className="flex-1 p-4 md:p-6 bg-secondary">
+          <main className="flex-1 p-4 md:p-6">
             {children}
           </main>
           <BottomTabNavigation onOpenOverlay={handleOpenOverlay} />
