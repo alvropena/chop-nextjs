@@ -1,20 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { HomeIcon, SearchIcon, BellIcon, UserIcon, SettingsIcon, CircleHelpIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import Logo from "@/components/logo";
 import { useTranslations } from "next-intl";
+import SearchScreen from "@/app/[locale]/(dashboard)/(routes)/search/page";
+import NavLink from "@/components/nav-link";
 
 export default function AsideMenu({ onOpenOverlay, isOverlayOpen }: { onOpenOverlay: (tab: string) => void, isOverlayOpen: boolean }) {
     const [isAsideVisible, setIsAsideVisible] = useState(true);
     const t = useTranslations("AsideMenu");
-
-    const toggleAsideVisibility = () => {
-        setIsAsideVisible(!isAsideVisible);
-    };
 
     return (
         <>
@@ -22,94 +18,57 @@ export default function AsideMenu({ onOpenOverlay, isOverlayOpen }: { onOpenOver
                 <aside className={`hidden ${isOverlayOpen ? 'w-20' : 'w-56'} flex-col border-r bg-background p-4 md:flex`}>
                     <nav className="flex flex-col gap-4">
                         <Logo />
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href="/home"
-                                        className="flex items-center rounded-lg text-muted-foreground transition-colors hover:text-foreground p-2 gap-2"
-                                        prefetch={false}
-                                    >
-                                        <HomeIcon className="h-5 w-5" />
-                                        {!isOverlayOpen && <span>{t("home")}</span>}
-                                    </Link>
-                                </TooltipTrigger>
-                                {isOverlayOpen && <TooltipContent>{t("home")}</TooltipContent>}
-                            </Tooltip>
 
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        onClick={() => onOpenOverlay('search')}
-                                        className="flex gap-2"
-                                    >
-                                        <SearchIcon className="h-5 w-5" />
-                                        {!isOverlayOpen && <span>{t("search")}</span>}
-                                    </Button>
-                                </TooltipTrigger>
-                                {isOverlayOpen && <TooltipContent>{t("search")}</TooltipContent>}
-                            </Tooltip>
+                        <NavLink
+                            href="/home"
+                            icon={<HomeIcon className="h-5 w-5" />}
+                            label={t("home")}
+                            isOverlayOpen={isOverlayOpen}
+                        />
 
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        onClick={() => onOpenOverlay('notifications')}
-                                        variant="ghost"
-                                        className="flex items-center rounded-lg text-accent-foreground transition-colors hover:text-foreground p-2 gap-2"
-                                    >
-                                        <BellIcon className="h-5 w-5" />
-                                        {!isOverlayOpen && <span>{t("notifications")}</span>}
-                                    </Button>
-                                </TooltipTrigger>
-                                {isOverlayOpen && <TooltipContent>{t("notifications")}</TooltipContent>}
-                            </Tooltip>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <NavLink
+                                    href="#"
+                                    icon={<SearchIcon className="h-5 w-5" />}
+                                    label={t("search")}
+                                    isOverlayOpen={isOverlayOpen}
+                                />
+                            </DialogTrigger>
+                            <DialogContent>
+                                <SearchScreen />
+                            </DialogContent>
+                        </Dialog>
 
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href="/profile"
-                                        className="flex items-center rounded-lg text-accent-foreground transition-colors hover:text-foreground p-2 gap-2"
-                                        prefetch={false}
-                                    >
-                                        <UserIcon className="h-5 w-5" />
-                                        {!isOverlayOpen && <span>{t("profile")}</span>}
-                                    </Link>
-                                </TooltipTrigger>
-                                {isOverlayOpen && <TooltipContent>{t("profile")}</TooltipContent>}
-                            </Tooltip>
+                        <NavLink
+                            href="/notifications"
+                            icon={<BellIcon className="h-5 w-5" />}
+                            label={t("notifications")}
+                            isOverlayOpen={isOverlayOpen}
+                        />
 
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href="/settings"
-                                        className="flex items-center rounded-lg text-muted-foreground transition-colors hover:text-foreground p-2 gap-2"
-                                        prefetch={false}
-                                    >
-                                        <SettingsIcon className="h-5 w-5" />
-                                        {!isOverlayOpen && <span>{t("settings")}</span>}
-                                    </Link>
-                                </TooltipTrigger>
-                                {isOverlayOpen && <TooltipContent>{t("settings")}</TooltipContent>}
-                            </Tooltip>
-                        </TooltipProvider>
+                        <NavLink
+                            href="/profile"
+                            icon={<UserIcon className="h-5 w-5" />}
+                            label={t("profile")}
+                            isOverlayOpen={isOverlayOpen}
+                        />
+
+                        <NavLink
+                            href="/settings"
+                            icon={<SettingsIcon className="h-5 w-5" />}
+                            label={t("settings")}
+                            isOverlayOpen={isOverlayOpen}
+                        />
                     </nav>
+
                     <nav className="mt-auto flex flex-col gap-4">
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href="#"
-                                        className="flex items-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
-                                        prefetch={false}
-                                    >
-                                        <CircleHelpIcon className="h-5 w-5" />
-                                        {!isOverlayOpen && <span>{t("support")}</span>}
-                                    </Link>
-                                </TooltipTrigger>
-                                {isOverlayOpen && <TooltipContent>{t("support")}</TooltipContent>}
-                            </Tooltip>
-                        </TooltipProvider>
+                        <NavLink
+                            href="#"
+                            icon={<CircleHelpIcon className="h-5 w-5" />}
+                            label={t("support")}
+                            isOverlayOpen={isOverlayOpen}
+                        />
                     </nav>
                 </aside>
             )}
