@@ -1,8 +1,8 @@
-// MatchingPairsCard.tsx
 import React, { useState, useEffect } from 'react';
 import { CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
 
 interface MatchingPairsCardProps {
   title: string;
@@ -18,6 +18,8 @@ const MatchingPairsCard: React.FC<MatchingPairsCardProps> = ({ title, descriptio
   const [selectedRight, setSelectedRight] = useState<string | null>(null);
   const [shuffledLeft, setShuffledLeft] = useState<string[]>([]);
   const [shuffledRight, setShuffledRight] = useState<string[]>([]);
+  const [currentProgress, setCurrentProgress] = useState(progress);
+  const { toast } = useToast();
 
   const shuffleArray = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
@@ -49,13 +51,21 @@ const MatchingPairsCard: React.FC<MatchingPairsCardProps> = ({ title, descriptio
     if (correctPair) {
       setMatchedPairs([...matchedPairs, { left, right }]);
       setSelectedPairs([...selectedPairs, { left, right }]);
+
+      toast({
+        title: "Correct!",
+        description: "You got it right!",
+      });
+
+      setCurrentProgress((prev) => Math.min(prev + 10, 100));
+    } else {
+      toast({
+        title: "Wrong!",
+        description: "Try again.",
+      });
     }
     setSelectedLeft(null);
     setSelectedRight(null);
-  };
-
-  const isPairMatched = (left: string, right: string) => {
-    return matchedPairs.some(pair => pair.left === left && pair.right === right);
   };
 
   const allPairsMatched = matchedPairs.length === pairs.length;
@@ -63,7 +73,7 @@ const MatchingPairsCard: React.FC<MatchingPairsCardProps> = ({ title, descriptio
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
-        <Progress value={progress} className="w-full mb-4 h-3" />
+        <Progress value={currentProgress} className="w-full mb-4 h-3" />
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </div>

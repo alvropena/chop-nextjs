@@ -31,9 +31,7 @@ const SpeakingCard: React.FC<SpeakingCardProps> = ({ title, description, onConti
     onContinue(outcome);
 
     // Increase progress for now, regardless of outcome
-    if (outcome === 'correct') {
-      setCurrentProgress((prev) => Math.min(prev + 10, 100));
-    }
+    setCurrentProgress((prev) => Math.min(prev + 10, 100)); // Increments by 10 or caps at 100
   };
 
   return (
@@ -56,7 +54,7 @@ const SpeakingCard: React.FC<SpeakingCardProps> = ({ title, description, onConti
           )}
         </Button>
         {isRecording && (
-          <Badge className="mt-4 animate-pulse">
+          <Badge className="mt-4 animate-pulse" variant="secondary">
             Just talk.
           </Badge>
         )}

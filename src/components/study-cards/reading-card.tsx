@@ -1,8 +1,8 @@
-// ReadingCard.tsx
 import React, { useState } from 'react';
 import { CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ReadingCardProps {
   title: string;
@@ -14,6 +14,8 @@ interface ReadingCardProps {
 
 const ReadingCard: React.FC<ReadingCardProps> = ({ title, description, passage, questions, progress }) => {
   const [selectedOptions, setSelectedOptions] = useState<(string | null)[]>(Array(questions.length).fill(null));
+  const [currentProgress, setCurrentProgress] = useState(progress);
+  const { toast } = useToast();
 
   const handleOptionClick = (questionIndex: number, option: string) => {
     const updatedSelections = [...selectedOptions];
@@ -21,12 +23,21 @@ const ReadingCard: React.FC<ReadingCardProps> = ({ title, description, passage, 
     setSelectedOptions(updatedSelections);
   };
 
+  const handleContinueClick = () => {
+    toast({
+      title: "Correct!",
+      description: "You got it right!",
+    });
+
+    setCurrentProgress((prev) => Math.min(prev + 10, 100));
+  };
+
   const allQuestionsAnswered = selectedOptions.every(option => option !== null);
 
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
-        <Progress value={progress} className="w-full mb-4 h-3" />
+        <Progress value={currentProgress} className="w-full mb-4 h-3" />
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </div>
@@ -51,7 +62,7 @@ const ReadingCard: React.FC<ReadingCardProps> = ({ title, description, passage, 
         ))}
       </div>
       <div className="mt-4 flex">
-        <Button variant="default" disabled={!allQuestionsAnswered} className='w-full'>
+        <Button variant="default" disabled={!allQuestionsAnswered} className='w-full' onClick={handleContinueClick}>
           Continue
         </Button>
       </div>

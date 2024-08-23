@@ -1,9 +1,9 @@
-// MultipleChoiceCard.tsx
 import React, { useState } from 'react';
 import { CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import Image from 'next/image';
+import { useToast } from "@/components/ui/use-toast";
 
 interface MultipleChoiceCardProps {
   title: string;
@@ -15,9 +15,20 @@ interface MultipleChoiceCardProps {
 
 const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, description, options, imageUrl, progress }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [currentProgress, setCurrentProgress] = useState(progress);
+  const { toast } = useToast();
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
+  };
+
+  const handleContinueClick = () => {
+    toast({
+      title: "Correct!",
+      description: "You got it right!",
+    });
+
+    setCurrentProgress((prev) => Math.min(prev + 10, 100));
   };
 
   const isOptionSelected = selectedOption !== null;
@@ -25,7 +36,7 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
-        <Progress value={progress} className="w-full mb-4 h-3" />
+        <Progress value={currentProgress} className="w-full mb-4 h-3" />
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </div>
@@ -55,7 +66,7 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
         ))}
       </div>
       <div className="mt-4 flex justify-between gap-4">
-        <Button variant="default" disabled={!isOptionSelected} className='w-full'>
+        <Button variant="default" disabled={!isOptionSelected} className='w-full' onClick={handleContinueClick}>
           Continue
         </Button>
       </div>

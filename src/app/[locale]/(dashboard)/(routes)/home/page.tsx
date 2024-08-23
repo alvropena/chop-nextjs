@@ -7,6 +7,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import CardRenderer from "@/components/study-cards/card-renderer";
 import { cardsData } from "@/components/study-cards/card-data";
 import ChangeTopicDialog from "@/components/change-topic-dialog";
+import { Zap, FlameIcon, HeartIcon } from "lucide-react";
 
 export default function HomePage() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -50,6 +51,20 @@ export default function HomePage() {
       />
       
       <div className="relative w-full h-full max-w-md flex-1 mb-16 justify-center">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b bg-background px-4 md:static md:h-auto md:border-0 md:bg-transparent md:px-6 gap-4">
+      <div className="flex items-center w-32 justify-center p-2 rounded-full gap-1 h-7 font-semibold bg-green-400 text-white">
+        <Zap className="h-5 w-5 " />
+        100
+      </div>
+      <div className="flex items-center w-32 justify-center p-2 rounded-full gap-1 h-7 font-semibold bg-red-400 text-white">
+        <HeartIcon className="h-4 w-4 " />
+        5
+      </div>
+      <div className="flex items-center w-32 justify-center p-2 rounded-full gap-1 h-7 font-semibold bg-orange-400 text-white">
+        <FlameIcon className="h-4 w-4 " />
+        1
+      </div>
+    </header>
         <Card className="w-full h-full">
           <CardHeader className="h-full flex flex-col justify-center">
             <CardRenderer card={cardsData[currentCardIndex]} onNextCard={handleContinue} />
