@@ -8,10 +8,16 @@ interface FillInTheBlankCardProps {
   title: string;
   description: string;
   options: string[];
-  progress: number;
+  progress?: number;
+  onContinue: () => void; // Agrega esta línea
 }
 
-const FillInTheBlankCard: React.FC<FillInTheBlankCardProps> = ({ title, description, options, progress }) => {
+const FillInTheBlankCard: React.FC<FillInTheBlankCardProps> = ({
+  title,
+  description,
+  options,
+  progress,
+}) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
   const [currentProgress, setCurrentProgress] = useState(progress);
@@ -27,7 +33,7 @@ const FillInTheBlankCard: React.FC<FillInTheBlankCardProps> = ({ title, descript
   }, [options]);
 
   const handleOptionClick = (option: string) => {
-    setSelectedOption(prevOption => (prevOption === option ? null : option));
+    setSelectedOption((prevOption) => (prevOption === option ? null : option));
   };
 
   const handleCheckClick = () => {
@@ -36,7 +42,7 @@ const FillInTheBlankCard: React.FC<FillInTheBlankCardProps> = ({ title, descript
       description: "You got it right!",
     });
 
-    setCurrentProgress((prev) => Math.min(prev + 10, 100));
+    setCurrentProgress((prev) => Math.min(prev ?? 0 + 10, 100));
     setChecked(true);
   };
 
@@ -58,7 +64,7 @@ const FillInTheBlankCard: React.FC<FillInTheBlankCardProps> = ({ title, descript
           {shuffledOptions.map((option, index) => (
             <Button
               key={index}
-              variant={selectedOption === option ? 'default' : 'outline'}
+              variant={selectedOption === option ? "default" : "outline"}
               className="w-full"
               onClick={() => handleOptionClick(option)}
             >
@@ -67,13 +73,21 @@ const FillInTheBlankCard: React.FC<FillInTheBlankCardProps> = ({ title, descript
           ))}
         </div>
       </div>
-      <div className="mt-4 flex">        
+      <div className="mt-4 flex">
         {checked ? (
-          <Button disabled={!isOptionSelected} className='w-full' onClick={handleContinueClick}>
+          <Button
+            disabled={!isOptionSelected}
+            className="w-full"
+            onClick={handleContinueClick}
+          >
             Continue
           </Button>
         ) : (
-          <Button disabled={!isOptionSelected} className='w-full' onClick={handleCheckClick}>
+          <Button
+            disabled={!isOptionSelected}
+            className="w-full"
+            onClick={handleCheckClick}
+          >
             Check
           </Button>
         )}

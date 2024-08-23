@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
+type CategoryButtonsProps = {
+  selectedCategory: string;
+  handleCategoryClick: (category: string) => void;
+};
+
 export default function CategoryButtons({
+  selectedCategory,
   handleCategoryClick,
-}: {
-  handleCategoryClick: (category: any) => void;
-}) {
+}: CategoryButtonsProps) {
   const t = useTranslations("");
 
   const categories = [
@@ -51,6 +55,7 @@ export default function CategoryButtons({
             <CustomButton
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
+              isSelected={category.id === selectedCategory}
             >
               {category.label}
             </CustomButton>
@@ -69,16 +74,24 @@ export default function CategoryButtons({
   );
 }
 
+type CustomButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  isSelected?: boolean;
+};
+
 function CustomButton({
   children,
   onClick,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-}) {
+  isSelected = false,
+}: CustomButtonProps) {
   return (
     <button
-      className="h-6 w-28 text-xs font-medium rounded-md transition-colors bg-background border border-input text-foreground hover:bg-accent hover:text-accent-foreground"
+      className={`h-6 w-28 text-xs font-medium rounded-md transition-colors bg-background border border-input text-foreground ${
+        isSelected
+          ? "bg-accent text-accent-foreground"
+          : "hover:bg-accent hover:text-accent-foreground"
+      }`}
       onClick={onClick}
     >
       {children}

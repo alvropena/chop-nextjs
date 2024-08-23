@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import Image from 'next/image';
+import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
-import { Textarea } from '../ui/textarea';
+import { Textarea } from "../ui/textarea";
 
 interface WriteCardProps {
   title: string;
   description: string;
   imageUrl?: string;
-  progress: number;
+  progress?: number;
+  onContinue: () => void; // Agrega esta línea
 }
-
-const WriteCard: React.FC<WriteCardProps> = ({ title, description, imageUrl, progress }) => {
+const WriteCard: React.FC<WriteCardProps> = ({
+  title,
+  description,
+  imageUrl,
+  progress,
+  onContinue,
+}) => {
   const [text, setText] = useState<string>("");
   const [currentProgress, setCurrentProgress] = useState(progress);
   const { toast } = useToast();
@@ -28,7 +34,10 @@ const WriteCard: React.FC<WriteCardProps> = ({ title, description, imageUrl, pro
       description: "You got it right!",
     });
 
-    setCurrentProgress((prev) => Math.min(prev + 10, 100));
+    setCurrentProgress((prev) => Math.min(prev ?? 0 + 10, 100));
+
+    // Llama a onContinue en lugar de manejar la lógica aquí
+    onContinue();
   };
 
   return (
@@ -58,7 +67,12 @@ const WriteCard: React.FC<WriteCardProps> = ({ title, description, imageUrl, pro
             className="min-h-[80px]" // Adjusted for visual balance
           />
         </div>
-        <Button variant="default" disabled={!text} className="w-full" onClick={handleContinueClick}>
+        <Button
+          variant="default"
+          disabled={!text}
+          className="w-full"
+          onClick={handleContinueClick}
+        >
           Continue
         </Button>
       </div>

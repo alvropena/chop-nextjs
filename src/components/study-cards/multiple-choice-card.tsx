@@ -10,10 +10,17 @@ interface MultipleChoiceCardProps {
   description: string;
   options: string[];
   imageUrl?: string;
-  progress: number;
+  progress?: number;
+  onContinue: () => void; // Agrega esta línea
 }
-
-const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, description, options, imageUrl, progress }) => {
+const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({
+  title,
+  description,
+  options,
+  imageUrl,
+  progress,
+  onContinue,
+}) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [currentProgress, setCurrentProgress] = useState(progress);
   const { toast } = useToast();
@@ -28,7 +35,10 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
       description: "You got it right!",
     });
 
-    setCurrentProgress((prev) => Math.min(prev + 10, 100));
+    setCurrentProgress((prev) => Math.min(prev ?? 0 + 10, 100));
+
+    // Llama a onContinue en lugar de manejar la lógica aquí
+    onContinue();
   };
 
   const isOptionSelected = selectedOption !== null;
@@ -41,7 +51,10 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
         <CardDescription>{description}</CardDescription>
       </div>
       {imageUrl && (
-        <div className="mb-4 flex justify-center items-center w-full relative overflow-hidden rounded" style={{ height: '200px' }}>
+        <div
+          className="mb-4 flex justify-center items-center w-full relative overflow-hidden rounded"
+          style={{ height: "200px" }}
+        >
           <Image
             src={imageUrl}
             alt={title}
@@ -51,7 +64,9 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
           />
         </div>
       )}
-      <div className={`flex flex-col items-center justify-center space-y-4 w-full ${imageUrl ? 'flex-grow' : ''}`}>
+      <div
+        className={`flex flex-col items-center justify-center space-y-4 w-full ${imageUrl ? "flex-grow" : ""}`}
+      >
         {options.map((option, index) => (
           <Button
             key={index}
@@ -64,7 +79,12 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
         ))}
       </div>
       <div className="mt-4 flex justify-between gap-4">
-        <Button variant="default" disabled={!isOptionSelected} className='w-full' onClick={handleContinueClick}>
+        <Button
+          variant="default"
+          disabled={!isOptionSelected}
+          className="w-full"
+          onClick={handleContinueClick}
+        >
           Continue
         </Button>
       </div>

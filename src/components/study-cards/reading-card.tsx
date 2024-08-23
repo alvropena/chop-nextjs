@@ -9,7 +9,8 @@ interface ReadingCardProps {
   description: string;
   passage: string;
   questions: { question: string; options: string[] }[];
-  progress: number;
+  progress?: number;
+  onContinue: () => void; // Agrega esta línea
 }
 
 const ReadingCard: React.FC<ReadingCardProps> = ({ title, description, passage, questions, progress }) => {
@@ -29,7 +30,7 @@ const ReadingCard: React.FC<ReadingCardProps> = ({ title, description, passage, 
       description: "You got it right!",
     });
 
-    setCurrentProgress((prev) => Math.min(prev + 10, 100));
+    setCurrentProgress((prev) => Math.min(prev ?? 0 + 10, 100));
   };
 
   const allQuestionsAnswered = selectedOptions.every(option => option !== null);

@@ -16,9 +16,12 @@ export default function SearchPage() {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("geography");
 
-  const { recentSearches, setRecentSearches, addRecentSearch } = useSchemaStore(
-    (state) => state
-  );
+  const {
+    recentSearches,
+    setRecentSearches,
+    addRecentSearch,
+    deleteRecentSearch,
+  } = useSchemaStore((state) => state);
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -65,9 +68,7 @@ export default function SearchPage() {
   };
 
   const handleDeleteRecentSearch = (id: string) => {
-    setRecentSearches((prevSearches) =>
-      prevSearches.filter((search) => search.id !== id)
-    );
+    deleteRecentSearch(id);
   };
 
   return (

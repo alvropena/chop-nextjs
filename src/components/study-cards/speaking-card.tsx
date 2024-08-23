@@ -10,7 +10,7 @@ interface SpeakingCardProps {
   title: string;
   description: string;
   onContinue: (outcome: string) => void;
-  progress: number;
+  progress?: number;
 }
 
 const SpeakingCard: React.FC<SpeakingCardProps> = ({ title, description, onContinue, progress }) => {
@@ -23,15 +23,15 @@ const SpeakingCard: React.FC<SpeakingCardProps> = ({ title, description, onConti
   };
 
   const handleContinueClick = () => {
-    const outcome = isRecording ? 'correct' : 'wrong';
+    const outcome = isRecording ? "correct" : "wrong";
     toast({
-      title: outcome === 'correct' ? "Correct!" : "Wrong!",
-      description: outcome === 'correct' ? "You got it right!" : "Try again.",
+      title: outcome === "correct" ? "Correct!" : "Wrong!",
+      description: outcome === "correct" ? "You got it right!" : "Try again.",
     });
     onContinue(outcome);
 
     // Increase progress for now, regardless of outcome
-    setCurrentProgress((prev) => Math.min(prev + 10, 100)); // Increments by 10 or caps at 100
+    setCurrentProgress((prev) => Math.min(prev ?? 0 + 10, 100)); // Increments by 10 or caps at 100
   };
 
   return (

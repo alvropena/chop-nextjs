@@ -21,7 +21,13 @@ const CardRenderer: React.FC<CardRendererProps> = ({ card, onNextCard }) => {
     case "listening":
       return <ListeningCard title={card.title} description={card.description} options={card.options} audioUrl={card.audioUrl} onContinue={onNextCard} />;
     case "speaking":
-      return <SpeakingCard title={card.title} description={card.description} onContinue={onNextCard} />;
+      return (
+        <SpeakingCard
+          title={card.title}
+          description={card.description}
+          onContinue={onNextCard}
+        />
+      );
     case "fillInTheBlank":
       return <FillInTheBlankCard title={card.title} description={card.description} options={card.options} onContinue={onNextCard} />;
     case "matchingPairs":
