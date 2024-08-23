@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BellIcon, HomeIcon, SearchIcon, UserIcon, SettingsIcon, LineChart } from "lucide-react";
+import { BellIcon, HomeIcon, SearchIcon, UserIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePathname } from 'next/navigation';
 
@@ -33,12 +33,15 @@ export default function BottomTabNavigation({
       </Link>
       <Link
         href={getLocalizedPath('/notifications')}
-        className="flex flex-col items-center justify-center"
+        className="relative flex flex-col items-center justify-center"
       >
         <BellIcon
           color={isActive("/notifications") ? "#000000" : "#A9A9A9"}
           className="h-7 w-7"
         />
+        <span className="absolute bottom-4 left-3 text-xs text-white bg-red-600 h-5 w-5 rounded-full flex items-center justify-center">
+          2
+        </span>
       </Link>
       <Link href={getLocalizedPath('/profile')} className="flex flex-col items-center justify-center">
         <UserIcon

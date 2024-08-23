@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { HomeIcon, SearchIcon, BellIcon, UserIcon, SettingsIcon, CircleHelpIcon } from "lucide-react";
+import { HomeIcon, SearchIcon, BellIcon, UserIcon, SettingsIcon, PanelLeftCloseIcon } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import Logo from "@/components/logo";
 import { useTranslations } from "next-intl";
@@ -11,14 +11,15 @@ import NavLink from "@/components/nav-link";
 import { cn } from "@/lib/utils";
 
 export default function AsideMenu() {
-    const [isAsideVisible, setIsAsideVisible] = useState(true);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const t = useTranslations("AsideMenu");
     const pathname = usePathname();
     const locale = pathname.split('/')[1];
     const getLocalizedPath = (path: string) => `/${locale}${path}`;
     const isSearchActive = pathname === getLocalizedPath('/search');
 
-    const baseClasses = "inline-flex items-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3 justify-start";
+    // Classes for the search button styled as NavLink
+    const baseClasses = "relative inline-flex items-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md";
     const activeClasses = "bg-primary text-primary-foreground";
     const hoverClasses = "hover:bg-secondary hover:text-secondary-foreground";
     const defaultClasses = "bg-transparent text-foreground";
@@ -26,54 +27,60 @@ export default function AsideMenu() {
     const searchButtonClasses = cn(
         baseClasses,
         isSearchActive ? activeClasses : defaultClasses,
-        !isSearchActive && hoverClasses
+        !isSearchActive && hoverClasses,
+        isCollapsed ? "justify-center w-full" : "justify-start px-3 w-full"
     );
 
     return (
-        <>
-            {isAsideVisible && (
-                <aside className="hidden w-56 flex-col border-r bg-background p-4 md:flex">
-                    <nav className="flex flex-col gap-4">
-                        <Logo />
-
-                        <NavLink
-                            href="/home"
-                            icon={<HomeIcon className="h-5 w-5" />}
-                            label={t("home")}
-                        />
-
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <button className={searchButtonClasses}>
-                                    <SearchIcon className="h-5 w-5" />
-                                    <span className="ml-2">{t("search")}</span>
-                                </button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <SearchScreen />
-                            </DialogContent>
-                        </Dialog>
-
-                        <NavLink
-                            href="/notifications"
-                            icon={<BellIcon className="h-5 w-5" />}
-                            label={t("notifications")}
-                        />
-
-                        <NavLink
-                            href="/profile"
-                            icon={<UserIcon className="h-5 w-5" />}
-                            label={t("profile")}
-                        />
-
-                        <NavLink
-                            href="/settings"
-                            icon={<SettingsIcon className="h-5 w-5" />}
-                            label={t("settings")}
-                        />
-                    </nav>
-                </aside>
+        <aside
+            className={cn(
+                "flex flex-col border-r bg-background p-4 transition-all duration-300",
+                isCollapsed ? "w-16" : "w-56"
             )}
-        </>
+        >
+            <div className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-between mb-4")}>
+                {!isCollapsed && <Logo />}
+                <button onClick={() => setIsCollapsed(!isCollapsed)} className={cn(isCollapsed && "flex justify-center w-full")}>
+                    <PanelLeftCloseIcon className={cn("h-5 w-5 text-foreground transition-transform", isCollapsed ? "rotate-180" : "")} />
+                </button>
+            </div>
+            <nav className="flex flex-col gap-4 mt-4">
+                <NavLink
+                    href="/home"
+                    icon={<HomeIcon className="h-5 w-5" />}
+                    label={t("home")}
+                    collapsed={isCollapsed}
+                />
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <button className={searchButtonClasses}>
+                            <SearchIcon className="h-5 w-5" />
+                            {!isCollapsed && <span className="ml-2">{t("search")}</span>}
+                        </button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <SearchScreen />
+                    </DialogContent>
+                </Dialog>
+                <NavLink
+                    href="/notifications"
+                    icon={<BellIcon className="h-5 w-5" />}
+                    label={t("notifications")}
+                    collapsed={isCollapsed}
+                />
+                <NavLink
+                    href="/profile"
+                    icon={<UserIcon className="h-5 w-5" />}
+                    label={t("profile")}
+                    collapsed={isCollapsed}
+                />
+                <NavLink
+                    href="/settings"
+                    icon={<SettingsIcon className="h-5 w-5" />}
+                    label={t("settings")}
+                    collapsed={isCollapsed}
+                />
+            </nav>
+        </aside>
     );
 }

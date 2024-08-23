@@ -3,15 +3,17 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, X } from "lucide-react";
 import Link from "next/link";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import axios from "axios";
+import CategoryButtons from "@/components/category-buttons";  // Import the CategoryButtons component
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("geography");
 
   const { recentSearches, setRecentSearches, addRecentSearch } = useSchemaStore(
     (state) => state
@@ -52,21 +54,35 @@ export default function SearchPage() {
     addRecentSearch(result);
   };
 
+  const handleDeleteRecentSearch = (id: string) => {
+    setRecentSearches((prevSearches) =>
+      prevSearches.filter((search) => search.id !== id)
+    );
+  };
+
   return (
-    <div className="p-4 flex flex-col gap-4">
+    <div className="p-4 flex flex-col gap-4">    
       <Input
         type="text"
-        placeholder="Search"
+        placeholder="Search anything..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         className="mb-4 bg-gray-100 dark:bg-black"
       />
 
+      {/* Conditionally render CategoryButtons only when searchQuery is empty and not loading */}
+      {!searchQuery && !isLoading && (
+        <CategoryButtons
+          selectedCategory={selectedCategory}
+          handleCategoryClick={setSelectedCategory}
+        />
+      )}
+
       {searchQuery === "" && (
         <div>
           <div className="flex flex-row justify-between items-center">
             <h2 className="font-bold">Recent</h2>
-            <Button variant="link" onClick={() => setRecentSearches([])}>
+            <Button variant="link" onClick={() => setRecentSearches([])} className="text-blue-500 hover:text-blue-700">
               Clear All
             </Button>
           </div>
@@ -95,6 +111,10 @@ export default function SearchPage() {
                       </div>
                     </div>
                   </Link>
+                  <X
+                    className="cursor-pointer text-gray-500 hover:text-gray-700"
+                    onClick={() => handleDeleteRecentSearch(search.id)}
+                  />
                 </li>
               ))}
 

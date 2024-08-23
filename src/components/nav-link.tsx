@@ -7,9 +7,10 @@ interface NavLinkProps {
     href: string;
     icon: React.ReactNode;
     label: string;
+    collapsed?: boolean;
 }
 
-export default function NavLink({ href, icon, label }: NavLinkProps) {
+export default function NavLink({ href, icon, label, collapsed = false }: NavLinkProps) {
     const pathname = usePathname();
 
     // Extract the locale from the current pathname
@@ -20,7 +21,7 @@ export default function NavLink({ href, icon, label }: NavLinkProps) {
     const isActive = pathname === getLocalizedPath(href);
 
     // Tailwind CSS classes
-    const baseClasses = "inline-flex items-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3 justify-start";
+    const baseClasses = "relative inline-flex items-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md";
     const activeClasses = "bg-primary text-primary-foreground";
     const hoverClasses = "hover:bg-secondary hover:text-secondary-foreground";
     const defaultClasses = "bg-transparent text-foreground";
@@ -28,7 +29,8 @@ export default function NavLink({ href, icon, label }: NavLinkProps) {
     const linkClasses = cn(
         baseClasses,
         isActive ? activeClasses : defaultClasses,
-        !isActive && hoverClasses
+        !isActive && hoverClasses,
+        collapsed ? "justify-center w-full" : "justify-start px-3"
     );
 
     return (
@@ -36,11 +38,30 @@ export default function NavLink({ href, icon, label }: NavLinkProps) {
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Link href={getLocalizedPath(href)} className={linkClasses} prefetch={false}>
-                        {icon}
-                        <span className="ml-2">{label}</span>
+                        <div className={cn("flex items-center", collapsed ? "justify-center w-full" : "justify-start w-full")}>
+                            <div className="relative flex items-center">
+                                {icon}
+                                {href === "/notifications" && collapsed && (
+                                    <span className={cn(
+                                        "absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2",
+                                        "text-xs text-white bg-red-600 h-4 w-4 rounded-full flex items-center justify-center"
+                                    )}>
+                                        2
+                                    </span>
+                                )}
+                            </div>
+                            {!collapsed && <span className="ml-2">{label}</span>}
+                            {href === "/notifications" && !collapsed && (
+                                <span className="text-xs text-white bg-red-600 h-5 w-5 rounded-full flex items-center justify-center ml-auto">
+                                    2
+                                </span>
+                            )}
+                        </div>
                     </Link>
                 </TooltipTrigger>
-                <TooltipContent>{label}</TooltipContent>
+                {collapsed ? (
+                    <TooltipContent>{label}</TooltipContent>
+                ) : null}
             </Tooltip>
         </TooltipProvider>
     );
