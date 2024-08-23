@@ -51,7 +51,7 @@ const ReadingCard: React.FC<ReadingCardProps> = ({ title, description, passage, 
             {questionItem.options.map((option, i) => (
               <Button
                 key={i}
-                variant={selectedOptions[index] === option ? "primary" : "outline"}
+                variant={selectedOptions[index] === option ? "default" : "outline"}
                 className="w-full mb-2"
                 onClick={() => handleOptionClick(index, option)}
               >

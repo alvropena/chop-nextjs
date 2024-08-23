@@ -79,7 +79,7 @@ export default function NotificationsPage() {
     if (notifications.length === 0) return null;
 
     return (
-      <div className="mb-6">
+      <div className="mb-6 flex bg-red-500">
         <h3 className="font-semibold mb-2">{title}</h3>
         <ul>
           {notifications.map((notification) => (
@@ -125,7 +125,7 @@ export default function NotificationsPage() {
   const groupedNotifications = groupNotifications(notifications);
 
   return (
-    <div className="p-4 max-h-[80vh] overflow-y-auto">
+    <div className="flex flex-col flex-grow p-4 max-h-[80vh] overflow-y-auto bg-red-300">
       {renderNotificationGroup("Hoy", groupedNotifications.today)}
       {renderNotificationGroup("Ayer", groupedNotifications.yesterday)}
       {renderNotificationGroup("Esta semana", groupedNotifications.thisWeek)}

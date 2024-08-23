@@ -83,7 +83,7 @@ const MatchingPairsCard: React.FC<MatchingPairsCardProps> = ({ title, descriptio
             {shuffledLeft.map((left, index) => (
               <Button
                 key={index}
-                variant={matchedPairs.some(pair => pair.left === left) ? 'primary' : 'outline'}
+                variant={matchedPairs.some(pair => pair.left === left) ? 'default' : 'outline'}
                 className="w-full"
                 onClick={() => handleLeftClick(left)}
                 disabled={matchedPairs.some(pair => pair.left === left)}
@@ -96,7 +96,7 @@ const MatchingPairsCard: React.FC<MatchingPairsCardProps> = ({ title, descriptio
             {shuffledRight.map((right, index) => (
               <Button
                 key={index}
-                variant={matchedPairs.some(pair => pair.right === right) ? 'primary' : 'outline'}
+                variant={matchedPairs.some(pair => pair.right === right) ? 'default' : 'outline'}
                 className="w-full"
                 onClick={() => handleRightClick(right)}
                 disabled={matchedPairs.some(pair => pair.right === right)}

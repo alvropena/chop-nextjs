@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HomeIcon, SearchIcon, BellIcon, UserIcon, SettingsIcon, PanelLeftCloseIcon } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import Logo from "@/components/logo";
@@ -11,7 +11,14 @@ import NavLink from "@/components/nav-link";
 import { cn } from "@/lib/utils";
 
 export default function AsideMenu() {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    // Load the initial collapsed state from localStorage or default to false
+    const [isCollapsed, setIsCollapsed] = useState(() => {
+        if (typeof window !== "undefined") {
+            return JSON.parse(localStorage.getItem("asideMenuCollapsed") || "false");
+        }
+        return false;
+    });
+
     const t = useTranslations("AsideMenu");
     const pathname = usePathname();
     const locale = pathname.split('/')[1];
@@ -31,12 +38,19 @@ export default function AsideMenu() {
         isCollapsed ? "justify-center w-full" : "justify-start px-3 w-full"
     );
 
+    // Persist the collapsed state in localStorage whenever it changes
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("asideMenuCollapsed", JSON.stringify(isCollapsed));
+        }
+    }, [isCollapsed]);
+
     return (
         <aside
             className={cn(
                 "flex-col border-r bg-background p-4 transition-all duration-300",
                 isCollapsed ? "w-16" : "w-56",
-                "hidden sm:flex"  // Hidden on small screens, flex on larger screens
+                "hidden sm:flex"
             )}
         >
             <div className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-between mb-4")}>

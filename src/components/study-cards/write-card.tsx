@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import Image from 'next/image';
 import { useToast } from "@/components/ui/use-toast";
+import { Textarea } from '../ui/textarea';
 
 interface WriteCardProps {
   title: string;
@@ -38,27 +39,25 @@ const WriteCard: React.FC<WriteCardProps> = ({ title, description, imageUrl, pro
         <CardDescription>{description}</CardDescription>
       </div>
       {imageUrl && (
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4 flex justify-center items-center flex-grow w-full relative overflow-hidden rounded">
           <Image
             src={imageUrl}
             alt={title}
-            width={400}
-            height={300}
-            className="rounded"
-            layout="responsive"
+            layout="fill"
             objectFit="cover"
+            objectPosition="center"
           />
         </div>
       )}
-      <div className="flex-grow flex flex-col items-center justify-center space-y-4 w-full">
-        <textarea
-          className="p-2 w-full h-32 border rounded"
-          placeholder="Type your answer here..."
-          value={text}
-          onChange={handleTextChange}
-        />
-      </div>
-      <div className="mt-4 flex justify-end">
+      <div className="flex flex-col justify-center gap-4">
+        <div className="flex-grow flex flex-col items-center justify-center space-y-2 w-full">
+          <Textarea
+            value={text}
+            onChange={handleTextChange}
+            placeholder="Type your answer here..."
+            className="min-h-[80px]" // Adjusted for visual balance
+          />
+        </div>
         <Button variant="default" disabled={!text} className="w-full" onClick={handleContinueClick}>
           Continue
         </Button>

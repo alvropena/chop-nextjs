@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoaderCircle, X } from "lucide-react";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useSchemaStore } from "@/providers/schema-store-provider";
 import axios from "axios";
 import CategoryButtons from "@/components/category-buttons";  // Import the CategoryButtons component
+import Image from "next/image";
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,6 +21,15 @@ export default function SearchPage() {
   );
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Autofocus on the input element when the component is rendered
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -61,13 +71,14 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4 py-8">    
+    <div className="flex flex-col gap-4 py-8">
       <Input
         type="text"
         placeholder="Search anything..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         className="mb-4 bg-gray-100 dark:bg-black"
+        ref={inputRef}  // Attach the ref to the Input component
       />
 
       {/* Conditionally render CategoryButtons only when searchQuery is empty and not loading */}
@@ -95,10 +106,11 @@ export default function SearchPage() {
                 >
                   <Link href={`/search/${search.username}`}>
                     <div className="flex items-center">
-                      <img
+                      <Image
                         src={search.profile_picture}
                         alt={search.username}
-                        className="w-10 h-10 rounded-full mr-3"
+                        height={100}
+                        width={100}
                       />
                       <div>
                         <p className="font-semibold">{search.username}</p>
@@ -138,10 +150,11 @@ export default function SearchPage() {
               >
                 <Link href={`/search/${result.username}`}>
                   <div className="flex items-center">
-                    <img
+                    <Image
                       src={result.profile_picture}
                       alt={result.username}
-                      className="w-10 h-10 rounded-full mr-3"
+                      height={100}
+                      width={100}
                     />
                     <div>
                       <p className="font-semibold">{result.username}</p>

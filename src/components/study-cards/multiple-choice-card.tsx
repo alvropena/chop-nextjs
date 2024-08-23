@@ -41,19 +41,17 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
         <CardDescription>{description}</CardDescription>
       </div>
       {imageUrl && (
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4 flex justify-center items-center w-full relative overflow-hidden rounded" style={{ height: '200px' }}>
           <Image
             src={imageUrl}
             alt={title}
-            width={400}
-            height={300}
-            className="rounded"
-            layout="responsive"
+            layout="fill"
             objectFit="cover"
+            objectPosition="center"
           />
         </div>
       )}
-      <div className="flex-grow flex flex-col items-center justify-center space-y-4 w-full">
+      <div className={`flex flex-col items-center justify-center space-y-4 w-full ${imageUrl ? 'flex-grow' : ''}`}>
         {options.map((option, index) => (
           <Button
             key={index}

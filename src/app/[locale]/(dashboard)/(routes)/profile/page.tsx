@@ -14,16 +14,17 @@ export default function ProfilePage() {
   const getLocalizedPath = (path: string) => `/${locale}${path}`;
 
   return (
-    <div className="p-4 sm:w-full xl:w-4/12 justify-center">
-      {/* Profile Header */}
-      <div className="flex items-center justify-between">
+    <div className="flex justify-center h-fit bg-background text-foreground p-8">
+      <div className="flex flex-col space-y-6 w-full max-w-md">
+      <div className='flex flex-row'>
         {/* Profile Picture */}
         <div className="relative">
           <Image
-            src="/path-to-profile-pic.jpg"
+            src="/cristiano.jpg"
             alt="Profile"
-            width={100}
-            height={100}
+            width={70}
+            height={50}
+            className='rounded-full'
           />
         </div>
 
@@ -69,34 +70,20 @@ export default function ProfilePage() {
             Edit Profile
           </Button>
         </Link>
-        <Link href={getLocalizedPath('/profile/analytics')} className="flex-1">
+        {/* <Link href={getLocalizedPath('/profile/analytics')} className="flex-1">
         <Button className="w-full py-2">
             View Analytics
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       {/* Statistics Section */}
-      <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-        <h3 className="text-lg font-semibold">Statistics</h3>
+      <div className="mt-6 p-4 flex-grow bg-gray-100 rounded-lg">
+        <h3 className="text-lg font-semibold">Information</h3>
         <div className="mt-4 flex justify-around">
-          <div className="text-center">
-            <span className="block text-lg font-bold">1</span>
-            <span className="text-sm text-gray-500">Day streak</span>
-          </div>
-          <div className="text-center">
-            <span className="block text-lg font-bold">531</span>
-            <span className="text-sm text-gray-500">Total XP</span>
-          </div>
-          <div className="text-center">
-            <span className="block text-lg font-bold">Gold</span>
-            <span className="text-sm text-yellow-500">Week 1</span>
-          </div>
-          <div className="text-center">
-            <span className="block text-lg font-bold">0</span>
-            <span className="text-sm text-gray-500">Top 3 finishes</span>
-          </div>
+          <p>No activity yet.</p>
         </div>
+      </div>
       </div>
     </div>
   );

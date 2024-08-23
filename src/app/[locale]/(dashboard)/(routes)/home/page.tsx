@@ -43,7 +43,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-8">
+    <div className="flex flex-col items-center justify-center h-full">
       <ChangeTopicDialog
         isAlertOpen={isAlertOpen}
         setIsAlertOpen={setIsAlertOpen}
