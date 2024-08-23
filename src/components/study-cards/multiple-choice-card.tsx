@@ -1,6 +1,8 @@
-import React from 'react';
+// MultipleChoiceCard.tsx
+import React, { useState } from 'react';
 import { CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import Image from 'next/image';
 
 interface MultipleChoiceCardProps {
@@ -8,15 +10,27 @@ interface MultipleChoiceCardProps {
   description: string;
   options: string[];
   imageUrl?: string;
+  progress: number;
 }
 
-const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, description, options, imageUrl }) => {
+const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, description, options, imageUrl, progress }) => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  const handleOptionClick = (option: string) => {
+    setSelectedOption(option);
+  };
+
+  const isOptionSelected = selectedOption !== null;
+
   return (
-    <>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
+    <div className="flex flex-col justify-between h-full">
+      <div>
+        <Progress value={progress} className="w-full mb-4 h-3" />
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </div>
       {imageUrl && (
-        <div className="mb-4">
+        <div className="mb-4 flex justify-center">
           <Image
             src={imageUrl}
             alt={title}
@@ -28,14 +42,24 @@ const MultipleChoiceCard: React.FC<MultipleChoiceCardProps> = ({ title, descript
           />
         </div>
       )}
-      <div className="mt-4">
+      <div className="flex-grow flex flex-col items-center justify-center space-y-4 w-full">
         {options.map((option, index) => (
-          <Button key={index} variant="outline" className="w-full mb-2">
+          <Button
+            key={index}
+            variant={selectedOption === option ? "default" : "outline"}
+            className="w-full"
+            onClick={() => handleOptionClick(option)}
+          >
             {option}
           </Button>
         ))}
       </div>
-    </>
+      <div className="mt-4 flex justify-between gap-4">
+        <Button variant="default" disabled={!isOptionSelected} className='w-full'>
+          Continue
+        </Button>
+      </div>
+    </div>
   );
 };
 

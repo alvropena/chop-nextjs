@@ -9,24 +9,25 @@ import ReadingCard from './reading-card';
 
 interface CardRendererProps {
   card: any;
+  onNextCard: () => void;  // Callback to move to the next card
 }
 
-const CardRenderer: React.FC<CardRendererProps> = ({ card }) => {
+const CardRenderer: React.FC<CardRendererProps> = ({ card, onNextCard }) => {
   switch (card.type) {
     case "write":
-      return <WriteCard title={card.title} description={card.description} imageUrl={card.imageUrl} />;
+      return <WriteCard title={card.title} description={card.description} imageUrl={card.imageUrl} onContinue={onNextCard} />;
     case "multipleChoice":
-      return <MultipleChoiceCard title={card.title} description={card.description} options={card.options} imageUrl={card.imageUrl} />;
+      return <MultipleChoiceCard title={card.title} description={card.description} options={card.options} imageUrl={card.imageUrl} onContinue={onNextCard} />;
     case "listening":
-      return <ListeningCard title={card.title} description={card.description} options={card.options} audioUrl={card.audioUrl} />;
+      return <ListeningCard title={card.title} description={card.description} options={card.options} audioUrl={card.audioUrl} onContinue={onNextCard} />;
     case "speaking":
-      return <SpeakingCard title={card.title} description={card.description} />;
+      return <SpeakingCard title={card.title} description={card.description} onContinue={onNextCard} />;
     case "fillInTheBlank":
-      return <FillInTheBlankCard title={card.title} description={card.description} options={card.options} />;
+      return <FillInTheBlankCard title={card.title} description={card.description} options={card.options} onContinue={onNextCard} />;
     case "matchingPairs":
-      return <MatchingPairsCard title={card.title} description={card.description} pairs={card.pairs} />;
+      return <MatchingPairsCard title={card.title} description={card.description} pairs={card.pairs} onContinue={onNextCard} />;
     case "reading":
-      return <ReadingCard title={card.title} description={card.description} passage={card.passage} questions={card.questions} />;
+      return <ReadingCard title={card.title} description={card.description} passage={card.passage} questions={card.questions} onContinue={onNextCard} />;
     default:
       return null;
   }

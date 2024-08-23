@@ -34,8 +34,9 @@ export default function AsideMenu() {
     return (
         <aside
             className={cn(
-                "flex flex-col border-r bg-background p-4 transition-all duration-300",
-                isCollapsed ? "w-16" : "w-56"
+                "flex-col border-r bg-background p-4 transition-all duration-300",
+                isCollapsed ? "w-16" : "w-56",
+                "hidden sm:flex"  // Hidden on small screens, flex on larger screens
             )}
         >
             <div className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-between mb-4")}>
@@ -45,13 +46,13 @@ export default function AsideMenu() {
                 </button>
             </div>
             <nav className="flex flex-col gap-4 mt-4">
-            <NavLink
-    href="/home"
-    icon={<HomeIcon className="h-5 w-5" />}
-    label={t("home")}
-    collapsed={isCollapsed}
-    tooltipSide="right"
-/>
+                <NavLink
+                    href="/home"
+                    icon={<HomeIcon className="h-5 w-5" />}
+                    label={t("home")}
+                    collapsed={isCollapsed}
+                    tooltipSide="right"
+                />
 
                 <Dialog>
                     <DialogTrigger asChild>

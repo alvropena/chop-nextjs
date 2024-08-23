@@ -1,26 +1,106 @@
-import React from 'react';
+// MatchingPairsCard.tsx
+import React, { useState, useEffect } from 'react';
 import { CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 interface MatchingPairsCardProps {
   title: string;
   description: string;
   pairs: { left: string; right: string }[];
+  progress: number;
 }
 
-const MatchingPairsCard: React.FC<MatchingPairsCardProps> = ({ title, description, pairs }) => {
+const MatchingPairsCard: React.FC<MatchingPairsCardProps> = ({ title, description, pairs, progress }) => {
+  const [selectedPairs, setSelectedPairs] = useState<{ left: string | null, right: string | null }[]>([]);
+  const [matchedPairs, setMatchedPairs] = useState<{ left: string, right: string }[]>([]);
+  const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
+  const [selectedRight, setSelectedRight] = useState<string | null>(null);
+  const [shuffledLeft, setShuffledLeft] = useState<string[]>([]);
+  const [shuffledRight, setShuffledRight] = useState<string[]>([]);
+
+  const shuffleArray = (array: string[]) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  useEffect(() => {
+    const leftItems = pairs.map(pair => pair.left);
+    const rightItems = pairs.map(pair => pair.right);
+    setShuffledLeft(shuffleArray(leftItems));
+    setShuffledRight(shuffleArray(rightItems));
+  }, [pairs]);
+
+  const handleLeftClick = (left: string) => {
+    setSelectedLeft(left);
+    if (selectedRight) {
+      checkMatch(left, selectedRight);
+    }
+  };
+
+  const handleRightClick = (right: string) => {
+    setSelectedRight(right);
+    if (selectedLeft) {
+      checkMatch(selectedLeft, right);
+    }
+  };
+
+  const checkMatch = (left: string, right: string) => {
+    const correctPair = pairs.find(pair => pair.left === left && pair.right === right);
+    if (correctPair) {
+      setMatchedPairs([...matchedPairs, { left, right }]);
+      setSelectedPairs([...selectedPairs, { left, right }]);
+    }
+    setSelectedLeft(null);
+    setSelectedRight(null);
+  };
+
+  const isPairMatched = (left: string, right: string) => {
+    return matchedPairs.some(pair => pair.left === left && pair.right === right);
+  };
+
+  const allPairsMatched = matchedPairs.length === pairs.length;
+
   return (
-    <>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
-      <div className="mt-4 grid grid-cols-2 gap-4">
-        {pairs.map((pair, index) => (
-          <div key={index} className="flex justify-between">
-            <span>{pair.left}</span>
-            <span>{pair.right}</span>
-          </div>
-        ))}
+    <div className="flex flex-col justify-between h-full">
+      <div>
+        <Progress value={progress} className="w-full mb-4 h-3" />
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </div>
-    </>
+      <div className="flex-grow flex items-center justify-center">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-4">
+            {shuffledLeft.map((left, index) => (
+              <Button
+                key={index}
+                variant={matchedPairs.some(pair => pair.left === left) ? 'primary' : 'outline'}
+                className="w-full"
+                onClick={() => handleLeftClick(left)}
+                disabled={matchedPairs.some(pair => pair.left === left)}
+              >
+                {left}
+              </Button>
+            ))}
+          </div>
+          <div className="space-y-4">
+            {shuffledRight.map((right, index) => (
+              <Button
+                key={index}
+                variant={matchedPairs.some(pair => pair.right === right) ? 'primary' : 'outline'}
+                className="w-full"
+                onClick={() => handleRightClick(right)}
+                disabled={matchedPairs.some(pair => pair.right === right)}
+              >
+                {right}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 flex">        
+        <Button disabled={!allPairsMatched} className='w-full'>Continue</Button>
+      </div>
+    </div>
   );
 };
 

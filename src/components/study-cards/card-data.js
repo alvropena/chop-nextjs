@@ -36,6 +36,8 @@ export const cardsData = [
       description: "Match the words with their correct translations.",
       pairs: [
         { left: "cat", right: "gato" },
+        { left: "chicken", right: "gallina" },
+        { left: "horse", right: "caballo" },
         { left: "dog", right: "perro" },
         { left: "bird", right: "pájaro" },
       ],

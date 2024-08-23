@@ -6,11 +6,24 @@ import { Button } from "@/components/ui/button";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import CardRenderer from "@/components/study-cards/card-renderer";
 import { cardsData } from "@/components/study-cards/card-data";
+import ChangeTopicDialog from "@/components/change-topic-dialog";
 
 export default function HomePage() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [sessionStarted, setSessionStarted] = useState(false);
+  const [dontAskAgain, setDontAskAgain] = useState(false);
 
   const handleNextCard = () => {
+    if (sessionStarted && !dontAskAgain) {
+      setIsAlertOpen(true);
+    } else {
+      moveToNextCard();
+    }
+  };
+
+  const moveToNextCard = () => {
     setCurrentCardIndex((prevIndex) => (prevIndex < cardsData.length - 1 ? prevIndex + 1 : prevIndex));
   };
 
@@ -18,12 +31,28 @@ export default function HomePage() {
     setCurrentCardIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
   };
 
+  const handleContinue = () => {
+    setProgress((prev) => Math.min(prev + 10, 100));
+    setSessionStarted(true);
+  };
+
+  const confirmCategoryChange = () => {
+    setIsAlertOpen(false);
+    moveToNextCard();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-full p-8">
+      <ChangeTopicDialog
+        isAlertOpen={isAlertOpen}
+        setIsAlertOpen={setIsAlertOpen}
+        confirmCategoryChange={confirmCategoryChange}
+      />
+      
       <div className="relative w-full h-full max-w-md flex-1 mb-16 justify-center">
         <Card className="w-full h-full">
           <CardHeader className="h-full flex flex-col justify-center">
-            <CardRenderer card={cardsData[currentCardIndex]} />
+            <CardRenderer card={cardsData[currentCardIndex]} onNextCard={handleContinue} />
           </CardHeader>
         </Card>
         <p className="text-sm text-gray-500 text-center mt-4">Chop can make mistakes. Check important info.</p>
