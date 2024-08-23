@@ -61,7 +61,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="p-4 flex flex-col gap-4">    
+    <div className="flex flex-col gap-4 py-8">    
       <Input
         type="text"
         placeholder="Search anything..."

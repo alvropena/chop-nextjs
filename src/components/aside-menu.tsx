@@ -45,12 +45,14 @@ export default function AsideMenu() {
                 </button>
             </div>
             <nav className="flex flex-col gap-4 mt-4">
-                <NavLink
-                    href="/home"
-                    icon={<HomeIcon className="h-5 w-5" />}
-                    label={t("home")}
-                    collapsed={isCollapsed}
-                />
+            <NavLink
+    href="/home"
+    icon={<HomeIcon className="h-5 w-5" />}
+    label={t("home")}
+    collapsed={isCollapsed}
+    tooltipSide="right"
+/>
+
                 <Dialog>
                     <DialogTrigger asChild>
                         <button className={searchButtonClasses}>
@@ -67,18 +69,21 @@ export default function AsideMenu() {
                     icon={<BellIcon className="h-5 w-5" />}
                     label={t("notifications")}
                     collapsed={isCollapsed}
+                    tooltipSide="right"
                 />
                 <NavLink
                     href="/profile"
                     icon={<UserIcon className="h-5 w-5" />}
                     label={t("profile")}
                     collapsed={isCollapsed}
+                    tooltipSide="right"
                 />
                 <NavLink
                     href="/settings"
                     icon={<SettingsIcon className="h-5 w-5" />}
                     label={t("settings")}
                     collapsed={isCollapsed}
+                    tooltipSide="right"
                 />
             </nav>
         </aside>

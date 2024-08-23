@@ -8,9 +8,10 @@ interface NavLinkProps {
     icon: React.ReactNode;
     label: string;
     collapsed?: boolean;
+    tooltipSide?: "top" | "right" | "bottom" | "left";
 }
 
-export default function NavLink({ href, icon, label, collapsed = false }: NavLinkProps) {
+export default function NavLink({ href, icon, label, collapsed = false, tooltipSide = "top" }: NavLinkProps) {  // Default to "top" if not provided
     const pathname = usePathname();
 
     // Extract the locale from the current pathname
@@ -60,7 +61,7 @@ export default function NavLink({ href, icon, label, collapsed = false }: NavLin
                     </Link>
                 </TooltipTrigger>
                 {collapsed ? (
-                    <TooltipContent>{label}</TooltipContent>
+                    <TooltipContent side={tooltipSide}>{label}</TooltipContent> 
                 ) : null}
             </Tooltip>
         </TooltipProvider>
