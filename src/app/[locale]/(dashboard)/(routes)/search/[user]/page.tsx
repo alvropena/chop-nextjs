@@ -20,7 +20,7 @@ import { Logger } from "@/lib/logger";
 import { getData } from "@/lib/utils";
 import Loading from "@/app/[locale]/loading";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 interface FormFieldProps {
   label: string;
@@ -38,6 +38,8 @@ const FormField: React.FC<FormFieldProps> = ({ label, id, children }) => (
 export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
   const [profile_picture, setProfilePicture] = useState("");
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [targetUser, setTargetUser] = useState<any>(undefined);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const t = useTranslations("");
   const methods = useForm<ProfileFormData>({
@@ -51,6 +53,8 @@ export default function ProfileClient() {
     reset,
     getValues,
   } = methods;
+
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchProfile() {
@@ -76,6 +80,7 @@ export default function ProfileClient() {
 
         const profileData = response.data;
         setProfilePicture(profileData.profile_picture);
+        setTargetUser(profileData);
         reset({
           name: profileData.name ?? "",
           bio: profileData.bio ?? "",
@@ -87,6 +92,23 @@ export default function ProfileClient() {
           gender: profileData.gender ?? "",
           phone: profileData.phone_number ?? "",
         });
+        if (user?.sub != targetUser?.id) {
+          // Request to see if the user already follow the target user
+          const relationshipUser = await axios.get(
+            `${baseUrl}/api/contacts/users/${user?.sub}/relationship/${user_id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (relationshipUser.data) {
+            setIsFollowed(true);
+          } else {
+            setIsFollowed(false);
+          }
+        }
       } catch (error) {
         console.error(error);
       }
@@ -99,6 +121,21 @@ export default function ProfileClient() {
 
   if (isLoading) return <Loading />;
 
+  const followUser = async (currentUser: string, targetUser: string) => {
+    await axios.post(
+      `${baseUrl}/api/contacts/users/${targetUser}/follow?user_id=${currentUser}`
+    );
+
+    setIsFollowed(true);
+  };
+
+  const unfollowUser = async (currentUser: string, targetUser: string) => {
+    await axios.delete(
+      `${baseUrl}/api/contacts/users/${targetUser}/unfollow?user_id=${currentUser}`
+    );
+
+    setIsFollowed(false);
+  };
   return (
     user && (
       <FormProvider {...methods}>
@@ -214,6 +251,27 @@ export default function ProfileClient() {
             </div>
           </div>
         </form>
+        {user.sub != targetUser?.id && (
+          <div className="flex justify-center items-center ">
+            {isFollowed ? (
+              <Button
+                onClick={async () => {
+                  await unfollowUser(user?.sub ?? "", targetUser?.id);
+                }}
+              >
+                Unfollow
+              </Button>
+            ) : (
+              <Button
+                onClick={async () => {
+                  await followUser(user?.sub ?? "", targetUser?.id);
+                }}
+              >
+                Follow
+              </Button>
+            )}
+          </div>
+        )}
       </FormProvider>
     )
   );

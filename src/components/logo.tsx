@@ -6,8 +6,8 @@ export default function Logo() {
     return (
         <Link href={"/home"}>
             <Image
-                height={80}
-                width={80}
+                height={100}
+                width={100}
                 alt="logo"
                 src={"/logo_d.svg"}
             />

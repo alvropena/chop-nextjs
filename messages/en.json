@@ -82,5 +82,129 @@
   "Enter_your_username": "Enter your username",
   "Enter_your_bio": "Enter your bio",
   "Enter_your_location": "Enter your location",
-  "Enter_your_phone_number": "Enter your phone number"
+  "Enter_your_phone_number": "Enter your phone number",
+  "AboutPage": {
+    "title": "About Us",
+    "description": "We are a small startup dedicated to building the first social learning platform: Chop.",
+    "mission": {
+      "title": "Mission",
+      "description": "Our mission is to fix the education system by building tools that allow people to become self-taught."
+    },
+    "vision": {
+      "title": "Vision",
+      "description": "Our vision is to create a world where learning is accessible to everyone, anywhere."
+    },
+    "team": {
+      "title": "Team",
+      "members": {
+        "alvaro": {
+          "name": "Alvaro Peña",
+          "position": "Co-founder, CEO"
+        },
+        "alonso": {
+          "name": "Alonso Rojas",
+          "position": "Co-founder, COO"
+        },
+        "cesar": {
+          "name": "César Chávez",
+          "position": "CTO"
+        }
+      }
+    }
+  },
+  "PricingPage": {
+    "title": "Pricing",
+    "subtitle": "Choose the plan that's right for you.",
+    "individual": {
+      "title": "Individual",
+      "description": "Ideal for solo users. Are you a student?",
+      "discount": "Get a discount.",
+      "price": "$12"
+    },
+    "family": {
+      "title": "Family",
+      "description": "Best for families of up to six members.",
+      "price": "$24"
+    },
+    "enterprise": {
+      "title": "Enterprise",
+      "description": "Tailored solutions for large businesses and organizations.",
+      "price": "Let’s Talk"
+    },
+    "per_month": "/month"
+  },
+  "BlogPage": {
+    "title": "Blog",
+    "post1": {
+      "title": "Unlocking the Secrets of Successful Startups",
+      "excerpt": "Discover the key strategies and insights that have propelled the most innovative startups to success. From funding to scaling, this blog post covers it all.",
+      "image_alt": "Blog Post Image"
+    },
+    "post2": {
+      "title": "How to Scale Your Business Efficiently",
+      "excerpt": "Learn the best practices for scaling your business without compromising on quality or service.",
+      "image_alt": "Blog Post Image"
+    }
+  },
+  "LandingPage": {
+    "learn": "Learn",
+    "description": "The first social learning platform",
+    "getStarted": "Get Started",
+    "totalUsers": "Total users",
+    "topics": {
+      "italian": "Italian",
+      "poker": "poker",
+      "soccer": "soccer",
+      "formula1": "formula 1",
+      "tennis": "tennis",
+      "singing": "singing",
+      "cooking": "cooking",
+      "chess": "chess",
+      "art": "art"
+    }
+  },
+  "LandingHeader": {
+    "companyName": "Chop",
+    "about": "About",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "contact": "Contact",
+    "login": "Log In",
+    "toggleMenu": "Toggle Menu"
+  },
+  "LandingFooter": {
+    "companyName": "Chop Inc",
+    "allRightsReserved": "All rights reserved."
+  },
+  "ContactPage": {
+    "contact": "Contact",
+    "contactUs": "Contact Us",
+    "contactDescription": "We would love to hear from you. Please fill out this form and we will get in touch with you shortly.",
+    "name": "Name",
+    "namePlaceholder": "Enter your name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "subject": "Subject",
+    "subjectPlaceholder": "Enter your subject",
+    "message": "Message",
+    "messagePlaceholder": "Enter your message",
+    "send": "Send",
+    "messageSent": "Message Sent",
+    "messageSuccess": "Your message has been sent successfully.",
+    "error": "Error",
+    "messageError": "An error occurred while sending your message."
+  },
+  "AsideMenu": {
+    "home": "Home",
+    "search": "Search",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "settings": "Settings",
+    "support": "Support"
+  },
+  "DashboardLayout": {
+    "home": "Home",
+    "search": "Search",
+    "profile": "Profile"
+  }
 }

@@ -2,7 +2,7 @@ import { createStore } from "zustand/vanilla";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 type searchType = {
-  id: number;
+  id: string;
   username: string;
   name: string;
   profile_picture: string;
@@ -11,20 +11,21 @@ type searchType = {
 
 export type SchemaState = {
   schema: {};
-  lang: "en" | "es";
+  lang: "en" | "es" | "ja" | "ind";
   user_input_generation: string;
   remember_skip: boolean;
-  recentSearches: searchType[] | [];
+  recentSearches: searchType[];
 };
 
 export type SchemaActions = {
   setSchema: (SchemaInfo: Partial<SchemaState>) => void;
   clearSchema: () => void;
-  setLang: (lang: "en" | "es") => void;
+  setLang: (lang: "en" | "es" | "ja" | "ind") => void;
   resetLang: () => void;
   setUserInput: (user_input_generation: string) => void;
   setRememberSkip: (skip: boolean) => void;
   setRecentSearches: (recentSearches: searchType[]) => void;
+  deleteRecentSearch: (id: string) => void; // Cambiado a number para coincidir con el tipo de id
   addRecentSearch: (recentSearch: searchType) => void;
 };
 
@@ -58,6 +59,12 @@ export const createSchemaStore = (
         setRememberSkip: (skip: boolean) =>
           set(() => ({ remember_skip: skip })),
         setRecentSearches: (recentSearches) => set(() => ({ recentSearches })),
+        deleteRecentSearch: (id) =>
+          set((state) => ({
+            recentSearches: state.recentSearches.filter(
+              (search) => search.id !== id
+            ),
+          })),
         addRecentSearch: (recentSearch) =>
           set((state) => {
             const existingIndex = state.recentSearches.findIndex(

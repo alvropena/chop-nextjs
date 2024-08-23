@@ -28,8 +28,16 @@ const languages = [
     code: "en",
   },
   {
+    country: "Indi",
+    code: "ind",
+  },
+  {
     country: "Español",
     code: "es",
+  },
+  {
+    country: "Japan",
+    code: "ja",
   },
 ];
 
@@ -40,7 +48,7 @@ export default function LanguageCombobox() {
   const pathName = usePathname();
   const regex = /^\/([^/]+)/;
   const match: any = pathName.match(regex);
-  const langPath: "en" | "es" = match ? match[1] : "en";
+  const langPath: "en" | "es" | "ja" | "ind" = match ? match[1] : "en";
   React.useEffect(() => {
     setLang(langPath);
   }, [langPath]);
@@ -76,7 +84,7 @@ export default function LanguageCombobox() {
                   <CommandItem
                     value={langMap.code}
                     onSelect={(currentValue) => {
-                      setLang(langMap.code as "en" | "es");
+                      setLang(langMap.code as "en" | "es" | "ja" | "ind");
                       setOpen(false);
                     }}
                   >

@@ -1,57 +1,59 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function PricingPage() {
+    const t = useTranslations("PricingPage");
+
     return (
-      <main className="flex-1 flex flex-col items-center justify-center gap-4">
+      <main className="flex-1 flex flex-col items-center justify-center gap-4 p-6">
         <div className="mx-auto max-w-4xl space-y-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              Pricing
+              {t("title")}
             </h1>
             <p className="mt-4 text-muted-foreground">
-              Choose the plan that&apos;s right for you.
+              {t("subtitle")}
             </p>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div className="rounded-lg border border-input bg-background p-6 shadow-sm">
-              <h3 className="text-2xl font-bold">Individual</h3>
+              <h3 className="text-2xl font-bold">{t("individual.title")}</h3>
               <p className="mt-4 text-muted-foreground">
-                Ideal for solo users. Are you a student?{" "}
+                {t("individual.description")}{" "}
                 <Link
                   href="/student-discount"
                   className="text-primary underline"
                 >
-                  Get a discount.
+                  {t("individual.discount")}
                 </Link>
               </p>
               <div className="mt-8">
                 <span className="text-4xl font-bold tracking-tight text-foreground">
-                  $12
+                  {t("individual.price")}
                 </span>
-                <span className="text-muted-foreground">/month</span>
+                <span className="text-muted-foreground">{t("per_month")}</span>
               </div>
             </div>
             <div className="rounded-lg border border-input bg-background p-6 shadow-sm">
-              <h3 className="text-2xl font-bold">Family</h3>
+              <h3 className="text-2xl font-bold">{t("family.title")}</h3>
               <p className="mt-4 text-muted-foreground">
-                Best for families of up to six members.
+                {t("family.description")}
               </p>
               <div className="mt-8">
                 <span className="text-4xl font-bold tracking-tight text-foreground">
-                  $24
+                  {t("family.price")}
                 </span>
-                <span className="text-muted-foreground">/month</span>
+                <span className="text-muted-foreground">{t("per_month")}</span>
               </div>
             </div>
             <div className="rounded-lg border border-input bg-background p-6 shadow-sm">
-              <h3 className="text-2xl font-bold">Enterprise</h3>
+              <h3 className="text-2xl font-bold">{t("enterprise.title")}</h3>
               <p className="mt-4 text-muted-foreground">
-                Tailored solutions for large businesses and organizations.
+                {t("enterprise.description")}
               </p>
               <div className="mt-8">
                 <span className="text-4xl font-bold tracking-tight text-foreground">
-                  Let’s Talk
+                  {t("enterprise.price")}
                 </span>
               </div>
             </div>

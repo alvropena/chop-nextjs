@@ -51,10 +51,13 @@ export default async function middleware(
 export const config = {
   matcher: [
     "/",
-    "/(fr|en|ja|de|ru|es|fa|ar)/:path*",
+    "/(en|ja|es|ind)/:path*",
     "/home",
     "/search/:path*",
+    "/notifications",
     "/profile",
+    "/followers",
+    "/following",
     "/settings",
     "/about",
     "/pricing",
