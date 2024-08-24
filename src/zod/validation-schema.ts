@@ -17,6 +17,7 @@ const normalizePhone = (input: unknown) => {
 
 export const profileSchema = z.object({
   name: z.string().min(1, { message: "Name cannot be empty" }),
+  username: z.string().min(1, { message: "Username cannot be empty" }),
   bio: z.string().optional(),
   location: z.string().optional(),
   birthday: z.preprocess(

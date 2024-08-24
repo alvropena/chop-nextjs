@@ -74,6 +74,7 @@
   "Settings--": "Configuraciones",
   "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable": "Arriba está el prompt que usamos para generar nuevas preguntas para ti. No es editable.",
   "Language": "Idioma",
+  "Dark_mode": "Modo Oscuro",
   "Feedback_Answer": "Retroalimentación para la Respuesta",
   "Above_is_the_prompt_we_use_to_generate_hints_for_you_It_is_not_editable": "Arriba está el prompt que usamos para generar pistas para ti. No es editable.",
   "Above_is_the_prompt_we_use_to_generate_answer_feedback_for_you_It_is_not_editable": "Arriba está el prompt que usamos para generar retroalimentación de respuestas para ti. No es editable.",
@@ -81,5 +82,129 @@
   "Enter_your_username": "Ingrese su nombre de usuario",
   "Enter_your_bio": "Ingrese su biografía",
   "Enter_your_location": "Ingrese su ubicación",
-  "Enter_your_phone_number": "Ingrese su número de teléfono"
+  "Enter_your_phone_number": "Ingrese su número de teléfono",
+  "AboutPage": {
+    "title": "Acerca de nosotros",
+    "description": "Somos una pequeña startup dedicada a construir la primera plataforma de aprendizaje social: Chop.",
+    "mission": {
+      "title": "Misión",
+      "description": "Nuestra misión es arreglar el sistema educativo construyendo herramientas que permitan a las personas ser autodidactas."
+    },
+    "vision": {
+      "title": "Visión",
+      "description": "Nuestra visión es crear un mundo donde el aprendizaje sea accesible para todos, en cualquier lugar."
+    },
+    "team": {
+      "title": "Equipo",
+      "members": {
+        "alvaro": {
+          "name": "Alvaro Peña",
+          "position": "Co-fundador, CEO"
+        },
+        "alonso": {
+          "name": "Alonso Rojas",
+          "position": "Co-fundador, COO"
+        },
+        "cesar": {
+          "name": "César Chávez",
+          "position": "CTO"
+        }
+      }
+    }
+  },
+  "PricingPage": {
+    "title": "Precios",
+    "subtitle": "Elige el plan que sea adecuado para ti.",
+    "individual": {
+      "title": "Individual",
+      "description": "Ideal para usuarios individuales. ¿Eres estudiante?",
+      "discount": "Obtén un descuento.",
+      "price": "$12"
+    },
+    "family": {
+      "title": "Familiar",
+      "description": "Ideal para familias de hasta seis miembros.",
+      "price": "$24"
+    },
+    "enterprise": {
+      "title": "Empresas",
+      "description": "Soluciones personalizadas para grandes empresas y organizaciones.",
+      "price": "Hablemos"
+    },
+    "per_month": "/mes"
+  },
+  "BlogPage": {
+    "title": "Blog",
+    "post1": {
+      "title": "Descubriendo los secretos de las startups exitosas",
+      "excerpt": "Descubre las estrategias clave y los conocimientos que han impulsado a las startups más innovadoras al éxito. Desde la financiación hasta la expansión, este artículo cubre todo.",
+      "image_alt": "Imagen del blog"
+    },
+    "post2": {
+      "title": "Cómo escalar tu negocio de manera eficiente",
+      "excerpt": "Aprende las mejores prácticas para escalar tu negocio sin comprometer la calidad o el servicio.",
+      "image_alt": "Imagen del blog"
+    }
+  },
+  "LandingPage": {
+    "learn": "Aprende",
+    "description": "La primera red social de aprendizaje",
+    "getStarted": "Comenzar",
+    "totalUsers": "Total de usuarios",
+    "topics": {
+      "italian": "Italiano",
+      "poker": "póker",
+      "soccer": "fútbol",
+      "formula1": "fórmula 1",
+      "tennis": "tenis",
+      "singing": "canto",
+      "cooking": "cocina",
+      "chess": "ajedrez",
+      "art": "arte"
+    }
+  },
+  "LandingHeader": {
+    "companyName": "Chop Inc.",
+    "about": "Nosotros",
+    "pricing": "Precios",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "toggleMenu": "Desplegar Menú"
+  },
+  "LandingFooter": {
+    "companyName": "Chop Inc.",
+    "allRightsReserved": "Todos los derechos reservados."
+  },
+  "ContactPage": {
+    "contact": "Contacto",
+    "contactUs": "Contáctenos",
+    "contactDescription": "Nos encantaría saber de usted. Complete este formulario y nos pondremos en contacto con usted en breve.",
+    "name": "Nombre",
+    "namePlaceholder": "Ingrese su nombre",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "subject": "Asunto",
+    "subjectPlaceholder": "Ingrese su asunto",
+    "message": "Mensaje",
+    "messagePlaceholder": "Ingrese su mensaje",
+    "send": "Enviar",
+    "messageSent": "Mensaje enviado",
+    "messageSuccess": "Tu mensaje ha sido enviado exitosamente.",
+    "error": "Error",
+    "messageError": "Ocurrió un error al enviar su mensaje."
+  },
+  "AsideMenu": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "notifications": "Notificaciones",
+    "profile": "Perfil",
+    "settings": "Configuraciones",
+    "support": "Soporte"
+  },
+  "DashboardLayout": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "profile": "Perfil"
+  }
 }

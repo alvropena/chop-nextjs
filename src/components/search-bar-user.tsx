@@ -1,7 +1,7 @@
+"use client"
+
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { SearchIcon } from "lucide-react";
 
 export default function SearchBarUser() {
   const [query, setQuery] = useState("");
@@ -11,23 +11,22 @@ export default function SearchBarUser() {
 
   useEffect(() => {
     if (query.length > 2) {
+      // Fetch search results when the query is longer than 2 characters
       const fetchData = async () => {
         try {
           const response = await fetch(
             `${baseUrl}/api/user/search?query=${query}`
           );
           const data = await response.json();
-          setResults(data);
-          console.log("DATA SEARCH USER");
-          console.log(data);
+          setResults(data); // Update the results state with the fetched data
+          console.log(data)
         } catch (error) {
-          console.error("Error fetching data:", error);
+          console.error("Error fetching data:", error); // Log any errors encountered during fetch
         }
       };
-
       fetchData();
     }
-  }, [query]);
+  }, [query]); // Trigger useEffect when query changes
 
   return (
     <div className="flex w-full max-w-sm items-center space-x-2">
@@ -35,14 +34,8 @@ export default function SearchBarUser() {
         type="search"
         placeholder="Search..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => setQuery(e.target.value)} // Update query state on input change
       />
-      <Button
-        variant="secondary"
-        size="icon"
-      >
-        <SearchIcon className="w-4 h-4" />
-      </Button>
     </div>
   );
 }
