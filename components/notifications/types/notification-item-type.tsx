@@ -1,0 +1,7 @@
+import { NotificationType } from "../../../data/notification/notification-type";
+
+export interface NotificationItemType {
+    notification: NotificationType;
+    onMarkAsRead: (id: number) => void;
+    onFollow: (userId: number) => void;
+}

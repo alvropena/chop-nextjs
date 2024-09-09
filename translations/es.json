@@ -1,0 +1,210 @@
+{
+  "About": "Acerca de",
+  "Support": "Soporte",
+  "Other": "Otro",
+  "Theme": "Tema",
+  "An": "Un",
+  "Booster": "Impulsor",
+  "to_Your_NextJS_Apps": "para Tus Aplicaciones NextJS",
+  "An_approachable_performant_and_versatile_boilerplate_for_building_SSR_applications": "Un punto de partida accesible, de alto rendimiento y versátil para construir aplicaciones SSR.",
+  "Use_Template": "Usar Plantilla",
+  "Learn_More": "¡Aprender Más!",
+  "Approachable": "Accesible",
+  "Add_components_without_sending_additional_client_side_JavaScript_Built_on_the_latest_React_features": "Agrega componentes sin enviar JavaScript adicional del lado del cliente. Construido sobre las últimas características de React.",
+  "Automatic_Image_Font_and_Script_Optimizations_for_improved_UX_and_Core_Web_Vitals": "Optimización automática de imágenes, fuentes y scripts para mejorar la UX y los Core Web Vitals.",
+  "Versatile": "Versátil",
+  "A_rich_incredibly_adoptable_template_that_scales_between_a_small_showcase_website_and_a_full_size_app": "Una plantilla rica e increíblemente adaptable que escala entre un sitio web de exhibición pequeño y una aplicación de gran tamaño.",
+  "This_is_a_simple_about_page_just_to_show_how_you_can_use_the_internationalization_in_different_pages": "Esta es una simple página de acerca para mostrar cómo puedes usar la internacionalización en diferentes páginas.",
+  "Performant": "Rendimiento",
+  "Home": "Inicio",
+  "Profile": "Perfil",
+  "Notifications": "Notificaciones",
+  "History": "Historial",
+  "Billing": "Facturación",
+  "Settings": "Configuraciones",
+  "My_account": "Mi cuenta",
+  "Hey_what_do_you_want_to_learn_today?": "Hola, ¿qué quieres aprender hoy?",
+  "Select_one_of_the_topics_from_below_and_start_playing": "Selecciona uno de los temas a continuación y comienza a jugar.",
+  "Hint": "Pista",
+  "How_can_we_improve?": "¿Cómo podemos mejorar? 🙏",
+  "Loading": "Cargando",
+  "Continue": "Continuar",
+  "Cancel": "Cancelar",
+  "Submit": "Enviar",
+  "Confirm": "Confirmar",
+  "Share_your_feedback": "Comparte tus comentarios",
+  "We_would_love_to_hear_your_thoughts_Please_share_your_feedback_below": "Nos encantaría conocer tu opinión. ¡Por favor, comparte tus comentarios a continuación!",
+  "Name": "Nombre",
+  "Your_name_placeholder": "Tu nombre",
+  "Email": "Correo electrónico",
+  "Your_email_placeholder": "Tu correo electrónico",
+  "Message": "Mensaje",
+  "Message_placeholder": "Escribe tu mensaje aquí",
+  "Chop_can_make_mistakes_Check_important_info": "Chop puede cometer errores. Revisa la información importante.",
+  "Change_Topic?": "¿Cambiar Tema?",
+  "Are_you_sure_you_want_to_change_the_topic?_This_will_lose_all_your_progress_in_the_current_session": "¿Estás seguro de que quieres cambiar el tema? Perderás todo tu progreso en la sesión actual.",
+  "Dont_ask_me_again": "No me lo vuelvas a preguntar",
+  "Log_in": "Iniciar Sesión",
+  "Log_out": "Cerrar Sesión",
+  "Enter_your_answer": "Ingresa tu respuesta",
+  "Congratulations": "¡Felicidades! 🎉",
+  "You_have_completed_a_study_session": "Has completado una sesión de estudio.",
+  "Geography_Category": "🗺️ Geografía",
+  "History_Category": "🏛️ Historia",
+  "Soccer_Category": "⚽ Fútbol",
+  "Art_History_Category": "🎨 Arte",
+  "Basketball_Category": "🏀 Baloncesto",
+  "Formula1_Category": "🏎️ Fórmula 1",
+  "Italy_Category": "🇮🇹 Italia",
+  "Tennis_Category": "🎾 Tenis",
+  "Username": "Nombre de usuario",
+  "Bio": "Biografía",
+  "Location": "Ubicación",
+  "Birthday": "Fecha de nacimiento",
+  "Pick_date": "Seleccionar una fecha",
+  "Phone": "Teléfono",
+  "Gender": "Género",
+  "Male": "Masculino",
+  "Female": "Femenino",
+  "Save_Changes": "Guardar Cambios",
+  "Profile_updated": "Perfil actualizado",
+  "Your_changes_have_been_saved": "Tus cambios han sido guardados.",
+  "An_error_ocurred_Please_try_again_later": "Ocurrió un error. Por favor, inténtalo más tarde.",
+  "Thank_you_for_your_feedback!": "¡Gracias por tus comentarios!",
+  "Settings--": "Configuraciones",
+  "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable": "Arriba está el mensaje que usamos para generar nuevas preguntas para ti. No es editable.",
+  "Language": "Idioma",
+  "Dark_mode": "Modo Oscuro",
+  "Feedback_Answer": "Respuesta de Retroalimentación",
+  "Above_is_the_prompt_we_use_to_generate_hints_for_you_It_is_not_editable": "Arriba está el mensaje que usamos para generar pistas para ti. No es editable.",
+  "Above_is_the_prompt_we_use_to_generate_answer_feedback_for_you_It_is_not_editable": "Arriba está el mensaje que usamos para generar retroalimentación de respuestas para ti. No es editable.",
+  "Enter_your_name": "Ingresa tu nombre",
+  "Enter_your_username": "Ingresa tu nombre de usuario",
+  "Enter_your_bio": "Ingresa tu biografía",
+  "Enter_your_location": "Ingresa tu ubicación",
+  "Enter_your_phone_number": "Ingresa tu número de teléfono",
+  "AboutPage": {
+    "title": "Sobre Nosotros",
+    "description": "Somos una pequeña startup dedicada a construir la primera plataforma de aprendizaje social: Chop.",
+    "mission": {
+      "title": "Misión",
+      "description": "Nuestra misión es arreglar el sistema educativo construyendo herramientas que permitan a las personas ser autodidactas."
+    },
+    "vision": {
+      "title": "Visión",
+      "description": "Nuestra visión es crear un mundo donde el aprendizaje sea accesible para todos, en cualquier lugar."
+    },
+    "team": {
+      "title": "Equipo",
+      "members": {
+        "alvaro": {
+          "name": "Alvaro Peña",
+          "position": "Co-fundador, CEO"
+        },
+        "alonso": {
+          "name": "Alonso Rojas",
+          "position": "Co-fundador, COO"
+        },
+        "cesar": {
+          "name": "César Chávez",
+          "position": "CTO"
+        }
+      }
+    }
+  },
+  "PricingPage": {
+    "title": "Precios",
+    "subtitle": "Elige el plan que más te convenga.",
+    "individual": {
+      "title": "Individual",
+      "description": "Ideal para usuarios solitarios. ¿Eres estudiante?",
+      "discount": "Obtén un descuento.",
+      "price": "$12"
+    },
+    "family": {
+      "title": "Familiar",
+      "description": "Mejor para familias de hasta seis miembros.",
+      "price": "$24"
+    },
+    "enterprise": {
+      "title": "Empresarial",
+      "description": "Soluciones personalizadas para grandes empresas y organizaciones.",
+      "price": "Hablemos"
+    },
+    "per_month": "/mes"
+  },
+  "BlogPage": {
+    "title": "Blog",
+    "post1": {
+      "title": "Desbloqueando los Secretos del Éxito en Startups",
+      "excerpt": "Descubre las estrategias clave e ideas que han impulsado a las startups más innovadoras hacia el éxito. Desde financiación hasta escalamiento, este artículo cubre todo.",
+      "image_alt": "Imagen del Artículo del Blog"
+    },
+    "post2": {
+      "title": "Cómo Escalar tu Negocio Eficientemente",
+      "excerpt": "Aprende las mejores prácticas para escalar tu negocio sin comprometer la calidad o el servicio.",
+      "image_alt": "Imagen del Artículo del Blog"
+    }
+  },
+  "LandingPage": {
+    "learn": "Aprender",
+    "description": "La primera plataforma de aprendizaje social",
+    "getStarted": "Comenzar",
+    "totalUsers": "Usuarios totales",
+    "topics": {
+      "italian": "italiano",
+      "poker": "póker",
+      "soccer": "fútbol",
+      "formula1": "fórmula 1",
+      "tennis": "tenis",
+      "singing": "canto",
+      "cooking": "cocina",
+      "chess": "ajedrez",
+      "art": "arte"
+    }
+  },
+  "LandingHeader": {
+    "companyName": "Chop",
+    "about": "Acerca de",
+    "pricing": "Precios",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "login": "Iniciar Sesión",
+    "toggleMenu": "Alternar Menú"
+  },
+  "LandingFooter": {
+    "companyName": "Chop Inc",
+    "allRightsReserved": "Todos los derechos reservados."
+  },
+  "ContactPage": {
+    "contact": "Contacto",
+    "contactUs": "Contáctanos",
+    "contactDescription": "Nos encantaría saber de ti. Por favor, completa este formulario y nos pondremos en contacto contigo en breve.",
+    "name": "Nombre",
+    "namePlaceholder": "Ingresa tu nombre",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "subject": "Asunto",
+    "subjectPlaceholder": "Ingresa tu asunto",
+    "message": "Mensaje",
+    "messagePlaceholder": "Ingresa tu mensaje",
+    "send": "Enviar",
+    "messageSent": "Mensaje Enviado",
+    "messageSuccess": "Tu mensaje ha sido enviado con éxito.",
+    "error": "Error",
+    "messageError": "Ocurrió un error al enviar tu mensaje."
+  },
+  "AsideMenu": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "notifications": "Notificaciones",
+    "profile": "Perfil",
+    "settings": "Configuraciones",
+    "support": "Soporte"
+  },
+  "DashboardLayout": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "profile": "Perfil"
+  }
+}

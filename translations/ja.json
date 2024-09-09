@@ -1,0 +1,227 @@
+{
+  "About": "概要",
+  "Support": "サポート",
+  "Other": "その他",
+  "Theme": "テーマ",
+  "An": "A",
+  "Booster": "ブースター",
+  "to_Your_NextJS_Apps": "NextJSアプリに",
+  "An_approachable_performant_and_versatile_boilerplate_for_building_SSR_applications": "SSRアプリケーションを構築するための、使いやすく高性能で汎用性のあるボイラープレート。",
+  "Use_Template": "テンプレートを使用",
+  "Learn_More": "詳細を見る！",
+  "Approachable": "使いやすい",
+  "Add_components_without_sending_additional_client_side_JavaScript_Built_on_the_latest_React_features": "追加のクライアントサイドJavaScriptを送信せずにコンポーネントを追加。最新のReact機能に基づいて構築。",
+  "Automatic_Image_Font_and_Script_Optimizations_for_improved_UX_and_Core_Web_Vitals": "UXとCore Web Vitalsを向上させるための自動画像、フォント、およびスクリプトの最適化。",
+  "Versatile": "汎用性",
+  "A_rich_incredibly_adoptable_template_that_scales_between_a_small_showcase_website_and_a_full_size_app": "小さなショーケースサイトからフルサイズのアプリケーションまでスケールする、非常に適応性の高いテンプレート。",
+  "This_is_a_simple_about_page_just_to_show_how_you_can_use_the_internationalization_in_different_pages": "これは、異なるページで国際化をどのように使用できるかを示すためのシンプルな「概要」ページです。",
+  "Performant": "高性能",
+  "Home": "ホーム",
+  "Profile": "プロフィール",
+  "Notifications": "通知",
+  "History": "履歴",
+  "Billing": "請求",
+  "Settings": "設定",
+  "My_account": "マイアカウント",
+  "trendingTitle": "トレンド 🔥",
+  "previousButton": "前へ",
+  "nextButton": "次へ",
+  "Hey_what_do_you_want_to_learn_today?": "こんにちは、今日は何を学びたいですか？",
+  "Select_one_of_the_topics_from_below_and_start_playing": "以下のトピックのいずれかを選択して、プレイを開始してください。",
+  "Hint": "ヒント",
+  "How_can_we_improve?": "改善点はありますか？🙏",
+  "Loading": "読み込み中",
+  "Continue": "続行",
+  "Cancel": "キャンセル",
+  "Submit": "送信",
+  "Confirm": "確認",
+  "Share_your_feedback": "フィードバックを共有",
+  "We_would_love_to_hear_your_thoughts_Please_share_your_feedback_below": "ご意見をお聞かせください！以下にフィードバックをお寄せください。",
+  "Name": "名前",
+  "Your_name_placeholder": "あなたの名前",
+  "Email": "メール",
+  "Your_email_placeholder": "あなたのメール",
+  "Message": "メッセージ",
+  "Message_placeholder": "ここにメッセージを入力してください",
+  "Chop_can_make_mistakes_Check_important_info": "Chopはミスをすることがあります。重要な情報を確認してください。",
+  "Change_Topic?": "トピックを変更しますか？",
+  "Are_you_sure_you_want_to_change_the_topic?_This_will_lose_all_your_progress_in_the_current_session": "トピックを変更してもよろしいですか？これにより、現在のセッションの進行状況がすべて失われます。",
+  "Dont_ask_me_again": "今後表示しない",
+  "Log_in": "ログイン",
+  "Log_out": "ログアウト",
+  "Enter_your_answer": "回答を入力してください",
+  "Congratulations": "おめでとうございます！🎉",
+  "You_have_completed_a_study_session": "学習セッションを完了しました。",
+  "Geography_Category": "🗺️ 地理",
+  "History_Category": "🏛️ 歴史",
+  "Soccer_Category": "⚽ サッカー",
+  "Art_History_Category": "🎨 芸術",
+  "Basketball_Category": "🏀 バスケットボール",
+  "Formula1_Category": "🏎️ フォーミュラ1",
+  "Italy_Category": "🇮🇹 イタリア",
+  "Tennis_Category": "🎾 テニス",
+  "Username": "ユーザー名",
+  "Bio": "バイオ",
+  "Location": "場所",
+  "Birthday": "誕生日",
+  "Pick_date": "日付を選択",
+  "Phone": "電話",
+  "Gender": "性別",
+  "Male": "男性",
+  "Female": "女性",
+  "Save_Changes": "変更を保存",
+  "Profile_updated": "プロフィールが更新されました",
+  "Your_changes_have_been_saved": "変更内容が保存されました。",
+  "An_error_ocurred_Please_try_again_later": "エラーが発生しました。後でもう一度お試しください。",
+  "Thank_you_for_your_feedback!": "フィードバックありがとうございます！",
+  "Settings--": "設定",
+  "Above_is_the_prompt_we_use_to_generate_new_questions_for_you_It_is_not_editable": "上記は新しい質問を生成するためのプロンプトです。編集できません。",
+  "Language": "言語",
+  "Dark_mode": "ダークモード",
+  "Feedback_Answer": "フィードバックの回答",
+  "Above_is_the_prompt_we_use_to_generate_hints_for_you_It_is_not_editable": "上記はヒントを生成するためのプロンプトです。編集できません。",
+  "Above_is_the_prompt_we_use_to_generate_answer_feedback_for_you_It_is_not_editable": "上記は回答フィードバックを生成するためのプロンプトです。編集できません。",
+  "Enter_your_name": "名前を入力してください",
+  "Enter_your_username": "ユーザー名を入力してください",
+  "Enter_your_bio": "バイオを入力してください",
+  "Enter_your_location": "場所を入力してください",
+  "Enter_your_phone_number": "電話番号を入力してください",
+  "AboutPage": {
+    "title": "概要",
+    "description": "私たちは、最初のソーシャル学習プラットフォーム「Chop」を構築しています。",
+    "mission": {
+      "title": "ミッション",
+      "description": "私たちのミッションは、教育システムを修正することです。私たちは誰もが自分自身で学べるツールを作ることで、これを実現します。"
+    },
+    "vision": {
+      "title": "ビジョン",
+      "description": "私たちのビジョンは、何かを学ぶためのプラットフォームとしての定番になることです。"
+    },
+    "team": {
+      "title": "チーム",
+      "members": {
+        "alvaro": {
+          "name": "アルバロ・ペーニャ",
+          "position": "共同創設者、CEO"
+        },
+        "alonso": {
+          "name": "アロンソ・ロハス",
+          "position": "共同創設者、COO"
+        },
+        "cesar": {
+          "name": "セサール・チャベス",
+          "position": "CTO"
+        }
+      }
+    }
+  },
+  "PricingPage": {
+    "title": "価格",
+    "subtitle": "あなたに合ったプランを選んでください。",
+    "comingSoon": "近日公開！",
+    "chopIsFree": "Chopは永遠に無料です。各学習セッションの後、広告が表示されます。それを削除するには、サブスクライブしてください。",
+    "individual": {
+      "title": "個人",
+      "description": "個別ユーザーに最適です。学生ですか？",
+      "discount": "割引を受ける。",
+      "price": "$12"
+    },
+    "family": {
+      "title": "ファミリー",
+      "description": "最大6人までの家族に最適。",
+      "price": "$24"
+    },
+    "enterprise": {
+      "title": "エンタープライズ",
+      "description": "大企業や組織向けにカスタマイズされたソリューション。",
+      "price": "相談してください"
+    },
+    "per_month": "/月"
+  },
+  "BlogPage": {
+    "title": "ブログ",
+    "subtitle": "最新のブログ投稿を読む。",
+    "comingSoon": "近日公開！",
+    "post1": {
+      "title": "成功するスタートアップの秘密を解き明かす",
+      "excerpt": "最も革新的なスタートアップを成功に導いた重要な戦略と洞察を発見してください。資金調達からスケーリングまで、このブログ記事はすべてをカバーします。",
+      "image_alt": "ブログ投稿の画像"
+    },
+    "post2": {
+      "title": "ビジネスを効率的に拡大する方法",
+      "excerpt": "品質やサービスを妥協せずにビジネスを拡大するためのベストプラクティスを学びます。",
+      "image_alt": "ブログ投稿の画像"
+    }
+  },
+  "LandingPage": {
+    "learn": "学ぶ",
+    "description": "最初のソーシャル学習プラットフォーム",
+    "getStarted": "始める",
+    "totalUsers": "総ユーザー数",
+    "topics": {
+      "italian": "イタリア語",
+      "poker": "ポーカー",
+      "soccer": "サッカー",
+      "formula1": "フォーミュラ1",
+      "tennis": "テニス",
+      "singing": "歌",
+      "cooking": "料理",
+      "chess": "チェス",
+      "art": "芸術"
+    }
+  },
+  "LandingHeader": {
+    "companyName": "Chop",
+    "about": "概要",
+    "pricing": "価格",
+    "blog": "ブログ",
+    "contact": "連絡先",
+    "login": "ログイン",
+    "toggleMenu": "メニューを切り替え"
+  },
+  "LandingFooter": {
+    "companyName": "Chop Inc.",
+    "allRightsReserved": "全著作権所有。",
+    "source": "ソース"
+  },
+  "ContactPage": {
+    "contact": "連絡先",
+    "contactUs": "お問い合わせ",
+    "contactDescription": "私たちはあなたからの連絡をお待ちしています。このフォームに入力していただければ、すぐにご連絡いたします。",
+    "name": "名前",
+    "namePlaceholder": "名前を入力してください",
+    "email": "メール",
+    "emailPlaceholder": "メールを入力してください",
+    "subject": "件名",
+    "subjectPlaceholder": "件名を入力してください",
+    "message": "メッセージ",
+    "messagePlaceholder": "メッセージを入力してください",
+    "send": "送信",
+    "messageSent": "メッセージが送信されました",
+    "messageSuccess": "メッセージが正常に送信されました。",
+    "error": "エラー",
+    "messageError": "メッセージの送信中にエラーが発生しました。"
+  },
+  "AsideMenu": {
+    "home": "ホーム",
+    "search": "検索",
+    "notifications": "通知",
+    "profile": "プロフィール",
+    "settings": "設定",
+    "support": "サポート"
+  },
+  "DashboardLayout": {
+    "home": "ホーム",
+    "search": "検索",
+    "notifications": "通知",
+    "profile": "プロフィール",
+    "settings": "設定"
+  },
+  "SearchPage": {
+    "fetchError": "検索結果の取得エラー：",
+    "searchPlaceholder": "何でも検索...",
+    "recentTitle": "最近",
+    "clearAllButton": "すべてクリア",
+    "noRecentSearches": "最近の検索はありません。"
+  }
+}
