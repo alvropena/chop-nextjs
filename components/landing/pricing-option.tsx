@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { PricingOptionType } from './pricing-option-type';
+import { PricingOptionType } from '../../types/pricing-option-type';
 
 export function PricingOption({ title, description, price, linkText, linkHref }: PricingOptionType) {
     return (

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Card, CardHeader } from "../../../../components/ui/card";
 import { Button } from "../../../../components/ui/button";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import CardRenderer from "../../../../components/card-renderer";
+import CardRenderer from "../../../../components/cards/card-renderer";
 import { cardsData } from "../../../../data/card-data";
 import ChangeTopicDialog from "../../../../components/change-topic-dialog";
 import { Zap, FlameIcon, HeartIcon } from "lucide-react";

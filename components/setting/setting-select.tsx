@@ -8,7 +8,7 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 
 interface SettingSelectProps {
     label: string;

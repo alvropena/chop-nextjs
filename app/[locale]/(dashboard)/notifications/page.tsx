@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useSchemaStore } from "../../../../providers/schema-store-provider";
 import { useNotifications } from "../../../../hooks/use-notifications";
 import { NotificationList } from "../../../../components/notification-list";
 import { groupNotifications } from "../../../../lib/group-notifications";
@@ -10,26 +9,28 @@ import { markAsRead } from "../../../../lib/mark-as-read";
 import { NotificationType } from "../../../../types/notification-type";
 
 export default function NotificationsContainer() {
-    const { user_input_generation } = useSchemaStore((state) => state); // Optional: Check if still needed
     const router = useRouter();
     const t = useTranslations("");
 
-    const { notifications, markAsRead } = useNotifications(); // Updated to use the context-based notifications
+    const { notifications } = useNotifications(); // Access notifications from context
     const [groupedNotifications, setGroupedNotifications] = useState<Record<string, NotificationType[]>>({});
 
-    // Sort and group notifications from context
+    // Sort and group notifications whenever notifications state changes
     useEffect(() => {
-        const sorted = [...notifications].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-        setGroupedNotifications(groupNotifications(sorted));
+        const sortedNotifications = [...notifications].sort(
+            (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
+        setGroupedNotifications(groupNotifications(sortedNotifications));
     }, [notifications]);
+
+    // Handle marking notifications as read
+    const handleMarkAsRead = (notificationId: number) => {
+        const updatedGroupedNotifications = markAsRead(groupedNotifications, notificationId);
+        setGroupedNotifications(updatedGroupedNotifications); // Update the grouped notifications state
+    };
 
     const handleFollow = (userId: number) => {
         console.log(`Followed user with ID ${userId}`);
-    };
-
-    const handleMarkAsRead = (notificationId: number) => {
-        markAsRead(notificationId); // Updated to call the context function
-        setGroupedNotifications((prevState) => markAsRead(prevState, notificationId));
     };
 
     return (

@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { Card, CardContent } from "../../../../components/ui/card";
 import { useTranslations } from "next-intl";
 import { Badge } from "../../../../components/ui/badge";
 

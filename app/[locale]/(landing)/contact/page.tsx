@@ -8,8 +8,8 @@ import { toast } from "../../../../components/ui/use-toast";
 import { contactSchema } from "../../../../lib/contact";
 import { ContactFormData } from "../../../../lib/contact";
 import { sendFeedback } from "../../../../lib/contact";
-import { FormInput } from "../../../../components/forms/form-input";
-import { FormTextarea } from "../../../../components/forms/form-text-area";
+import { FormInput } from "../../../../components/form/form-input";
+import { FormTextarea } from "../../../../components/form/form-text-area";
 import { Button } from "../../../../components/ui/button";
 
 export default function ContactPage() {

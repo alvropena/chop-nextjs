@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { TeamMemberType } from './team-member-type'
+import { TeamMemberType } from '../../types/team-member-type'
 
 export default function TeamMember({ name, position, imageSrc, profileLink }: TeamMemberType) {
     return (
