@@ -1,4 +1,4 @@
-import { PricingOption } from "../../../../components/pricing-option";
+import { PricingOption } from "../../../../components/landing/pricing-option";
 import { useTranslations } from "next-intl";
 import { Badge } from "../../../../components/ui/badge";
 
