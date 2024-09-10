@@ -1,7 +1,7 @@
 import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { BadgeCheck, SettingsIcon, LineChart, MapPin, CalendarIcon, Dot } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import Link from 'next/link';
 
 export function ProfileHeader({ username, name, bio, location, joinedDate, profilePicture, verified, getLocalizedPath }) {

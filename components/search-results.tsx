@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { SearchResultsType } from "./types/search-results-type";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { SearchResultsType } from "../types/search-results-type";
 
 export function SearchResults({ searchResults, handleSearchResultClick }: SearchResultsType) {
     return (

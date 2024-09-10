@@ -1,6 +1,6 @@
-import { NotificationFollow } from "./variants/notification-follow";
-import { NotificationReminder } from "./variants/notification-reminder";
-import { NotificationAchievement } from "./variants/notification-achievement";
+import { NotificationFollow } from "./notification-follow";
+import { NotificationReminder } from "./notification-reminder";
+import { NotificationAchievement } from "./notification-achievement";
 import { NotificationItemType } from "./types/notification-item-type";
 
 export function NotificationItem({ notification, onMarkAsRead, onFollow }: NotificationItemType) {

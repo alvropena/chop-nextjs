@@ -3,30 +3,33 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useSchemaStore } from "../../../../providers/schema-store-provider";
-import { NotificationData } from "../../../../data/notification/notification-data";
-import { NotificationList } from "../../../../components/notifications/notification-list";
+import { useNotifications } from "../../../../hooks/use-notifications";
+import { NotificationList } from "../../../../components/notification-list";
 import { groupNotifications } from "../../../../lib/group-notifications";
 import { markAsRead } from "../../../../lib/mark-as-read";
 import { NotificationType } from "../../../../types/notification-type";
 
 export default function NotificationsContainer() {
-    const { user_input_generation } = useSchemaStore((state) => state);
+    const { user_input_generation } = useSchemaStore((state) => state); // Optional: Check if still needed
     const router = useRouter();
     const t = useTranslations("");
 
+    const { notifications, markAsRead } = useNotifications(); // Updated to use the context-based notifications
     const [groupedNotifications, setGroupedNotifications] = useState<Record<string, NotificationType[]>>({});
 
+    // Sort and group notifications from context
     useEffect(() => {
-        const sorted = [...NotificationData].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+        const sorted = [...notifications].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
         setGroupedNotifications(groupNotifications(sorted));
-    }, []);
+    }, [notifications]);
 
     const handleFollow = (userId: number) => {
         console.log(`Followed user with ID ${userId}`);
     };
 
     const handleMarkAsRead = (notificationId: number) => {
-        setGroupedNotifications(prevState => markAsRead(prevState, notificationId));
+        markAsRead(notificationId); // Updated to call the context function
+        setGroupedNotifications((prevState) => markAsRead(prevState, notificationId));
     };
 
     return (

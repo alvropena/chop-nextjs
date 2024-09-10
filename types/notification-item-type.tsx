@@ -1,6 +1,6 @@
-import { NotificationType } from "../../../types/notification-type";
+import { NotificationType } from "./notification-type";
 
-export interface NotificationFollowType {
+export interface NotificationItemType {
     notification: NotificationType;
     onMarkAsRead: (id: number) => void;
     onFollow: (userId: number) => void;

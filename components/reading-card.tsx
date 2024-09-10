@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { CardTitle, CardDescription } from "../ui/card";
-import { Button } from "../ui/button";
-import { Progress } from "../ui/progress";
-import { useToast } from "../ui/use-toast";
+import { CardTitle, CardDescription } from "./ui/card";
+import { Button } from "./ui/button";
+import { Progress } from "./ui/progress";
+import { useToast } from "./ui/use-toast";
 
 interface ReadingCardProps {
   title: string;

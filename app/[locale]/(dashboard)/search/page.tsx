@@ -7,10 +7,10 @@ import { useTranslations } from "next-intl";
 import { UserProfileData } from "../../../../data/user-profile-data";
 import { TopicData } from "../../../../data/topic-data";
 import { filterUserProfiles, filterTopics, updateRecentSearches, removeRecentSearch } from "../../../../lib/search-utils";
-import { SearchInput } from "../../../../components/search/search-input";
-import { SearchRecent } from "../../../../components/search/seach-recent";
-import { SearchResults } from "../../../../components/search/search-results";
-import { SearchType } from "../../../../components/search/types/search-type";
+import { SearchInput } from "../../../../components/search-input";
+import { SearchRecent } from "../../../../components/seach-recent";
+import { SearchResults } from "../../../../components/search-results";
+import { SearchType } from "../../../../types/search-type";
 
 export default function SearchPage() {
   const t = useTranslations("SearchPage");

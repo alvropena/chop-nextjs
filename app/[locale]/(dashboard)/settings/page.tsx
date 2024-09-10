@@ -5,9 +5,9 @@ import LanguageCombobox from "../../../../components/language-combobox";
 import { useTranslations } from "next-intl";
 import { ThemeToggle } from "../../../../components/theme-toggle";
 import { useRouter } from "next/navigation";
-import SettingSection from "./_components/setting-section";
-import SettingItem from "./_components/setting-item";
-import SettingSelect from "./_components/setting-select";
+import SettingSection from "../../../../components/setting-section";
+import SettingItem from "../../../../components/setting-item";
+import SettingSelect from "../../../../components/setting-select";
 
 export default function SettingsScreen() {
     const { user_input_generation } = useSchemaStore((state) => state);

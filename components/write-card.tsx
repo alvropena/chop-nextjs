@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { CardTitle, CardDescription } from "../ui/card";
-import { Button } from "../ui/button";
-import { Progress } from "../ui/progress";
+import { CardTitle, CardDescription } from "./ui/card";
+import { Button } from "./ui/button";
+import { Progress } from "./ui/progress";
 import Image from "next/image";
-import { useToast } from "../ui/use-toast";
-import { Textarea } from "../ui/textarea";
+import { useToast } from "./ui/use-toast";
+import { Textarea } from "./ui/textarea";
 
 interface WriteCardProps {
   title: string;

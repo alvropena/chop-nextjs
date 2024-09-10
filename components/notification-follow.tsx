@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react";
-import { Button } from "../../ui/button";
-import { NotificationAvatar } from "../notification-avatar";
-import { getFormattedDate } from "../../../lib/format-date";
+import { Button } from "./ui/button";
+import { NotificationAvatar } from "./notifications/notification-avatar";
+import { getFormattedDate } from "../lib/format-date";
 import { NotificationFollowType } from "../types/notification-follow-type";
 
 export function NotificationFollow({ notification, onMarkAsRead, onFollow }: NotificationFollowType) {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { CardTitle, CardDescription } from "../ui/card";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
+import { CardTitle, CardDescription } from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 import { MicIcon, AudioLines } from "lucide-react";
-import { Progress } from "../ui/progress";
-import { useToast } from "../ui/use-toast";
+import { Progress } from "./ui/progress";
+import { useToast } from "./ui/use-toast";
 
 interface ListeningCardProps {
   title: string;

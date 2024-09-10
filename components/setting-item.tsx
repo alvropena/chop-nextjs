@@ -1,9 +1,9 @@
 // components/setting-item.tsx
 import React from "react";
-import { Label } from "../../../../../components/ui/label";
-import { Button, ButtonProps } from "../../../../../components/ui/button";
-import { Switch } from "../../../../../components/ui/switch";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../../../../../components/ui/select";
+import { Label } from "./ui/label";
+import { Button, ButtonProps } from "./ui/button";
+import { Switch } from "./ui/switch";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
 
 interface SettingItemProps {
     label?: string;

@@ -1,11 +1,7 @@
-import { getFormattedDate } from "../../../lib/format-date";
-import { NotificationAchievementType } from "../types/notification-achievement-type";
+import { getFormattedDate } from "../lib/format-date";
+import { NotificationReminderType } from "../types/notification-reminder-type";
 
-export function NotificationAchievement({ notification, onMarkAsRead }: NotificationAchievementType) {
-    if (notification.type !== 'achievement') {
-        return null;
-    }
-
+export function NotificationReminder({ notification, onMarkAsRead }: NotificationReminderType) {
     return (
         <div className="relative flex flex-col p-2 border-b" onClick={() => onMarkAsRead(notification.id)}>
             <div className="flex justify-between items-center">

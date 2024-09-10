@@ -1,5 +1,5 @@
 import { NotificationItem } from "./notification-item";
-import { NotificationType } from "../../types/notification-type";
+import { NotificationType } from "../types/notification-type";
 import { NotificationListType } from "./types/notification-list-type";
 
 export function NotificationList({ groupedNotifications, onMarkAsRead, onFollow }: NotificationListType) {
