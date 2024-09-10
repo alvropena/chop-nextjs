@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dot } from 'lucide-react'; // Import the Dot icon from Lucide
 
 export function ProfileInfo({ location, joinedDate, lastActiveDate, achievements }) {
     return (

@@ -12,8 +12,8 @@ import {
     DropdownMenuPortal,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
 import { BellIcon } from "lucide-react";
 import Link from "next/link";
 

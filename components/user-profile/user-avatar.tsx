@@ -1,7 +1,7 @@
 "use client"
 
 import { AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
-import { Avatar } from "./ui/avatar";
+import { Avatar } from "../ui/avatar";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 

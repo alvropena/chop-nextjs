@@ -3,7 +3,7 @@
 import { useSchemaStore } from "../../../../providers/schema-store-provider";
 import LanguageCombobox from "../../../../components/language-combobox";
 import { useTranslations } from "next-intl";
-import { ThemeToggle } from "../../../../components/theme-toggle";
+import { ThemeToggle } from "../../../../components/theme/theme-toggle";
 import { useRouter } from "next/navigation";
 import SettingSection from "../../../../components/setting/setting-section";
 import SettingItem from "../../../../components/setting/setting-item";

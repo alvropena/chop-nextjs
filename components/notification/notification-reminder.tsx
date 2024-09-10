@@ -1,5 +1,5 @@
-import { getFormattedDate } from "../lib/format-date";
-import { NotificationReminderType } from "../types/notification-reminder-type";
+import { getFormattedDate } from "../../lib/format-date";
+import { NotificationReminderType } from "../../types/notification-reminder-type";
 
 export function NotificationReminder({ notification, onMarkAsRead }: NotificationReminderType) {
     return (

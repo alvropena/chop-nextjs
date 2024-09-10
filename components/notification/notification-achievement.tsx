@@ -1,5 +1,5 @@
-import { getFormattedDate } from "../lib/format-date";
-import { NotificationAchievementType } from "../types/notification-achievement-type";
+import { getFormattedDate } from "../../lib/format-date";
+import { NotificationAchievementType } from "../../types/notification-achievement-type";
 
 export function NotificationAchievement({ notification, onMarkAsRead }: NotificationAchievementType) {
     if (notification.type !== 'achievement') {

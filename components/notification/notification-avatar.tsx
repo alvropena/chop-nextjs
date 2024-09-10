@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { NotificationAvatarType } from "./types/notification-avatar-type";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { NotificationAvatarType } from "../../types/notification-avatar-type";
 
 export function NotificationAvatar({ userId, imageUrl }: NotificationAvatarType) {
     return (

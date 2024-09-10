@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "../../../../hooks/use-notifications";
-import { NotificationList } from "../../../../components/notification-list";
-import { groupNotifications } from "../../../../lib/group-notifications";
+import { NotificationList } from "../../../../components/notification/notification-list";
 import { markAsRead } from "../../../../lib/mark-as-read";
 import { NotificationType } from "../../../../types/notification-type";
 
@@ -13,20 +12,20 @@ export default function NotificationsContainer() {
     const t = useTranslations("");
 
     const { notifications } = useNotifications(); // Access notifications from context
-    const [groupedNotifications, setGroupedNotifications] = useState<Record<string, NotificationType[]>>({});
+    const [sortedNotifications, setSortedNotifications] = useState<NotificationType[]>([]);
 
-    // Sort and group notifications whenever notifications state changes
+    // Sort notifications from most recent to oldest
     useEffect(() => {
-        const sortedNotifications = [...notifications].sort(
+        const sorted = [...notifications].sort(
             (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
         );
-        setGroupedNotifications(groupNotifications(sortedNotifications));
+        setSortedNotifications(sorted);
     }, [notifications]);
 
     // Handle marking notifications as read
     const handleMarkAsRead = (notificationId: number) => {
-        const updatedGroupedNotifications = markAsRead(groupedNotifications, notificationId);
-        setGroupedNotifications(updatedGroupedNotifications); // Update the grouped notifications state
+        const updatedNotifications = markAsRead(sortedNotifications, notificationId);
+        setSortedNotifications(updatedNotifications);
     };
 
     const handleFollow = (userId: number) => {
@@ -38,11 +37,11 @@ export default function NotificationsContainer() {
             <div className="flex flex-col space-y-6 w-full max-w-xl">
                 <h1 className="text-2xl font-semibold">{t("Notifications")}</h1>
                 <NotificationList
-                    groupedNotifications={groupedNotifications}
+                    notifications={sortedNotifications}
                     onMarkAsRead={handleMarkAsRead}
                     onFollow={handleFollow}
                 />
-                {Object.keys(groupedNotifications).every(group => groupedNotifications[group].length === 0) && (
+                {sortedNotifications.length === 0 && (
                     <h2>No activity yet.</h2>
                 )}
             </div>
