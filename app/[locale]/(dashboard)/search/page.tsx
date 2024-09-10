@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useSchemaStore } from "../../../../providers/schema-store-provider";
 import TopicButtons from "../../../../components/topic-buttons";
 import { useTranslations } from "next-intl";
-import { UserProfileData } from "../../../../data/user-profile/user-profile-data";
-import { TopicData } from "../../../../data/topic/topic-data";
+import { UserProfileData } from "../../../../data/user-profile-data";
+import { TopicData } from "../../../../data/topic-data";
 import { filterUserProfiles, filterTopics, updateRecentSearches, removeRecentSearch } from "../../../../lib/search-utils";
 import { SearchInput } from "../../../../components/search/search-input";
 import { SearchRecent } from "../../../../components/search/seach-recent";
 import { SearchResults } from "../../../../components/search/search-results";
-import { SearchType } from "../../../../components/search/types/search-type";
+import { SearchType } from "../../../../types/search/search-type";
 
 export default function SearchPage() {
   const t = useTranslations("SearchPage");
@@ -19,10 +18,8 @@ export default function SearchPage() {
   const [searchResults, setSearchResults] = useState<SearchType[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<string>("geography");
 
-  const {
-    recentSearches = [],
-    setRecentSearches,
-  } = useSchemaStore((state) => state);
+  // Manage recent searches locally
+  const [recentSearches, setRecentSearches] = useState<SearchType[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -45,13 +42,13 @@ export default function SearchPage() {
   const handleSearchResultClick = (result: SearchType) => {
     if (result) {
       const updatedSearches = updateRecentSearches(recentSearches, result);
-      setRecentSearches(updatedSearches);  // Update recent searches directly
+      setRecentSearches(updatedSearches);  // Update recent searches locally
     }
   };
 
   const handleDeleteRecentSearch = (id: string) => {
     const updatedSearches = removeRecentSearch(recentSearches, id);
-    setRecentSearches(updatedSearches);  // Update recent searches directly
+    setRecentSearches(updatedSearches);  // Update recent searches locally
   };
 
   return (
@@ -75,25 +72,13 @@ export default function SearchPage() {
         <div className="flex flex-row justify-between items-center">
           <h2 className="font-bold">{t("recentTitle")}</h2>
           <button
-            onClick={() => setRecentSearches([])}
+            onClick={() => setRecentSearches([])} // Clear recent searches
             className="text-blue-500 hover:text-blue-700"
           >
             {t("clearAllButton")}
           </button>
         </div>
-        <SearchRecent
-          recentSearches={recentSearches}
-          handleSearchResultClick={handleSearchResultClick}
-          handleDeleteRecentSearch={handleDeleteRecentSearch}
-        />
       </div>
-
-      {searchResults.length > 0 && (
-        <SearchResults
-          searchResults={searchResults}
-          handleSearchResultClick={handleSearchResultClick}
-        />
-      )}
     </div>
   );
 }

@@ -1,8 +1,9 @@
-import { useRouter } from 'next/router';
+"use client";
+
+import { useParams } from 'next/navigation';
 
 export default function CommunityPage() {
-  const router = useRouter();
-  const { id } = router.query;  // Get the dynamic community ID from the URL
+  const { id } = useParams();
 
   return (
     <div>

@@ -9,9 +9,10 @@ interface NavLinkProps {
   label: string;
   collapsed?: boolean;
   tooltipSide?: "top" | "right" | "bottom" | "left";
+  isBottomTab?: boolean;
 }
 
-export default function NavLink({ href, icon, label, collapsed = false, tooltipSide = "top" }: NavLinkProps) {
+export default function NavLink({ href, icon, label, collapsed = false, tooltipSide = "top", isBottomTab }: NavLinkProps) {
   const pathname = usePathname(); // Use next-intl's usePathname
 
   const isActive = pathname === href;

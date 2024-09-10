@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { BadgeCheck, X } from "lucide-react";
-import { SearchRecentType } from "./types/search-recent-type";
+import { SearchRecentType } from "../../types/search/search-recent-type";
 
 export function SearchRecent({ recentSearches, handleSearchResultClick, handleDeleteRecentSearch }: SearchRecentType) {
     return (

@@ -1,7 +1,7 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { SearchIcon } from "lucide-react";
-import { SearchInputType } from "./types/search-input-type";
+import { SearchInputType } from "../../types/search/search-input-type";
 
 export function SearchInput({ searchQuery, setSearchQuery, handleSearch, inputRef }: SearchInputType) {
     return (

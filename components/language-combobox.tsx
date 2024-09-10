@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { cn, capitalize } from "../lib/utils";
-import { useSchemaStore } from "../providers/schema-store-provider";
 import {
   Command,
   CommandEmpty,
@@ -43,12 +42,16 @@ const languages = [
 
 export default function LanguageCombobox() {
   const [open, setOpen] = React.useState(false);
-  const { lang, setLang } = useSchemaStore((state) => state);
+  const [lang, setLang] = React.useState<"en" | "es" | "ja" | "ind">("en");
   const router = useRouter();
   const pathName = usePathname();
+
+  // Extract the language from the current path (e.g., '/en', '/es', etc.)
   const regex = /^\/([^/]+)/;
   const match: any = pathName.match(regex);
   const langPath: "en" | "es" | "ja" | "ind" = match ? match[1] : "en";
+
+  // Sync the language with the URL
   React.useEffect(() => {
     setLang(langPath);
   }, [langPath]);

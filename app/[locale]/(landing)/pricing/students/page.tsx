@@ -1,7 +1,4 @@
-import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Button } from "../../../../../components/ui/button";
-import { Badge } from "../../../../../components/ui/badge";
 
 export default function PricingStudentsPage() {
     const t = useTranslations("PricingPage");

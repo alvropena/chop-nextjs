@@ -11,7 +11,7 @@ import SearchScreen from "../app/[locale]/(dashboard)/search/page";
 import NavLink from "./nav-link";
 import { cn } from "../lib/utils";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { UserProfileData } from "../data/user-profile/user-profile-data";
+import { UserProfileData } from "../data/user-profile-data";
 
 export default function AsideMenu({ }) {
   const [isCollapsed, setIsCollapsed] = useState(() => {
@@ -52,7 +52,11 @@ export default function AsideMenu({ }) {
   return (
     <aside className={cn("flex-col border-r bg-background p-4 transition-all duration-300", isCollapsed ? "w-16" : "w-56", "hidden sm:flex")}>
       <div className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-between mb-4")}>
-        {!isCollapsed && <Logo />}
+        {!isCollapsed &&
+          <Link href="/">
+            <Logo />
+          </Link>
+        }
         <button onClick={() => setIsCollapsed(!isCollapsed)} className={cn(isCollapsed && "flex justify-center w-full")}>
           <PanelLeftCloseIcon className={cn("h-5 w-5 text-foreground transition-transform", isCollapsed ? "rotate-180" : "")} />
         </button>
