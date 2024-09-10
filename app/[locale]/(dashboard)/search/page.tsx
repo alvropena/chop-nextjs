@@ -78,19 +78,7 @@ export default function SearchPage() {
             {t("clearAllButton")}
           </button>
         </div>
-        <SearchRecent
-          recentSearches={recentSearches}
-          handleSearchResultClick={handleSearchResultClick}
-          handleDeleteRecentSearch={handleDeleteRecentSearch}
-        />
       </div>
-
-      {searchResults.length > 0 && (
-        <SearchResults
-          searchResults={searchResults}
-          handleSearchResultClick={handleSearchResultClick}
-        />
-      )}
     </div>
   );
 }
