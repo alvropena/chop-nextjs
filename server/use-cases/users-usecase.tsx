@@ -1,0 +1,135 @@
+import {
+  createUser,
+  deleteUser,
+  getUserByEmail,
+  updateUser,
+  verifyPassword,
+} from "../repositories/users-repository";
+import { UserId, UserSession } from "@/types/auth-type";
+import {
+  createAccount,
+  createAccountViaGoogle,
+  updatePassword,
+} from "../repositories/accounts-repository";
+// import { GoogleUser } from "@/app/api/login/google/callback/route";
+import {
+  createPasswordResetToken,
+  deletePasswordResetToken,
+  getPasswordResetToken,
+} from "../repositories/reset-tokens-respository";
+import ResetPasswordEmail from "../email-templates/reset-password";
+import {
+  createVerifyEmailToken,
+  deleteVerifyEmailToken,
+  getVerifyEmailToken,
+} from "../repositories/verify-emails-repository";
+import VerifyEmail from "../email-templates/verify-email";
+import { APPLICATION_NAME } from "@/data/app-data";
+import { sendEmail } from "../common";
+import {
+  AuthenticationError,
+  EmailInUseError,
+  LoginError,
+  NotFoundError,
+} from "../error-handler";
+
+export async function deleteUserUseCase(
+  authenticatedUser: UserSession,
+  userToDeleteId: UserId
+): Promise<void> {
+  if (authenticatedUser.id !== userToDeleteId) {
+    throw new AuthenticationError();
+  }
+
+  await deleteUser(userToDeleteId);
+}
+
+export async function registerUserUseCase(email: string, password: string) {
+  const existingUser = await getUserByEmail(email);
+  if (existingUser) {
+    throw new EmailInUseError();
+  }
+
+  const user = await createUser(email);
+  await createAccount(user.id, password);
+
+  const token = await createVerifyEmailToken(user.id);
+  await sendEmail(
+    email,
+    `Verify your email for ${APPLICATION_NAME}`,
+    <VerifyEmail token={token} />
+  );
+
+  return { id: user.id };
+}
+
+export async function signInUseCase(email: string, password: string) {
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    throw new LoginError();
+  }
+
+  const isPasswordCorrect = await verifyPassword(email, password);
+
+  if (!isPasswordCorrect) {
+    throw new LoginError();
+  }
+
+  return { id: user.id };
+}
+
+// export async function createGoogleUserUseCase(googleUser: GoogleUser) {
+//   let existingUser = await getUserByEmail(googleUser.email);
+
+//   if (!existingUser) {
+//     existingUser = await createUser(googleUser.email);
+//   }
+
+//   await createAccountViaGoogle(existingUser.id, googleUser.sub);
+
+//   return existingUser.id;
+// }
+
+export async function resetPasswordUseCase(email: string) {
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    throw new AuthenticationError();
+  }
+
+  const token = await createPasswordResetToken(user.id);
+
+  await sendEmail(
+    email,
+    `Your password reset link for ${APPLICATION_NAME}`,
+    <ResetPasswordEmail token={token} />
+  );
+}
+
+export async function changePasswordUseCase(token: string, password: string) {
+  const tokenEntry = await getPasswordResetToken(token);
+
+  if (!tokenEntry) {
+    throw new AuthenticationError();
+  }
+
+  const userId = tokenEntry.userId;
+
+  await deletePasswordResetToken(token);
+  await updatePassword(userId, password);
+}
+
+export async function verifyEmailUseCase(token: string) {
+  const tokenEntry = await getVerifyEmailToken(token);
+
+  if (!tokenEntry) {
+    throw new AuthenticationError();
+  }
+
+  const userId = tokenEntry.userId;
+
+  await updateUser(userId, { emailVerified: new Date() });
+  await deleteVerifyEmailToken(token);
+  return userId;
+}
