@@ -1,19 +1,15 @@
 import React from 'react';
-import { UserActivityItemType } from '../../types/user/user-activity-item-type';
+import { UserActivityType } from '../../types/user/user-activity-type';
 import { UserActivityItem } from './user-activity-item';
 
-// ProfileActivityProps type definition
-interface ProfileActivityProps {
-    activities: UserActivityItemType[];
-}
-
-export function UserProfileActivity({ activities }: ProfileActivityProps) {
+// Directly using UserActivityType for props
+export function UserProfileActivity({ activities }: { activities: UserActivityType[] }) {
     return (
         <div>
             <h3 className="text-xl font-semibold my-4">Activity</h3>
             <div className="space-y-4">
-                {activities.map((activity, index) => (
-                    <UserActivityItem key={index} activity={activity} />
+                {activities.map((activity) => (
+                    <UserActivityItem key={activity.id} {...activity} />
                 ))}
             </div>
         </div>
