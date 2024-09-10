@@ -2,10 +2,8 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Toggle } from "./ui/toggle"
-import { MoonIcon, SunIcon } from "lucide-react"
-import { Label } from "./ui/label"
-import { Switch } from "./ui/switch"
+import { Label } from "../ui/label"
+import { Switch } from "../ui/switch"
 
 export function ModeToggle() {
     const { theme, setTheme } = useTheme()
