@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { Resend } from "resend";
 import type { ReactNode } from "react";
 const ITERATIONS = 10000;
 
@@ -32,6 +33,21 @@ export async function generateRandomToken(length: number) {
   return buf.toString("hex").slice(0, length);
 }
 
-export function sendEmail(email: string, title: string, body: ReactNode) {
-  return;
+const resend = new Resend(process.env.RESEND);
+
+export async function sendEmail(
+  email: string,
+  subject: string,
+  body: ReactNode
+) {
+  const { error } = await resend.emails.send({
+    from: process.env.EMAIL_FROM!,
+    to: email,
+    subject,
+    react: <>{body}</>,
+  });
+
+  if (error) {
+    throw error;
+  }
 }
