@@ -53,7 +53,7 @@ export default async function middleware(
 export const config = {
   matcher: [
     "/",
-    "/:path*",
+    "/((?!about|settings|home|search|notifications|followers|following|pricing|blog|c|contact)[^/]+)", // Matcher for /[username] pattern
     "/(en|ja|es|ind)/:path*",
     "/home",
     "/search/:path*",
