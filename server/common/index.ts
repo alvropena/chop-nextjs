@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import type { ReactNode } from "react";
 const ITERATIONS = 10000;
 
 export const hashPassword = async (plainTextPassword: string, salt: string) => {
@@ -29,4 +30,8 @@ export async function generateRandomToken(length: number) {
   });
 
   return buf.toString("hex").slice(0, length);
+}
+
+export function sendEmail(email: string, title: string, body: ReactNode) {
+  return;
 }
