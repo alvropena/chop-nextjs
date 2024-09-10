@@ -63,7 +63,7 @@ export const config = {
     "/about",
     "/pricing/:path*",
     "/blog/:path*",
-    "/u",
+    "/c/:path*",
     "/contact",
   ],
 };
