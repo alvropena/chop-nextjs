@@ -1,6 +1,5 @@
-// components/SettingsScreen.tsx
 "use client";
-import { useSchemaStore } from "../../../../providers/schema-store-provider";
+
 import LanguageCombobox from "../../../../components/language-combobox";
 import { useTranslations } from "next-intl";
 import { ThemeToggle } from "../../../../components/theme/theme-toggle";
@@ -10,7 +9,6 @@ import SettingItem from "../../../../components/setting/setting-item";
 import SettingSelect from "../../../../components/setting/setting-select";
 
 export default function SettingsScreen() {
-    const { user_input_generation } = useSchemaStore((state) => state);
     const router = useRouter();
     const t = useTranslations("");
 

@@ -1,4 +1,4 @@
-import { ThemeProvider } from '../../components/theme-provider'
+import { ThemeProvider } from '../../components/theme/theme-provider'
 import type { Metadata } from 'next'
 import {
   AbstractIntlMessages,
@@ -8,7 +8,6 @@ import {
 import { Inter } from 'next/font/google'
 import { Toaster } from '../../components/ui/toaster'
 import './globals.css'
-import { ZustandProvider } from '../../providers/zustand-provider'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -53,15 +52,13 @@ export default function RootLayout({
               locale={locale}
               messages={messages as AbstractIntlMessages}
             >
-              <ZustandProvider>
-                <UserProvider>
-                  <PostHogPageView />
-                  {children}
-                  <GoogleAdsense pId="（AdsenseのID）" />
-                  <Analytics mode={"production"} />
-                  <SpeedInsights />
-                </UserProvider>
-              </ZustandProvider>
+              <UserProvider>
+                <PostHogPageView />
+                {children}
+                <GoogleAdsense pId="（AdsenseのID）" />
+                <Analytics mode={"production"} />
+                <SpeedInsights />
+              </UserProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
           <Toaster />
