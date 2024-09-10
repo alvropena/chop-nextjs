@@ -3,24 +3,14 @@
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import axios from "axios";
 import { useTranslations } from "next-intl";
-
-import { Label } from "../../../../components/ui/label";
-import { Input } from "../../../../components/ui/input";
-import { Textarea } from "../../../../components/ui/textarea";
-import { Button } from "../../../../components/ui/button";
 import { toast } from "../../../../components/ui/use-toast";
-
-const contactSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  subject: z.string().min(1, "Subject is required"),
-  message: z.string().min(1, "Message is required"),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+import { contactSchema } from "../../../../lib/contact";
+import { ContactFormData } from "../../../../lib/contact";
+import { sendFeedback } from "../../../../lib/contact";
+import { FormInput } from "../../../../components/forms/form-input";
+import { FormTextarea } from "../../../../components/forms/form-text-area";
+import { Button } from "../../../../components/ui/button";
 
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
@@ -39,17 +29,13 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      await axios.post(`${baseUrl}/api/feedback/send-feedback`, {
-        ...data,
-        type_message: "feedback",
-      });
+      await sendFeedback(data, baseUrl!);
       toast({
         title: t("messageSent"),
         description: t("messageSuccess"),
       });
       setTimeout(() => reset(), 1000);
     } catch (error) {
-      console.error("Error sending message:", error);
       toast({
         title: t("error"),
         description: t("messageError"),
@@ -65,26 +51,35 @@ export default function ContactPage() {
       </div>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">{t("name")}</Label>
-            <Input id="name" placeholder={t("namePlaceholder")} {...register("name")} className="shadow-sm" />
-            {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">{t("email")}</Label>
-            <Input id="email" type="email" placeholder={t("emailPlaceholder")} {...register("email")} className="shadow-sm" />
-            {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="subject">{t("subject")}</Label>
-            <Input id="subject" placeholder={t("subjectPlaceholder")} {...register("subject")} className="shadow-sm" />
-            {errors.subject && <p className="mt-1 text-sm text-red-500">{errors.subject.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="message">{t("message")}</Label>
-            <Textarea id="message" placeholder={t("messagePlaceholder")} className="min-h-[100px] shadow-sm" {...register("message")} />
-            {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>}
-          </div>
+          <FormInput
+            id="name"
+            label={t("name")}
+            placeholder={t("namePlaceholder")}
+            register={register("name")}
+            error={errors.name?.message}
+          />
+          <FormInput
+            id="email"
+            label={t("email")}
+            placeholder={t("emailPlaceholder")}
+            type="email"
+            register={register("email")}
+            error={errors.email?.message}
+          />
+          <FormInput
+            id="subject"
+            label={t("subject")}
+            placeholder={t("subjectPlaceholder")}
+            register={register("subject")}
+            error={errors.subject?.message}
+          />
+          <FormTextarea
+            id="message"
+            label={t("message")}
+            placeholder={t("messagePlaceholder")}
+            register={register("message")}
+            error={errors.message?.message}
+          />
           <div className="flex justify-end">
             <Button type="submit" className="w-full sm:w-auto">
               {t("send")}
