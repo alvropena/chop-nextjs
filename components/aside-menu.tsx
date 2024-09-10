@@ -52,7 +52,11 @@ export default function AsideMenu({ }) {
   return (
     <aside className={cn("flex-col border-r bg-background p-4 transition-all duration-300", isCollapsed ? "w-16" : "w-56", "hidden sm:flex")}>
       <div className={cn("flex items-center", isCollapsed ? "justify-center" : "justify-between mb-4")}>
-        {!isCollapsed && <Logo />}
+        {!isCollapsed && 
+            <Link href="/">
+                <Logo />
+            </Link>
+        }
         <button onClick={() => setIsCollapsed(!isCollapsed)} className={cn(isCollapsed && "flex justify-center w-full")}>
           <PanelLeftCloseIcon className={cn("h-5 w-5 text-foreground transition-transform", isCollapsed ? "rotate-180" : "")} />
         </button>
