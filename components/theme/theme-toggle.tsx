@@ -2,10 +2,9 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { useIsMounted } from "../hooks/use-is-mounted";
-import { Toggle } from "./ui/toggle"
-import { Switch } from "./ui/switch"
-import { Label } from "./ui/label"
+import { useIsMounted } from "../../hooks/use-is-mounted"
+import { Toggle } from "../ui/toggle"
+import { Switch } from "../ui/switch"
 import { Moon, Sun } from "lucide-react"
 
 export function ThemeToggle({ variant = "toggle" }) {

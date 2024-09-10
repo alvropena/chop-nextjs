@@ -1,4 +1,4 @@
-import { NotificationType } from "../types/notification-type";
+import { NotificationType } from "../types/notification/notification-type";
 
 export function markAsRead(
     notifications: Record<string, NotificationType[]>,

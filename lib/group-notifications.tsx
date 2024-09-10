@@ -1,5 +1,5 @@
 import { format, isToday, isYesterday, subDays, isSameMonth } from 'date-fns';
-import { NotificationType } from "../types/notification-type";
+import { NotificationType } from "../types/notification/notification-type";
 
 // Create a new interface for the grouped notifications with formattedDate
 interface GroupedNotification extends NotificationType {

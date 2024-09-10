@@ -1,7 +1,7 @@
 import { NotificationType } from "./notification-type";
 
 export interface NotificationListType {
-    groupedNotifications: Record<string, NotificationType[]>;
-    onMarkAsRead: (id: number) => void;
+    notifications: NotificationType[];
+    onMarkAsRead: (notificationId: number) => void;
     onFollow: (userId: number) => void;
 }

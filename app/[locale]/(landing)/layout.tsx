@@ -1,5 +1,5 @@
-import LandingFooter from "../../../components/landing-footer";
-import LandingHeader from "../../../components/landing-header";
+import LandingFooter from "../../../components/landing/landing-footer";
+import LandingHeader from "../../../components/landing/landing-header";
 
 export const metadata = {
     title: 'Chop',

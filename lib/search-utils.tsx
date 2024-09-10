@@ -1,4 +1,4 @@
-import { SearchType } from "../types/search-type";
+import { SearchType } from "../types/search/search-type";
 
 // Filter user profiles based on the search query
 export const filterUserProfiles = (userProfiles: any[], searchQuery: string) => {

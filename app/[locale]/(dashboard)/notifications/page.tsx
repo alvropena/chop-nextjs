@@ -4,28 +4,21 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "../../../../hooks/use-notifications";
 import { NotificationList } from "../../../../components/notification/notification-list";
-import { markAsRead } from "../../../../lib/mark-as-read";
-import { NotificationType } from "../../../../types/notification-type";
+import { NotificationType } from "../../../../types/notification/notification-type";
 
 export default function NotificationsContainer() {
     const router = useRouter();
     const t = useTranslations("");
 
     const { notifications } = useNotifications(); // Access notifications from context
-    const [sortedNotifications, setSortedNotifications] = useState<NotificationType[]>([]);
+    const [displayedNotifications, setDisplayedNotifications] = useState<NotificationType[]>([]);
 
-    // Sort notifications from most recent to oldest
     useEffect(() => {
-        const sorted = [...notifications].sort(
-            (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-        );
-        setSortedNotifications(sorted);
+        setDisplayedNotifications(notifications); // Directly display notifications
     }, [notifications]);
 
-    // Handle marking notifications as read
     const handleMarkAsRead = (notificationId: number) => {
-        const updatedNotifications = markAsRead(sortedNotifications, notificationId);
-        setSortedNotifications(updatedNotifications);
+        // Handle marking notifications as read here (if needed)
     };
 
     const handleFollow = (userId: number) => {
@@ -37,11 +30,11 @@ export default function NotificationsContainer() {
             <div className="flex flex-col space-y-6 w-full max-w-xl">
                 <h1 className="text-2xl font-semibold">{t("Notifications")}</h1>
                 <NotificationList
-                    notifications={sortedNotifications}
+                    notifications={displayedNotifications} // Pass notifications as-is
                     onMarkAsRead={handleMarkAsRead}
                     onFollow={handleFollow}
                 />
-                {sortedNotifications.length === 0 && (
+                {displayedNotifications.length === 0 && (
                     <h2>No activity yet.</h2>
                 )}
             </div>

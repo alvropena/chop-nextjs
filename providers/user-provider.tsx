@@ -2,7 +2,7 @@
 
 import { ReactNode, useState } from 'react';
 import { UserContext } from '../context/user-context';
-import { UserProfileType } from '../types/user-profile-type';
+import { UserProfileType } from '../types/user/user-profile-type';
 
 export interface UserProviderProps {
   children: ReactNode;

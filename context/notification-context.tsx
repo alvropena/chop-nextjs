@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { NotificationType } from '../types/notification-type';
+import { NotificationType } from '../types/notification/notification-type';
 
 // Creating the context for notifications
 export const NotificationsContext = createContext<{

@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, CardContent } from "./ui/card";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Card, CardContent } from "../ui/card";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import { ArrowRightIcon, LoaderCircle, Info, Volume2, Speech } from "lucide-react";
 import { useTranslations } from "next-intl";
 

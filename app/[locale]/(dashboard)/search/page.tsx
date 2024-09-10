@@ -9,7 +9,7 @@ import { filterUserProfiles, filterTopics, updateRecentSearches, removeRecentSea
 import { SearchInput } from "../../../../components/search/search-input";
 import { SearchRecent } from "../../../../components/search/seach-recent";
 import { SearchResults } from "../../../../components/search/search-results";
-import { SearchType } from "../../../../types/search-type";
+import { SearchType } from "../../../../types/search/search-type";
 
 export default function SearchPage() {
   const t = useTranslations("SearchPage");

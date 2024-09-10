@@ -3,7 +3,7 @@
 import { ReactNode, useState } from 'react';
 import { NotificationsContext } from '../context/notification-context';
 import { NotificationData } from '../data/notification-data';
-import { NotificationType } from '../types/notification-type';
+import { NotificationType } from '../types/notification/notification-type';
 
 export interface NotificationsProviderProps {
   children: ReactNode;

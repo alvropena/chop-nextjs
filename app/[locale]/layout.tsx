@@ -1,30 +1,35 @@
-import { ThemeProvider } from '../../components/theme/theme-provider'
-import type { Metadata } from 'next'
+import { ThemeProvider } from '../../components/theme/theme-provider';
+import type { Metadata } from 'next';
 import {
   AbstractIntlMessages,
   NextIntlClientProvider,
   useMessages
-} from 'next-intl'
-import { Inter } from 'next/font/google'
-import { Toaster } from '../../components/ui/toaster'
-import './globals.css'
-import { UserProvider } from '@auth0/nextjs-auth0/client'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
+} from 'next-intl';
+import { Inter } from 'next/font/google';
+import { Toaster } from '../../components/ui/toaster';
+import './globals.css';
+import { UserProvider as Auth0UserProvider } from '@auth0/nextjs-auth0/client';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { PHProvider } from "./providers";
 import dynamic from "next/dynamic";
-import GoogleAdsense from '../../components/google-adsense'
+import GoogleAdsense from '../../components/google-adsense';
+
+// Import the new providers
+import { NotificationsProvider } from '../../providers/notifications-provider';
+import { PromptProvider } from '../../providers/prompt-provider';
+import { UserProvider } from '../../providers/user-provider';
 
 const PostHogPageView = dynamic(() => import("./posthog-page-view"), {
   ssr: false,
 });
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Chop',
-  description: 'Learn quicker.'
-}
+  description: 'Learn quicker.',
+};
 
 export default function RootLayout({
   children,
@@ -33,11 +38,12 @@ export default function RootLayout({
   children: React.ReactNode
   params: { locale: string }
 }) {
-  const messages = useMessages()
+  const messages = useMessages();
+
   return (
     <html
       lang={locale}
-      dir={locale === "ar" || locale == "fa" ? "rtl" : "ltr"}
+      dir={locale === "ar" || locale === "fa" ? "rtl" : "ltr"}
       suppressHydrationWarning
     >
       <PHProvider>
@@ -52,13 +58,19 @@ export default function RootLayout({
               locale={locale}
               messages={messages as AbstractIntlMessages}
             >
-              <UserProvider>
-                <PostHogPageView />
-                {children}
-                <GoogleAdsense pId="（AdsenseのID）" />
-                <Analytics mode={"production"} />
-                <SpeedInsights />
-              </UserProvider>
+              <Auth0UserProvider>
+                <UserProvider>
+                  <NotificationsProvider>
+                    <PromptProvider>
+                      <PostHogPageView />
+                      {children}
+                      <GoogleAdsense pId="（AdsenseのID）" />
+                      <Analytics mode={"production"} />
+                      <SpeedInsights />
+                    </PromptProvider>
+                  </NotificationsProvider>
+                </UserProvider>
+              </Auth0UserProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
           <Toaster />

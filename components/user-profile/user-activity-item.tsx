@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { BadgeCheck, HeartIcon } from "lucide-react";
 import { formatActivityTimestamp, formatNumber } from '../../lib/format-utils';
-import { UserActivityItemType } from '../../types/user-activity-item-type';
+import { UserActivityItemType } from '../../types/user/user-activity-item-type';
 
 export function UserActivityItem({ activity }: UserActivityItemType) {
     const [liked, setLiked] = useState(false);
