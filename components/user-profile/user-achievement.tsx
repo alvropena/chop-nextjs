@@ -1,6 +1,7 @@
 import React from 'react';
+import { UserAchievementType } from '../../types/user/user-achievement-type';
 
-export function UserAchievement({ achievements }) {
+export function UserAchievement({ achievements }: { achievements: UserAchievementType[] }) {
     return (
         <div className="mt-6 p-4 flex-grow border-secondary rounded-lg">
             <div className="mt-4 space-y-2">
@@ -8,9 +9,10 @@ export function UserAchievement({ achievements }) {
                     <div>
                         <h3 className="text-lg font-semibold">Achievements</h3>
                         <div className="grid grid-cols-2 gap-4">
-                            {achievements.map((achievement, index) => (
-                                <div key={index} className="p-2 border rounded-lg">
-                                    {achievement}
+                            {achievements.map((achievement) => (
+                                <div key={achievement.id} className="p-2 border rounded-lg">
+                                    <p className="font-semibold">{achievement.title}</p>
+                                    <p className="text-sm text-muted-foreground">{achievement.timestamp}</p>
                                 </div>
                             ))}
                         </div>
