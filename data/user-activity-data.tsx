@@ -1,4 +1,4 @@
-import { UserActivityType } from "./user-activity-type";
+import { UserActivityType } from "../types/user-activity-type";
 
 export const UserActivityData: UserActivityType[] = [
     // Alvaro Peña's Activities

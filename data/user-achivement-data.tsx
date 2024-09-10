@@ -1,4 +1,4 @@
-import { UserAchievementType } from "./user-achievement-type";
+import { UserAchievementType } from "../types/user-achievement-type";
 
 export const UserAchievementData: UserAchievementType[] = [
     // Alvaro Peña's Achievements

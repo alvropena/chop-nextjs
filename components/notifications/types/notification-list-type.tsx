@@ -1,4 +1,4 @@
-import { NotificationType } from "../../../data/notification/notification-type";
+import { NotificationType } from "../../../types/notification-type";
 
 export interface NotificationListType {
     groupedNotifications: Record<string, NotificationType[]>;

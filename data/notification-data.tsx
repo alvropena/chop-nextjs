@@ -1,4 +1,4 @@
-import { NotificationType } from "./notification-type";
+import { NotificationType } from "../../types/notification-type";
 
 export const NotificationData: NotificationType[] = [
     {

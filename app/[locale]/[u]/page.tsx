@@ -2,7 +2,7 @@
 
 
 import { useParams } from "next/navigation";
-import { UserProfileData } from "../../../data/user-profile/user-profile-data";
+import { UserProfileData } from "../../../data/user-profile-data";
 
 function getUserProfile(username: string) {
   // Simulate fetching data from a "database" by looking it up in UserProfileData

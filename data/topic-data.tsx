@@ -1,4 +1,4 @@
-import { TopicType } from "./topic-type";
+import { TopicType } from "../types/topic-type";
 
 export const TopicData: TopicType[] = [
     {

@@ -1,4 +1,4 @@
-import { UserProfileType } from "./user-profile-type";
+import { UserProfileType } from "../types/user-profile-type";
 
 export const UserProfileData: UserProfileType[] = [
     {

@@ -7,7 +7,7 @@ import { NotificationData } from "../../../../data/notification/notification-dat
 import { NotificationList } from "../../../../components/notifications/notification-list";
 import { groupNotifications } from "../../../../lib/group-notifications";
 import { markAsRead } from "../../../../lib/mark-as-read";
-import { NotificationType } from "../../../../data/notification/notification-type";
+import { NotificationType } from "../../../../types/notification-type";
 
 export default function NotificationsContainer() {
     const { user_input_generation } = useSchemaStore((state) => state);
