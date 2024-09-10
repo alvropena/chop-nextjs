@@ -16,10 +16,3 @@ export interface User {
   created_at: Date;
   updated_at: Date;
 }
-
-export interface AuthUser {
-  id: string;
-  email: string;
-}
-
-export type UserId = AuthUser["id"];

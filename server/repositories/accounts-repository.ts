@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { db } from "../db";
 import { hashPassword } from "../common";
-import type { UserId } from "@/types/user";
+import type { UserId } from "@/types/auth-type";
 
 export async function createAccount(userId: UserId, password: string) {
   const salt = crypto.randomBytes(128).toString("base64");

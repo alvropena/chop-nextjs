@@ -1,6 +1,6 @@
 import { db } from "../db";
 import { generateRandomToken } from "../common";
-import type { UserId } from "@/types/user";
+import type { UserId } from "@/types/auth-type";
 import { TOKEN_LENGTH, TOKEN_TTL } from "./magic-links-repository";
 
 export async function createVerifyEmailToken(userId: UserId) {
