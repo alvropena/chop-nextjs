@@ -2,6 +2,7 @@ import { db } from "../db";
 import { generateRandomToken } from "../common";
 
 export const TOKEN_LENGTH = 32;
+// TTL = time to live
 export const TOKEN_TTL = 1000 * 60 * 5; // 5 min
 export const VERIFY_EMAIL_TTL = 1000 * 60 * 60 * 24 * 7; // 7 days
 

@@ -1,6 +1,6 @@
 import { db } from "../db";
 import { generateRandomToken } from "../common";
-import { TOKEN_LENGTH, TOKEN_TTL } from "./magic-links.repository";
+import { TOKEN_LENGTH, TOKEN_TTL } from "./magic-links-repository";
 import type { UserId } from "@/types/user";
 
 export async function createPasswordResetToken(userId: UserId) {

@@ -1,7 +1,7 @@
 import { db } from "../db";
 import { generateRandomToken } from "../common";
 import type { UserId } from "@/types/user";
-import { TOKEN_LENGTH, TOKEN_TTL } from "./magic-links.repository";
+import { TOKEN_LENGTH, TOKEN_TTL } from "./magic-links-repository";
 
 export async function createVerifyEmailToken(userId: UserId) {
   const token = await generateRandomToken(TOKEN_LENGTH);
