@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useIsMounted } from "@/hooks/use-is-mounted";
+import { useIsMounted } from "../hooks/use-is-mounted";
 
 export default function Logo() {
     const { theme, systemTheme } = useTheme();

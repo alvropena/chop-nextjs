@@ -1,47 +1,40 @@
-'use client'
+'use client';
 
-import { type ReactNode, createContext, useRef, useContext } from 'react'
-import { useStore } from 'zustand'
-import {
-  NotificationsStore,
-  createNotificationsStore
-} from '../store/notifications-store'
-
-export type NotificationsStoreApi = ReturnType<typeof createNotificationsStore>
+import { type ReactNode, createContext, useContext, useRef } from 'react';
+import { useStore, StoreApi } from 'zustand';
+import { createNotificationsStore } from '../store/notification-store';
+import { NotificationsStore } from '../store/notification-store';
 
 export const NotificationsStoreContext = createContext<
-  NotificationsStoreApi | undefined
->(undefined)
+  StoreApi<ReturnType<typeof createNotificationsStore>> | undefined
+>(undefined);
 
 export interface NotificationsStoreProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const NotificationsStoreProvider = ({
-  children
+  children,
 }: NotificationsStoreProviderProps) => {
-  const storeRef = useRef<NotificationsStoreApi>()
+  const storeRef = useRef<ReturnType<typeof createNotificationsStore>>();
   if (!storeRef.current) {
-    storeRef.current = createNotificationsStore()
+    storeRef.current = createNotificationsStore();
   }
 
   return (
     <NotificationsStoreContext.Provider value={storeRef.current}>
       {children}
     </NotificationsStoreContext.Provider>
-  )
-}
+  );
+};
 
 export const useNotificationsStore = <T,>(
-  selector: (store: NotificationsStore) => T
+  selector: (state: NotificationsStore) => T
 ): T => {
-  const notificationsStoreContext = useContext(NotificationsStoreContext)
-
-  if (!notificationsStoreContext) {
-    throw new Error(
-      `notificationsStoreContext must be used within UserStoreProvider`
-    )
+  const store = useContext(NotificationsStoreContext);
+  if (!store) {
+    throw new Error('useNotificationsStore must be used within NotificationsStoreProvider');
   }
 
-  return useStore(notificationsStoreContext, selector)
-}
+  return useStore(store, selector);
+};

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { useIsMounted } from "@/hooks/use-is-mounted";
+import { useIsMounted } from "../hooks/use-is-mounted";
 import { Toggle } from "./ui/toggle"
 import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
