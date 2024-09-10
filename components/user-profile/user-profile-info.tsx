@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function ProfileInfo({ location, joinedDate, lastActiveDate, achievements }) {
+export function UserProfileInfo({ location, joinedDate, lastActiveDate, achievements }) {
     return (
         <div className="mt-6 p-4 flex-grow border-secondary rounded-lg">
             <div className="mt-4 space-y-2">

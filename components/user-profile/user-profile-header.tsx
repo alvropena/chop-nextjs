@@ -1,9 +1,18 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { BadgeCheck, MapPin, CalendarIcon } from "lucide-react";
+import { UserProfileType } from '../../types/user/user-profile-type';
 
-
-export function ProfileHeader({ username, name, bio, location, joinedDate, profilePicture, verified, getLocalizedPath }) {
+export function UserProfileHeader({
+    username,
+    name,
+    bio,
+    location,
+    created_at: joinedDate,
+    profile_picture: profilePicture,
+    verified,
+    getLocalizedPath
+}: UserProfileType & { getLocalizedPath: (path: string) => string }) {
     return (
         <div className='flex flex-row ml-4 items-center'>
             <div className="">

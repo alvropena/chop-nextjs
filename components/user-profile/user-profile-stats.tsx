@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-export function ProfileStats({ streak, followers, following, getLocalizedPath }) {
+export function UserProfileStats({ streak, followers, following, getLocalizedPath }) {
     return (
         <div className="mt-4 flex justify-around border-t pt-4">
             <div className="text-center">
