@@ -14,7 +14,7 @@ import { UserActivity } from '../../../components/user-profile/user-activity';
 import Link from 'next/link';
 
 export default function ProfilePage() {
-  const { user } = useUser(); // Get global user data from the context
+  const { user } = useUser();
 
   const pathname = usePathname();
   const locale = pathname.split('/')[1];
@@ -22,13 +22,13 @@ export default function ProfilePage() {
   const joinedDate = format(new Date(user.created_at), "MMMM yyyy");
   const lastActiveDate = format(new Date(user.updated_at), "MMM d, yyyy 'at' h:mm a");
 
-  const randomAchievements = user.achievements ? user.achievements.slice(0, 4) : []; // Adjust this as per your data structure
+  const randomAchievements = user.achievements ? user.achievements.slice(0, 4) : [];
 
   return (
     <div className="flex justify-center h-2/3 text-foreground p-4">
       <div className="flex flex-col space-6 w-full max-w-xl rounded-md">
 
-        {/* Profile Header Component */}
+
         <UserProfileHeader
           username={user.username}
           name={user.name}
@@ -55,7 +55,7 @@ export default function ProfilePage() {
           </Link>
         </div>
 
-        {/* Profile Topics Component */}
+
         <div className="mt-4 w-full">
           <TopicButtons
             selectedTopic={user.selectedTopic || ""}
@@ -74,7 +74,7 @@ export default function ProfilePage() {
           />
         </div>
 
-        {/* Profile Activity Component */}
+
         <UserActivity activities={user.activities || []} />
       </div>
     </div>
