@@ -53,6 +53,7 @@ export default async function middleware(
 export const config = {
   matcher: [
     "/",
+    "/:path*",
     "/(en|ja|es|ind)/:path*",
     "/home",
     "/search/:path*",

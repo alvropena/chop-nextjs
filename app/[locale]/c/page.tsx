@@ -1,5 +1,8 @@
-import { useRouter } from 'next/navigation';
+"use client";
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '../../../components/ui/button';
 
 export default function CommunityList() {
   const router = useRouter();
@@ -11,9 +14,9 @@ export default function CommunityList() {
   return (
     <div>
       <h1>Community List</h1>
-      <button onClick={() => handleNavigate('football')}>Football</button>
-      <button onClick={() => handleNavigate('wine')}>Wine</button>
-      <button onClick={() => handleNavigate('italian')}>Italian</button>
+      <Button onClick={() => handleNavigate('football')}>Football</Button>
+      <Button onClick={() => handleNavigate('wine')}>Wine</Button>
+      <Button onClick={() => handleNavigate('italian')}>Italian</Button>
     </div>
   );
 }
