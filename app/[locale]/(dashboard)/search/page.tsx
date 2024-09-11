@@ -1,27 +1,29 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import TopicButtons from "../../../../components/topic-buttons";
+import SearchTopicRow from "../../../../components/search-topic-row";
 import { useTranslations } from "next-intl";
 import { UserProfileData } from "../../../../data/user-profile-data";
-import { TopicData } from "../../../../data/topic-data";
 import { filterUserProfiles, filterTopics, updateRecentSearches, removeRecentSearch } from "../../../../lib/search-utils";
 import { SearchInput } from "../../../../components/search/search-input";
 import { SearchRecent } from "../../../../components/search/seach-recent";
 import { SearchResults } from "../../../../components/search/search-results";
 import { SearchType } from "../../../../types/search/search-type";
+import { useSearchTopic } from "../../../../hooks/use-search-topic";
 
 export default function SearchPage() {
   const t = useTranslations("SearchPage");
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchType[]>([]);
-  const [selectedTopic, setSelectedTopic] = useState<string>("geography");
 
   // Manage recent searches locally
   const [recentSearches, setRecentSearches] = useState<SearchType[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Use the SearchTopic global state
+  const { topics, selectedTopic, handleTopicClick } = useSearchTopic();
 
   useEffect(() => {
     if (inputRef.current) {
@@ -32,7 +34,7 @@ export default function SearchPage() {
   const handleSearch = () => {
     if (searchQuery) {
       const filteredUserProfiles = filterUserProfiles(UserProfileData, searchQuery);
-      const filteredTopics = filterTopics(TopicData, searchQuery);
+      const filteredTopics = filterTopics(topics, searchQuery); // Use global topics
       setSearchResults([...filteredUserProfiles, ...filteredTopics]);
     } else {
       setSearchResults([]);
@@ -61,10 +63,10 @@ export default function SearchPage() {
       />
 
       {!searchQuery && (
-        <TopicButtons
+        <SearchTopicRow
           selectedTopic={selectedTopic}
-          handleTopicClick={setSelectedTopic}
-          topics={TopicData.filter(topic => topic.userId === selectedTopic)} // Filter topics based on the user
+          handleTopicClick={handleTopicClick}
+          topics={topics} // Use the global topics
         />
       )}
 
@@ -79,6 +81,8 @@ export default function SearchPage() {
           </button>
         </div>
       </div>
+
+
     </div>
   );
 }
