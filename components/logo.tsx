@@ -4,7 +4,12 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useIsMounted } from "../hooks/use-is-mounted";
 
-export default function Logo() {
+interface LogoProps {
+    height?: number;
+    width?: number;
+}
+
+export default function Logo({height = 100, width = 100}:LogoProps) {
     const { theme, systemTheme } = useTheme();
     const isMounted = useIsMounted();
 
@@ -24,5 +29,5 @@ export default function Logo() {
     // Set the logo image based on the actual theme
     const LogoImage = getImage();
 
-    return <Image height={100} width={100} alt="logo" src={LogoImage} />;
+    return <Image height={height} width={width} alt="logo" src={LogoImage} />;
 }
