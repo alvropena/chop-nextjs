@@ -1,5 +1,36 @@
 import { z } from "zod";
 
+// Primitive Schemas:
+
+const passwordSchema = z.string().min(8);
+
+export const emailSchema = z
+  .string()
+  .email("Please enter a valid email address");
+
+// Composite Schemas:
+export const passwordResetSchema = z
+  .object({
+    password: passwordSchema,
+    token: z.string(),
+    passwordConfirmation: passwordSchema,
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "Passwords don't match",
+    path: ["passwordConfirmation"],
+  });
+
+export const registrationSchema = z
+  .object({
+    email: emailSchema,
+    password: passwordSchema,
+    passwordConfirmation: passwordSchema,
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "Passwords don't match",
+    path: ["passwordConfirmation"],
+  });
+
 export const promptSchema = z.object({
   prompt: z.string().min(1, { message: "Prompt cannot be empty" }),
 });
