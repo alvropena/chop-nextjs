@@ -9,7 +9,7 @@ import { UserId, UserSession } from "@/types/auth-type";
 import {
   createAccount,
   createAccountViaGoogle,
-  updatePassword,
+  updatePasswordTransaction,
 } from "../repositories/accounts-repository";
 import type { GoogleUser } from "@/types/auth-type";
 import {
@@ -30,7 +30,6 @@ import {
   AuthenticationError,
   EmailInUseError,
   LoginError,
-  NotFoundError,
 } from "../error-handler";
 
 export async function deleteUserUseCase(
@@ -115,9 +114,7 @@ export async function changePasswordUseCase(token: string, password: string) {
   }
 
   const userId = tokenEntry.userId;
-
-  await deletePasswordResetToken(token);
-  await updatePassword(userId, password);
+  await updatePasswordTransaction(userId, token, password);
 }
 
 export async function verifyEmailUseCase(token: string) {
