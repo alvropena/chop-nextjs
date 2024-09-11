@@ -11,7 +11,7 @@ import {
   createAccountViaGoogle,
   updatePassword,
 } from "../repositories/accounts-repository";
-// import { GoogleUser } from "@/app/api/login/google/callback/route";
+import type { GoogleUser } from "@/types/auth-type";
 import {
   createPasswordResetToken,
   deletePasswordResetToken,
@@ -79,17 +79,17 @@ export async function signInUseCase(email: string, password: string) {
   return { id: user.id };
 }
 
-// export async function createGoogleUserUseCase(googleUser: GoogleUser) {
-//   let existingUser = await getUserByEmail(googleUser.email);
+export async function createGoogleUserUseCase(googleUser: GoogleUser) {
+  let existingUser = await getUserByEmail(googleUser.email);
 
-//   if (!existingUser) {
-//     existingUser = await createUser(googleUser.email);
-//   }
+  if (!existingUser) {
+    existingUser = await createUser(googleUser.email);
+  }
 
-//   await createAccountViaGoogle(existingUser.id, googleUser.sub);
+  await createAccountViaGoogle(existingUser.id, googleUser.sub);
 
-//   return existingUser.id;
-// }
+  return existingUser.id;
+}
 
 export async function resetPasswordUseCase(email: string) {
   const user = await getUserByEmail(email);
