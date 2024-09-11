@@ -25,8 +25,15 @@ export default function SearchPage() {
     const debounceTimer = setTimeout(() => {
       if (searchQuery) {
         const { users, topics } = searchUsersAndTopics(searchQuery);  // Call the search function
-        setSearchResults({ users, topics });
-        setSearchClicked(true);  // Search has been triggered
+
+        // If no results, clear everything
+        if (users.length === 0 && topics.length === 0) {
+          setSearchResults({ users: [], topics: [] });
+          setSearchClicked(false);  // Return to default screen when no matches are found
+        } else {
+          setSearchResults({ users, topics });
+          setSearchClicked(true);  // Search has been triggered
+        }
       } else {
         setSearchResults({ users: [], topics: [] });
         setSearchClicked(false);  // Clear search when query is empty
@@ -47,8 +54,9 @@ export default function SearchPage() {
   };
 
   const handleResultClick = (result: SearchType) => {
-    console.log("Result clicked:", result);  // Perform action on result click (e.g., navigate to profile, topic, etc.)
-    // You can implement navigation or action here based on the result (e.g., redirect to user profile or topic)
+    setRecentSearches((prevSearches) => [...new Set([result, ...prevSearches])]);  // Track recent searches without duplicates
+    setSearchQuery("");  // Clear the search input after a result is clicked
+    setSearchClicked(false);  // Redirect back to default screen
   };
 
   const handleRemoveRecentSearch = (searchId: string) => {
@@ -66,7 +74,7 @@ export default function SearchPage() {
         inputRef={inputRef}
       />
 
-      {/* Show TopicButtons when search has NOT been clicked */}
+      {/* Show TopicButtons and recent searches when search has NOT been clicked */}
       {!searchClicked && (
         <>
           <TopicButtons
@@ -89,14 +97,15 @@ export default function SearchPage() {
           {recentSearches.length === 0 ? (
             <p className="text-gray-500">{t("noRecentSearches")}</p>
           ) : (
-            <ul>
+            <ul className="flex space-x-4">
               {recentSearches.map((search) => (
                 <li
                   key={search.id}
-                  className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
+                  className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg flex items-center"
                   onClick={() => handleRemoveRecentSearch(search.id)}  // Remove recent search on click
                 >
-                  {search.label}
+                  {search.emoji && <span className="text-lg">{search.emoji}</span>}  {/* Emoji if it's a topic */}
+                  <span className="ml-2 font-bold">{search.label}</span>
                 </li>
               ))}
             </ul>
@@ -139,9 +148,6 @@ export default function SearchPage() {
                     <div className="flex items-center">
                       <span className="text-lg">{topic.emoji}</span>  {/* Display the emoji */}
                       <span className="ml-2 font-bold">t/{topic.label}</span>  {/* Display the topic name as t/label */}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {generateRandomMembers()}  {/* Display random member count */}
                     </div>
                   </li>
                 ))}

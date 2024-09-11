@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { HomeIcon, SearchIcon, BellIcon, UserIcon, SettingsIcon, PanelLeftCloseIcon } from "lucide-react";
+import { HomeIcon, SearchIcon, BellIcon, UserIcon, SettingsIcon, PanelLeftCloseIcon, MessageCircle, UsersIcon } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
 import Logo from "./logo";
 import { useTranslations } from "next-intl";
@@ -75,6 +75,7 @@ export default function AsideMenu({ }) {
           </DialogContent>
         </Dialog>
         <NavLink href="/notifications" icon={<BellIcon className="h-5 w-5" />} label={t("notifications")} collapsed={isCollapsed} tooltipSide="right" />
+        <NavLink href="/c" icon={<UsersIcon className="h-5 w-5" />} label={t("communities")} collapsed={isCollapsed} tooltipSide="right" />
         {/* This NavLink will navigate to the user's profile based on their username */}
         <NavLink href={`/${userProfile.username}`} icon={<UserIcon className="h-5 w-5" />} label={t("profile")} collapsed={isCollapsed} tooltipSide="right" />
 

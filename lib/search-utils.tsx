@@ -5,7 +5,7 @@ import { SearchTopicData } from "../data/search-topic-data";
 import { UserProfileType } from "../types/user/user-profile-type";
 import { SearchTopicType } from "../types/search/search-topic-type";
 
-// Function to filter users and topics based on the search query
+// Function to filter users and topics based on the search query, and remove duplicate topics
 export function searchUsersAndTopics(query: string): { users: UserProfileType[]; topics: SearchTopicType[] } {
     const lowerQuery = query.toLowerCase();
 
@@ -17,10 +17,10 @@ export function searchUsersAndTopics(query: string): { users: UserProfileType[];
             user.bio.toLowerCase().includes(lowerQuery)
     );
 
-    // Filter topics based on label
-    const filteredTopics = SearchTopicData.filter((topic) =>
-        topic.label.toLowerCase().includes(lowerQuery)
-    );
+    // Filter topics based on label and remove duplicates
+    const filteredTopics = Array.from(
+        new Set(SearchTopicData.map(topic => topic.label.toLowerCase()))
+    ).map(label => SearchTopicData.find(topic => topic.label.toLowerCase() === label)!);
 
     return { users: filteredUsers, topics: filteredTopics };
 }
