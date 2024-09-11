@@ -19,6 +19,7 @@ import GoogleAdsense from '../../components/google-adsense';
 import { NotificationsProvider } from '../../providers/notifications-provider';
 import { PromptProvider } from '../../providers/prompt-provider';
 import { UserProvider } from '../../providers/user-provider';
+import { SearchTopicProvider } from '../../providers/search-topic-provider';
 
 const PostHogPageView = dynamic(() => import("./posthog-page-view"), {
   ssr: false,
@@ -62,11 +63,13 @@ export default function RootLayout({
                 <UserProvider>
                   <NotificationsProvider>
                     <PromptProvider>
-                      <PostHogPageView />
-                      {children}
-                      <GoogleAdsense pId="（AdsenseのID）" />
-                      <Analytics mode={"production"} />
-                      <SpeedInsights />
+                      <SearchTopicProvider>
+                        <PostHogPageView />
+                        {children}
+                        <GoogleAdsense pId="（AdsenseのID）" />
+                        <Analytics mode={"production"} />
+                        <SpeedInsights />
+                      </SearchTopicProvider>
                     </PromptProvider>
                   </NotificationsProvider>
                 </UserProvider>

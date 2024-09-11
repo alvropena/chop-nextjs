@@ -1,21 +1,25 @@
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { SearchIcon } from "lucide-react";
+import { XIcon } from "lucide-react";  // Import XIcon for the clear button
 import { SearchInputType } from "../../types/search/search-input-type";
 
-export function SearchInput({ searchQuery, setSearchQuery, handleSearch, inputRef }: SearchInputType) {
+export function SearchInput({ searchQuery, setSearchQuery, handleClearSearch, inputRef }: SearchInputType) {
     return (
-        <div className="flex gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-4 relative">
+            {/* Input Field */}
             <Input
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}  // Update search query dynamically
                 ref={inputRef}
+                className="pr-10"  // Padding-right to make space for the X button
             />
-            <Button variant="default" onClick={handleSearch}>
-                <SearchIcon />
-            </Button>
+
+            {/* Always show the X button inside the input, regardless of searchQuery */}
+            <XIcon
+                className="absolute right-14 cursor-pointer text-gray-500 hover:text-black"
+                onClick={handleClearSearch}  // Call handleClearSearch to reset the search
+            />
         </div>
     );
 }

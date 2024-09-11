@@ -7,7 +7,7 @@ import { useUser } from '../../../hooks/use-user';
 import { LineChart } from 'lucide-react';
 import { PersonIcon } from '@radix-ui/react-icons';
 import { Button } from '../../../components/ui/button';
-import TopicButtons from '../../../components/topic-buttons';
+import TopicButtons from '../../../components/search-topic-row';
 import { UserProfileHeader } from '../../../components/user-profile/user-header';
 import { UserAchievement } from '../../../components/user-profile/user-achievement';
 import { UserActivity } from '../../../components/user-profile/user-activity';

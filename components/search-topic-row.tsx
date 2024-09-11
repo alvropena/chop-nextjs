@@ -1,21 +1,12 @@
+// components/SearchTopicRow.tsx
+
 import React, { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useSearchTopic } from "../hooks/use-search-topic";
+import { SearchTopicButton } from "./search-topic-button";
 
-type TopicButtonsProps = {
-  selectedTopic: string;
-  handleTopicClick: (topic: string) => void;
-  topics: { id: string; label: string }[];
-  title?: string;
-  showChevron?: boolean;
-};
-
-export default function TopicButtons({
-  selectedTopic,
-  handleTopicClick,
-  topics,
-  title,
-  showChevron = true,
-}: TopicButtonsProps) {
+export default function SearchTopicRow({ title, showChevron = true }) {
+  const { topics, selectedTopic, handleTopicClick } = useSearchTopic();
   const [startIndex, setStartIndex] = useState(0);
 
   const handleNext = () => {
@@ -47,14 +38,14 @@ export default function TopicButtons({
 
         <div className={`flex flex-row ${showChevron ? "gap-4" : "gap-2 w-full"}`}>
           {topics.slice(startIndex, startIndex + 3).map((topic) => (
-            <CustomButton
+            <SearchTopicButton
               key={topic.id}
               onClick={() => handleTopicClick(topic.id)}
               isSelected={topic.id === selectedTopic}
               fullWidth={!showChevron}  // Pass the fullWidth prop based on showChevron
             >
-              {topic.label}
-            </CustomButton>
+              {topic.emoji} {topic.label} {/* Display emoji and label */}
+            </SearchTopicButton>
           ))}
         </div>
 
@@ -70,31 +61,5 @@ export default function TopicButtons({
         )}
       </div>
     </div>
-  );
-}
-
-type CustomButtonProps = {
-  children: React.ReactNode;
-  onClick: () => void;
-  isSelected?: boolean;
-  fullWidth?: boolean;  // New prop to control the button width
-};
-
-function CustomButton({
-  children,
-  onClick,
-  isSelected = false,
-  fullWidth = false,
-}: CustomButtonProps) {
-  return (
-    <button
-      className={`h-9 ${fullWidth ? "flex-1" : "w-28"} text-sm font-medium rounded-md transition-colors bg-background border border-input text-foreground ${isSelected
-        ? "bg-accent text-accent-foreground"
-        : "hover:bg-accent hover:text-accent-foreground"
-        }`}
-      onClick={onClick}
-    >
-      {children}
-    </button>
   );
 }
