@@ -3,6 +3,9 @@ export const HttpStatus = {
   CREATED: 201,
   ACCEPTED: 202,
   NO_CONTENT: 204,
+  MOVED_PERMANENTLY: 301,
+  FOUND: 302,
+  NOT_MODIFIED: 304,
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
@@ -25,6 +28,12 @@ export const HttpStatus = {
         return "Accepted";
       case this.NO_CONTENT:
         return "No Content";
+      case this.MOVED_PERMANENTLY:
+        return "Moved Permanently";
+      case this.FOUND:
+        return "Found";
+      case this.NOT_MODIFIED:
+        return "Not Modified";
       case this.BAD_REQUEST:
         return "Bad Request";
       case this.UNAUTHORIZED:
