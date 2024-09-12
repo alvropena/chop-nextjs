@@ -10,12 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-// import { Terminal } from "lucide-react";
+import { LoadingButton } from "@/components/composites/loading-button";
 import { useToast } from "@/components/ui/use-toast";
 import { registrationSchema } from "@/zod/validation-schema";
-import { LoaderCircle } from "lucide-react";
 import { z } from "zod";
 import { useState } from "react";
 
@@ -45,7 +42,7 @@ export function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
         <FormField
           control={form.control}
           name="email"
@@ -102,22 +99,9 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-
-        {/* {isError && (
-          <Alert variant="destructive">
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Uhoh, we couldn&apos;t log you in</AlertTitle>
-            <AlertDescription>{"error.message"}</AlertDescription>
-          </Alert>
-        )} */}
-
-        <Button className="w-full" type="submit">
-          {isError ? (
-            <LoaderCircle className="animate-spin text-black size-6" />
-          ) : (
-            "Register"
-          )}
-        </Button>
+        <LoadingButton className="w-full" type="submit" isLoading={false}>
+          Register
+        </LoadingButton>
       </form>
     </Form>
   );

@@ -1,7 +1,6 @@
 "use client";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -11,31 +10,31 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { passwordResetSchema } from "@/zod/validation-schema";
-import { useToast } from "@/components/ui/use-toast";
 import { LoadingButton } from "@/components/composites/loading-button";
+import { useToast } from "@/components/ui/use-toast";
+import { loginSchema } from "@/zod/validation-schema";
+import { z } from "zod";
+import { useState } from "react";
 
-type ResetPasswordFormValues = z.infer<typeof passwordResetSchema>;
+type LoginFormValues = z.infer<typeof loginSchema>;
 
-interface Props {
-  token?: string;
-}
-
-export function ResetPasswordForm({ token }: Props) {
+export function LoginForm() {
   const { toast } = useToast();
-  const form = useForm<ResetPasswordFormValues>({
-    resolver: zodResolver(passwordResetSchema),
+  const [isError, setIsError] = useState(false);
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
+      email: "",
       password: "",
-      passwordConfirmation: "",
     },
   });
 
-  const onSubmit = (values: ResetPasswordFormValues) => {
-    console.log({ ...values, token });
+  const onSubmit = (values: LoginFormValues) => {
+    console.log(values);
+    setIsError(true);
     toast({
       title: "Success",
-      description: "Your registration has been successful, you can login now",
+      description: "Login success",
       variant: "default",
     });
   };
@@ -43,6 +42,25 @@ export function ResetPasswordForm({ token }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  className="w-full"
+                  placeholder="Enter your email"
+                  type="email"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="password"
@@ -53,7 +71,7 @@ export function ResetPasswordForm({ token }: Props) {
                 <Input
                   {...field}
                   className="w-full"
-                  placeholder="Enter your new password"
+                  placeholder="Enter your password"
                   type="password"
                 />
               </FormControl>
@@ -62,27 +80,8 @@ export function ResetPasswordForm({ token }: Props) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="passwordConfirmation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  className="w-full"
-                  placeholder="Enter Confirm your Password"
-                  type="password"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <LoadingButton isLoading={false} className="w-full" type="submit">
-          Change Password
+        <LoadingButton className="w-full" type="submit" isLoading={false}>
+          Sign in
         </LoadingButton>
       </form>
     </Form>
