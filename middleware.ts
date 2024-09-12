@@ -67,7 +67,7 @@ export const config = {
     "/c/:path*",
     "/contact",
     "/sign-up",
-    "/sign-in",
-    "/password-reset",
+    "/sign-in/:path*",
+    "/reset-password",
   ],
 };
