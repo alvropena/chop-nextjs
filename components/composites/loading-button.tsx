@@ -1,7 +1,7 @@
 import { LoaderCircle } from "lucide-react";
 import { Button } from "../ui/button";
-import { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import type { ComponentPropsWithoutRef } from "react";
 
 interface LoadingButtonProps extends ComponentPropsWithoutRef<typeof Button> {
   isLoading?: boolean;
