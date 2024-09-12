@@ -2,7 +2,10 @@ import { z } from "zod";
 
 // Primitive Schemas:
 
-const passwordSchema = z.string().min(8);
+const passwordSchema = z
+  .string()
+  .min(8, { message: "Password must be at least 8 characters" })
+  .max(100, { message: "Password must be 60 characters maximum" });
 
 export const emailSchema = z
   .string()
