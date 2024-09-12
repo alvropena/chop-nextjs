@@ -11,33 +11,41 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal } from "lucide-react";
+// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+// import { Terminal } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { registrationSchema } from "@/zod/validation-schema";
+import { LoaderCircle } from "lucide-react";
 import { z } from "zod";
+import { useState } from "react";
 
 type RegisterFormValues = z.infer<typeof registrationSchema>;
 
 export function RegisterForm() {
   const { toast } = useToast();
-  const error = null;
+  const [isError, setIsError] = useState(false);
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registrationSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+    },
   });
 
   const onSubmit = (values: RegisterFormValues) => {
     console.log(values);
+    setIsError(true);
     toast({
-      title: "Le titulo",
-      description: "la descripcione",
-      variant: "destructive",
+      title: "Success",
+      description: "Your registration has been successful, you can login now",
+      variant: "default",
     });
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
         <FormField
           control={form.control}
           name="email"
@@ -86,7 +94,7 @@ export function RegisterForm() {
                 <Input
                   {...field}
                   className="w-full"
-                  placeholder="Enter Confirm your Password"
+                  placeholder="Confirm your password"
                   type="password"
                 />
               </FormControl>
@@ -95,16 +103,20 @@ export function RegisterForm() {
           )}
         />
 
-        {error && (
+        {/* {isError && (
           <Alert variant="destructive">
             <Terminal className="h-4 w-4" />
             <AlertTitle>Uhoh, we couldn&apos;t log you in</AlertTitle>
             <AlertDescription>{"error.message"}</AlertDescription>
           </Alert>
-        )}
+        )} */}
 
         <Button className="w-full" type="submit">
-          Register
+          {isError ? (
+            <LoaderCircle className="animate-spin text-black size-6" />
+          ) : (
+            "Register"
+          )}
         </Button>
       </form>
     </Form>
