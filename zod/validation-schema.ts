@@ -34,6 +34,17 @@ export const registrationSchema = z
     path: ["passwordConfirmation"],
   });
 
+export const loginSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+export const magicLinkSchema = z.object({
+  email: emailSchema,
+});
+
+export const forgotPasswordSchema = magicLinkSchema;
+
 export const promptSchema = z.object({
   prompt: z.string().min(1, { message: "Prompt cannot be empty" }),
 });
