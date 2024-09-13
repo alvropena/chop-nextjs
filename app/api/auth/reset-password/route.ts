@@ -1,8 +1,4 @@
-import {
-  rateLimitByKey,
-  DEFAULT_TIME_WINDOW,
-  rateLimitByIp,
-} from "@/lib/auth/limiter";
+import { DEFAULT_TIME_WINDOW, rateLimitByIp } from "@/lib/auth/limiter";
 import { changePasswordSchema } from "@/zod/validation-schema";
 import { NextResponse } from "next/server";
 import { handleCommonError } from "@/server/error-handler";
