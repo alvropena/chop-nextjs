@@ -1,88 +1,102 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import TopicButtons from "../../../../components/search-topic-row";
+import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { SearchInput } from "../../../../components/search/search-input";
-import { searchUsersAndTopics } from "../../../../lib/search-utils";  // Import the search function
-import { SearchType } from "../../../../types/search/search-type";
+import { useSearch } from "../../../../hooks/use-search";
+import { handleInputChange } from "../../../../lib/search-utils";
+import { SearchResultType } from "../../../../types/search/search-result-type";
+import { SearchUserType } from "../../../../types/search/search-user-type";
+import { SearchTopicType } from "../../../../types/search/search-topic-type";
+import { X } from "lucide-react";
+import { useRouter } from "next/navigation";  // Import useRouter
 
 export default function SearchPage() {
   const t = useTranslations("SearchPage");
-
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<{ users: SearchType[]; topics: SearchType[] }>({
-    users: [],
-    topics: [],
-  });
-  const [recentSearches, setRecentSearches] = useState<SearchType[]>([]);  // Track recent searches
-  const [searchClicked, setSearchClicked] = useState<boolean>(false);  // Track if search is active
+  const router = useRouter();  // Initialize the Next.js router for navigation
+  const {
+    query,
+    recentSearches,
+    searchResults,
+    searchClicked,
+    setQuery,
+    setSearchResults,
+    addRecentSearch,
+    setSearchClicked,
+    handleClearAll,
+    handleClearSearch,
+    handleRemoveRecentSearch,
+  } = useSearch();  // Access global state and functions via the context
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Debounce the search to prevent too many updates on fast typing
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
-      if (searchQuery) {
-        const { users, topics } = searchUsersAndTopics(searchQuery);  // Call the search function
-
-        // If no results, clear everything
-        if (users.length === 0 && topics.length === 0) {
-          setSearchResults({ users: [], topics: [] });
-          setSearchClicked(false);  // Return to default screen when no matches are found
-        } else {
-          setSearchResults({ users, topics });
-          setSearchClicked(true);  // Search has been triggered
-        }
+      if (query) {
+        setSearchClicked(true);  // Mark search as happening
+        handleInputChange(query, setQuery, (results: SearchResultType[]) => {
+          setSearchResults(results);  // Set the search results directly
+        });
       } else {
-        setSearchResults({ users: [], topics: [] });
-        setSearchClicked(false);  // Clear search when query is empty
+        setSearchResults([]);  // Reset search results when query is empty
+        setSearchClicked(false);  // Reset to show recent searches if query is cleared
       }
     }, 300);  // Debounce time of 300ms
 
     return () => clearTimeout(debounceTimer);  // Cleanup the debounce timer
-  }, [searchQuery]);
+  }, [query]);
 
-  const handleClearAll = () => {
-    setRecentSearches([]);  // Clear all recent searches
+  const handleResultClick = (result: SearchResultType) => {
+    addRecentSearch(result);  // Track recent searches globally
+    setQuery("");  // Clear the search input after a result is clicked
+    setSearchClicked(false);  // Reset search clicked
+
+    // Navigate to user profile if it's a user result
+    if ('username' in result) {
+      router.push(`/${result.username}`);  // Navigate to the user profile
+    }
+
+    // Navigate to community page if it's a topic result
+    if ('label' in result) {
+      const communityLabel = result.label.toLowerCase().replace(/\s+/g, "-");  // Convert label to a URL-friendly format
+      router.push(`/c/${communityLabel}`);  // Navigate to the community page by label
+    }
   };
 
-  const handleClearSearch = () => {
-    setSearchQuery("");  // Clear search query
-    setSearchResults({ users: [], topics: [] });  // Clear search results
-    setSearchClicked(false);  // Return to recent searches view
+  // Narrowing type by checking for unique properties
+  const isUser = (result: SearchResultType): result is SearchUserType => {
+    return 'username' in result;
   };
 
-  const handleResultClick = (result: SearchType) => {
-    setRecentSearches((prevSearches) => [...new Set([result, ...prevSearches])]);  // Track recent searches without duplicates
-    setSearchQuery("");  // Clear the search input after a result is clicked
-    setSearchClicked(false);  // Redirect back to default screen
+  const isTopic = (result: SearchResultType): result is SearchTopicType => {
+    return 'emoji' in result;
   };
 
-  const handleRemoveRecentSearch = (searchId: string) => {
-    setRecentSearches((prevSearches) =>
-      prevSearches.filter((search) => search.id !== searchId)  // Remove the clicked recent search
-    );
-  };
+  const userResults = searchResults.filter(isUser);
+  const topicResults = searchResults.filter(isTopic);
 
   return (
     <div className="flex flex-col gap-4 py-8">
-      <SearchInput
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        handleClearSearch={handleClearSearch}  // Handle clearing search
-        inputRef={inputRef}
-      />
+      {/* Search Input */}
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          ref={inputRef}
+          className="border border-gray-300 rounded px-3 py-2 w-full"
+          placeholder={t("searchPlaceholder")}
+        />
+        {query && (
+          <button onClick={handleClearSearch} className="bg-secondary p-1 rounded-full">
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
 
-      {/* Show TopicButtons and recent searches when search has NOT been clicked */}
+      {/* Show recent searches when search has NOT been clicked */}
       {!searchClicked && (
         <>
-          <TopicButtons
-            selectedTopic=""  // No need to select topic here, just display default topics
-            handleTopicClick={() => { }}  // No interaction needed
-            topics={[]}  // Pass any default topics if needed
-          />
-
           <div className="flex justify-between items-center">
             <h2 className="font-bold">{t("recentSearchTitle")}</h2>
             <button
@@ -102,10 +116,10 @@ export default function SearchPage() {
                 <li
                   key={search.id}
                   className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg flex items-center"
-                  onClick={() => handleRemoveRecentSearch(search.id)}  // Remove recent search on click
+                  onClick={() => handleRemoveRecentSearch(search.id)}  // Use global function to remove recent search
                 >
-                  {search.emoji && <span className="text-lg">{search.emoji}</span>}  {/* Emoji if it's a topic */}
-                  <span className="ml-2 font-bold">{search.label}</span>
+                  {isTopic(search) && <span className="text-lg">{search.emoji}</span>}  {/* Display emoji for topics */}
+                  <span className="ml-2 font-bold">{search.label || search.username}</span>  {/* Show label or username */}
                 </li>
               ))}
             </ul>
@@ -116,47 +130,57 @@ export default function SearchPage() {
       {/* After typing, show search results */}
       {searchClicked && (
         <div>
-          {searchResults.users.length > 0 || searchResults.topics.length > 0 ? (
-            <div>
-              {/* Display Users */}
-              <h3>{t("userResultsTitle")}</h3>
-              <ul>
-                {searchResults.users.map((user) => (
-                  <li
-                    key={user.id}
-                    className="cursor-pointer flex items-center gap-4 hover:bg-gray-100 p-2 rounded-lg"
-                    onClick={() => handleResultClick(user)}  // Make user item clickable
-                  >
-                    <img src={user.profile_picture} alt={user.name} className="w-10 h-10 rounded-full" />
-                    <div>
-                      <p>{user.name}</p>
-                      <p className="text-sm text-gray-500">@{user.username}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Display Topics */}
-              <h3>{t("topicResultsTitle")}</h3>
-              <ul>
-                {searchResults.topics.map((topic) => (
-                  <li
-                    key={topic.id}
-                    className="cursor-pointer flex items-center gap-4 hover:bg-gray-100 p-2 rounded-lg"
-                    onClick={() => handleResultClick(topic)}  // Make topic item clickable
-                  >
-                    <div className="flex items-center">
-                      <span className="text-lg">{topic.emoji}</span>  {/* Display the emoji */}
-                      <span className="ml-2 font-bold">t/{topic.label}</span>  {/* Display the topic name as t/label */}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
+          {userResults.length === 0 && topicResults.length === 0 ? (
             <div>
               <h2>{t("noResults")}</h2>  {/* Show no results message */}
             </div>
+          ) : (
+            <>
+              {/* Display Users if there are user results */}
+              {userResults.length > 0 && (
+                <>
+                  <h3>{t("userResultsTitle")}</h3>
+                  <ul>
+                    {userResults.map((user) => (
+                      <li
+                        key={user.id}
+                        className="cursor-pointer flex items-center gap-4 hover:bg-secondary p-2 rounded-lg"
+                        onClick={() => handleResultClick(user)}  // Store user in recent searches, close search, navigate
+                      >
+                        <div className="flex items-center gap-4">
+                          <img src={user.profilePicture} alt={user.name} className="w-10 h-10 rounded-full" />
+                          <div>
+                            <p>{user.name}</p>
+                            <p className="text-sm text-gray-500">@{user.username}</p>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {/* Display Topics if there are topic results */}
+              {topicResults.length > 0 && (
+                <>
+                  <h3>{t("topicResultsTitle")}</h3>
+                  <ul>
+                    {topicResults.map((topic) => (
+                      <li
+                        key={topic.id}
+                        className="cursor-pointer flex items-center gap-4 hover:bg-secondary p-2 rounded-lg"
+                        onClick={() => handleResultClick(topic)}  // Store topic in recent searches, close search, navigate
+                      >
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200">
+                          <span className="text-lg">{topic.emoji}</span>
+                        </div>
+                        <span className="ml-2 font-bold">{topic.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </>
           )}
         </div>
       )}

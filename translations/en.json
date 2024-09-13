@@ -223,6 +223,11 @@
     "searchPlaceholder": "Search anything...",
     "recentTitle": "Recent",
     "clearAllButton": "Clear All",
-    "noRecentSearches": "No recent searches."
+    "noRecentSearches": "No recent searches.",
+    "recentSearchTitle": "Recent Searches",
+    "userResultsTitle": "Users",
+    "communitiesResultsTitle": "Communities",
+    "noResults": "No results found.",
+    "clearSearchButton": "Clear"
   }
 }

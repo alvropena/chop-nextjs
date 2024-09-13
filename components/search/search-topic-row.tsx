@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useSearchTopic } from "../hooks/use-search-topic";
+import { useSearchTopic } from "../../hooks/use-search";
 import { SearchTopicButton } from "./search-topic-button";
 
 export default function SearchTopicRow({ title, showChevron = true }) {
