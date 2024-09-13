@@ -20,6 +20,7 @@ import { NotificationsProvider } from '../../providers/notifications-provider';
 import { PromptProvider } from '../../providers/prompt-provider';
 import { UserProvider } from '../../providers/user-provider';
 import { SearchTopicProvider } from '../../providers/search-topic-provider';
+import { ReactQueryProvider } from '../../providers/react-query-provider';
 
 const PostHogPageView = dynamic(() => import("./posthog-page-view"), {
   ssr: false,
@@ -59,21 +60,23 @@ export default function RootLayout({
               locale={locale}
               messages={messages as AbstractIntlMessages}
             >
-              <Auth0UserProvider>
-                <UserProvider>
-                  <NotificationsProvider>
-                    <PromptProvider>
-                      <SearchTopicProvider>
-                        <PostHogPageView />
-                        {children}
-                        <GoogleAdsense pId="（AdsenseのID）" />
-                        <Analytics mode={"production"} />
-                        <SpeedInsights />
-                      </SearchTopicProvider>
-                    </PromptProvider>
-                  </NotificationsProvider>
-                </UserProvider>
-              </Auth0UserProvider>
+              <ReactQueryProvider>
+                <Auth0UserProvider>
+                  <UserProvider>
+                    <NotificationsProvider>
+                      <PromptProvider>
+                        <SearchTopicProvider>
+                          <PostHogPageView />
+                          {children}
+                          <GoogleAdsense pId="（AdsenseのID）" />
+                          <Analytics mode={"production"} />
+                          <SpeedInsights />
+                        </SearchTopicProvider>
+                      </PromptProvider>
+                    </NotificationsProvider>
+                  </UserProvider>
+                </Auth0UserProvider>
+              </ReactQueryProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
           <Toaster />
