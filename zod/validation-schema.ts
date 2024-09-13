@@ -23,6 +23,11 @@ export const passwordResetSchema = z
     path: ["passwordConfirmation"],
   });
 
+export const changePasswordSchema = z.object({
+  password: passwordSchema,
+  token: z.string(),
+});
+
 export const registrationSchema = z
   .object({
     email: emailSchema,
