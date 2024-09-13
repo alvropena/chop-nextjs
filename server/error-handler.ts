@@ -161,16 +161,17 @@ export const handlePrismaError = (
 };
 
 export const handleZodError = (error: ZodError) => {
-  // Get the first validation error
-  const firstError = error.issues[0];
-
-  // Construct a human-readable error message
-  const message = `${firstError.path[0]}: ${firstError.message}`;
+  const messages = error.issues
+    .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+    .join(", ");
 
   return NextResponse.json(
     {
-      message,
-      error,
+      message: messages,
+      error: {
+        name: error.name,
+        issues: error.issues,
+      },
     },
     { status: HttpStatus.BAD_REQUEST }
   );
