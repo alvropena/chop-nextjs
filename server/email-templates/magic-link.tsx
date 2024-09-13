@@ -14,7 +14,7 @@ import {
   Text,
 } from "@react-email/components";
 
-import { APPLICATION_NAME, BASE_URL } from "@/data/app-data";
+import { APPLICATION_NAME, BASE_URL, LOGO_FOR_EMAIL } from "@/data/app-data";
 
 export default function MagicLinkEmail({ token }: { token: string }) {
   const previewText = `You're been invited to a group!`;
@@ -28,10 +28,10 @@ export default function MagicLinkEmail({ token }: { token: string }) {
             <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
               <Section className="mt-[32px]">
                 <Img
-                  src={`${BASE_URL}/logo.png`}
+                  src={`${LOGO_FOR_EMAIL}`}
                   width="160"
                   height="48"
-                  alt="StarterKit"
+                  alt="Chop"
                   className="mx-auto my-0"
                 />
               </Section>
@@ -43,7 +43,7 @@ export default function MagicLinkEmail({ token }: { token: string }) {
 
                 <Text className="text-[14px] font-medium leading-[24px] text-black">
                   <Link
-                    href={`${BASE_URL}/api/login/magic?token=${token}`}
+                    href={`${BASE_URL}/api/auth/sign-in/magic?token=${token}`}
                     target="_blank"
                     className="text-[#2754C5] underline"
                   >

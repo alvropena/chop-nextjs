@@ -14,7 +14,7 @@ import {
   Text,
 } from "@react-email/components";
 
-import { APPLICATION_NAME, BASE_URL } from "@/data/app-data";
+import { APPLICATION_NAME, BASE_URL, LOGO_FOR_EMAIL } from "@/data/app-data";
 
 export default function VerifyEmail({ token }: { token: string }) {
   return (
@@ -27,10 +27,10 @@ export default function VerifyEmail({ token }: { token: string }) {
             <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
               <Section className="mt-[32px]">
                 <Img
-                  src={`${BASE_URL}/group.jpeg`}
+                  src={`${LOGO_FOR_EMAIL}`}
                   width="160"
                   height="48"
-                  alt="StarterKit"
+                  alt="Chop"
                   className="mx-auto my-0"
                 />
               </Section>
@@ -42,7 +42,7 @@ export default function VerifyEmail({ token }: { token: string }) {
 
                 <Text className="text-[14px] font-medium leading-[24px] text-black">
                   <Link
-                    href={`${BASE_URL}/api/login/verify-email?token=${token}`}
+                    href={`${BASE_URL}/api/auth/sign-in/verify-email?token=${token}`}
                     target="_blank"
                     className="text-[#2754C5] underline"
                   >
