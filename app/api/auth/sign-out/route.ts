@@ -1,13 +1,17 @@
 import { lucia, validateRequest } from "@/lib/auth/lucia";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
+import { HttpStatus } from "@/server/http-status-codes";
 
 export async function GET(): Promise<Response> {
   // await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const { session } = await validateRequest();
   if (!session) {
-    redirect("/sign-in");
+    return NextResponse.json(
+      { redirectTo: "/sign-in" },
+      { status: HttpStatus.OK }
+    );
   }
 
   await lucia.invalidateSession(session.id);
@@ -17,5 +21,8 @@ export async function GET(): Promise<Response> {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  redirect("/signed-out");
+  return NextResponse.json(
+    { redirectTo: "/signed-out" },
+    { status: HttpStatus.OK }
+  );
 }
