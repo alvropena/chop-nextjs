@@ -3,6 +3,8 @@ import { getIp } from "./get-ip";
 
 const PRUNE_INTERVAL = 60 * 1000; // 1 minute
 
+export const DEFAULT_TIME_WINDOW = 10000 as const; //10 seconds
+
 const trackers = new Map<
   string,
   {
@@ -24,7 +26,7 @@ function pruneTrackers() {
 export async function rateLimitByKey({
   key = "global",
   limit = 1,
-  window = 10000,
+  window = DEFAULT_TIME_WINDOW,
 }: {
   key: string;
   limit: number;
@@ -51,7 +53,7 @@ setInterval(pruneTrackers, PRUNE_INTERVAL);
 export async function rateLimitByIp({
   key = "global",
   limit = 1,
-  window = 10000,
+  window = DEFAULT_TIME_WINDOW,
 }: {
   key: string;
   limit: number;
