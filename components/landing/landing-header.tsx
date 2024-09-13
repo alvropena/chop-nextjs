@@ -41,23 +41,27 @@ export default function LandingHeader() {
                 {/* Log In button for large screens */}
                 <ThemeToggle variant='toggle' />
                 <Button
+                    asChild
                     variant="default"
                     className="hidden md:flex h-9 px-4 text-sm font-medium"
-                    onClick={() => router.push("/api/auth/login")}
                 >
-                    <LogIn className="h-4 w-4 mr-2" />
-                    {t("login")}
+                    <Link href="/sign-in" >
+                        <LogIn className="h-4 w-4 mr-2" />
+                        {t("login")}
+                    </Link>
                 </Button>
 
                 {/* For small screens: Log In button and MenuIcon */}
                 <div className="flex md:hidden items-center gap-2">
                     <Button
+                        asChild
                         variant="default"
                         className="h-9 px-4 text-sm font-medium"
-                        onClick={() => router.push("/api/auth/login")}
                     >
-                        <LogIn className="h-5 w-4 mr-2" />
-                        {t("login")}
+                        <Link href="/sign-in" >
+                            <LogIn className="h-5 w-4 mr-2" />
+                            {t("login")}
+                        </Link>
                     </Button>
                     <Sheet>
                         <SheetTrigger asChild>
