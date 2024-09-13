@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     const user = await signInUseCase(input.email, input.password);
     await setSession(user.id);
     return NextResponse.json(
-      { message: "Login success" },
+      { message: "Sign in success" },
       { status: HttpStatus.OK }
     );
   } catch (error) {
