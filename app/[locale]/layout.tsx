@@ -20,6 +20,7 @@ import { NotificationsProvider } from '../../providers/notifications-provider';
 import { UserProvider } from '../../providers/user-provider';
 import { SearchProvider } from '../../providers/search-provider';
 import { CardProvider } from '../../providers/card-provider';
+import { CommunitiesProvider } from '../../providers/communities-provider'; // Import the CommunitiesProvider
 
 const PostHogPageView = dynamic(() => import("./posthog-page-view"), {
   ssr: false,
@@ -64,11 +65,13 @@ export default function RootLayout({
                   <NotificationsProvider>
                     <CardProvider>
                       <SearchProvider>
-                        <PostHogPageView />
-                        {children}
-                        <GoogleAdsense pId="（AdsenseのID）" />
-                        <Analytics mode={"production"} />
-                        <SpeedInsights />
+                        <CommunitiesProvider> {/* CommunitiesProvider wrapping necessary components */}
+                          <PostHogPageView />
+                          {children}
+                          <GoogleAdsense pId="（AdsenseのID）" />
+                          <Analytics mode={"production"} />
+                          <SpeedInsights />
+                        </CommunitiesProvider>
                       </SearchProvider>
                     </CardProvider>
                   </NotificationsProvider>

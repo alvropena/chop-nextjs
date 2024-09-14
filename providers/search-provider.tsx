@@ -6,7 +6,6 @@ import { SearchTopicType } from "../types/search/search-topic-type";
 import { SearchResultType } from "../types/search/search-result-type";
 import { SearchTopicData } from "../data/search-topic-data";
 import { handleInputChange } from "../lib/search-utils";
-import { useCommunities } from "../hooks/use-communities";
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
   const [query, setQueryState] = useState<string>("");
@@ -15,8 +14,6 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
   const [searchResults, setSearchResultsState] = useState<SearchResultType[]>([]);
   const [searchClicked, setSearchClicked] = useState<boolean>(false); // Track whether a search has been clicked
 
-  const { addCommunity } = useCommunities(); // Access addCommunity
-
   const setQuery = (query: string) => {
     setQueryState(query);
     setSearchClicked(!!query); // Mark searchClicked as true when the query is not empty
@@ -24,15 +21,6 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
   const addRecentSearch = (search: SearchResultType) => {
     setRecentSearches((prevSearches) => Array.from(new Set([search, ...prevSearches])));
-
-    // Add the selected community to the user's communities when clicked
-    const community = {
-      name: search.name,  // Assuming name exists on SearchResultType
-      emoji: "🔥",  // You can dynamically add emoji based on community data
-      members: 1000, // Default members count, you can customize this later
-    };
-    
-    addCommunity(community);
   };
 
   const setSearchResults = (results: SearchResultType[]) => {
