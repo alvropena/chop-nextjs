@@ -3,48 +3,31 @@ import { Progress } from "../ui/progress";
 import { CardTitle, CardDescription, Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { BaseCardType } from "../../types/card/base-card-type";
-
-import ReadingContent from "./content/reading-content";
-import ListeningContent from "./content/listening-content";
-
 import MultipleChoiceQuestion from "./question/multiple-question";
 import FillInTheBlankQuestion from "./question/fill-in-the-blank-question";
 import MatchingPairsQuestion from "./question/matching-pairs-question";
 import SpeakingQuestion from "./question/speaking-question";
 import WritingQuestion from "./question/write-question";
+import CardContent from "./content/card-content";
 
-const BaseCard: React.FC<BaseCardType> = ({
-  title,
-  content,
-  question,
-  progress,
-}) => {
+const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [currentProgress, setCurrentProgress] = useState(progress ?? 0);
 
   const checkAnswer = () => {
-    if (
-      question.type === "multiple-choice" ||
-      question.type === "fill-in-the-blank"
-    ) {
-      if (
-        question.correctAnswer === "Paris" ||
-        question.correctAnswer === "8"
-      ) {
+    if (question.type === "multiple-choice" || question.type === "fill-in-the-blank") {
+      if (question.correctAnswer === "Paris" || question.correctAnswer === "8") {
         setIsCorrect(true);
       } else {
         setIsCorrect(false);
       }
     } else if (question.type === "matching-pairs") {
-      // Add logic for matching pairs validation here
-      setIsCorrect(true); // You need to implement your own matching logic
+      setIsCorrect(true);  // Example placeholder logic
     } else if (question.type === "speaking") {
-      // Add logic for speaking validation
-      setIsCorrect(true); // Example placeholder logic
+      setIsCorrect(true);  // Example placeholder logic
     } else if (question.type === "writing") {
-      // Add logic for writing validation
-      setIsCorrect(true); // Example placeholder logic
+      setIsCorrect(true);  // Example placeholder logic
     }
 
     setShowFeedback(true);
@@ -53,18 +36,6 @@ const BaseCard: React.FC<BaseCardType> = ({
 
   const handleContinue = () => {
     setShowFeedback(false);
-  };
-
-  const renderContent = () => {
-    if (!content) return null;
-    switch (content.type) {
-      case "reading":
-        return <ReadingContent {...content} />;
-      case "listening":
-        return <ListeningContent {...content} />;
-      default:
-        return null;
-    }
   };
 
   const renderQuestion = () => {
@@ -88,13 +59,9 @@ const BaseCard: React.FC<BaseCardType> = ({
 
   const renderFeedback = () => {
     return isCorrect ? (
-      <div className="text-green-600 font-bold">
-        Congratulations! Your answer is correct.
-      </div>
+      <div className="text-green-600 font-bold">Congratulations! Your answer is correct.</div>
     ) : (
-      <div className="text-red-600 font-bold">
-        Oops! That&apos;s not the correct answer.
-      </div>
+      <div className="text-red-600 font-bold">Oops! That&apos;s not the correct answer.</div>
     );
   };
 
@@ -106,7 +73,13 @@ const BaseCard: React.FC<BaseCardType> = ({
           <>
             <div>
               <CardTitle>{title}</CardTitle>
-              <CardDescription>{renderContent()}</CardDescription>
+              <CardDescription>
+                <CardContent
+                  passage={content.passage}   // Always show passage
+                  audioUrl={content.audioUrl} // Conditionally show audio
+                  imageUrl={content.imageUrl} // Conditionally show image
+                />
+              </CardDescription>
             </div>
             <div className="mt-4">{renderQuestion()}</div>
             <div>

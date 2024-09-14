@@ -1,13 +1,9 @@
-import { ReadingContentType } from './content/reading-content-type';
-import { ListeningContentType } from './content/listening-content-type';
-
 import { MultipleChoiceQuestionType } from './question/multiple-choice-question-type';
 import { FillInTheBlankQuestionType } from './question/fill-in-the-blank-question-type';
 import { MatchingPairsQuestionType } from './question/matching-pairs-question-type';
 import { SpeakingQuestionType } from './question/speaking-question-type';
 import { WritingQuestionType } from './question/writing-question-type';
-
-export type ContentType = ReadingContentType | ListeningContentType;
+import { CardContentType } from './content/card-content-type';
 
 export type QuestionType =
   | MultipleChoiceQuestionType
@@ -19,7 +15,7 @@ export type QuestionType =
 export type BaseCardType = {
   cardId: string;
   title: string;
-  content: ContentType;
+  content: CardContentType;
   question: QuestionType;
   progress?: number;
   difficulty: string;
