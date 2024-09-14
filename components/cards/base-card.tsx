@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Progress } from "../ui/progress";
-import { CardTitle, CardDescription } from "../ui/card";
-import { Button } from "../ui/button";  // Import Button
+import { CardTitle, CardDescription, Card } from "../ui/card";
+import { Button } from "../ui/button";
 import { BaseCardType } from '../../types/card/base-card-type';
 
 import ReadingContent from './content/reading-content';
@@ -14,24 +14,22 @@ import SpeakingQuestion from './question/speaking-question';
 import WritingQuestion from './question/write-question';
 
 const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }) => {
-  const [showFeedback, setShowFeedback] = useState(false);  // Track if feedback should be shown
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);  // Track correctness of the answer
-  const [currentProgress, setCurrentProgress] = useState(progress ?? 0);  // Track progress
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [currentProgress, setCurrentProgress] = useState(progress ?? 0);
 
   const checkAnswer = () => {
-    // Simple placeholder logic for correctness (you should replace with your actual validation logic)
     if (question.correctAnswer === 'Paris' || question.correctAnswer === '8') {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
     }
-    setShowFeedback(true);  // Show feedback after checking
-    setCurrentProgress((prevProgress) => Math.min(prevProgress + 10, 100));  // Increase progress
+    setShowFeedback(true);
+    setCurrentProgress((prevProgress) => Math.min(prevProgress + 10, 100));
   };
 
   const handleContinue = () => {
-    setShowFeedback(false);  // Hide feedback and show next card
-    // Logic to fetch/display the next content and question (you can implement based on your needs)
+    setShowFeedback(false);
   };
 
   const renderContent = () => {
@@ -50,15 +48,15 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
     if (!question) return null;
     switch (question.type) {
       case 'multiple-choice':
-        return <MultipleChoiceQuestion {...question} />;
+        return <MultipleChoiceQuestion />;
       case 'fill-in-the-blank':
-        return <FillInTheBlankQuestion {...question} />;
+        return <FillInTheBlankQuestion />;
       case 'matching-pairs':
-        return <MatchingPairsQuestion {...question} />;
+        return <MatchingPairsQuestion />;
       case 'speaking':
-        return <SpeakingQuestion {...question} />;
+        return <SpeakingQuestion />;
       case 'writing':
-        return <WritingQuestion {...question} />;
+        return <WritingQuestion />;
       default:
         return null;
     }
@@ -73,13 +71,12 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
   };
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <Card className="flex flex-col justify-between h-full w-2/5 p-6">
       <div>
         <Progress value={currentProgress} className="w-full mb-4 h-3" />
         <CardTitle>{title}</CardTitle>
         <CardDescription>{renderContent()}</CardDescription>
       </div>
-
       <div className="mt-4">
         {!showFeedback ? (
           <>
@@ -99,7 +96,7 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
           </>
         )}
       </div>
-    </div>
+    </Card>
   );
 };
 

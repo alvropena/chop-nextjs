@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Textarea } from "../../ui/textarea";
-import { Button } from "../../ui/button";
+import { WritingQuestionType } from '../../../types/card/question/writing-question-type';
 
-interface WritingQuestionProps {
-  question: string;
-  textInputPlaceholder?: string;
-}
-
-const WritingQuestion: React.FC<WritingQuestionProps> = ({ question, textInputPlaceholder }) => {
+const WritingQuestion: React.FC<WritingQuestionType> = ({ textInputPlaceholder }) => {
   const [text, setText] = useState<string>("");
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -16,7 +11,6 @@ const WritingQuestion: React.FC<WritingQuestionProps> = ({ question, textInputPl
 
   return (
     <div>
-      <p className="font-medium mb-2">{question}</p>
       <Textarea
         value={text}
         onChange={handleTextChange}

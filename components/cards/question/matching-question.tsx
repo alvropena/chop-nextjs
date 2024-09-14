@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from "../../ui/button";
+import { MatchingPairsQuestionType } from '../../../types/card/question/matching-pairs-question-type';
 
-interface MatchingPairsQuestionProps {
-  question: string;
-  pairs: { left: string; right: string }[];
-}
-
-const MatchingPairsQuestion: React.FC<MatchingPairsQuestionProps> = ({ question, pairs }) => {
+const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) => {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
   const [selectedRight, setSelectedRight] = useState<string | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<{ left: string; right: string }[]>([]);
@@ -39,7 +35,6 @@ const MatchingPairsQuestion: React.FC<MatchingPairsQuestionProps> = ({ question,
 
   return (
     <div>
-      <p className="font-medium mb-2">{question}</p>
       <div className="grid grid-cols-2 gap-4">
         <div>
           {pairs.map(pair => (

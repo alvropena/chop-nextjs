@@ -1,22 +1,21 @@
-import { CardType } from '../types/card-type';
+import { BaseCardType } from "../types/card/base-card-type";
 
-export const cardsData: CardType[] = [
+export const cardsData: BaseCardType[] = [
   {
     cardId: "card_001",
     title: "The Eiffel Tower",
     content: {
       type: "reading",
-      passage: "The Eiffel Tower is a wrought-iron lattice tower in Paris.",
+      passage: "Where is the Eiffel Tower located? The Eiffel Tower is a wrought-iron lattice tower in Paris.",
       imageUrl: "/images/eiffel-tower.jpg"
     },
     question: {
       type: "multiple-choice",
-      question: "Where is the Eiffel Tower located?",
       options: ["London", "Paris", "Rome"],
       correctAnswer: "Paris"
     },
     difficulty: "easy",
-    topic: "Geography",
+    topic: ["Geography", "Landmarks"],
     createdAt: "2024-01-01"
   },
   {
@@ -29,11 +28,10 @@ export const cardsData: CardType[] = [
     },
     question: {
       type: "fill-in-the-blank",
-      question: "The square root of 64 is?",
       correctAnswer: "8"
     },
     difficulty: "medium",
-    topic: "Math",
+    topic: ["Math", "Equations"],
     createdAt: "2024-01-02"
   },
   {
@@ -41,12 +39,11 @@ export const cardsData: CardType[] = [
     title: "Match Countries and Capitals",
     content: {
       type: "reading",
-      passage: "Match the countries with their respective capitals.",
+      passage: "Match the following countries with their capitals: France, Italy, Germany.",
       imageUrl: "/images/map.jpg"
     },
     question: {
       type: "matching-pairs",
-      question: "Match the following countries with their capitals:",
       pairs: [
         { left: "France", right: "Paris" },
         { left: "Italy", right: "Rome" },
@@ -54,7 +51,7 @@ export const cardsData: CardType[] = [
       ]
     },
     difficulty: "medium",
-    topic: "Geography",
+    topic: ["Geography", "Capitals"],
     createdAt: "2024-01-03"
   },
   {
@@ -65,11 +62,10 @@ export const cardsData: CardType[] = [
       audioUrl: "/audio/introduction.mp3"
     },
     question: {
-      type: "speaking",
-      question: "Listen to the audio and introduce yourself in the same way."
+      type: "speaking"
     },
     difficulty: "easy",
-    topic: "Language",
+    topic: ["Language", "Speaking"],
     createdAt: "2024-01-04"
   },
   {
@@ -81,11 +77,10 @@ export const cardsData: CardType[] = [
     },
     question: {
       type: "writing",
-      question: "Write a paragraph describing the most beautiful place you have ever visited.",
       textInputPlaceholder: "Start typing your description..."
     },
     difficulty: "medium",
-    topic: "Creative Writing",
+    topic: ["Creative Writing", "Travel"],
     createdAt: "2024-01-05"
   },
   {
@@ -93,17 +88,16 @@ export const cardsData: CardType[] = [
     title: "The Solar System",
     content: {
       type: "reading",
-      passage: "The Solar System consists of the Sun and the objects that orbit it, including eight planets.",
+      passage: "How many planets are in the Solar System? The Solar System consists of the Sun and the objects that orbit it, including eight planets.",
       imageUrl: "/images/solar-system.jpg"
     },
     question: {
       type: "multiple-choice",
-      question: "How many planets are in the Solar System?",
       options: ["7", "8", "9"],
       correctAnswer: "8"
     },
     difficulty: "easy",
-    topic: "Astronomy",
+    topic: ["Astronomy", "Space"],
     createdAt: "2024-01-06"
   },
   {
@@ -115,11 +109,10 @@ export const cardsData: CardType[] = [
     },
     question: {
       type: "fill-in-the-blank",
-      question: "The name of the composer of this piece is?",
       correctAnswer: "Mozart"
     },
     difficulty: "medium",
-    topic: "Music",
+    topic: ["Music", "Classical"],
     createdAt: "2024-01-07"
   },
   {
@@ -127,12 +120,11 @@ export const cardsData: CardType[] = [
     title: "Match Animals to Their Sounds",
     content: {
       type: "reading",
-      passage: "Match the animals to the sounds they make.",
+      passage: "Match the following animals to their sounds: Dog, Cat, Cow.",
       imageUrl: "/images/animals.jpg"
     },
     question: {
       type: "matching-pairs",
-      question: "Match the animals to their sounds:",
       pairs: [
         { left: "Dog", right: "Bark" },
         { left: "Cat", right: "Meow" },
@@ -140,23 +132,21 @@ export const cardsData: CardType[] = [
       ]
     },
     difficulty: "easy",
-    topic: "Biology",
+    topic: ["Biology", "Animals"],
     createdAt: "2024-01-08"
   },
   {
     cardId: "card_009",
     title: "Speaking Exercise: Daily Routine",
     content: {
-      type: "reading",
-      passage: "Match the animals to the sounds they make.",
-      imageUrl: "/images/animals.jpg"
+      type: "listening",
+      audioUrl: "/audio/daily-routine.mp3"
     },
     question: {
-      type: "speaking",
-      question: "Talk about your daily routine in the same way as the example."
+      type: "speaking"
     },
     difficulty: "medium",
-    topic: "Language",
+    topic: ["Language", "Speaking"],
     createdAt: "2024-01-09"
   },
   {
@@ -164,15 +154,14 @@ export const cardsData: CardType[] = [
     title: "Writing Challenge: Future Goals",
     content: {
       type: "reading",
-      passage: "Think about where you see yourself in 10 years.",
+      passage: "Write about your future goals and aspirations."
     },
     question: {
       type: "writing",
-      question: "Write about your future goals and aspirations.",
       textInputPlaceholder: "Start writing here..."
     },
     difficulty: "hard",
-    topic: "Personal Development",
+    topic: ["Personal Development", "Writing"],
     createdAt: "2024-01-10"
   }
 ];

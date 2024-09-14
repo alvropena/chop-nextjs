@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Textarea } from "../../ui/textarea";
-import { Button } from "../../ui/button";
+import { FillInTheBlankQuestionType } from '../../../types/card/question/fill-in-the-blank-question-type';
 
-interface FillInTheBlankQuestionProps {
-  question: string;
-  correctAnswer: string;
-}
-
-const FillInTheBlankQuestion: React.FC<FillInTheBlankQuestionProps> = ({ question }) => {
+const FillInTheBlankQuestion: React.FC<FillInTheBlankQuestionType> = () => {
   const [answer, setAnswer] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -16,7 +11,6 @@ const FillInTheBlankQuestion: React.FC<FillInTheBlankQuestionProps> = ({ questio
 
   return (
     <div>
-      <p className="font-medium mb-2">{question}</p>
       <Textarea value={answer} onChange={handleChange} placeholder="Type your answer here..." />
     </div>
   );

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from "../../ui/button";
 import { MicIcon, AudioLines } from 'lucide-react';
+import { SpeakingQuestionType } from '../../../types/card/question/speaking-question-type';
 
-interface SpeakingQuestionProps {
-  question: string;
-}
-
-const SpeakingQuestion: React.FC<SpeakingQuestionProps> = ({ question }) => {
+const SpeakingQuestion: React.FC<SpeakingQuestionType> = () => {
   const [isRecording, setIsRecording] = useState(false);
   
   const handleRecordClick = () => {
@@ -21,7 +18,6 @@ const SpeakingQuestion: React.FC<SpeakingQuestionProps> = ({ question }) => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <p className="font-medium mb-4">{question}</p>
       <Button
         variant={isRecording ? 'default' : 'outline'}
         className="w-24 h-24 rounded-full flex items-center justify-center"
