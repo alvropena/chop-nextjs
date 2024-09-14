@@ -1,7 +1,7 @@
 import React from 'react';
 import { Progress } from "../ui/progress";
 import { CardTitle, CardDescription } from "../ui/card";
-import { BaseCardType } from '../../types/base-card-type';
+import { BaseCardType } from '../../types/card/base-card-type';
 
 import ReadingContent from './content/reading-content';
 import ListeningContent from './content/listening-content';
@@ -12,11 +12,11 @@ import MatchingPairsQuestion from './question/matching-question';
 import SpeakingQuestion from './question/speaking-question';
 import WritingQuestion from './question/write-question';
 
-
 const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }) => {
   const renderContent = () => {
     if (!content) return null;
 
+    // Safely use the content based on its type
     switch (content.type) {
       case 'reading':
         return <ReadingContent {...content} />;
@@ -35,6 +35,7 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
         return <MultipleChoiceQuestion {...question} />;
       case 'fill-in-the-blank':
         return <FillInTheBlankQuestion {...question} />;
+      // Add cases for other question types...
       case 'matching-pairs':
         return <MatchingPairsQuestion {...question} />;
       case 'speaking':
@@ -51,11 +52,9 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
       <div>
         <Progress value={progress ?? 0} className="w-full mb-4 h-3" />
         <CardTitle>{title}</CardTitle>
-        <CardDescription>Complete the task below:</CardDescription>
+        <CardDescription>{renderContent()}</CardDescription>
       </div>
-      <div className="mt-4">
-        {renderContent()}
-      </div>
+      
       <div className="mt-4 flex-grow">
         {renderQuestion()}
       </div>
