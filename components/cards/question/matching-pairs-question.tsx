@@ -6,7 +6,7 @@ const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) =
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
   const [selectedRight, setSelectedRight] = useState<string | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<{ left: string; right: string }[]>([]);
-  
+
   const handleLeftClick = (left: string) => {
     setSelectedLeft(left);
     if (selectedRight) {
@@ -26,7 +26,6 @@ const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) =
     if (isMatch) {
       setMatchedPairs([...matchedPairs, { left, right }]);
     }
-    // Reset selected values for the next match attempt
     setSelectedLeft(null);
     setSelectedRight(null);
   };
@@ -34,40 +33,35 @@ const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) =
   const allPairsMatched = matchedPairs.length === pairs.length;
 
   return (
-    <div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+    <div className="flex flex-col items-center justify-center h-full w-full">
+      <div className="grid grid-cols-2 gap-4 w-full max-w-md">
+        <div className="flex flex-col gap-2">
           {pairs.map(pair => (
             <Button
               key={pair.left}
               variant={matchedPairs.some(mp => mp.left === pair.left) ? 'default' : 'outline'}
               disabled={matchedPairs.some(mp => mp.left === pair.left)}
               onClick={() => handleLeftClick(pair.left)}
+              className="w-full"
             >
               {pair.left}
             </Button>
           ))}
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           {pairs.map(pair => (
             <Button
               key={pair.right}
               variant={matchedPairs.some(mp => mp.right === pair.right) ? 'default' : 'outline'}
               disabled={matchedPairs.some(mp => mp.right === pair.right)}
               onClick={() => handleRightClick(pair.right)}
+              className="w-full"
             >
               {pair.right}
             </Button>
           ))}
         </div>
       </div>
-      {allPairsMatched && (
-        <div className="mt-4">
-          <Button className="w-full" variant="default">
-            Continue
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

@@ -22,9 +22,7 @@ export default function HomePage() {
     <div className="flex flex-col items-center justify-center h-full">      
       {cards[currentCardIndex] && (
         <BaseCard 
-          title={cards[currentCardIndex].title} 
-          content={cards[currentCardIndex].content} 
-          question={cards[currentCardIndex].question}
+          {...cards[currentCardIndex]}  // Spread the entire card object
         />
       )}
 

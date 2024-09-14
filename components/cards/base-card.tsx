@@ -1,29 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Progress } from "../ui/progress";
 import { CardTitle, CardDescription, Card } from "../ui/card";
 import { Button } from "../ui/button";
-import { BaseCardType } from '../../types/card/base-card-type';
+import { BaseCardType } from "../../types/card/base-card-type";
 
-import ReadingContent from './content/reading-content';
-import ListeningContent from './content/listening-content';
+import ReadingContent from "./content/reading-content";
+import ListeningContent from "./content/listening-content";
 
-import MultipleChoiceQuestion from './question/multiple-question';
-import FillInTheBlankQuestion from './question/fill-in-the-blank-question';
-import MatchingPairsQuestion from './question/matching-question';
-import SpeakingQuestion from './question/speaking-question';
-import WritingQuestion from './question/write-question';
+import MultipleChoiceQuestion from "./question/multiple-question";
+import FillInTheBlankQuestion from "./question/fill-in-the-blank-question";
+import MatchingPairsQuestion from "./question/matching-pairs-question";
+import SpeakingQuestion from "./question/speaking-question";
+import WritingQuestion from "./question/write-question";
 
-const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }) => {
+const BaseCard: React.FC<BaseCardType> = ({
+  title,
+  content,
+  question,
+  progress,
+}) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [currentProgress, setCurrentProgress] = useState(progress ?? 0);
 
   const checkAnswer = () => {
-    if (question.correctAnswer === 'Paris' || question.correctAnswer === '8') {
-      setIsCorrect(true);
-    } else {
-      setIsCorrect(false);
+    if (
+      question.type === "multiple-choice" ||
+      question.type === "fill-in-the-blank"
+    ) {
+      if (
+        question.correctAnswer === "Paris" ||
+        question.correctAnswer === "8"
+      ) {
+        setIsCorrect(true);
+      } else {
+        setIsCorrect(false);
+      }
+    } else if (question.type === "matching-pairs") {
+      // Add logic for matching pairs validation here
+      setIsCorrect(true); // You need to implement your own matching logic
+    } else if (question.type === "speaking") {
+      // Add logic for speaking validation
+      setIsCorrect(true); // Example placeholder logic
+    } else if (question.type === "writing") {
+      // Add logic for writing validation
+      setIsCorrect(true); // Example placeholder logic
     }
+
     setShowFeedback(true);
     setCurrentProgress((prevProgress) => Math.min(prevProgress + 10, 100));
   };
@@ -35,9 +58,9 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
   const renderContent = () => {
     if (!content) return null;
     switch (content.type) {
-      case 'reading':
+      case "reading":
         return <ReadingContent {...content} />;
-      case 'listening':
+      case "listening":
         return <ListeningContent {...content} />;
       default:
         return null;
@@ -46,17 +69,18 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
 
   const renderQuestion = () => {
     if (!question) return null;
+
     switch (question.type) {
-      case 'multiple-choice':
-        return <MultipleChoiceQuestion />;
-      case 'fill-in-the-blank':
-        return <FillInTheBlankQuestion />;
-      case 'matching-pairs':
-        return <MatchingPairsQuestion />;
-      case 'speaking':
-        return <SpeakingQuestion />;
-      case 'writing':
-        return <WritingQuestion />;
+      case "multiple-choice":
+        return <MultipleChoiceQuestion {...question} />;
+      case "fill-in-the-blank":
+        return <FillInTheBlankQuestion {...question} />;
+      case "matching-pairs":
+        return <MatchingPairsQuestion {...question} />;
+      case "speaking":
+        return <SpeakingQuestion {...question} />;
+      case "writing":
+        return <WritingQuestion {...question} />;
       default:
         return null;
     }
@@ -64,28 +88,32 @@ const BaseCard: React.FC<BaseCardType> = ({ title, content, question, progress }
 
   const renderFeedback = () => {
     return isCorrect ? (
-      <div className="text-green-600 font-bold">Congratulations! Your answer is correct.</div>
+      <div className="text-green-600 font-bold">
+        Congratulations! Your answer is correct.
+      </div>
     ) : (
-      <div className="text-red-600 font-bold">Oops! That's not the correct answer.</div>
+      <div className="text-red-600 font-bold">
+        Oops! That&apos;s not the correct answer.
+      </div>
     );
   };
 
   return (
-    <Card className="flex flex-col justify-between h-full w-2/5 p-6">
-      <div>
-        <Progress value={currentProgress} className="w-full mb-4 h-3" />
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{renderContent()}</CardDescription>
-      </div>
+    <Card className="flex flex-col justify-between h-full w-full md:w-2/6 p-6">
+      <Progress value={currentProgress} className="w-full mb-4 h-3" />
       <div className="mt-4">
         {!showFeedback ? (
           <>
-            <div className="mt-4">
-              {renderQuestion()}
+            <div>
+              <CardTitle>{title}</CardTitle>
+              <CardDescription>{renderContent()}</CardDescription>
             </div>
-            <Button onClick={checkAnswer} className="mt-4 w-full">
-              Check
-            </Button>
+            <div className="mt-4">{renderQuestion()}</div>
+            <div>
+              <Button onClick={checkAnswer} className="mt-4 w-full">
+                Check
+              </Button>
+            </div>
           </>
         ) : (
           <>

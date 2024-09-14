@@ -3,165 +3,175 @@ import { BaseCardType } from "../types/card/base-card-type";
 export const cardsData: BaseCardType[] = [
   {
     cardId: "card_001",
-    title: "The Eiffel Tower",
+    title: "Basketball Rules",
     content: {
       type: "reading",
-      passage: "Where is the Eiffel Tower located? The Eiffel Tower is a wrought-iron lattice tower in Paris.",
-      imageUrl: "/images/eiffel-tower.jpg"
+      passage: "What are the rules of basketball? Discuss dribbling, shooting, and defense.",
+      imageUrl: "/images/basketball.jpg"
     },
     question: {
       type: "multiple-choice",
-      options: ["London", "Paris", "Rome"],
-      correctAnswer: "Paris"
+      options: ["Soccer", "Basketball", "Tennis"],
+      correctAnswer: "Basketball"
     },
     difficulty: "easy",
-    topic: ["Geography", "Landmarks"],
+    topic: ["Basketball", "Sports"],
     createdAt: "2024-01-01"
   },
   {
     cardId: "card_002",
-    title: "Listen to the equation",
+    title: "Tennis Scoring System",
     content: {
       type: "listening",
-      audioUrl: "/audio/equation.mp3",
-      imageUrl: "/images/math-equation.jpg"
+      audioUrl: "/audio/tennis-scoring.mp3",
+      imageUrl: "/images/tennis-court.jpg"
     },
     question: {
-      type: "fill-in-the-blank",
-      correctAnswer: "8"
+      type: "multiple-choice",  // Changed to multiple-choice
+      options: ["15-30", "15-15", "Love"],
+      correctAnswer: "Love"
     },
     difficulty: "medium",
-    topic: ["Math", "Equations"],
+    topic: ["Tennis", "Scoring"],
     createdAt: "2024-01-02"
   },
   {
     cardId: "card_003",
-    title: "Match Countries and Capitals",
+    title: "Italian Wine Regions",
     content: {
       type: "reading",
-      passage: "Match the following countries with their capitals: France, Italy, Germany.",
-      imageUrl: "/images/map.jpg"
+      passage: "Match the following Italian wine regions with their famous wines.",
+      imageUrl: "/images/wine-regions.jpg"
     },
     question: {
       type: "matching-pairs",
       pairs: [
-        { left: "France", right: "Paris" },
-        { left: "Italy", right: "Rome" },
-        { left: "Germany", right: "Berlin" }
+        { left: "Tuscany", right: "Chianti" },
+        { left: "Piedmont", right: "Barolo" },
+        { left: "Veneto", right: "Prosecco" }
       ]
     },
     difficulty: "medium",
-    topic: ["Geography", "Capitals"],
+    topic: ["Wine", "Italian"],
     createdAt: "2024-01-03"
   },
   {
     cardId: "card_004",
-    title: "Speaking Practice: Introduce Yourself",
+    title: "Speak Italian: Basic Phrases",
     content: {
       type: "listening",
-      audioUrl: "/audio/introduction.mp3"
+      audioUrl: "/audio/italian-phrases.mp3"
     },
     question: {
-      type: "speaking"
+      type: "multiple-choice",  // Changed to multiple-choice
+      options: ["Ciao", "Grazie", "Buongiorno"],
+      correctAnswer: "Buongiorno"
     },
     difficulty: "easy",
-    topic: ["Language", "Speaking"],
+    topic: ["Italian", "Language"],
     createdAt: "2024-01-04"
   },
   {
     cardId: "card_005",
-    title: "Describe a Beautiful Place",
+    title: "Economic Systems",
     content: {
       type: "reading",
-      passage: "Think of a beautiful place you have visited."
+      passage: "Describe the differences between capitalism and socialism."
     },
     question: {
       type: "writing",
       textInputPlaceholder: "Start typing your description..."
     },
     difficulty: "medium",
-    topic: ["Creative Writing", "Travel"],
+    topic: ["Economics", "Finance"],
     createdAt: "2024-01-05"
   },
   {
     cardId: "card_006",
-    title: "The Solar System",
+    title: "Football History",
     content: {
       type: "reading",
-      passage: "How many planets are in the Solar System? The Solar System consists of the Sun and the objects that orbit it, including eight planets.",
-      imageUrl: "/images/solar-system.jpg"
+      passage: "Who won the first FIFA World Cup? The first World Cup was held in 1930.",
+      imageUrl: "/images/football.jpg"
     },
     question: {
       type: "multiple-choice",
-      options: ["7", "8", "9"],
-      correctAnswer: "8"
+      options: ["Brazil", "Uruguay", "Germany"],
+      correctAnswer: "Uruguay"
     },
     difficulty: "easy",
-    topic: ["Astronomy", "Space"],
+    topic: ["Football", "Sports"],
     createdAt: "2024-01-06"
   },
   {
     cardId: "card_007",
-    title: "Listening to Classical Music",
+    title: "Formula 1 Champions",
     content: {
       type: "listening",
-      audioUrl: "/audio/classical-music.mp3"
+      audioUrl: "/audio/f1-champions.mp3"
     },
     question: {
-      type: "fill-in-the-blank",
-      correctAnswer: "Mozart"
+      type: "multiple-choice",  // Changed to multiple-choice
+      options: ["Lewis Hamilton", "Sebastian Vettel", "Max Verstappen"],
+      correctAnswer: "Lewis Hamilton"
     },
     difficulty: "medium",
-    topic: ["Music", "Classical"],
+    topic: ["Formula 1", "Motorsports"],
     createdAt: "2024-01-07"
   },
   {
     cardId: "card_008",
-    title: "Match Animals to Their Sounds",
+    title: "Poker Hands Ranking",
     content: {
       type: "reading",
-      passage: "Match the following animals to their sounds: Dog, Cat, Cow.",
-      imageUrl: "/images/animals.jpg"
+      passage: "Match the poker hands with their ranking: Royal Flush, Straight, Full House.",
+      imageUrl: "/images/poker.jpg"
     },
     question: {
       type: "matching-pairs",
       pairs: [
-        { left: "Dog", right: "Bark" },
-        { left: "Cat", right: "Meow" },
-        { left: "Cow", right: "Moo" }
+        { left: "Royal Flush", right: "Best Hand" },
+        { left: "Straight", right: "Middle Hand" },
+        { left: "Full House", right: "Good Hand" }
       ]
     },
     difficulty: "easy",
-    topic: ["Biology", "Animals"],
+    topic: ["Poker", "Card Games"],
     createdAt: "2024-01-08"
   },
   {
     cardId: "card_009",
-    title: "Speaking Exercise: Daily Routine",
+    title: "Classical Art Periods",
     content: {
-      type: "listening",
-      audioUrl: "/audio/daily-routine.mp3"
+      type: "reading",
+      passage: "Match the classical art periods with their characteristics.",
+      imageUrl: "/images/classical-art.jpg"
     },
     question: {
-      type: "speaking"
+      type: "matching-pairs",
+      pairs: [
+        { left: "Renaissance", right: "Humanism" },
+        { left: "Baroque", right: "Drama" },
+        { left: "Neoclassicism", right: "Simplicity" }
+      ]
     },
     difficulty: "medium",
-    topic: ["Language", "Speaking"],
+    topic: ["Classical Art", "History"],
     createdAt: "2024-01-09"
   },
   {
     cardId: "card_010",
-    title: "Writing Challenge: Future Goals",
+    title: "History of Finance",
     content: {
       type: "reading",
-      passage: "Write about your future goals and aspirations."
+      passage: "Describe the evolution of financial systems from barter to modern banking."
     },
     question: {
       type: "writing",
       textInputPlaceholder: "Start writing here..."
     },
     difficulty: "hard",
-    topic: ["Personal Development", "Writing"],
+    topic: ["Finance", "History"],
     createdAt: "2024-01-10"
   }
 ];
