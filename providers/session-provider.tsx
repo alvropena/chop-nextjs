@@ -3,7 +3,7 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { SessionContext } from '../context/session-context';
 import { SessionType } from '../types/session-type';
-import { fetchSessionsFromAPI } from '../api/session-api';  // Example API call
+import { fetchSessionsFromAPI } from '../lib/fetch-sessions-utils';
 
 export interface SessionProviderProps {
     children: ReactNode;

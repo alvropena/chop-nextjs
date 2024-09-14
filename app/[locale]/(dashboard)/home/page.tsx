@@ -5,11 +5,12 @@ import { Card, CardHeader } from "../../../../components/ui/card";
 import { Button } from "../../../../components/ui/button";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import CardRenderer from "../../../../components/cards/card-renderer";
-import { cardsData } from "../../../../data/card-data";
 import ChangeTopicDialog from "../../../../components/change-topic-dialog";
 import { Zap, FlameIcon, HeartIcon } from "lucide-react";
+import { useCard } from "../../../../hooks/use-card";
 
 export default function HomePage() {
+  const { cards } = useCard();
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function HomePage() {
   };
 
   const moveToNextCard = () => {
-    setCurrentCardIndex((prevIndex) => (prevIndex < cardsData.length - 1 ? prevIndex + 1 : prevIndex));
+    setCurrentCardIndex((prevIndex) => (prevIndex < cards.length - 1 ? prevIndex + 1 : prevIndex));
   };
 
   const handlePreviousCard = () => {
@@ -65,11 +66,16 @@ export default function HomePage() {
             1
           </div>
         </header>
+        
         <Card className="w-full h-2/3">
           <CardHeader className="h-full flex flex-col justify-center">
-            <CardRenderer card={cardsData[currentCardIndex]} onNextCard={handleContinue} />
+            {/* Make sure the card exists before rendering */}
+            {cards[currentCardIndex] && (
+              <CardRenderer card={cards[currentCardIndex]} onNextCard={handleContinue} />
+            )}
           </CardHeader>
         </Card>
+
         <p className="text-sm text-gray-500 text-center mt-4">Chop can make mistakes. Check important info.</p>
       </div>
 

@@ -6,15 +6,3 @@ export const CardContext = createContext<{
     fetchCardById: (cardId: string) => CardType | undefined;  // Fetch a single card by its ID
     setCards: (cards: CardType[]) => void;  // To set card data
 } | undefined>(undefined);
-
-export const CardProvider = ({ children }: { children: React.ReactNode }) => {
-    const [cards, setCards] = useState<CardType[]>([]);
-
-    const fetchCardById = (cardId: string) => cards.find((card) => card.cardId === cardId);
-
-    return (
-        <CardContext.Provider value={{ cards, fetchCardById, setCards }}>
-            {children}
-        </CardContext.Provider>
-    );
-};

@@ -3,7 +3,7 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { UserActivityContext } from '../context/user-activity-context';
 import { UserActivityType } from '../types/user/user-activity-type';
-import { fetchUserActivityFromAPI } from '../api/user-activity-api';  // Example API call
+import { fetchUserActivityFromAPI } from '../lib/fetch-user-activity-utils';
 
 export interface UserActivityProviderProps {
     children: ReactNode;
@@ -14,7 +14,7 @@ export const UserActivityProvider = ({ children }: UserActivityProviderProps) =>
 
     useEffect(() => {
         const fetchData = async () => {
-            const activityFromAPI = await fetchUserActivityFromAPI();  // API call to get user activity
+            const activityFromAPI = await fetchUserActivityFromAPI();
             setUserActivity(activityFromAPI);
         };
         fetchData();
