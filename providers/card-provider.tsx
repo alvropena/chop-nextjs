@@ -2,7 +2,7 @@
 
 import { ReactNode, useState, useEffect } from 'react';
 import { CardContext } from '../context/card-context';
-import { CardType } from '../types/card-type';
+import { BaseCardType } from '../types/card/base-card-type';
 import { fetchCardsFromAPI } from '../lib/fetch-cards-utils';
 
 export interface CardProviderProps {
@@ -10,7 +10,7 @@ export interface CardProviderProps {
 }
 
 export const CardProvider = ({ children }: CardProviderProps) => {
-    const [cards, setCards] = useState<CardType[]>([]);
+    const [cards, setCards] = useState<BaseCardType[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {

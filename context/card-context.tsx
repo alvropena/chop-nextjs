@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
-import { CardType } from '../types/card-type';
+import { BaseCardType } from '../types/card/base-card-type';
 
 export const CardContext = createContext<{
-    cards: CardType[];  // Store multiple cards
-    fetchCardById: (cardId: string) => CardType | undefined;  // Fetch a single card by its ID
-    setCards: (cards: CardType[]) => void;  // To set card data
+    cards: BaseCardType[];  // Store multiple cards
+    fetchCardById: (cardId: string) => BaseCardType | undefined;  // Fetch a single card by its ID
+    setCards: (cards: BaseCardType[]) => void;  // To set card data
 } | undefined>(undefined);
