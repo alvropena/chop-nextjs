@@ -17,7 +17,7 @@ import GoogleAdsense from '../../components/google-adsense';
 
 // Import the new providers
 import { NotificationsProvider } from '../../providers/notifications-provider';
-import { PromptProvider } from '../../providers/prompt-provider';
+
 import { UserProvider } from '../../providers/user-provider';
 import { SearchProvider } from '../../providers/search-provider';
 
@@ -62,15 +62,15 @@ export default function RootLayout({
               <Auth0UserProvider>
                 <UserProvider>
                   <NotificationsProvider>
-                    <PromptProvider>
-                      <SearchProvider>
-                        <PostHogPageView />
-                        {children}
-                        <GoogleAdsense pId="（AdsenseのID）" />
-                        <Analytics mode={"production"} />
-                        <SpeedInsights />
-                      </SearchProvider>
-                    </PromptProvider>
+
+                    <SearchProvider>
+                      <PostHogPageView />
+                      {children}
+                      <GoogleAdsense pId="（AdsenseのID）" />
+                      <Analytics mode={"production"} />
+                      <SpeedInsights />
+                    </SearchProvider>
+
                   </NotificationsProvider>
                 </UserProvider>
               </Auth0UserProvider>

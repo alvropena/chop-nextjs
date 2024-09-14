@@ -11,7 +11,6 @@ export interface UserProfileType {
     email: string;
     phone_number: string;
     social_media_handles: string[];
-    streak: number;
     followers: number;
     following: number;
     created_at: string;
