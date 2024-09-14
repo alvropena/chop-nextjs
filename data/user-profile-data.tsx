@@ -17,7 +17,7 @@ export const UserProfileData: UserProfileType[] = [
         "providers": ["github", "google"],
         "created_at": "2024-04-01T12:34:56Z",
         "updated_at": "2024-08-31T10:00:00Z",
-        "streak": 1,
+        
         "followers": 100,
         "following": 0
     },
@@ -37,7 +37,7 @@ export const UserProfileData: UserProfileType[] = [
         "providers": ["twitter", "instagram"],
         "created_at": "2022-09-15T08:23:45Z",
         "updated_at": "2024-08-29T09:45:00Z",
-        "streak": 12,
+        
         "followers": 234,
         "following": 120
     },
@@ -57,7 +57,7 @@ export const UserProfileData: UserProfileType[] = [
         "providers": ["linkedin", "github"],
         "created_at": "2023-01-10T14:12:34Z",
         "updated_at": "2024-08-31T14:10:00Z",
-        "streak": 30,
+        
         "followers": 1500,
         "following": 450
     }
