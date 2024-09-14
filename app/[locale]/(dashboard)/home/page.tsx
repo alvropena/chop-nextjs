@@ -19,8 +19,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      {/* Card rendering */}
+    <div className="flex flex-col items-center justify-center h-full">      
       {cards[currentCardIndex] && (
         <BaseCard 
           title={cards[currentCardIndex].title} 

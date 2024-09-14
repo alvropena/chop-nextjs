@@ -29,11 +29,6 @@ const SpeakingQuestion: React.FC<SpeakingQuestionProps> = ({ question }) => {
       >
         {isRecording ? <AudioLines className="w-5 h-5 animate-pulse" /> : <MicIcon className="w-5 h-5" />}
       </Button>
-      {isRecording && (
-        <Button className="w-full mt-4" variant="default" onClick={handleSubmitClick}>
-          Submit Recording
-        </Button>
-      )}
     </div>
   );
 };

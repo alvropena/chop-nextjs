@@ -14,10 +14,6 @@ const WritingQuestion: React.FC<WritingQuestionProps> = ({ question, textInputPl
     setText(e.target.value);
   };
 
-  const handleSubmitClick = () => {
-    // Submit the written answer
-  };
-
   return (
     <div>
       <p className="font-medium mb-2">{question}</p>
@@ -27,14 +23,6 @@ const WritingQuestion: React.FC<WritingQuestionProps> = ({ question, textInputPl
         placeholder={textInputPlaceholder || "Type your answer here..."}
         className="min-h-[80px]"
       />
-      <Button
-        variant="default"
-        disabled={!text}
-        className="w-full mt-4"
-        onClick={handleSubmitClick}
-      >
-        Submit
-      </Button>
     </div>
   );
 };
