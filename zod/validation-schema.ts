@@ -15,7 +15,6 @@ export const emailSchema = z
 export const passwordResetSchema = z
   .object({
     password: passwordSchema,
-    token: z.string(),
     passwordConfirmation: passwordSchema,
   })
   .refine((data) => data.password === data.passwordConfirmation, {
