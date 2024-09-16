@@ -17,8 +17,8 @@ export function AuthLogoLayout({ children }: { children: ReactNode }) {
 
   if (isPathWithLogo) {
     return (
-      <section className="flex justify-between">
-        <div className="w-1/2 flex items-center justify-center h-[inherit]">
+      <section className="flex justify-center lg:justify-between">
+        <div className="w-1/2 hidden lg:flex items-center justify-center h-[inherit]">
           <Logo height={400} width={400} className="w-[25rem] h-[25rem]" />
         </div>
         <div className="flex items-center justify-center py-6">
