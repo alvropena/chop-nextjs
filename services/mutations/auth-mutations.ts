@@ -10,6 +10,7 @@ import {
   signUp,
 } from "@/services/auth";
 import { getApiErrorMessage } from "@/services/get-api-error-message";
+import { AFTER_LOGIN_URL } from "@/data/app-data";
 
 export const useSignUp = () => {
   const { toast } = useToast();
@@ -19,12 +20,12 @@ export const useSignUp = () => {
     onSuccess: async () => {
       toast({
         title: "Sign up successful",
-        description: "Redirecting to Sign in",
+        description: "Redirecting...",
         variant: "success",
       });
       // Allow time to read the toast message
       await new Promise((resolve) => setTimeout(resolve, 500));
-      router.push("/sign-in");
+      router.push(AFTER_LOGIN_URL);
     },
     onError: (err) => {
       const errorMessage = getApiErrorMessage(err);
@@ -50,7 +51,7 @@ export const useSignInWithCredentials = () => {
       });
       // Allow time to read the toast message
       await new Promise((resolve) => setTimeout(resolve, 500));
-      router.push("/");
+      router.push(AFTER_LOGIN_URL);
     },
     onError: (err) => {
       const errorMessage = getApiErrorMessage(err);
