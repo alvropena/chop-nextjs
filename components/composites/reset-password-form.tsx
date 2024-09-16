@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { passwordResetSchema } from "@/zod/validation-schema";
-import { useToast } from "@/components/ui/use-toast";
 import { LoadingButton } from "@/components/composites/loading-button";
+import { useChangePassword } from "@/services/mutations/auth-mutations";
 
 type ResetPasswordFormValues = z.infer<typeof passwordResetSchema>;
 
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export function ResetPasswordForm({ token }: Props) {
-  const { toast } = useToast();
+  const changePassword = useChangePassword();
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(passwordResetSchema),
     defaultValues: {
@@ -31,13 +31,10 @@ export function ResetPasswordForm({ token }: Props) {
     },
   });
 
-  const onSubmit = (values: ResetPasswordFormValues) => {
-    console.log({ ...values, token });
-    toast({
-      title: "Success",
-      description: "Your registration has been successful, you can login now",
-      variant: "default",
-    });
+  const onSubmit = ({ password }: ResetPasswordFormValues) => {
+    if (token) {
+      changePassword.mutate({ password, token });
+    }
   };
 
   return (
@@ -81,7 +78,11 @@ export function ResetPasswordForm({ token }: Props) {
           )}
         />
 
-        <LoadingButton isLoading={false} className="w-full" type="submit">
+        <LoadingButton
+          isLoading={changePassword.isPending}
+          className="w-full"
+          type="submit"
+        >
           Change Password
         </LoadingButton>
       </form>

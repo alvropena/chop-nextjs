@@ -11,16 +11,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/composites/loading-button";
-import { useToast } from "@/components/ui/use-toast";
 import { loginSchema } from "@/zod/validation-schema";
-import { z } from "zod";
-import { useState } from "react";
+import { useSignInWithCredentials } from "@/services/mutations/auth-mutations";
+import type { z } from "zod";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-  const { toast } = useToast();
-  const [isError, setIsError] = useState(false);
+  const signIn = useSignInWithCredentials();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -29,14 +27,8 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-    console.log(values);
-    setIsError(true);
-    toast({
-      title: "Success",
-      description: "Login success",
-      variant: "default",
-    });
+  const onSubmit = async (values: LoginFormValues) => {
+    signIn.mutate(values);
   };
 
   return (
@@ -80,7 +72,11 @@ export function LoginForm() {
           )}
         />
 
-        <LoadingButton className="w-full" type="submit" isLoading={false}>
+        <LoadingButton
+          className="w-full"
+          type="submit"
+          isLoading={signIn.isPending}
+        >
           Sign in
         </LoadingButton>
       </form>

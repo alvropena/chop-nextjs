@@ -11,16 +11,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-// import { signInMagicLinkAction } from "./actions";
 import { LoadingButton } from "@/components/composites/loading-button";
 import { forgotPasswordSchema } from "@/zod/validation-schema";
-import { useToast } from "@/components/ui/use-toast";
+import { useForgotPassword } from "@/services/mutations/auth-mutations";
 
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 export function ForgotPasswordForm() {
-  const { toast } = useToast();
-
+  const forgotPassword = useForgotPassword();
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -29,7 +27,7 @@ export function ForgotPasswordForm() {
   });
 
   function onSubmit(values: ForgotPasswordFormValues) {
-    // execute(values);
+    forgotPassword.mutate(values);
   }
 
   return (
@@ -53,7 +51,11 @@ export function ForgotPasswordForm() {
             </FormItem>
           )}
         />
-        <LoadingButton isLoading={false} className="w-full" type="submit">
+        <LoadingButton
+          isLoading={forgotPassword.isPending}
+          className="w-full"
+          type="submit"
+        >
           Send reset email
         </LoadingButton>
       </form>

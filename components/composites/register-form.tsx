@@ -11,16 +11,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/composites/loading-button";
-import { useToast } from "@/components/ui/use-toast";
 import { registrationSchema } from "@/zod/validation-schema";
-import { z } from "zod";
-import { useState } from "react";
+import { useSignUp } from "@/services/mutations/auth-mutations";
+import type { z } from "zod";
 
 type RegisterFormValues = z.infer<typeof registrationSchema>;
 
 export function RegisterForm() {
-  const { toast } = useToast();
-  const [isError, setIsError] = useState(false);
+  const signUp = useSignUp();
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -30,14 +28,8 @@ export function RegisterForm() {
     },
   });
 
-  const onSubmit = (values: RegisterFormValues) => {
-    console.log(values);
-    setIsError(true);
-    toast({
-      title: "Success",
-      description: "Your registration has been successful, you can login now",
-      variant: "default",
-    });
+  const onSubmit = ({ email, password }: RegisterFormValues) => {
+    signUp.mutate({ email, password });
   };
 
   return (
@@ -99,7 +91,11 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <LoadingButton className="w-full" type="submit" isLoading={false}>
+        <LoadingButton
+          className="w-full"
+          type="submit"
+          isLoading={signUp.isPending}
+        >
           Register
         </LoadingButton>
       </form>

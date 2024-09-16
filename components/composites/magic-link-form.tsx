@@ -13,13 +13,12 @@ import {
 } from "@/components/ui/form";
 import { LoadingButton } from "@/components/composites/loading-button";
 import { magicLinkSchema } from "@/zod/validation-schema";
-import { useToast } from "@/components/ui/use-toast";
+import { useSignInWithMagicLink } from "@/services/mutations/auth-mutations";
 
 type MagicLinkFormValues = z.infer<typeof magicLinkSchema>;
 
 export function MagicLinkForm() {
-  const { toast } = useToast();
-
+  const signIn = useSignInWithMagicLink();
   const form = useForm<MagicLinkFormValues>({
     resolver: zodResolver(magicLinkSchema),
     defaultValues: {
@@ -28,7 +27,7 @@ export function MagicLinkForm() {
   });
 
   function onSubmit(values: MagicLinkFormValues) {
-    // execute(values);
+    signIn.mutate(values);
   }
 
   return (
@@ -52,7 +51,11 @@ export function MagicLinkForm() {
             </FormItem>
           )}
         />
-        <LoadingButton isLoading={false} className="w-full" type="submit">
+        <LoadingButton
+          isLoading={signIn.isPending}
+          className="w-full"
+          type="submit"
+        >
           Sign in with magic link
         </LoadingButton>
       </form>
