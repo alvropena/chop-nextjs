@@ -1,4 +1,4 @@
-import { RateLimitError } from "./errors";
+import { RateLimitError } from "@/server/error-handler";
 import { getIp } from "./get-ip";
 
 const PRUNE_INTERVAL = 60 * 1000; // 1 minute
