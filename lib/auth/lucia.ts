@@ -18,6 +18,8 @@ export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
       id: attributes.id,
+      email: attributes.email,
+      // here we could add emailVerified if needed, but needs to be declared in DatabaseUserAttributes
     };
   },
 });
@@ -62,6 +64,7 @@ declare module "lucia" {
     Lucia: typeof lucia;
     DatabaseUserAttributes: {
       id: CustomUserId;
+      email: string;
     };
     UserId: CustomUserId;
   }
