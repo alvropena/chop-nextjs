@@ -4,16 +4,6 @@ import { RegisterForm } from "@/components/composites/register-form";
 import { OauthLoginButtons } from "@/components/composites/oauth-login-buttons";
 
 export default function SignUpPage() {
-  // const { execute, isPending, error } = useServerAction(signUpAction, {
-  //   onError({ err }) {
-  //     toast({
-  //       title: "Something went wrong",
-  //       description: err.message,
-  //       variant: "destructive",
-  //     });
-  //   },
-  // });
-
   return (
     <>
       <div className="text-center">

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-// import { pageTitleStyles } from "@/styles/common";
 import Link from "next/link";
 
 export default function MagicLinkPage() {

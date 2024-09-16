@@ -1,5 +1,3 @@
-// import { pageTitleStyles } from "@/styles/common";
-
 export default function MagicLinkPage() {
   return (
     <div className="w-full space-y-6 py-24">
