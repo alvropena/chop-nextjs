@@ -2,15 +2,15 @@
 
 import React, { useState, ReactNode } from "react";
 import { SearchContext } from "../context/search-context";
-import { SearchTopicType } from "../types/search/search-topic-type";
+import { SearchCommunityType } from "../types/search/search-community-type";
 import { SearchResultType } from "../types/search/search-result-type";
-import { SearchTopicData } from "../data/search-topic-data";
+import { SearchCommunityData } from "../data/search-community-data";  // Updated to use communities data
 import { handleInputChange } from "../lib/search-utils";
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
   const [query, setQueryState] = useState<string>("");
   const [recentSearches, setRecentSearches] = useState<SearchResultType[]>([]);
-  const [trendingTopics, setTrendingTopics] = useState<SearchTopicType[]>([]);
+  const [trendingCommunities, setTrendingCommunities] = useState<SearchCommunityType[]>([]);  // Updated to trending communities
   const [searchResults, setSearchResultsState] = useState<SearchResultType[]>([]);
   const [searchClicked, setSearchClicked] = useState<boolean>(false); // Track whether a search has been clicked
 
@@ -44,10 +44,10 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     setRecentSearches((prevSearches) => prevSearches.filter((search) => search.id !== id));
   };
 
-  // Fetch trending topics from hardcoded data
-  const fetchTrendingTopics = async () => {
-    const trending = SearchTopicData.slice(0, 10);
-    setTrendingTopics(trending);
+  // Fetch trending communities from hardcoded data
+  const fetchTrendingCommunities = async () => {
+    const trending = SearchCommunityData.slice(0, 10);  // Fetch from communities data
+    setTrendingCommunities(trending);
   };
 
   return (
@@ -55,14 +55,14 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
       value={{
         query,
         recentSearches,
-        trendingTopics,
+        trendingCommunities,  // Updated to reflect communities
         searchResults,
         searchClicked,
         setQuery,
         setSearchClicked,
         addRecentSearch,
         setSearchResults,
-        fetchTrendingTopics,
+        fetchTrendingCommunities,  // Updated to reflect communities
         handleClearAll,
         handleClearSearch,
         handleRemoveRecentSearch,

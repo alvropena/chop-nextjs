@@ -1,38 +1,35 @@
-// search-utils.tsx
 import { UserProfileData } from "../data/user-profile-data";
-import { SearchTopicData } from "../data/search-topic-data";
+import { CommunitiesData } from "../data/communities-data";
 
-// Utility function to search for both users and topics
 export const searchItems = (query: string) => {
-    const lowerCaseQuery = query.toLowerCase();
+  const lowerCaseQuery = query.toLowerCase();
 
-    // Filter users by name or username
-    const userResults = UserProfileData.filter(
-        (user) => user.name.toLowerCase().includes(lowerCaseQuery) || user.username.toLowerCase().includes(lowerCaseQuery)
-    );
+  // Filter users by name or username
+  const userResults = UserProfileData.filter(
+    (user) => user.name.toLowerCase().includes(lowerCaseQuery) || user.username.toLowerCase().includes(lowerCaseQuery)
+  );
 
-    // Filter topics by label
-    const topicResults = SearchTopicData.filter(
-        (topic) => topic.label.toLowerCase().includes(lowerCaseQuery)
-    );
+  // Filter communities by name
+  const communityResults = CommunitiesData.filter(
+    (community) => community.name.toLowerCase().includes(lowerCaseQuery)
+  );
 
-    // Combine user and topic results
-    return [...userResults, ...topicResults];
+  // Combine user and community results
+  return [...userResults, ...communityResults];
 };
 
 // A function that handles input changes and sets query/results in the provider
 export const handleInputChange = (
-    query: string,
-    setQuery: (query: string) => void,
-    setSearchResults: (results: any) => void
+  query: string,
+  setQuery: (query: string) => void,
+  setSearchResults: (results: any) => void
 ) => {
-    // Update query state
-    setQuery(query);
+  // Update query state
+  setQuery(query);
 
-    // Get the search results using the utility function
-    const results = searchItems(query);
+  // Get the search results using the utility function
+  const results = searchItems(query);
 
-    // Update the search results state in the context
-    setSearchResults(results);
+  // Update the search results state in the context
+  setSearchResults(results);
 };
-

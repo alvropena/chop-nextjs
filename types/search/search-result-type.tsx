@@ -1,4 +1,4 @@
-import { SearchTopicType } from './search-topic-type';
+import { SearchCommunityType } from './search-community-type';
 import { SearchUserType } from './search-user-type';
 
-export type SearchResultType = SearchTopicType | SearchUserType;
+export type SearchResultType = SearchCommunityType | SearchUserType;

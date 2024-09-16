@@ -1,4 +1,3 @@
-// useSearch.ts
 import { useContext } from 'react';
 import { SearchContext } from '../context/search-context';
 

@@ -6,7 +6,7 @@ import { useSearch } from "../../../../hooks/use-search";
 import { handleInputChange } from "../../../../lib/search-utils";
 import { SearchResultType } from "../../../../types/search/search-result-type";
 import { SearchUserType } from "../../../../types/search/search-user-type";
-import { SearchTopicType } from "../../../../types/search/search-topic-type";
+import { SearchTopicType } from "../../../../types/search/search-community-type";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, ReactNode } from "react";
 import { CommunitiesContext } from "../context/community-context";
-import { CommunityType } from "../types/community-type";
+import { CommunityType } from "../types/community/community-type";
 import { CommunitiesData } from "../data/communities-data";
 
 export const CommunitiesProvider = ({ children }: { children: ReactNode }) => {

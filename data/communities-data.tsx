@@ -1,4 +1,4 @@
-import { CommunityType } from "../types/community-type";
+import { CommunityType } from "../types/community/community-type";
 
 export const CommunitiesData: CommunityType[] = [
   { name: "Tech", emoji: "💻", members: 1500000 },
