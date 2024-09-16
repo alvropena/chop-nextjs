@@ -1,11 +1,18 @@
 import { Prisma } from "@prisma/client";
 import { ZodError } from "zod";
 import { NextResponse } from "next/server";
-import { HttpStatus } from "./http-status-codes"; // Make sure to import the HttpStatus object
+import { HttpStatus } from "./http-status-codes";
 
 export class PublicError extends Error {
   constructor(message: string) {
     super(message);
+  }
+}
+
+export class RateLimitError extends PublicError {
+  constructor() {
+    super("Rate limit exceeded");
+    this.name = "RateLimitError";
   }
 }
 
@@ -177,6 +184,26 @@ export const handleZodError = (error: ZodError) => {
   );
 };
 
+export const handlePublicError = (error: PublicError) => {
+  const errorMapping: { [key: string]: number } = {
+    AuthenticationError: HttpStatus.UNAUTHORIZED,
+    EmailInUseError: HttpStatus.CONFLICT,
+    NotFoundError: HttpStatus.NOT_FOUND,
+    TokenExpiredError: HttpStatus.UNAUTHORIZED,
+    LoginError: HttpStatus.UNAUTHORIZED,
+    RateLimitError: HttpStatus.TOO_MANY_REQUESTS,
+  };
+
+  const status = errorMapping[error.name] || HttpStatus.BAD_REQUEST;
+  return NextResponse.json(
+    {
+      message: error.message,
+      error,
+    },
+    { status }
+  );
+};
+
 export const handleCommonError = (error: unknown) => {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     // Handle known Prisma errors
@@ -184,6 +211,9 @@ export const handleCommonError = (error: unknown) => {
   } else if (error instanceof ZodError) {
     // Handle Zod validation errors
     return handleZodError(error);
+  } else if (error instanceof PublicError) {
+    // Handle PublicErrors and its subclasses
+    return handlePublicError(error);
   } else {
     // Handle other errors
     return NextResponse.json(

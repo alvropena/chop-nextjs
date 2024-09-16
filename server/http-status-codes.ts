@@ -12,6 +12,7 @@ export const HttpStatus = {
   NOT_FOUND: 404,
   METHOD_NOT_ALLOWED: 405,
   CONFLICT: 409,
+  TOO_MANY_REQUESTS: 429,
   INTERNAL_SERVER_ERROR: 500,
   NOT_IMPLEMENTED: 501,
   BAD_GATEWAY: 502,
@@ -46,6 +47,8 @@ export const HttpStatus = {
         return "Method Not Allowed";
       case this.CONFLICT:
         return "Conflict";
+      case this.TOO_MANY_REQUESTS:
+        return "Too Many Requests";
       case this.INTERNAL_SERVER_ERROR:
         return "Internal Server Error";
       case this.NOT_IMPLEMENTED:
