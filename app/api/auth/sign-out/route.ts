@@ -22,7 +22,7 @@ export async function GET(): Promise<Response> {
     sessionCookie.attributes
   );
   return NextResponse.json(
-    { redirectTo: "/signed-out" },
+    { redirectTo: "/sign-in" },
     { status: HttpStatus.OK }
   );
 }
