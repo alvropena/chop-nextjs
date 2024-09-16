@@ -10,7 +10,7 @@ import Link from "next/link";
 import SearchScreen from "../app/[locale]/(dashboard)/search/page";
 import NavLink from "./nav-link";
 import { cn } from "../lib/utils";
-import { useUser } from "@auth0/nextjs-auth0/client";
+// import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserProfileData } from "../data/user-profile-data";
 
 export default function AsideMenu({ }) {
@@ -23,7 +23,7 @@ export default function AsideMenu({ }) {
 
   const t = useTranslations("AsideMenu");
   const pathname = usePathname();
-  const { user } = useUser();
+  // const { user } = useUser();
   // Simulating fetching the logged-in user
   function getLoggedInUser() {
     return UserProfileData[0];
