@@ -3,10 +3,10 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useSearch } from "../../../../hooks/use-search";
-import { handleInputChange } from "../../../../lib/search-utils";
+import { handleInputChange, fetchCommunityDetails } from "../../../../lib/search-utils";
 import { SearchResultType } from "../../../../types/search/search-result-type";
 import { SearchUserType } from "../../../../types/search/search-user-type";
-import { SearchTopicType } from "../../../../types/search/search-community-type";
+import { SearchCommunityType } from "../../../../types/search/search-community-type";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -53,9 +53,12 @@ export default function SearchPage() {
 
     if (isUser(result)) {
       router.push(`/${result.username}`);
-    } else if (isTopic(result)) {
-      const communityLabel = result.label.toLowerCase().replace(/\s+/g, "-");
-      router.push(`/c/${communityLabel}`);
+    } else if (isCommunity(result)) {
+      const communityDetails = fetchCommunityDetails(result.communityId);
+      if (communityDetails) {
+        const communityLabel = communityDetails.name.toLowerCase().replace(/\s+/g, "-");
+        router.push(`/c/${communityLabel}`);
+      }
     }
   };
 
@@ -63,12 +66,12 @@ export default function SearchPage() {
     return "username" in result;
   };
 
-  const isTopic = (result: SearchResultType): result is SearchTopicType => {
-    return "label" in result;
+  const isCommunity = (result: SearchResultType): result is SearchCommunityType => {
+    return "communityId" in result;
   };
 
   const userResults = searchResults.filter(isUser);
-  const topicResults = searchResults.filter(isTopic);
+  const communityResults = searchResults.filter(isCommunity);
 
   return (
     <div className="flex flex-col gap-4 py-8">
@@ -107,9 +110,15 @@ export default function SearchPage() {
                   className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg flex items-center"
                   onClick={() => handleRemoveRecentSearch(search.id)}
                 >
-                  {isTopic(search) && <span className="text-lg">{search.emoji}</span>}
+                  {isCommunity(search) && (
+                    <span className="text-lg">{fetchCommunityDetails(search.communityId)?.emoji}</span>
+                  )}
                   <span className="ml-2 font-bold">
-                    {isTopic(search) ? search.label : isUser(search) ? search.username : ""}
+                    {isCommunity(search)
+                      ? fetchCommunityDetails(search.communityId)?.name
+                      : isUser(search)
+                      ? search.username
+                      : ""}
                   </span>
                 </li>
               ))}
@@ -120,7 +129,7 @@ export default function SearchPage() {
 
       {searchClicked && (
         <div>
-          {userResults.length === 0 && topicResults.length === 0 ? (
+          {userResults.length === 0 && communityResults.length === 0 ? (
             <div>
               <h2>{t("noResults")}</h2>
             </div>
@@ -149,22 +158,27 @@ export default function SearchPage() {
                 </>
               )}
 
-              {topicResults.length > 0 && (
+              {communityResults.length > 0 && (
                 <>
-                  <h3>{t("topicResultsTitle")}</h3>
+                  <h3>{t("communityResultsTitle")}</h3>
                   <ul>
-                    {topicResults.map((topic) => (
-                      <li
-                        key={topic.id}
-                        className="cursor-pointer flex items-center gap-4 hover:bg-secondary p-2 rounded-lg"
-                        onClick={() => handleResultClick(topic)}
-                      >
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200">
-                          <span className="text-lg">{topic.emoji}</span>
-                        </div>
-                        <span className="ml-2 font-bold">{topic.label}</span>
-                      </li>
-                    ))}
+                    {communityResults.map((community) => {
+                      const communityDetails = fetchCommunityDetails(community.communityId);
+                      return (
+                        communityDetails && (
+                          <li
+                            key={community.id}
+                            className="cursor-pointer flex items-center gap-4 hover:bg-secondary p-2 rounded-lg"
+                            onClick={() => handleResultClick(community)}
+                          >
+                            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200">
+                              <span className="text-lg">{communityDetails.emoji}</span>
+                            </div>
+                            <span className="ml-2 font-bold">{communityDetails.name}</span>
+                          </li>
+                        )
+                      );
+                    })}
                   </ul>
                 </>
               )}

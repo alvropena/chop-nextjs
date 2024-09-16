@@ -1,6 +1,13 @@
 import { UserProfileData } from "../data/user-profile-data";
-import { CommunitiesData } from "../data/communities-data";
+import { CommunitiesData } from "../data/community-data";
+import { CommunityType } from "../types/community/community-type";
 
+// Simulated function to fetch community details by communityId
+export const fetchCommunityDetails = (communityId: string): CommunityType | undefined => {
+  return CommunitiesData.find((community) => community.id === communityId);
+};
+
+// Search function to filter users and communities based on query
 export const searchItems = (query: string) => {
   const lowerCaseQuery = query.toLowerCase();
 
