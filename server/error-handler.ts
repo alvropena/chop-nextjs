@@ -18,7 +18,7 @@ export class RateLimitError extends PublicError {
 
 export class AuthenticationError extends PublicError {
   constructor() {
-    super("You must be logged in to view this content");
+    super("Authentication failed, Invalid user or email");
     this.name = "AuthenticationError";
   }
 }
