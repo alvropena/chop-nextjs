@@ -8,7 +8,7 @@ import {
 import { Inter } from "next/font/google";
 import { Toaster } from "../../components/ui/toaster";
 import "./globals.css";
-import { UserProvider as Auth0UserProvider } from "@auth0/nextjs-auth0/client";
+// import { UserProvider as Auth0UserProvider } from '@auth0/nextjs-auth0/client';
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { PHProvider } from "./providers";
@@ -62,25 +62,23 @@ export default function RootLayout({
               messages={messages as AbstractIntlMessages}
             >
               <ReactQueryProvider>
-                <Auth0UserProvider>
-                  <UserProvider>
-                    <NotificationsProvider>
-                      <CardProvider>
-                        <SearchProvider>
-                          <CommunitiesProvider>
-                            {" "}
-                            {/* CommunitiesProvider wrapping necessary components */}
-                            <PostHogPageView />
-                            {children}
-                            <GoogleAdsense pId="（AdsenseのID）" />
-                            <Analytics mode={"production"} />
-                            <SpeedInsights />
-                          </CommunitiesProvider>
-                        </SearchProvider>
-                      </CardProvider>
-                    </NotificationsProvider>
-                  </UserProvider>
-                </Auth0UserProvider>
+                <UserProvider>
+                  <NotificationsProvider>
+                    <CardProvider>
+                      <SearchProvider>
+                        <CommunitiesProvider>
+                          {" "}
+                          {/* CommunitiesProvider wrapping necessary components */}
+                          <PostHogPageView />
+                          {children}
+                          <GoogleAdsense pId="（AdsenseのID）" />
+                          <Analytics mode={"production"} />
+                          <SpeedInsights />
+                        </CommunitiesProvider>
+                      </SearchProvider>
+                    </CardProvider>
+                  </NotificationsProvider>
+                </UserProvider>
               </ReactQueryProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
