@@ -8,6 +8,17 @@ import { HttpStatus } from "@/server/http-status-codes";
 // Define the protected routes
 const protectedRoutes = ["/home", "/settings", "/notifications", "/explore"];
 const protectedApiRoutes = ["/api/protected-route"];
+const authRoutes = [
+  "/sign-in",
+  "/sign-in/forgot-password",
+  "/sign-in/magic",
+  "/sign-in/magic/sent",
+  "/sign-in/magic/error",
+  "/sign-up",
+  "/reset-password",
+  "/verify-success",
+  "/",
+];
 
 // Middleware for internationalization
 const intlMiddleware = createMiddleware({
@@ -29,10 +40,7 @@ export default async function middleware(
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
-
-  if (!isProtectedApiRoute && !isProtectedRoute) {
-    return intlMiddleware(req) as NextResponse;
-  }
+  const isAuthRoute = authRoutes.some((route) => pathname === route);
 
   // this is just an workaround to handle the auth verification
   // inside the middleware - Since the middleware is "edge only"
@@ -45,6 +53,10 @@ export default async function middleware(
   const verifySession = (await verifyRequest.json()) as {
     valid: boolean;
   };
+
+  if (verifySession.valid && isAuthRoute) {
+    return NextResponse.redirect(new URL("/home", req.url));
+  }
 
   // Check for protected API routes
   if (isProtectedApiRoute) {
@@ -77,7 +89,7 @@ export default async function middleware(
 export const config = {
   matcher: [
     "/",
-    "/((?!about|settings|home|search|notifications|followers|following|pricing|blog|c|contact|sign-up|sign-in|reset-password)[^/]+)", // Matcher for /[username] pattern
+    "/((?!about|settings|home|search|notifications|followers|following|pricing|blog|c|contact|sign-up|sign-in|reset-password|favicon.ico)[^/]+)", // Matcher for /[username] pattern
     "/(en|ja|es|ind)/:path*",
     "/home",
     "/search/:path*",
@@ -93,6 +105,7 @@ export const config = {
     "/sign-up",
     "/sign-in/:path*",
     "/reset-password",
+    "/verify-success",
     "/api/protected-route", //for testing
   ],
 };
