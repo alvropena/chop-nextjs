@@ -20,7 +20,7 @@ export function OauthLoginButtons({ isMagicLinkPage }: OauthLoginButtonsProps) {
         </div>
       </div>
       <Button asChild variant="secondary" className="w-full">
-        <Link href="/api/login/google">
+        <Link href="/api/auth/sign-in/google">
           <Image
             src="/images/google-logo.svg"
             width={20}

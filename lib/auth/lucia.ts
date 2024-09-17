@@ -5,6 +5,7 @@ import { db } from "@/server/db";
 import { cookies } from "next/headers";
 import type { Session, User } from "lucia";
 import type { UserId as CustomUserId } from "@/types/auth-type";
+import { BASE_URL } from "@/data/app-data";
 
 const adapter = new PrismaAdapter(db.session, db.user);
 
@@ -73,5 +74,5 @@ declare module "lucia" {
 export const googleAuth = new Google(
   process.env.GOOGLE_CLIENT_ID!,
   process.env.GOOGLE_CLIENT_SECRET!,
-  `${process.env.HOST_NAME}/api/login/google/callback`
+  `${BASE_URL}/api/auth/sign-in/google/callback`
 );

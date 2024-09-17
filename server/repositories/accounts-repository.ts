@@ -23,8 +23,10 @@ export async function createAccount(userId: UserId, password: string) {
 }
 
 export async function createAccountViaGoogle(userId: UserId, googleId: string) {
-  await db.account.create({
-    data: {
+  await db.account.upsert({
+    where: { userId: userId },
+    update: { googleId: googleId },
+    create: {
       userId,
       accountType: "google",
       googleId,

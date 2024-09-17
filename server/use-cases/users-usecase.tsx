@@ -9,12 +9,12 @@ import { UserId, UserSession } from "@/types/auth-type";
 import {
   createAccount,
   createAccountViaGoogle,
+  getAccountByUserId,
   updatePasswordTransaction,
 } from "../repositories/accounts-repository";
 import type { GoogleUser } from "@/types/auth-type";
 import {
   createPasswordResetToken,
-  deletePasswordResetToken,
   getPasswordResetToken,
 } from "../repositories/reset-tokens-respository";
 import ResetPasswordEmail from "../email-templates/reset-password";
@@ -81,12 +81,18 @@ export async function signInUseCase(email: string, password: string) {
 export async function createGoogleUserUseCase(googleUser: GoogleUser) {
   let existingUser = await getUserByEmail(googleUser.email);
 
-  if (!existingUser) {
+  if (existingUser) {
+    // Check if the account already has a googleId
+    const account = await getAccountByUserId(existingUser.id);
+    if (account && !account.googleId) {
+      // Link the Google account to the existing user account
+      await createAccountViaGoogle(existingUser.id, googleUser.sub);
+    }
+  } else {
+    // Create a new user and link the Google account
     existingUser = await createUser(googleUser.email);
+    await createAccountViaGoogle(existingUser.id, googleUser.sub);
   }
-
-  await createAccountViaGoogle(existingUser.id, googleUser.sub);
-
   return existingUser.id;
 }
 
