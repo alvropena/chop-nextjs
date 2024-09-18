@@ -11,13 +11,17 @@
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:prod": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "slicemachine": "start-slicemachine"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
     "@hookform/resolvers": "^3.6.0",
     "@lucia-auth/adapter-prisma": "^4.0.1",
     "@prisma/client": "^5.19.1",
+    "@prismicio/client": "^7.9.0",
+    "@prismicio/next": "^1.6.0",
+    "@prismicio/react": "^2.8.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -78,6 +82,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@slicemachine/adapter-next": "^0.3.49",
     "@types/axios": "^0.14.0",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash.debounce": "^4.0.9",
@@ -98,6 +103,7 @@
     "prettier-plugin-tailwindcss": "^0.6.5",
     "prisma": "^5.19.1",
     "react-email": "3.0.1",
+    "slice-machine-ui": "^2.7.1",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.3",
     "webpack": "^5.0.0"
