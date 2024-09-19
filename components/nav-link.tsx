@@ -59,7 +59,12 @@ export default function NavLink({
             </div>
           </Link>
         </TooltipTrigger>
-        <TooltipContent side={tooltipSide}>{label}</TooltipContent>
+        <TooltipContent
+          side={tooltipSide}
+          className={cn(!collapsed && "hidden")}
+        >
+          {label}
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
