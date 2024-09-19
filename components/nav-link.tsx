@@ -1,6 +1,11 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "./ui/tooltip";
 import { cn } from "../lib/utils";
 
 interface NavLinkProps {
@@ -12,12 +17,20 @@ interface NavLinkProps {
   isBottomTab?: boolean;
 }
 
-export default function NavLink({ href, icon, label, collapsed = false, tooltipSide = "top", isBottomTab }: NavLinkProps) {
+export default function NavLink({
+  href,
+  icon,
+  label,
+  collapsed = false,
+  tooltipSide = "top",
+  isBottomTab,
+}: NavLinkProps) {
   const pathname = usePathname(); // Use next-intl's usePathname
 
   const isActive = pathname === href;
 
-  const baseClasses = "relative inline-flex items-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md";
+  const baseClasses =
+    "relative inline-flex items-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md";
   const activeClasses = "bg-primary text-primary-foreground";
   const hoverClasses = "hover:bg-secondary hover:text-secondary-foreground";
   const defaultClasses = "bg-transparent text-foreground";
@@ -38,7 +51,11 @@ export default function NavLink({ href, icon, label, collapsed = false, tooltipS
               <div className="relative flex items-center justify-center">
                 {icon}
               </div>
-              {!collapsed && <span className="ml-2">{label}</span>}
+              {!collapsed && (
+                <span className={cn("ml-2", isBottomTab && "hidden md:block")}>
+                  {label}
+                </span>
+              )}
             </div>
           </Link>
         </TooltipTrigger>
