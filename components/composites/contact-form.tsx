@@ -77,7 +77,7 @@ export function ContactForm() {
           error={errors.message?.message}
         />
         <div className="flex justify-end">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full sm:w-auto">
             {t("send")}
           </Button>
         </div>

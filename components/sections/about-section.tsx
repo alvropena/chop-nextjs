@@ -6,9 +6,9 @@ export function AboutSection() {
   return (
     <section id="about" className="container max-w-6xl mb-20">
       <div className="text-center mb-11">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
           {t("title")}
-        </h1>
+        </h2>
         <p className="mt-4 text-muted-foreground">{t("description")}</p>
       </div>
       <div className="flex items-center md:items-start md:justify-center gap-10 text-center flex-col sm:text-left md:flex-row">

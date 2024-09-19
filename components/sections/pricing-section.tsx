@@ -8,9 +8,9 @@ export function PricingSection() {
   return (
     <section id="pricing" className="space-y-10 pb-10 mx-auto max-w-6xl w-5/6">
       <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
           {t("title")}
-        </h1>
+        </h2>
         <Badge variant="default" className="mt-4">
           {t("comingSoon")}
         </Badge>

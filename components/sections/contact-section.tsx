@@ -5,11 +5,11 @@ export function ContactSection() {
   const t = useTranslations("ContactPage");
 
   return (
-    <section id="contact" className="pb-10 mx-auto max-w-6xl w-5/6">
+    <section id="contact" className="pb-10 mx-auto max-w-6xl w-5/6 ">
       <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
           {t("contact")}
-        </h1>
+        </h2>
         <p className="mt-4 text-muted-foreground">{t("contactDescription")}</p>
       </div>
       <ContactForm />

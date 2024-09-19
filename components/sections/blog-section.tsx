@@ -11,9 +11,9 @@ export function BlogSection() {
       id="blog"
       className="flex-1 flex flex-col items-center justify-center gap-4 p-6 pb-14"
     >
-      <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+      <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
         {t("title")}
-      </h1>
+      </h2>
       <Badge variant="default" className="mt-4">
         {t("comingSoon")}
       </Badge>
