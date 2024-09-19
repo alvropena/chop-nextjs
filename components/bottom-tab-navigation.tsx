@@ -11,7 +11,7 @@ export default function BottomTabNavigation({ isBottomTab = false }: { isBottomT
       <NavLink href='/search' icon={<SearchIcon />} label={t('search')} isBottomTab={isBottomTab} />
       <NavLink href='/notifications' icon={<BellIcon />} label={t('notifications')} isBottomTab={isBottomTab} />
       <NavLink href='/profile' icon={<UserIcon />} label={t('profile')} isBottomTab={isBottomTab} />
-      {/* <NavLink href='/settings' icon={<SettingsIcon />} label={t('settings')} isBottomTab={isBottomTab} /> */}
+      <NavLink href='/settings' icon={<SettingsIcon />} label={t('settings')} isBottomTab={isBottomTab} />
     </footer>
   );
 }
