@@ -45,6 +45,17 @@
           "placeholder": ""
         }
       },
+      "card_image": {
+        "type": "Image",
+        "config": {
+          "label": "Card Image",
+          "constraint": {
+            "width": 320,
+            "height": 240
+          },
+          "thumbnails": []
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
