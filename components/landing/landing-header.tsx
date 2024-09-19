@@ -23,16 +23,16 @@ export default function LandingHeader() {
 
             {/* Navigation links for large screens */}
             <nav className="hidden md:flex items-center gap-6">
-                <Link href="/about" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                     {t("about")}
                 </Link>
-                <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                     {t("pricing")}
                 </Link>
-                <Link href="/blog" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                <Link href="#blog" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                     {t("blog")}
                 </Link>
-                <Link href="/contact" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                     {t("contact")}
                 </Link>
             </nav>
@@ -73,16 +73,16 @@ export default function LandingHeader() {
                         <SheetContent side="left" className="md:max-w-xs">
                             <nav className="grid gap-6 text-lg font-medium">
                                 {/* <LanguageCombobox /> */}
-                                <Link href="/about" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                                <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                                     {t("about")}
                                 </Link>
-                                <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                                <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                                     {t("pricing")}
                                 </Link>
-                                <Link href="/blog" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                                <Link href="#blog" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                                     {t("blog")}
                                 </Link>
-                                <Link href="/contact" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+                                <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
                                     {t("contact")}
                                 </Link>
                             </nav>
