@@ -1,6 +1,6 @@
-import { PricingOption } from "../../../../components/landing/pricing-option";
+import { PricingOption } from "@/components/landing/pricing-option";
 import { useTranslations } from "next-intl";
-import { Badge } from "../../../../components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 export default function PricingPage() {
   const t = useTranslations("PricingPage");
@@ -8,8 +8,12 @@ export default function PricingPage() {
   return (
     <main>
       <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{t("title")}</h1>
-        <Badge variant="default" className="mt-4">{t("comingSoon")}</Badge>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          {t("title")}
+        </h1>
+        <Badge variant="default" className="mt-4">
+          {t("comingSoon")}
+        </Badge>
         <p className="mt-4 text-muted-foreground">{t("subtitle")}</p>
         <p className="mt-4">{t("chopIsFree")}</p>
       </div>

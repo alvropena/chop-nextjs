@@ -2,7 +2,7 @@
 
 import React from "react";
 // import { useTranslations } from "next-intl";
-import { Badge } from "../../../../components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { createClient, repositoryName } from "@/prismicio";
 import { PrismicPreview } from "@prismicio/next";
 import { PostCard } from "@/components/prismic/post-card";
@@ -16,15 +16,11 @@ export default async function BlogPage() {
     <main className="flex-1 flex flex-col items-center justify-center gap-4 p-6">
       <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
         {/* {t("title")} */}
-        Le titulo
       </h1>
       <Badge variant="default" className="mt-4">
         {/* {t("comingSoon")} */}
-        le coming soon
       </Badge>
-      <p className="mt-4 text-muted-foreground">
-        {/* {t("subtitle")} */} le subtitle
-      </p>
+      <p className="mt-4 text-muted-foreground">{/* {t("subtitle")} */}</p>
       <PrismicPreview repositoryName={repositoryName} />
       {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div> */}
       {/* Map over each of the blog posts created and display a `PostCard` for it */}

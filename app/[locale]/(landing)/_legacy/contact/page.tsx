@@ -1,16 +1,15 @@
 "use client";
 
-import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { toast } from "../../../../components/ui/use-toast";
-import { contactSchema } from "../../../../lib/contact";
-import { ContactFormData } from "../../../../lib/contact";
-import { sendFeedback } from "../../../../lib/contact";
-import { FormInput } from "../../../../components/form/form-input";
-import { FormTextarea } from "../../../../components/form/form-text-area";
-import { Button } from "../../../../components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { contactSchema } from "@/lib/contact";
+import { ContactFormData } from "@/lib/contact";
+import { sendFeedback } from "@/lib/contact";
+import { FormInput } from "@/components/form/form-input";
+import { FormTextarea } from "@/components/form/form-text-area";
+import { Button } from "@/components/ui/button";
 
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
@@ -46,7 +45,9 @@ export default function ContactPage() {
   return (
     <main>
       <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{t("contact")}</h1>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          {t("contact")}
+        </h1>
         <p className="mt-4 text-muted-foreground">{t("contactDescription")}</p>
       </div>
       <FormProvider {...methods}>
