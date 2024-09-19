@@ -58,6 +58,14 @@ export default async function middleware(
     return NextResponse.redirect(new URL("/home", req.url));
   }
 
+  // Just to make sure users don't try to access blog page or pricing page
+  if (pathname === "/blog") {
+    return NextResponse.redirect(new URL("/#blog", req.url));
+  }
+  if (pathname === "/pricing") {
+    return NextResponse.redirect(new URL("/#pricing", req.url));
+  }
+
   // Check for protected API routes
   if (isProtectedApiRoute) {
     if (!verifySession.valid) {
