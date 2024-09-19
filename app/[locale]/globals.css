@@ -83,7 +83,7 @@
   }
 
   * {
-    @apply border-border;
+    @apply border-border scroll-smooth scroll-mt-4;
   }
 
   body {
