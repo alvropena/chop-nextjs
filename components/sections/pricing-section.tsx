@@ -6,7 +6,7 @@ export function PricingSection() {
   const t = useTranslations("PricingPage");
 
   return (
-    <section className="space-y-10 pb-10">
+    <section id="pricing" className="space-y-10 pb-10">
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
           {t("title")}

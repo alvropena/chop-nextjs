@@ -57,12 +57,10 @@ export async function generateStaticParams() {
 export default async function Page({ params }: { params: Params }) {
   const client = createClient();
 
-  const blogPosts = await client.getAllByType("blog_post");
   // Fetch the current blog post page being displayed by the UID of the page
   const page = await client
     .getByUID("blog_post", params.uid)
     .catch(() => notFound());
-  console.log("En la pagina: ", { blogPosts, page });
   /**
    * Fetch all of the blog posts in Prismic (max 2), excluding the current one, and ordered by publication date.
    *
@@ -80,7 +78,7 @@ export default async function Page({ params }: { params: Params }) {
   const { slices, title, publication_date, description, featured_image } =
     page.data;
   return (
-    <div className="flex flex-col gap-12 w-full max-w-3xl">
+    <div className="flex flex-col gap-12 w-full max-w-3xl mx-auto py-14">
       {/* Display the "hero" section of the blog post */}
       <section className="flex flex-col gap-12">
         <div className="flex flex-col items-center gap-3 w-full">
@@ -106,7 +104,7 @@ export default async function Page({ params }: { params: Params }) {
       <SliceZone slices={slices} components={components} />
       {/* Display the Recommended Posts section using the posts we requested earlier */}
       <h2 className="font-bold text-3xl">Recommended Posts</h2>
-      <section className="grid grid-cols-1 gap-8 max-w-3xl w-full">
+      <section className="flex justify-center gap-8 max-w-3xl w-full">
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
