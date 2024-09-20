@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { HomeIcon, SearchIcon, BellIcon, UserIcon, SettingsIcon, PanelLeftCloseIcon, MessageCircle, UsersIcon } from "lucide-react";
-import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "./ui/dialog";
 import Logo from "./logo";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
@@ -64,6 +64,7 @@ export default function AsideMenu({ }) {
       <nav className="flex flex-col gap-4 mt-4">
         <NavLink href="/home" icon={<HomeIcon className="h-5 w-5" />} label={t("home")} collapsed={isCollapsed} tooltipSide="right" />
         <Dialog>
+          <DialogTitle className="sr-only">{t("search")}</DialogTitle>
           <DialogTrigger asChild>
             <button className={searchButtonClasses}>
               <SearchIcon className="h-5 w-5 shrink-0" />
