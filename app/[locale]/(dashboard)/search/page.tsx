@@ -7,7 +7,7 @@ import { handleInputChange, fetchCommunityDetails } from "../../../../lib/search
 import { SearchResultType } from "../../../../types/search/search-result-type";
 import { SearchUserType } from "../../../../types/search/search-user-type";
 import { SearchCommunityType } from "../../../../types/search/search-community-type";
-import { X } from "lucide-react";
+import { User, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -139,7 +139,7 @@ export default function SearchPage() {
               {userResults.length > 0 && (
                 <>
                   <h3>{t("userResultsTitle")}</h3>
-                  <ul>
+                  <ul className="py-2">
                     {userResults.map((user) => (
                       <li
                         key={user.id}
@@ -147,7 +147,15 @@ export default function SearchPage() {
                         onClick={() => handleResultClick(user)}
                       >
                         <div className="flex items-center gap-4">
-                          <Image src={user.profilePicture} alt={user.name} className="w-10 h-10 rounded-full" />
+                        {user.profilePicture ? (
+                            <Image
+                              src={user.profilePicture}
+                              alt={user.name}
+                              className="w-10 h-10 rounded-full"
+                            />
+                          ) : (
+                            <User className="w-10 h-10 rounded-full bg-slate-200/30" />
+                          )}
                           <div>
                             <p>{user.name}</p>
                             <p className="text-sm text-gray-500">@{user.username}</p>
