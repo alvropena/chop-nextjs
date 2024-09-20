@@ -55,7 +55,7 @@ export default function SearchPage() {
     if (isUser(result)) {
       router.push(`/${result.username}`);
     } else if (isCommunity(result)) {
-      const communityDetails = fetchCommunityDetails(result.communityId);
+      const communityDetails = fetchCommunityDetails(result.id);
       if (communityDetails) {
         const communityLabel = communityDetails.name.toLowerCase().replace(/\s+/g, "-");
         router.push(`/c/${communityLabel}`);
@@ -112,11 +112,11 @@ export default function SearchPage() {
                   onClick={() => handleRemoveRecentSearch(search.id)}
                 >
                   {isCommunity(search) && (
-                    <span className="text-lg">{fetchCommunityDetails(search.communityId)?.emoji}</span>
+                    <span className="text-lg">{fetchCommunityDetails(search.id)?.emoji}</span>
                   )}
                   <span className={cn("font-bold", isCommunity(search) && 'ml-2')}>
                     {isCommunity(search)
-                      ? fetchCommunityDetails(search.communityId)?.name
+                      ? fetchCommunityDetails(search.id)?.name
                       : isUser(search)
                       ? search.username
                       : ""}
