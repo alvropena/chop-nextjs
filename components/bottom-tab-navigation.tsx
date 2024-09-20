@@ -1,9 +1,17 @@
+"use client";
 import { BellIcon, HomeIcon, SearchIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import NavLink from "./nav-link"; // Import NavLink
+import { useResponsive } from "@/hooks/use-responsive";
+
 
 export default function BottomTabNavigation({ isBottomTab = false }: { isBottomTab?: boolean }) {
   const t = useTranslations("DashboardLayout");
+  const { isMobile } = useResponsive()
+
+  if(!isMobile) {
+    return null
+  }
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center border-t bg-background p-4 md:hidden">

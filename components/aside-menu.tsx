@@ -12,8 +12,10 @@ import NavLink from "./nav-link";
 import { cn } from "../lib/utils";
 // import { useUser } from "@auth0/nextjs-auth0/client";
 import { UserProfileData } from "../data/user-profile-data";
+import { useResponsive } from "@/hooks/use-responsive";
 
 export default function AsideMenu({ }) {
+  const { isMobile } = useResponsive()
   const [isCollapsed, setIsCollapsed] = useState(() => {
     if (typeof window !== "undefined") {
       return JSON.parse(localStorage.getItem("asideMenuCollapsed") || "false");
@@ -48,6 +50,10 @@ export default function AsideMenu({ }) {
       localStorage.setItem("asideMenuCollapsed", JSON.stringify(isCollapsed));
     }
   }, [isCollapsed]);
+  
+  if(isMobile) {
+    return null
+  }
 
   return (
     <aside className={cn("flex-col border-r bg-background p-4 transition-all duration-300 overflow-hidden", isCollapsed ? "w-16" : "w-56", "hidden sm:flex")}>
