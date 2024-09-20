@@ -195,3 +195,13 @@ export const sendOptionTyped = async (
 
   return await response.json();
 };
+
+export const formatMemberCount = (count: number): string => {
+  if (count >= 1000000) {
+    return `${(count / 1000000).toFixed(1)}m`;
+  } else if (count >= 1000) {
+    return `${(count / 1000).toFixed(1)}k`;
+  } else {
+    return count.toString();
+  }
+};
