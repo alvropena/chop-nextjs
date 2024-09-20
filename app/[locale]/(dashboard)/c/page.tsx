@@ -35,11 +35,11 @@ export default function CommunityList() {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-4 max-wd-lg">
+    <div className="grid grid-cols-3 gap-14 max-wd-lg px-10">
       {communities.map((community, index) => (
         <Card
           key={index}
-          className="aspect-square flex flex-col items-center justify-between p-4 text-center"
+          className="aspect-square max-w-72 flex flex-col items-center justify-between p-4 py-8 text-center"
         >
           <div className="text-4xl mb-2">{community.emoji}</div>
           <div>
