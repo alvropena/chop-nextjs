@@ -205,3 +205,12 @@ export const formatMemberCount = (count: number): string => {
     return count.toString();
   }
 };
+
+/**
+ * Capitalize the first letter and substitute "-" for spaces
+ * Example: some-community => Some community
+ */
+export const formatText = (rawText: string) => {
+  const text = rawText.replace("-", " ");
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
