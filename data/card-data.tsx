@@ -22,7 +22,7 @@
       title: "Tennis Scoring System",
       content: {
         passage: "In tennis, the scoring system is unique. Listen to the following audio to learn more about it.",
-        audioUrl: "/audio/tennis-scoring.mp3",
+        audioUrl: "/audio/example-audio-italian.mp3",
         imageUrl: "/images/tennis-court.jpg"
       },
       question: {
@@ -58,7 +58,7 @@
       title: "Speak Italian: Basic Phrases",
       content: {
         passage: "Learn the basic Italian phrases used in daily conversations. Listen to the audio below.",
-        audioUrl: "/audio/italian-phrases.mp3"
+        audioUrl: "/audio/example-audio-italian.mp3"
       },
       question: {
         type: "multiple-choice",  
