@@ -13,7 +13,7 @@ export default function UserProfilePage({
     return (
       <div className="flex flex-col items-center py-8">
         <h1 className="text-3xl font-bold mb-10">
-          Sorry, this page isn't available.
+          Sorry, this page isn&apos;t available.
         </h1>
         <h1 className="text-lg font-semibold">
           The link you followed maybe broken, or the page may have been removed.{" "}
