@@ -81,7 +81,7 @@ const BaseCard: React.FC<BaseCardType> = ({
   };
 
   return (
-    <Card className="flex flex-col justify-between h-full w-full md:w-2/6 p-6">
+    <Card className="flex flex-col justify-start h-fit w-full md:w-2/6 p-6">
       <Progress value={currentProgress} className="w-full mb-4 h-3" />
       <div className="mt-4">
         {!showFeedback ? (
