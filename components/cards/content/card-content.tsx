@@ -1,16 +1,14 @@
-import React from "react";
+"use client";
+import { useState, type FC } from "react";
 import Image from "next/image";
 import type { CardContentType } from "@/types/card/content/card-content-type";
 
-const CardContent: React.FC<CardContentType> = ({
-  passage,
-  audioUrl,
-  imageUrl,
-}) => {
+const CardContent: FC<CardContentType> = ({ passage, audioUrl, imageUrl }) => {
+  const [imgSrc, setImgSrc] = useState(imageUrl);
   return (
     <div>
       {/* Always render the passage */}
-      <p className="p-4 rounded">{passage}</p>
+      <p className="py-4 rounded">{passage}</p>
 
       {/* Conditionally render the audio if provided */}
       {audioUrl && (
@@ -26,8 +24,11 @@ const CardContent: React.FC<CardContentType> = ({
           style={{ height: "200px" }}
         >
           <Image
-            src={imageUrl}
+            src={imgSrc || "/images/loading-image.gif"}
             alt="Content image"
+            placeholder="blur"
+            blurDataURL="/images/loading-image.gif"
+            onError={() => setImgSrc("/images/image-example.jpg")}
             layout="fill"
             objectFit="cover"
           />
