@@ -76,17 +76,17 @@ export default function SearchPage() {
 
   return (
     <div className="flex flex-col gap-4 py-8">
-      <div className="flex items-center gap-2">
+      <div className="relative flex items-center gap-2">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           ref={inputRef}
-          className="border border-gray-300 rounded px-3 py-2 w-full"
+          className="border border-gray-300 rounded px-3 py-2 w-full pr-10"
           placeholder={t("searchPlaceholder")}
         />
         {query && (
-          <button onClick={handleClearSearch} className="bg-secondary p-1 rounded-full">
+          <button onClick={handleClearSearch} className="absolute right-2 top-2 bg-secondary p-1 rounded-full">
             <X className="h-4 w-4" />
           </button>
         )}
@@ -170,7 +170,7 @@ export default function SearchPage() {
               {communityResults.length > 0 && (
                 <>
                   <h3>{t("communityResultsTitle")}</h3>
-                  <ul>
+                  <ul className="py-2">
                     {communityResults.map((community) => {
                       const communityDetails = fetchCommunityDetails(community.id);
                       return (
