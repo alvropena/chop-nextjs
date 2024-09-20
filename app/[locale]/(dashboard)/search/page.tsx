@@ -68,7 +68,7 @@ export default function SearchPage() {
   };
 
   const isCommunity = (result: SearchResultType): result is SearchCommunityType => {
-    return "communityId" in result;
+    return "members" in result;
   };
 
   const userResults = searchResults.filter(isUser);
@@ -172,7 +172,7 @@ export default function SearchPage() {
                   <h3>{t("communityResultsTitle")}</h3>
                   <ul>
                     {communityResults.map((community) => {
-                      const communityDetails = fetchCommunityDetails(community.communityId);
+                      const communityDetails = fetchCommunityDetails(community.id);
                       return (
                         communityDetails && (
                           <li
