@@ -10,6 +10,7 @@ import { SearchCommunityType } from "../../../../types/search/search-community-t
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export default function SearchPage() {
   const t = useTranslations("SearchPage");
@@ -44,7 +45,7 @@ export default function SearchPage() {
     }, 300);
 
     return () => clearTimeout(debounceTimer);
-  }, [query, setQuery, setSearchClicked, setSearchResults]);
+  }, [query]);
 
   const handleResultClick = (result: SearchResultType) => {
     addRecentSearch(result);
@@ -103,17 +104,17 @@ export default function SearchPage() {
           {recentSearches.length === 0 ? (
             <p className="text-gray-500">{t("noRecentSearches")}</p>
           ) : (
-            <ul className="flex space-x-4">
+            <ul className="flex gap-x-4 flex-wrap">
               {recentSearches.map((search) => (
                 <li
                   key={search.id}
-                  className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg flex items-center"
+                  className="cursor-pointer hover:bg-gray-100/20 duration-300 p-2 rounded-lg flex items-center"
                   onClick={() => handleRemoveRecentSearch(search.id)}
                 >
                   {isCommunity(search) && (
                     <span className="text-lg">{fetchCommunityDetails(search.communityId)?.emoji}</span>
                   )}
-                  <span className="ml-2 font-bold">
+                  <span className={cn("font-bold", isCommunity(search) && 'ml-2')}>
                     {isCommunity(search)
                       ? fetchCommunityDetails(search.communityId)?.name
                       : isUser(search)
