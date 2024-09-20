@@ -2,11 +2,11 @@
 
 import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useSearch } from "../../../../hooks/use-search";
-import { handleInputChange, fetchCommunityDetails } from "../../../../lib/search-utils";
-import { SearchResultType } from "../../../../types/search/search-result-type";
-import { SearchUserType } from "../../../../types/search/search-user-type";
-import { SearchCommunityType } from "../../../../types/search/search-community-type";
+import { useSearch } from "@/hooks/use-search";
+import { handleInputChange, fetchCommunityDetails } from "@/lib/search-utils";
+import { SearchResultType } from "@/types/search/search-result-type";
+import { SearchUserType } from "@/types/search/search-user-type";
+import { SearchCommunityType } from "@/types/search/search-community-type";
 import { User, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
