@@ -1,17 +1,13 @@
-"use client";
-
 import React from 'react';
 import { Button } from '../ui/button';
 import Link from "next/link";
 import { LogIn, MenuIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Sheet, SheetTrigger, SheetContent } from "../ui/sheet";
 import { useTranslations } from 'next-intl';
 import Logo from '../logo';
 import { ThemeToggle } from '../theme/theme-toggle';
 
 export default function LandingHeader() {
-    const router = useRouter();
     const t = useTranslations("LandingHeader");
 
     return (
