@@ -26,18 +26,22 @@ export function ThemeToggle({ variant = "toggle" }) {
     };
 
     // Render placeholder until mounted to avoid mismatch between server and client
-    if ((!isMounted || !theme) && variant === "toggle") {
-        return (
+    if ((!isMounted || !theme) ) {
+        return variant === "toggle" ? (
             <Toggle aria-label="Toggle theme" onPressedChange={handleToggle}>
                 <div className="w-4 h-4" />
             </Toggle>
-        );
+        ): (
+            <div className="flex items-center">
+                <div className="w-11 h-6" />
+            </div>
+        )
     }
 
     if (variant === "switch") {
         return (
             <div className="flex items-center">
-                <Switch id="dark-mode" onCheckedChange={handleToggle} />
+                <Switch id="dark-mode" onCheckedChange={handleToggle} checked={currentTheme === "dark"} />
             </div>
         );
     }

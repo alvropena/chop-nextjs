@@ -12,7 +12,7 @@ export function UserProfileHeader({
     profile_picture: profilePicture,
     verified,
     getLocalizedPath
-}: UserProfileType & { getLocalizedPath: (path: string) => string }) {
+}: UserProfileType & { getLocalizedPath?: (path: string) => string }) {
     return (
         <div className='flex flex-row ml-4 items-center'>
             <div className="">

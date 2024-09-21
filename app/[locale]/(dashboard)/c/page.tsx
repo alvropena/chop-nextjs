@@ -1,27 +1,6 @@
-"use client";
-
-import React from "react";
-import { useRouter } from "next/navigation";
-import { Card } from "../../../../components/ui/card";
-import { Button } from "../../../../components/ui/button";
+import { CommunityCard } from "@/components/cards/community-card/community-card";
 
 export default function CommunityList() {
-  const router = useRouter();
-
-  const handleNavigate = (community: string) => {
-    router.push(`/c/${community}`);
-  };
-
-  function formatMemberCount(count: number): string {
-    if (count >= 1000000) {
-      return `${(count / 1000000).toFixed(1)}m`;
-    } else if (count >= 1000) {
-      return `${(count / 1000).toFixed(1)}k`;
-    } else {
-      return count.toString();
-    }
-  }
-
   const communities = [
     { name: "Tech", emoji: "💻", members: 1500000 },
     { name: "Art", emoji: "🎨", members: 1200000 },
@@ -35,23 +14,9 @@ export default function CommunityList() {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-4 max-wd-lg">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-14 max-wd-lg px-10">
       {communities.map((community, index) => (
-        <Card
-          key={index}
-          className="aspect-square flex flex-col items-center justify-between p-4 text-center"
-        >
-          <div className="text-4xl mb-2">{community.emoji}</div>
-          <div>
-            <h3 className="text-lg font-semibold mb-1">{community.name}</h3>
-            <p className="text-sm text-muted-foreground mb-2">
-              {formatMemberCount(community.members)} members
-            </p>
-          </div>
-          <Button onClick={() => handleNavigate(community.name.toLowerCase())}>
-            Join
-          </Button>
-        </Card>
+        <CommunityCard key={index} {...community} />
       ))}
     </div>
   );

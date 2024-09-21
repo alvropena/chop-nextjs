@@ -29,6 +29,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --success: 123 100% 90%;
+    --success-foreground: 0 0% 0%;
   }
 
   .dark {
@@ -56,6 +58,8 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --success: 112.7 59.6% 69.8%;
+    --success-foreground: 0 0% 0%;
   }
 
   @keyframes scroll {
@@ -79,7 +83,7 @@
   }
 
   * {
-    @apply border-border;
+    @apply border-border scroll-smooth scroll-mt-4;
   }
 
   body {

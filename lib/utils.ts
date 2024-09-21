@@ -195,3 +195,22 @@ export const sendOptionTyped = async (
 
   return await response.json();
 };
+
+export const formatMemberCount = (count: number): string => {
+  if (count >= 1000000) {
+    return `${(count / 1000000).toFixed(1)}m`;
+  } else if (count >= 1000) {
+    return `${(count / 1000).toFixed(1)}k`;
+  } else {
+    return count.toString();
+  }
+};
+
+/**
+ * Capitalize the first letter and substitute "-" for spaces
+ * Example: some-community => Some community
+ */
+export const formatText = (rawText: string) => {
+  const text = rawText.replace("-", " ");
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};

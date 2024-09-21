@@ -3,13 +3,13 @@
 import LanguageCombobox from "../../../../components/language-combobox";
 import { useTranslations } from "next-intl";
 import { ThemeToggle } from "../../../../components/theme/theme-toggle";
-import { useRouter } from "next/navigation";
+import { useSignOut } from "@/services/mutations/auth-mutations";
 import SettingSection from "../../../../components/setting/setting-section";
 import SettingItem from "../../../../components/setting/setting-item";
 import SettingSelect from "../../../../components/setting/setting-select";
 
 export default function SettingsScreen() {
-    const router = useRouter();
+    const signOut = useSignOut()
     const t = useTranslations("");
 
     return (
@@ -37,7 +37,7 @@ export default function SettingsScreen() {
                     type="label-button"
                     buttonText={t("Log_out")}
                     buttonVariant="destructive"
-                    onClick={() => router.push("/api/auth/logout")}
+                    onClick={() => signOut.mutate()}
                 />
             </div>
         </div>

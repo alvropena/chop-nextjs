@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Button } from "../../ui/button";
-import { MatchingPairsQuestionType } from '../../../types/card/question/matching-pairs-question-type';
+import type { MatchingPairsQuestionType } from "@/types/card/question/matching-pairs-question-type";
 
-const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) => {
+const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({
+  pairs,
+}) => {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
   const [selectedRight, setSelectedRight] = useState<string | null>(null);
-  const [matchedPairs, setMatchedPairs] = useState<{ left: string; right: string }[]>([]);
+  const [matchedPairs, setMatchedPairs] = useState<
+    { left: string; right: string }[]
+  >([]);
 
   const handleLeftClick = (left: string) => {
     setSelectedLeft(left);
@@ -22,7 +26,9 @@ const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) =
   };
 
   const checkMatch = (left: string, right: string) => {
-    const isMatch = pairs.some(pair => pair.left === left && pair.right === right);
+    const isMatch = pairs.some(
+      (pair) => pair.left === left && pair.right === right
+    );
     if (isMatch) {
       setMatchedPairs([...matchedPairs, { left, right }]);
     }
@@ -36,11 +42,15 @@ const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) =
     <div className="flex flex-col items-center justify-center h-full w-full">
       <div className="grid grid-cols-2 gap-4 w-full max-w-md">
         <div className="flex flex-col gap-2">
-          {pairs.map(pair => (
+          {pairs.map((pair) => (
             <Button
               key={pair.left}
-              variant={matchedPairs.some(mp => mp.left === pair.left) ? 'default' : 'outline'}
-              disabled={matchedPairs.some(mp => mp.left === pair.left)}
+              variant={
+                matchedPairs.some((mp) => mp.left === pair.left)
+                  ? "default"
+                  : "outline"
+              }
+              disabled={matchedPairs.some((mp) => mp.left === pair.left)}
               onClick={() => handleLeftClick(pair.left)}
               className="w-full"
             >
@@ -49,11 +59,15 @@ const MatchingPairsQuestion: React.FC<MatchingPairsQuestionType> = ({ pairs }) =
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          {pairs.map(pair => (
+          {pairs.map((pair) => (
             <Button
               key={pair.right}
-              variant={matchedPairs.some(mp => mp.right === pair.right) ? 'default' : 'outline'}
-              disabled={matchedPairs.some(mp => mp.right === pair.right)}
+              variant={
+                matchedPairs.some((mp) => mp.right === pair.right)
+                  ? "default"
+                  : "outline"
+              }
+              disabled={matchedPairs.some((mp) => mp.right === pair.right)}
               onClick={() => handleRightClick(pair.right)}
               className="w-full"
             >
