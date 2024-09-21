@@ -12,6 +12,7 @@
     "prisma:migrate:prod": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate",
     "slicemachine": "start-slicemachine"
   },
   "dependencies": {
