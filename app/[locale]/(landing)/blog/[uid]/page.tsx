@@ -38,21 +38,21 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
-  const client = createClient();
+// export async function generateStaticParams() {
+//   const client = createClient();
 
-  /**
-   * Query all Documents from the API.
-   */
-  const pages = await client.getAllByType("blog_post");
+//   /**
+//    * Query all Documents from the API.
+//    */
+//   const pages = await client.getAllByType("blog_post");
 
-  /**
-   * Define a path for every Document.
-   */
-  return pages.map((page) => {
-    return { uid: page.uid };
-  });
-}
+//   /**
+//    * Define a path for every Document.
+//    */
+//   return pages.map((page) => {
+//     return { uid: page.uid };
+//   });
+// }
 
 export default async function Page({ params }: { params: Params }) {
   const client = createClient();
