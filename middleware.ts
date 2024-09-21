@@ -48,6 +48,7 @@ export default async function middleware(
   const verifyRequest = await fetch(`${origin}/api/auth/verify-session`, {
     // without this, we can't check the cookie in the called api route
     headers: { Cookie: cookies().toString() },
+    cache: "no-cache",
   });
 
   const verifySession = (await verifyRequest.json()) as {
